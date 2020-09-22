@@ -1,0 +1,19 @@
+.button {
+  padding: 0.5rem 1rem;
+  background: white;
+  transition: 0.3s ease;
+  display: inline-block;
+  color: black;
+  border: 1px solid black;
+
+  &:hover {
+    cursor: pointer;
+    background: black;
+    transition: 0.3s ease;
+    color: white;
+  }
+
+  .button-text {
+    font-weight: 500;
+  }
+}

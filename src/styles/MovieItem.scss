@@ -1,0 +1,25 @@
+.movie-item {
+  display: flex;
+  justify-content: left;
+  padding: 2rem;
+  margin: 1rem 0;
+  background: #f4f4f4;
+  width: 65%;
+
+  .movie-title {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  .movie-img {
+    max-height: 200px;
+    margin-right: 2rem;
+  }
+}

@@ -1,0 +1,36 @@
+.home {
+  width: 80%;
+  margin: auto;
+
+  .search-bar {
+    display: flex;
+    padding: 1rem;
+    width: 30%;
+    justify-content: space-evenly;
+    align-items: center;
+
+    .search-field {
+      flex: 5;
+      padding: 1rem;
+      font-size: 0.7rem;
+      border: 1px solid black;
+    }
+
+    .search-button {
+      display: inline-block;
+      flex: 1;
+      margin-left: 1rem;
+      text-align: center;
+      border: 1px solid black;
+      padding: 1rem;
+      font-size: 0.7rem;
+
+      &:hover {
+        color: white;
+        background-color: black;
+        transition: 0.3s ease;
+        cursor: pointer;
+      }
+    }
+  }
+}
