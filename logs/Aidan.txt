@@ -1,0 +1,25 @@
+Meeting 1: Thursday 17th
+Met group and made some decisions. We elected peter to be the scrum master
+Decided to do the project film finder in python and flask.
+We got to work on the user stories and managed to get a fair amount of them done.
+
+For now we plan to meet tomorrow (Friday 18th) after we have brushed up on our flask
+TO DO: get the last of the user stories done and decide the steps forward
+
+Meeting 2: Friday 18th
+Today we met up again. We finished the initial draft of the user stories and did some refreshing on flaks and python.
+We also made some progress on what was not planned for today,
+coming up with the website boilerplate for the api, db and front end
+as well as downloading the initial data for the database and making a rudimentary database
+We had some initial trouble with jira but managed to get past it in the end.
+
+TO DO: Still to be done are the novelty user stories, cleaning the database and the storyboards which will
+hopefully be done over the next week.
+
+Meeting 3: Tuesday 22nd
+I started the proposal and managed to get the background section done.
+Peter has generated the database file as well as some basic functions to access it.
+Kevin has been cleaning the database to remove unnecessary information and format it for easier and faster querying.
+Steven wrote up the novelty aspects on Jira
+Michael wrote the acceptance criteria for the user stories on Jira
+We split up the remainder of the proposal for the hoping to get most of it done before the next meeting on thursday.
