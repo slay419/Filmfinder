@@ -22,4 +22,10 @@ Peter has generated the database file as well as some basic functions to access 
 Kevin has been cleaning the database to remove unnecessary information and format it for easier and faster querying.
 Steven wrote up the novelty aspects on Jira
 Michael wrote the acceptance criteria for the user stories on Jira
-We split up the remainder of the proposal for the hoping to get most of it done before the next meeting on thursday.
+We split up the remainder of the proposal, hoping to get most of it done before the next meeting on thursday.
+
+Meeting 4: Thursday 24/09/2020
+Met group and continued proposal work. I types up all user stories into tables and put them in place.
+The flow diagrams and story board are yet to be added but they have almost been completed.
+Our sprints have been decided on but have yet to be given dates or put into jira
+Still to do: sprint overview, overall formatting and making it look more professional
