@@ -29,3 +29,8 @@ Met group and continued proposal work. I types up all user stories into tables a
 The flow diagrams and story board are yet to be added but they have almost been completed.
 Our sprints have been decided on but have yet to be given dates or put into jira
 Still to do: sprint overview, overall formatting and making it look more professional
+
+Meeting 5: Tuesday 29/09/2020
+Met up to confirm completed sections of the proposal and to split final sections yet to be completed.
+Spoke of first sprint and started to consider how to complete it.
+Overall feel like we are on target and will have proposal compete by sunday.
