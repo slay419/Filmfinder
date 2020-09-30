@@ -1,0 +1,27 @@
+Week 1
+
+We had two group meetings where we decided on the film finder project and elected Peter as
+the scrum master. We planned out user stories together and decided on what the system
+architecture would include e.g. python flask, sqlite3, etc.
+
+For next week, I planned on cleaning up the movies database that Peter had found online.
+
+Week 2
+
+We had another two group meetings discussing what had been done over the past week.
+During the week, I wrote scripts to clean up the csv files Peter had provided to ensure the data
+was all consistent and had appropriate formatting (e.g. removing random newlines and
+irrelevant data / reformatting in lists). I also created a schema and a .db file with the organised
+data files inside.
+
+During the thursday meeting, I also worked on the sprint overview section of the proposal with
+Steven by detailing which user stories we planned to complete in each sprint.
+
+The main technical obstacles were finding a quick method of detecting inconsistent formatting in
+the scripts, reformatting as well as running it on such a large file (would usually take > 10
+minutes each time).
+
+For next week, I plan on helping finish any missing details in the proposal as well as thinking of
+possible alternatives to the database since the .db file is >100mb. Also, hopefully I would like to
+get coding in the backend.
+
