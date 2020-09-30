@@ -1,0 +1,35 @@
+-- Week 1: Meeting 1 (Thu)--
+Formed the group and created Jira
+ We started writing up the user stories together based on the project spec/overview on a google doc.
+TODO: put the stories on Jira, flask research
+
+-- Week 1: Meeting 2 (Fri) --
+I put the user stories onto Jira
+I created the boiler plate code in react and flask.
+Then I downloaded a movie database and a credits database. I did a little bit of cleaning and then created a movies.db to be used in flask with flask-rest-plus to create a little api in the backend
+On the frontend I set up React with React Hooks. It can make calls to the Flask-Rest-Plus API to get movies and filter movies. This was really slow
+TODO: Novelty stuff, clean database, start proposal, storyboards, get everyone developing
+
+-- Week 1: Meeting 3 (Tue) --
+I put the databse files onto the cloud so Kevin could clean it up - there was a lot of uneccessary info to get rid of + some syntax preferences
+Aidan started the proposal, I put my zid and email in the cover page
+Steven wrote up the novelty aspects on Jira
+Michael wrote the aceptance criteria for the user stories on Jira
+Github access was released I uploaded my work onto Github for the rest of the team to Steven
+I created API routes for filtering movies by title name and getting movies by id
+Then I created the search page on the front end as well as the full details page - this stuff works now.
+TODO: Write up architecture + user stories + first sprint in proposal, determine the database structure including Users/Reviews/Actors tables
+
+-- Week 2: Meeting 1 (Thu) --
+I started to write/draw up the web app architecture diagram
+This was quite difficult since I couldn't find a standard for drawing a software architecture diagram so i just tried my best
+Extra detail was added to the diagram by including the technologies table.
+As a group we figure out what things ne
+The group decided to skip the Friday meeting as we needed more time to complete our proposal tasks
+
+-- Week 2: Meeting 2 (Tue) --
+I wrote up the external actors table
+As a group we ran through the parts of the proposal rubric/marking criteria and compared it to what we had completed
+Then we delegated the remaining tasks and discussed any queries we had
+I added an explanation part to the proposal
+We planned to finish off the proposal after asking questions during our tutorial.
