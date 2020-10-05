@@ -33,3 +33,15 @@ As a group we ran through the parts of the proposal rubric/marking criteria and 
 Then we delegated the remaining tasks and discussed any queries we had
 I added an explanation part to the proposal
 We planned to finish off the proposal after asking questions during our tutorial.
+
+-- Week 3: Meeting 1 (Thu) --
+We talked about the proposal and listened to what our tutor had to say, especially with regards to storyboards and flow diagrams
+The first sprint will be commencing and will encompass our main objectives for the coming days
+For the next meeting I want to get everyone working on the project from their own computers!
+
+-- Week 3: Meeting 2 (Sun) --
+Added flow diagrams and the wireframes to the proposal. These diagrams were difficult to make with draw.io so we switched over to using the balsamiq prototyping software
+Submitted proposal
+The first sprint has started
+We will need to find a way to get the data base up 
+I need to create a document for the team to get things working -> might work on this with michael/steven then share to the rest of the team.
