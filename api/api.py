@@ -1,5 +1,5 @@
 import time
-from flask import Flask
+from flask import Flask, request
 from flask_restplus import Resource, Api, fields, reqparse, inputs
 import sqlite3
 import json
@@ -7,6 +7,8 @@ import pandas as pd
 from pandas.io import sql
 from requests import get
 import re
+
+from functions.auth import auth_login
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
@@ -62,6 +64,34 @@ def getMovieById(id):
     df = sql.read_sql("select * from MOVIES m where m.id = " + str(id), conn,)
 
     return {"movie": df.to_dict("id")}
+
+
+
+############### Login #####################
+
+@app.route('/auth/login', methods=['POST'])
+def login():
+    email = request.form.get('email') 
+    password = request.form.get('password')
+
+    return auth_login(email, password)
+
+@app.route('/auth/register/', methods=['POST'])
+def register():
+    email = request.form.get('email')
+    password = request.form.get('password')
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
+
+    print(email)
+    print(password)
+    print(first_name)
+    print(last_name)
+
+    # if valid then return user
+    return auth_register(email, password, first_name, last_name)
+
+
 
 
 if __name__ == "__main__":
