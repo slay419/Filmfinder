@@ -6,12 +6,12 @@ const MovieDetails = (props) => {
   const { getMovieById, loading, movie } = movieContext;
 
   const {
-    original_title,
+    title,
     genres,
     overview,
-    release_date,
+    date,
     runtime,
-    vote_average,
+    vote_avg,
     vote_count,
     cast,
     crew,
@@ -28,12 +28,12 @@ const MovieDetails = (props) => {
     <div>...</div>
   ) : (
     <div>
-      <h1>title: {original_title}</h1>
+      <h1>title: {title}</h1>
       <p>genres: {genres}</p>
       <p>decription: {overview}</p>
-      <p>release date: {release_date}</p>
+      <p>release date: {date}</p>
       <p>runtime: {runtime}</p>
-      <p>vote average: {vote_average}</p>
+      <p>vote average: {vote_avg}</p>
       <p>vote count: {vote_count}</p>
       <p>cast: {cast}</p>
       <p>crew: {crew}</p>
