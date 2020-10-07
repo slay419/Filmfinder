@@ -41,7 +41,7 @@ class Movie(Resource):
     @api.expect(title_parser)
     def get(self):
         title_str = title_parser.parse_args().get("title")
-        conn = sqlite3.connect("./movies.db")
+        conn = sqlite3.connect("../../db/movies.db")
 
         if title_str is None:
             df = sql.read_sql("select * from MOVIES limit 15", conn,)
@@ -58,7 +58,7 @@ class Movie(Resource):
 
 @app.route("/api/movies/<int:id>")
 def getMovieById(id):
-    conn = sqlite3.connect("./movies.db")
+    conn = sqlite3.connect("../../db/movies.db")
     df = sql.read_sql("select * from MOVIES m where m.id = " + str(id), conn,)
 
     return {"movie": df.to_dict("id")}
