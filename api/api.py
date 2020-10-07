@@ -46,11 +46,11 @@ class Movie(Resource):
         conn = sqlite3.connect("./movies.db")
 
         if title_str is None:
-            df = sql.read_sql("select * from MOVIES limit 15", conn,)
+            df = sql.read_sql("select * from MOVIE limit 15", conn,)
             return {"movies": df.to_dict("id")}
 
         df = sql.read_sql(
-            "select * from MOVIES m where m.original_title like '%"
+            "select * from MOVIE m where m.title like '%"
             + title_str
             + "%' limit 15",
             conn,
@@ -61,9 +61,9 @@ class Movie(Resource):
 @app.route("/api/movies/<int:id>")
 def getMovieById(id):
     conn = sqlite3.connect("./movies.db")
-    df = sql.read_sql("select * from MOVIES m where m.id = " + str(id), conn,)
+    df = sql.read_sql("select * from MOVIE m where m.movie_id = " + str(id), conn,)
 
-    return {"movie": df.to_dict("id")}
+    return {"movie": df.to_dict("movie_id")}
 
 
 
