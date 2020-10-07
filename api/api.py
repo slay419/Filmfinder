@@ -34,6 +34,7 @@ def get_current_time():
     return {"time": time.time()}
 
 
+# Todo: make it return results which have matching in the title, description and genre
 @api.route("/api/movies")
 class Movie(Resource):
     @api.response(200, "OK")
@@ -63,17 +64,18 @@ def getMovieById(id):
 
     return {"movie": df.set_index("movie_id").to_dict("index")}
 
+
 # @app.route("/api/cast/<int:movie_id>")
 # def getCastByMovieId(id):
 #    conn = sqlite3.connect("./movieDB.db")
 #    returns {cast: {...}} or {cast: [...]}
-#  
+#
 
 # @app.route("/api/genres/<int:movie_id>")
 # def getGenresByMovieId(id):
 #    conn = sqlite3.connect("./movieDB.db")
 #    returns {genres: {...}} or {genres: [...]}
-#  
+#
 
 ############### Login #####################
 
@@ -100,7 +102,6 @@ def register():
 
     # if valid then return user
     return auth_register(email, password, first_name, last_name)
-
 
 
 if __name__ == "__main__":
