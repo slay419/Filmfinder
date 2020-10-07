@@ -24,7 +24,7 @@ const MovieDetails = (props) => {
     console.log(movie);
   }, []);
 
-  return movie == {} ? (
+  return movie === {} ? (
     <div>...</div>
   ) : (
     <div>
