@@ -123,12 +123,8 @@ def login():
 
     return auth_login(email, password)
 
-<<<<<<< HEAD
-@app.route('/auth/register', methods=['POST'])
-=======
 
 @app.route("/auth/register", methods=["POST"])
->>>>>>> adjusting-to-new-db
 def register():
     email = request.form.get("email")
     password = request.form.get("password")
