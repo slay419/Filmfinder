@@ -5,6 +5,3 @@ CREATE TABLE IF NOT EXISTS users (
     email text NOT NULL UNIQUE,
     password text NOT NULL CHECK (char_length(password) > 6)
 );
-
-//INSERT INTO users(user_id, first_name, last_name, email, password)
-//VALUES (1, "myfirstname", "mylastname", "myemail", "mypassword")
