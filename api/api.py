@@ -71,11 +71,19 @@ def getMovieById(id):
 #    returns {cast: {...}} or {cast: [...]}
 #
 
-# @app.route("/api/genres/<int:movie_id>")
-# def getGenresByMovieId(id):
-#    conn = sqlite3.connect("./movieDB.db")
-#    returns {genres: {...}} or {genres: [...]}
-#
+@app.route("/api/genres/<int:movie_id>", methods=["POST"])
+def getGenresByMovieId(movie_id):
+    conn = sqlite3.connect("./movieDB.db")
+    cur = conn.cursor()
+    cur.execute(f"select genre from GENRE where movie_id = {movie_id};")
+    genres = []
+    for genre in cur.fetchall():
+        genres.append(genre[0])
+    print(genres)
+    #returns {genres: {...}} or {genres: [...]}
+    conn.close()
+    return {"genres": genres}
+
 
 ############### Login #####################
 
@@ -88,7 +96,7 @@ def login():
     return auth_login(email, password)
 
 
-@app.route("/auth/register/", methods=["POST"])
+@app.route("/auth/register", methods=["POST"])
 def register():
     email = request.form.get("email")
     password = request.form.get("password")
