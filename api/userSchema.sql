@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 
+
 INSERT INTO users(user_id, first_name, last_name, email, password)
 VALUES (1, "myfirstname", "mylastname", "myemail", "mypassword")
