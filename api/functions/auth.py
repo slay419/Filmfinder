@@ -15,6 +15,25 @@ USER_LIST = []
 def auth_register(email, password, name_first, name_last):
     u_id = 12345
     token = "test token"
+    conn = sqlite3.connect('users.db')
+    c = conn.cursor()
+    c.execute('SELECT * FROM users;')
+    new_user_id = len(c.fetchall()) + 1
+    print(new_user_id)
+
+    # Add new user to the database
+    # May need to consider tokens and admin privlidges to add
+    c.execute(
+        f'''
+        INSERT INTO users(user_id, first_name, last_name, email, password)
+        VALUES ({new_user_id}, "{name_first}", "{name_last}", "{email}", "{password}")
+        '''
+    )
+
+    c.execute('SELECT * FROM users;')
+    print(c.fetchall())
+    conn.commit()
+
     # data = get_data()
 
     # #check if email already exist
@@ -58,6 +77,7 @@ def auth_register(email, password, name_first, name_last):
     #     'profile_img_url' : None
     # })
     # #auth_login(email, password)
+    conn.close()
     return {
         'u_id': u_id,
         'token' : token
