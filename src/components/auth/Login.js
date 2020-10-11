@@ -7,8 +7,6 @@ import LoginContext from "../../context/Login/LoginContext";
 
 const CURRENT_UID = "1234";
 
-
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,16 +23,9 @@ const Login = () => {
   };
 
 
-  useEffect(() => {
-  if (returnVal.length != 0){
-      localStorage.setItem(CURRENT_UID, returnVal[0]);
-      return (<Redirect to= "/"></Redirect>);
-    }
-    }, [returnVal]);
-
-
   return (
-    <div className="login">
+    <div>
+      {returnVal !== null ? <Redirect to='/'/> : (<div className="login">
       <h1>Login Page</h1>
       <div className="Login-inputs">
         <form>
@@ -52,6 +43,7 @@ const Login = () => {
           <p>Not Registered ?<Link to="/register">Create account Now!</Link></p>
         </form>
       </div>
+    </div>)}
     </div>
   );
 };

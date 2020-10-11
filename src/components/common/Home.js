@@ -6,11 +6,15 @@ import MoviesContext from "../../context/moviesList/moviesContext";
 import Button from "./Button";
 import Spinner from "./Spinner";
 import "../../styles/Home.scss";
+import LoginContext from "../../context/Login/LoginContext";
 
 
 
 const Home = () => {
   const [input, setInput] = useState("");
+
+  const loginContext = useContext(LoginContext);
+  const {returnVal} = loginContext;
 
   const moviesContext = useContext(MoviesContext);
   const { movies, getMovies, loading, searchMovies } = moviesContext;
@@ -36,6 +40,9 @@ const Home = () => {
           </li>
         </ul>
       </nav>
+      <div className="user-info">
+        {returnVal !== null ? returnVal.first_name : "hello user"}
+      </div>
       <div className="search-bar">
         <input
           className="search-field"

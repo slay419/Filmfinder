@@ -10,7 +10,7 @@ import {
 
 const LoginState = (props) => {
     const initialState = {
-        returnVal: {}
+        returnVal: null,
     };
 
     const [state, dispatch] = useReducer(LoginReducer, initialState);
