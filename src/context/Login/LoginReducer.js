@@ -6,7 +6,7 @@ export default (state, action) => {
         console.log(action.payload);
         return {
           ...state,
-          returnVal: action.payload,
+          User: action.payload,
         };
       case LOGIN_ERROR:
         console.log(action.payload);

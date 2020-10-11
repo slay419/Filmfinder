@@ -14,7 +14,7 @@ const Home = () => {
   const [input, setInput] = useState("");
 
   const loginContext = useContext(LoginContext);
-  const {returnVal} = loginContext;
+  const {User} = loginContext;
 
   const moviesContext = useContext(MoviesContext);
   const { movies, getMovies, loading, searchMovies } = moviesContext;
@@ -41,7 +41,7 @@ const Home = () => {
         </ul>
       </nav>
       <div className="user-info">
-        {returnVal !== null ? returnVal.first_name : "hello user"}
+        {User !== null ? User.first_name : "hello user"}
       </div>
       <div className="search-bar">
         <input

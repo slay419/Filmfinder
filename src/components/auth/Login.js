@@ -5,14 +5,13 @@ import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import LoginContext from "../../context/Login/LoginContext";
 
-const CURRENT_UID = "1234";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const loginContext = useContext(LoginContext);
-  const { returnVal, login } = loginContext;
+  const { User, login } = loginContext;
 
   const emailHandler = (e) => {
     setEmail(e.target.value);
@@ -25,7 +24,7 @@ const Login = () => {
 
   return (
     <div>
-      {returnVal !== null ? <Redirect to='/'/> : (<div className="login">
+      {User !== null ? <Redirect to='/'/> : (<div className="login">
       <h1>Login Page</h1>
       <div className="Login-inputs">
         <form>

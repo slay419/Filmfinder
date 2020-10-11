@@ -10,7 +10,7 @@ import {
 
 const LoginState = (props) => {
     const initialState = {
-        returnVal: null,
+        User: null,
     };
 
     const [state, dispatch] = useReducer(LoginReducer, initialState);
@@ -35,7 +35,7 @@ const LoginState = (props) => {
     return (
         <LoginContext.Provider
           value={{
-            returnVal: state.returnVal,
+            User: state.User,
             login,
           }}
         >
