@@ -11,6 +11,7 @@ import {
 const LoginState = (props) => {
     const initialState = {
         User: null,
+        //user info stored in this state
     };
 
     const [state, dispatch] = useReducer(LoginReducer, initialState);

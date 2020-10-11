@@ -21,7 +21,7 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-
+  //first line redirects if already logged in, otherwise it loads the login page
   return (
     <div>
       {User !== null ? <Redirect to='/'/> : (<div className="login">
