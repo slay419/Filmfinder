@@ -43,16 +43,14 @@ class Movie(Resource):
     @api.expect(title_parser)
     def get(self):
         title_str = title_parser.parse_args().get("title")
-        conn = sqlite3.connect("./movies.db")
+        conn = sqlite3.connect("./movieDB.db")
 
         if title_str is None:
             df = sql.read_sql("select * from MOVIE limit 15", conn,)
             return {"movies": df.to_dict("id")}
 
         df = sql.read_sql(
-            "select * from MOVIE m where m.title like '%"
-            + title_str
-            + "%' limit 15",
+            "select * from MOVIE m where m.title like '%" + title_str + "%' limit 15",
             conn,
         )
         return {"movies": df.to_dict("id")}
@@ -60,10 +58,10 @@ class Movie(Resource):
 
 @app.route("/api/movies/<int:id>")
 def getMovieById(id):
-    conn = sqlite3.connect("./movies.db")
+    conn = sqlite3.connect("./movieDB.db")
     df = sql.read_sql("select * from MOVIE m where m.movie_id = " + str(id), conn,)
 
-    return {"movie": df.to_dict("movie_id")}
+    return {"movie": df.set_index("movie_id").to_dict("index")}
 
 
 

@@ -7,6 +7,8 @@ import Button from "./Button";
 import Spinner from "./Spinner";
 import "../../styles/Home.scss";
 
+
+
 const Home = () => {
   const [input, setInput] = useState("");
 
