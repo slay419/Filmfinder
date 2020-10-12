@@ -6,7 +6,7 @@ import MoviesContext from "../../context/moviesList/moviesContext";
 import Spinner from "./Spinner";
 import SearchBar from "../common/SearchBar";
 import "../../styles/Home.scss";
-import LoginContext from "../../context/Login/LoginContext";
+import LoginContext from "../../context/Auth/LoginContext";
 
 const Home = () => {
   const loginContext = useContext(LoginContext);
