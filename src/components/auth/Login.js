@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import React from "react";
 import "../../styles/Login.scss";
 import { Link, Redirect } from "react-router-dom";
-import LoginContext from "../../context/Login/LoginContext";
+import LoginContext from "../../context/Auth/LoginContext";
 
 
 const Login = () => {

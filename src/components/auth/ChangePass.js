@@ -5,7 +5,7 @@ const ChangePass = () => {
 
     return (
         <div>
-            <h1> Change Password Page</h1>
+            <h1> Change Your Password</h1>
         </div>
     );
 };
