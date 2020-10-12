@@ -21,7 +21,7 @@ const RegisterState = (props) => {
         fetch('./auth/register', {
             method: "POST",
             headers: {
-                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                "Content-type": "application/json; charset=UTF-8"
               },
             body: JSON.stringify({email: email, password: password, first_name: fname, last_name: lname})
         })

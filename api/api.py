@@ -77,10 +77,11 @@ def login():
 
 @app.route("/auth/register", methods=["POST"])
 def register():
-    email = request.form.get("email")
-    password = request.form.get("password")
-    first_name = request.form.get("first_name")
-    last_name = request.form.get("last_name")
+    response = request.get_json()
+    email = response["email"]
+    password =  response["password"]
+    first_name =  response["first_name"]
+    last_name =  response["last_name"]
 
     print(email)
     print(password)
@@ -90,12 +91,12 @@ def register():
     # if valid then return user
     return auth_register(email, password, first_name, last_name)
 
-@app.route("/auth/changepass")
+@app.route("/auth/changepass", methods=["POST"])
 def ChangePassword():
     oldPassword = request.form.get("old_password")
     newPassword = request.form.get("new_password")
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
-    return (True)
+    return ({"worked": 1})
 
     
 
