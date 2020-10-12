@@ -17,17 +17,17 @@ const RegisterState = (props) => {
 
     const [state, dispatch] = useReducer(RegisterReducer, initialState);
 
-    const registerUser = (email, password, fname, lname) => {
+    const registerUser = (email, password, fname, lname, secretQ, secretA) => {
         fetch('./auth/register', {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
               },
-            body: JSON.stringify({email: email, password: password, first_name: fname, last_name: lname})
+            body: JSON.stringify({email: email, password: password, first_name: fname, last_name: lname, secretQ: secretQ, secretA: secretA})
         })
         .then((res) => res.json())
         .then((data) => {
-            dispatch( {type: REGISTER, payload: data})
+            dispatch( {type: REGISTER, payload: null})
         })
         .catch((err) => {
             dispatch( {type: REGISTER_ERROR, payload: err})
