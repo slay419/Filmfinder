@@ -8,7 +8,7 @@ from pandas.io import sql
 from requests import get
 import re
 
-from functions.auth import auth_login
+from functions.auth import auth_login, auth_register
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
@@ -43,7 +43,7 @@ class Movie(Resource):
     @api.expect(title_parser)
     def get(self):
         title_str = title_parser.parse_args().get("title")
-        conn = sqlite3.connect("../../db/movies.db")
+        conn = sqlite3.connect("./movieDB.db")
 
         if title_str is None:
             df = sql.read_sql("select * from MOVIE limit 15", conn,)
@@ -58,10 +58,10 @@ class Movie(Resource):
 
 @app.route("/api/movies/<int:id>")
 def getMovieById(id):
-    conn = sqlite3.connect("./movies.db")
+    conn = sqlite3.connect("./movieDB.db")
     df = sql.read_sql("select * from MOVIE m where m.movie_id = " + str(id), conn,)
 
-    return {"movie": df.to_dict("movie_id")}
+    return {"movie": df.set_index("movie_id").to_dict("index")}
 
 
 ############### Login #####################
@@ -75,7 +75,7 @@ def login():
     return auth_login(email, password)
 
 
-@app.route("/auth/register/", methods=["POST"])
+@app.route("/auth/register", methods=["POST"])
 def register():
     email = request.form.get("email")
     password = request.form.get("password")
