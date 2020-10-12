@@ -4,13 +4,13 @@ import { useState, useContext } from "react";
 import "../../styles/register.scss";
 import RegisterContext from "../../context/Auth/RegisterContext";
 
-
 const Register = () => {
-
-  const [ email, setEmail ] = useState("");
-  const [ password, setPassword ] = useState("");
-  const [ fname, setFname ] = useState("");
-  const [ lname, setLname ] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [secretQ, setSecretQ] = useState("");
+  const [secretA, setSecretA] = useState("");
 
   const emailHandler = (e) => {
     setEmail(e.target.value);
@@ -19,7 +19,7 @@ const Register = () => {
   const passwordHandler = (e) => {
     setPassword(e.target.value);
   };
-  
+
   const fnameHandler = (e) => {
     setFname(e.target.value);
   };
@@ -28,39 +28,83 @@ const Register = () => {
     setLname(e.target.value);
   };
 
+  const secretQHandler = (e) => {
+    setSecretQ(e.target.value);
+  };
+
+  const secretAHandler = (e) => {
+    setSecretA(e.target.value);
+  };
+
   const registerContext = useContext(RegisterContext);
   const { User, inUse, registerUser } = registerContext;
-  
 
   return (
     <div>
-      {User !== null ? <Redirect to='/login'/> : (
-      <div className="register">
-        <h1>Register Now</h1>
-        <form>
+      {User !== null ? (
+        <Redirect to="/login" />
+      ) : (
+        <div className="register">
+          <h1>Register Now</h1>
+          <form>
             <label for="email">Email:</label>
-            <input type="text" placeholder="Enter email" id="email"
-            onChange={emailHandler}
+            <input
+              type="text"
+              placeholder="Enter email"
+              id="email"
+              onChange={emailHandler}
             ></input>
 
             <label for="pword">Password:</label>
-            <input type="password" placeholder="Enter password" id="pword"
-            onChange={passwordHandler}
+            <input
+              type="password"
+              placeholder="Enter password"
+              id="pword"
+              onChange={passwordHandler}
             ></input>
 
             <label for="fname">First Name:</label>
-            <input type="text" placeholder="Enter First Name" id="fname"
-            onChange={fnameHandler}
+            <input
+              type="text"
+              placeholder="Enter First Name"
+              id="fname"
+              onChange={fnameHandler}
             ></input>
 
             <label for="lname">Username:</label>
-            <input type="text" placeholder="Enter Last Name" id="lname"
-            onChange={lnameHandler}
+            <input
+              type="text"
+              placeholder="Enter Last Name"
+              id="lname"
+              onChange={lnameHandler}
             ></input>
 
-            <button type="button" onClick={()=> registerUser(email, password, fname, lname)}>register</button>
-        </form>
-      </div>
+            <label for="secretQ">Secret Question:</label>
+            <input
+              type="text"
+              placeholder="Enter Secret Question"
+              id="secretQ"
+              onChange={secretQHandler}
+            ></input>
+
+            <label for="secretA">Secret Answer:</label>
+            <input
+              type="text"
+              placeholder="Enter Secret Answer"
+              id="secretA"
+              onChange={secretAHandler}
+            ></input>
+
+            <button
+              type="button"
+              onClick={() =>
+                registerUser(email, password, fname, lname, secretQ, secretA)
+              }
+            >
+              register
+            </button>
+          </form>
+        </div>
       )}
     </div>
   );
