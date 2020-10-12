@@ -147,20 +147,20 @@ def getGenresByMovieId(movie_id):
 
 @app.route("/auth/login", methods=["POST"])
 def login():
-    email = request.form.get("email")
-    password = request.form.get("password")
+    response = request.get_json()
+    email = response["email"]
+    password = response["password"]
 
     return auth_login(email, password)
 
 
 @app.route("/auth/register", methods=["POST"])
 def register():
-    email = request.form.get("email")
-    password = request.form.get("password")
-    first_name = request.form.get("first_name")
-    last_name = request.form.get("last_name")
-    secret_question = request.form.get("secret_question")
-    secret_answer = request.form.get("secret_answer")
+    response = request.get_json()
+    email = response["email"]
+    password =  response["password"]
+    first_name =  response["first_name"]
+    last_name =  response["last_name"]
 
     print(email)
     print(password)
@@ -177,12 +177,14 @@ def resetpass():
 
     return auth_reset(email, secretAnswer)
 
-@app.route("/auth/changepass")
-def changepass():
-    oldPassword = request.form.get("old_password")
-    newPassword = request.form.get("new_password")
+@app.route("/auth/changepass", methods=["POST"])
+def ChangePassword():
+    response = request.get_json()
+    email = response["email"]
+    oldPassword = response["old_password"]
+    newPassword = response["new_password"]
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
-    return auth_changepass(oldPassword, newPassword)
+    return ({"worked": 1})
 
     
 

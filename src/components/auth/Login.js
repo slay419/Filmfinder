@@ -27,14 +27,14 @@ const Login = () => {
         <div className="login">
         <h1>Login Page</h1>
         <div>
-          {isValid !== 1 && 
-            <h1>Invalid Login</h1>
-          }
+        {isValid !== 1 && 
+          <h1>Invalid Login</h1>
+        }
         </div>
         <div className="Login-inputs">
           <form>
             <label for="name">Username:</label>
-            <input type="text" placeholder="Enter username" id="name"
+            <input type="test" placeholder="Enter username" id="name"
             onChange={emailHandler}
             ></input>
 
