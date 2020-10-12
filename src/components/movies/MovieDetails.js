@@ -5,6 +5,8 @@ const MovieDetails = (props) => {
   const movieContext = useContext(MovieContext);
   const { getMovieById, loading, movie } = movieContext;
 
+  console.log(movie);
+
   const {
     title,
     genres,
@@ -29,7 +31,12 @@ const MovieDetails = (props) => {
   ) : (
     <div>
       <h1>title: {title}</h1>
-      <p>genres: {genres}</p>
+      <p>
+        genres:
+        {/* {genres.map((e) => (
+          <div>{e}</div>
+        ))} */}
+      </p>
       <p>decription: {overview}</p>
       <p>release date: {date}</p>
       <p>runtime: {runtime}</p>
