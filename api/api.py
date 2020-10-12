@@ -29,7 +29,7 @@ def read_from_sqlite(database_file, table_name):
     return sql.read_sql("select * from " + table_name, conn)
 
 
-@app.route("/time")``
+@app.route("/time")
 def get_current_time():
     return {"time": time.time()}
 
@@ -64,17 +64,9 @@ class Movie(Resource):
                 """
             )
 
-<<<<<<< HEAD
-            cur.execute(
-                "select * from movie m join temp_id t on m.movie_id = t.movie_id limit 15;"
-            )
-            # return {"movies": df.to_dict("id")}
-
-=======
             cur.execute("select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 15;")
             #return {"movies": df.to_dict("id")}
             
->>>>>>> 563afe1a81cfedccdcab6dce1c364a4327a0b144
         index = 0
         # Extract movie information and populate dictionary 
         for movie in cur.fetchall():
@@ -97,12 +89,8 @@ class Movie(Resource):
             item["genres"] = getGenreList(item["movie_id"])
             movies[index] = item
             index += 1
-<<<<<<< HEAD
-        cur.execute("drop view if exists temp_id;")
-=======
 
         cur.execute("drop view IF EXISTS temp_id;")
->>>>>>> 563afe1a81cfedccdcab6dce1c364a4327a0b144
         return {"movies": movies}
 
         """
