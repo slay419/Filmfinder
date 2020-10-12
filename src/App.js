@@ -9,8 +9,8 @@ import MovieDetails from "./components/movies/MovieDetails";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import MoviesState from "./context/moviesList/MoviesState";
 import MovieState from "./context/movie/MovieState";
-import LoginState from "./context/Login/LoginState";
-import RegisterState from "./context/Register/RegisterState";
+import LoginState from "./context/Auth/LoginState";
+import RegisterState from "./context/Auth/RegisterState";
 import Header from "./components/common/Header";
 
 function App() {

@@ -30,7 +30,7 @@ const Register = () => {
   const { User, inUse, registerUser } = registerContext;
 
   return (
-    <div>
+    <>
       {User !== null ? (
         <Redirect to="/login" />
       ) : (
@@ -78,7 +78,7 @@ const Register = () => {
           </form>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

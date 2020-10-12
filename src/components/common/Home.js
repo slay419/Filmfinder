@@ -13,7 +13,7 @@ const Home = () => {
   const { User } = loginContext;
 
   const moviesContext = useContext(MoviesContext);
-  const { movies, getMovies, loading, searchMovies } = moviesContext;
+  const { movies, getMovies, loading } = moviesContext;
 
   useEffect(() => {
     getMovies();
