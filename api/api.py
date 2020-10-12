@@ -95,6 +95,7 @@ def register():
 @app.route("/auth/changepass", methods=["POST"])
 def ChangePassword():
     response = request.get_json()
+    email = response["email"]
     oldPassword = response["old_password"]
     newPassword = response["new_password"]
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
