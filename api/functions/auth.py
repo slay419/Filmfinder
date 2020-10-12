@@ -13,7 +13,7 @@ USER_LIST = []
 REGEX = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 
 # Secret question field??
-def auth_register(email, password, first_name, last_name):
+def auth_register(email, password, first_name, last_name, secret_question, secret_answer):
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
     u_id = 12345
     token = "test token"
@@ -33,8 +33,8 @@ def auth_register(email, password, first_name, last_name):
 
     c.execute(
         f'''
-        INSERT INTO users(user_id, first_name, last_name, email, password)
-        VALUES ({new_user_id}, "{first_name}", "{last_name}", "{email}", "{hashed_password}")
+        INSERT INTO users(user_id, first_name, last_name, email, password, secret_question, secret_answer)
+        VALUES ({new_user_id}, "{first_name}", "{last_name}", "{email}", "{hashed_password}", "{secret_question}", "{secret_answer}");
         '''
     )
     conn.commit()
@@ -129,3 +129,20 @@ def check_valid_names(first_name, last_name):
         raise ValueError(f"Last name: {last_name} is longer than 50 characters")
     if len(last_name) < minlen:
         raise ValueError(f"Last name: {last_name} cannot be empty")
+
+
+def get_secret_question(u_id):
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(f"select secret_question from users where user_id = {u_id}";)
+    question = c.fetchone()[0]
+    conn.close()
+    return question
+
+def get_secret_answer(u_id):
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(f"select secret_answer from users where user_id = {u_id}";)
+    question = c.fetchone()[0]
+    conn.close()
+    return question

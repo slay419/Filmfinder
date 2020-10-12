@@ -3,5 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
     first_name text,
     last_name text,
     email text NOT NULL UNIQUE,
-    password text NOT NULL CHECK (char_length(password) > 6)
+    password text,
+    secret_question text,
+    secret_answer text
 );
