@@ -8,7 +8,7 @@ from pandas.io import sql
 from requests import get
 import re
 
-from functions.auth import auth_login
+from functions.auth import auth_login, auth_register
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
@@ -74,7 +74,7 @@ def login():
 
     return auth_login(email, password)
 
-@app.route('/auth/register/', methods=['POST'])
+@app.route('/auth/register', methods=['POST'])
 def register():
     email = request.form.get('email')
     password = request.form.get('password')

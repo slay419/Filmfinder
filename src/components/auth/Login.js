@@ -1,8 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import React from "react";
 import "../../styles/Login.scss";
-import { Link } from "react-router-dom";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import LoginContext from "../../context/Login/LoginContext";
 
 

@@ -1,7 +1,6 @@
 import React, { useReducer } from "react";
 import LoginContext from "./LoginContext";
 import LoginReducer from "./LoginReducer";
-import CURRENT_UID from "../../components/auth/Login"
 
 import {
     LOGIN,
