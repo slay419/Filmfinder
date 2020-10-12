@@ -30,7 +30,7 @@ def auth_register(email, password, name_first, name_last):
         """
     )
 
-    c.execute("SELECT * FROM users;")
+    # c.execute("SELECT * FROM users;")
     # print(c.fetchall())
     conn.commit()
 
