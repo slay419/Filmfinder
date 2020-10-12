@@ -6,7 +6,7 @@ import MoviesContext from "../../context/moviesList/moviesContext";
 import Button from "./Button";
 import Spinner from "./Spinner";
 import "../../styles/Home.scss";
-import LoginContext from "../../context/Login/LoginContext";
+import LoginContext from "../../context/Auth/LoginContext";
 
 
 
