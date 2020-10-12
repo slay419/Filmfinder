@@ -40,3 +40,10 @@ Met up in scheduled lab. Had some clarification given about story boards.
 Worked primarily on proposal as it is due in a few days.
 Feel like we will be on schedule and have it done on time.
 Preparing to ramp up for Sprint 1 starting next week
+
+Meeting 7: Thursday 8/10/2020
+Things going well, Proposal was submitted on time and completed and the first sprint has started.
+Tasks have been divided into front end and back end to allow us to work on the entire project.
+I will be working on the react/javascript front end with Peter and am feeling pretty good about it.
+I havent worked with React before but it doesnt seem super complicated and I thin i can get the hang of it.
+
