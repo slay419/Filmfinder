@@ -69,7 +69,7 @@ class Movie(Resource):
 
         index = 0
         for movie in cur.fetchall():
-            print(movie)
+            # print(movie)
             item = {}
             item["movie_id"] = movie[0]
             item["director_id"] = movie[1]
@@ -128,7 +128,7 @@ def getCastByMovieId(movie_id):
     cast_list = []
     for cast in cur.fetchall():
         cast_list.append(cast[0])
-    print(cast_list)
+    # print(cast_list)
 
     conn.close()
     return {"cast": cast_list}
@@ -187,7 +187,7 @@ def getGenreList(movie_id):
     genres = []
     for genre in cur.fetchall():
         genres.append(genre[0])
-    print(genres)
+    # print(genres)
     conn.close()
 
     return genres

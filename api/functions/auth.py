@@ -15,23 +15,23 @@ USER_LIST = []
 def auth_register(email, password, name_first, name_last):
     u_id = 12345
     token = "test token"
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect("users.db")
     c = conn.cursor()
-    c.execute('SELECT * FROM users;')
+    c.execute("SELECT * FROM users;")
     new_user_id = len(c.fetchall()) + 1
     print(new_user_id)
 
     # Add new user to the database
     # May need to consider tokens and admin privlidges to add
     c.execute(
-        f'''
+        f"""
         INSERT INTO users(user_id, first_name, last_name, email, password)
         VALUES ({new_user_id}, "{name_first}", "{name_last}", "{email}", "{password}")
-        '''
+        """
     )
 
-    c.execute('SELECT * FROM users;')
-    print(c.fetchall())
+    c.execute("SELECT * FROM users;")
+    # print(c.fetchall())
     conn.commit()
 
     # data = get_data()
@@ -78,29 +78,27 @@ def auth_register(email, password, name_first, name_last):
     # })
     # #auth_login(email, password)
     conn.close()
-    return {
-        'u_id': u_id,
-        'token' : token
-    }
+    return {"u_id": u_id, "token": token}
 
 
 def auth_login(email, password):
-    # return token 
-    # process user details 
-        # add to database 
-        # 
+    # return token
+    # process user details
+    # add to database
+    #
     u_id = 12345
     return get_user_details(u_id)
+
 
 # bcrypt to hash password
 def get_user_details(u_id):
     # search user with id and return details
     return {
-        'u_id': u_id,
-        'first_name': "sampleFirstName",
-        'last_name': "sampleLastName",
-        'email': "sampleEmail", 
-        'wishlist': ["a", "b", "c"],
-        'banlist': ["d", "e", "f"],
-        'profile_picture': "sample link to profile"
+        "u_id": u_id,
+        "first_name": "sampleFirstName",
+        "last_name": "sampleLastName",
+        "email": "sampleEmail",
+        "wishlist": ["a", "b", "c"],
+        "banlist": ["d", "e", "f"],
+        "profile_picture": "sample link to profile",
     }
