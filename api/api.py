@@ -64,22 +64,23 @@ def getMovieById(id):
     return {"movie": df.set_index("movie_id").to_dict("index")}
 
 
-
 ############### Login #####################
 
-@app.route('/auth/login', methods=['POST'])
+
+@app.route("/auth/login", methods=["POST"])
 def login():
-    email = request.form.get('email') 
-    password = request.form.get('password')
+    email = request.form.get("email")
+    password = request.form.get("password")
 
     return auth_login(email, password)
 
-@app.route('/auth/register', methods=['POST'])
+
+@app.route("/auth/register", methods=["POST"])
 def register():
-    email = request.form.get('email')
-    password = request.form.get('password')
-    first_name = request.form.get('first_name')
-    last_name = request.form.get('last_name')
+    email = request.form.get("email")
+    password = request.form.get("password")
+    first_name = request.form.get("first_name")
+    last_name = request.form.get("last_name")
 
     print(email)
     print(password)
@@ -88,8 +89,6 @@ def register():
 
     # if valid then return user
     return auth_register(email, password, first_name, last_name)
-
-
 
 
 if __name__ == "__main__":
