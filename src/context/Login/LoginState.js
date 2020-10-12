@@ -10,6 +10,7 @@ import {
 const LoginState = (props) => {
     const initialState = {
         User: null,
+        isValid: 1
         //user info stored in this state
     };
 
@@ -36,6 +37,7 @@ const LoginState = (props) => {
         <LoginContext.Provider
           value={{
             User: state.User,
+            isValid: state.isValid,
             login,
           }}
         >
