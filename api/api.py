@@ -161,7 +161,7 @@ def register():
     password =  response["password"]
     first_name =  response["first_name"]
     last_name =  response["last_name"]
-
+    
     print(email)
     print(password)
     print(first_name)
