@@ -70,6 +70,9 @@ class Movie(Resource):
         index = 0
         # Extract movie information and populate dictionary 
         for movie in cur.fetchall():
+            item = extractMovieDetails(movie)
+
+            '''
             item = {}
             item["movie_id"] = movie[0]
             item["director_id"] = movie[1]
@@ -87,51 +90,53 @@ class Movie(Resource):
             item["vote_avg"] = movie[13]
             item["vote_count"] = movie[14]
             item["genres"] = getGenreList(item["movie_id"])
+            '''
             movies[index] = item
             index += 1
 
         cur.execute("drop view IF EXISTS temp_id;")
         return {"movies": movies}
 
-        """
-        if title_str is None:
-            df = sql.read_sql("select * from MOVIE limit 15", conn,)
-            return {"movies": df.to_dict("id")}
-
-        df = sql.read_sql(
-            "select * from MOVIE m where m.title like '%" + title_str + "%' limit 15",
-            conn,
-        )
-
-        #return {"movies": df.to_dict("id")}
-        """
 
 
 @app.route("/api/movies/<int:id>")
 def getMovieById(id):
     conn = sqlite3.connect("./movieDB.db")
-    df = sql.read_sql("select * from MOVIE m where m.movie_id = " + str(id), conn,)
+    cur = conn.cursor()
+    cur.execute(f"select * from MOVIE where movie_id = {id}")
+    movie = cur.fetchone()
+    item = {}
+    item["director_id"] = movie[1]
+    item["adult"] = movie[2]
+    item["title"] = movie[3]
+    item["release_date"] = movie[4]
+    item["runtime"] = movie[5]
+    item["budget"] = movie[6]
+    item["revenue"] = movie[7]
+    item["imdb_id"] = movie[8]
+    item["language"] = movie[9]
+    item["overview"] = movie[10]
+    item["tagline"] = movie[11]
+    item["poster"] = movie[12]
+    item["vote_avg"] = movie[13]
+    item["vote_count"] = movie[14]
+    item["genres"] = getGenreList(id)
+    item["cast"] = getCastList(id)
+    result = {}
+    result[id] = item
+    
 
-    return {"movie": df.set_index("movie_id").to_dict("index")}
+    #df = sql.read_sql("select * from MOVIE m where m.movie_id = " + str(id), conn,)
+    conn.close()
+
+    return {"movie": result}
+
+    #return {"movie": df.set_index("movie_id").to_dict("index")}
 
 
 @app.route("/api/cast/<int:movie_id>", methods=["POST"])
 def getCastByMovieId(movie_id):
-    conn = sqlite3.connect("./movieDB.db")
-    cur = conn.cursor()
-    cur.execute(
-        f"""
-        select c.cast_name
-        from cast c join acting a on c.cast_id = a.actor_id
-        where a.movie_id = {movie_id};
-        """
-    )
-    cast_list = []
-    for cast in cur.fetchall():
-        cast_list.append(cast[0])
-    print(cast_list)
-
-    conn.close()
+    cast_list = getCastList(movie_id)
     return {"cast": cast_list}
     # returns {cast: {...}} or {cast: [...]}
 
@@ -182,9 +187,46 @@ def getGenreList(movie_id):
         genres.append(genre[0])
     print(genres)
     conn.close()
-
     return genres
+
+def getCastList(movie_id):
+    conn = sqlite3.connect("./movieDB.db")
+    cur = conn.cursor()
+    cur.execute(
+        f"""
+        select c.cast_name
+        from cast c join acting a on c.cast_id = a.actor_id
+        where a.movie_id = {movie_id};
+        """
+    )
+    cast_list = []
+    for cast in cur.fetchall():
+        cast_list.append(cast[0])
+    conn.close()
+    return cast_list
+
+
+# Extracts the default movie details from the movies table in sqlite
+def extractMovieDetails(movie):
+    item = {}
+    item["movie_id"] = movie[0]
+    item["director_id"] = movie[1]
+    item["adult"] = movie[2]
+    item["title"] = movie[3]
+    item["release_date"] = movie[4]
+    item["runtime"] = movie[5]
+    item["budget"] = movie[6]
+    item["revenue"] = movie[7]
+    item["imdb_id"] = movie[8]
+    item["language"] = movie[9]
+    item["overview"] = movie[10]
+    item["tagline"] = movie[11]
+    item["poster"] = movie[12]
+    item["vote_avg"] = movie[13]
+    item["vote_count"] = movie[14]
+    item["genres"] = getGenreList(item["movie_id"])
+    return item
 
 
 if __name__ == "__main__":
-    app.run(port=5000)
+    app.run(port=5000) 
