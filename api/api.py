@@ -43,55 +43,57 @@ class Movie(Resource):
     @api.response(404, "Not Found")
     @api.expect(title_parser)
     def get(self):
-        title_str = title_parser.parse_args().get("title") 
+        title_str = title_parser.parse_args().get("title")
         conn = sqlite3.connect("./movieDB.db")
         cur = conn.cursor()
         movies = {}
+        # Change the sql query depending on if a search term was given or not
         if title_str is None:
             cur.execute("select * from MOVIE limit 15")
-            
+        
         else:
+            # Search through movie titles, overview and genre for matching keywords in that order
             cur.execute(
                 f"""
                 create view temp_id as
-                select movie_id from movie where title like "%{title_str}%"
+                select movie_id, 0 as subquery from movie where title like "%{title_str}%"
                 union
-                select movie_id from genre where genre like "%{title_str}%"
+                select movie_id, 2 from genre where genre like "%{title_str}%"
                 union 
-                select movie_id from movie where overview like "% {title_str} %";
+                select movie_id, 1 from movie where overview like "% {title_str} %";
                 """
             )
 
-            cur.execute("select * from movie m join temp_id t on m.movie_id = t.movie_id limit 15;")
-                #return {"movies": df.to_dict("id")}
+            cur.execute("select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 15;")
+            #return {"movies": df.to_dict("id")}
             
         index = 0
+        # Extract movie information and populate dictionary 
         for movie in cur.fetchall():
-            print(movie)
             item = {}
-            item['movie_id'] = movie[0]
-            item['director_id'] = movie[1]
-            item['adult'] = movie[2]
-            item['title'] = movie[3]
-            item['release_date'] = movie[4]
-            item['runtime'] = movie[5]
-            item['budget'] = movie[6]
-            item['revenue'] = movie[7]
-            item['imdb_id'] = movie[8]
-            item['language'] = movie[9]
-            item['overview'] = movie[10]
-            item['tagline'] = movie[11]
-            item['poster'] = movie[12]
-            item['vote_avg'] = movie[13]
-            item['vote_count'] = movie[14]
-            item['genres'] = getGenreList(item['movie_id'])
+            item["movie_id"] = movie[0]
+            item["director_id"] = movie[1]
+            item["adult"] = movie[2]
+            item["title"] = movie[3]
+            item["release_date"] = movie[4]
+            item["runtime"] = movie[5]
+            item["budget"] = movie[6]
+            item["revenue"] = movie[7]
+            item["imdb_id"] = movie[8]
+            item["language"] = movie[9]
+            item["overview"] = movie[10]
+            item["tagline"] = movie[11]
+            item["poster"] = movie[12]
+            item["vote_avg"] = movie[13]
+            item["vote_count"] = movie[14]
+            item["genres"] = getGenreList(item["movie_id"])
             movies[index] = item
             index += 1
-        cur.execute("drop view temp_id;")
+
+        cur.execute("drop view IF EXISTS temp_id;")
         return {"movies": movies}
 
-
-        '''
+        """
         if title_str is None:
             df = sql.read_sql("select * from MOVIE limit 15", conn,)
             return {"movies": df.to_dict("id")}
@@ -102,7 +104,7 @@ class Movie(Resource):
         )
 
         #return {"movies": df.to_dict("id")}
-        '''
+        """
 
 
 @app.route("/api/movies/<int:id>")
@@ -131,14 +133,14 @@ def getCastByMovieId(movie_id):
 
     conn.close()
     return {"cast": cast_list}
-    #returns {cast: {...}} or {cast: [...]}
+    # returns {cast: {...}} or {cast: [...]}
 
 
 @app.route("/api/genres/<int:movie_id>", methods=["POST"])
 def getGenresByMovieId(movie_id):
     genres = getGenreList(movie_id)
     return {"genres": genres}
-    #returns {genres: {...}} or {genres: [...]}
+    # returns {genres: {...}} or {genres: [...]}
 
 
 ############### Login #####################
@@ -183,6 +185,7 @@ def ChangePassword():
 
 ############### Helper Functions #################
 
+
 def getGenreList(movie_id):
     conn = sqlite3.connect("./movieDB.db")
     cur = conn.cursor()
@@ -194,8 +197,6 @@ def getGenreList(movie_id):
     conn.close()
 
     return genres
-
-
 
 
 if __name__ == "__main__":
