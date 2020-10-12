@@ -43,13 +43,13 @@ class Movie(Resource):
     @api.response(404, "Not Found")
     @api.expect(title_parser)
     def get(self):
-        title_str = title_parser.parse_args().get("title") 
+        title_str = title_parser.parse_args().get("title")
         conn = sqlite3.connect("./movieDB.db")
         cur = conn.cursor()
         movies = {}
         if title_str is None:
             cur.execute("select * from MOVIE limit 15")
-            
+
         else:
             cur.execute(
                 f"""
@@ -62,36 +62,37 @@ class Movie(Resource):
                 """
             )
 
-            cur.execute("select * from movie m join temp_id t on m.movie_id = t.movie_id limit 15;")
-                #return {"movies": df.to_dict("id")}
-            
+            cur.execute(
+                "select * from movie m join temp_id t on m.movie_id = t.movie_id limit 15;"
+            )
+            # return {"movies": df.to_dict("id")}
+
         index = 0
         for movie in cur.fetchall():
             print(movie)
             item = {}
-            item['movie_id'] = movie[0]
-            item['director_id'] = movie[1]
-            item['adult'] = movie[2]
-            item['title'] = movie[3]
-            item['release_date'] = movie[4]
-            item['runtime'] = movie[5]
-            item['budget'] = movie[6]
-            item['revenue'] = movie[7]
-            item['imdb_id'] = movie[8]
-            item['language'] = movie[9]
-            item['overview'] = movie[10]
-            item['tagline'] = movie[11]
-            item['poster'] = movie[12]
-            item['vote_avg'] = movie[13]
-            item['vote_count'] = movie[14]
-            item['genres'] = getGenreList(item['movie_id'])
+            item["movie_id"] = movie[0]
+            item["director_id"] = movie[1]
+            item["adult"] = movie[2]
+            item["title"] = movie[3]
+            item["release_date"] = movie[4]
+            item["runtime"] = movie[5]
+            item["budget"] = movie[6]
+            item["revenue"] = movie[7]
+            item["imdb_id"] = movie[8]
+            item["language"] = movie[9]
+            item["overview"] = movie[10]
+            item["tagline"] = movie[11]
+            item["poster"] = movie[12]
+            item["vote_avg"] = movie[13]
+            item["vote_count"] = movie[14]
+            item["genres"] = getGenreList(item["movie_id"])
             movies[index] = item
             index += 1
-        cur.execute("drop view temp_id;")
+        cur.execute("drop view if exists temp_id;")
         return {"movies": movies}
 
-
-        '''
+        """
         if title_str is None:
             df = sql.read_sql("select * from MOVIE limit 15", conn,)
             return {"movies": df.to_dict("id")}
@@ -102,7 +103,7 @@ class Movie(Resource):
         )
 
         #return {"movies": df.to_dict("id")}
-        '''
+        """
 
 
 @app.route("/api/movies/<int:id>")
@@ -131,14 +132,14 @@ def getCastByMovieId(movie_id):
 
     conn.close()
     return {"cast": cast_list}
-    #returns {cast: {...}} or {cast: [...]}
+    # returns {cast: {...}} or {cast: [...]}
 
 
 @app.route("/api/genres/<int:movie_id>", methods=["POST"])
 def getGenresByMovieId(movie_id):
     genres = getGenreList(movie_id)
     return {"genres": genres}
-    #returns {genres: {...}} or {genres: [...]}
+    # returns {genres: {...}} or {genres: [...]}
 
 
 ############### Login #####################
@@ -167,17 +168,17 @@ def register():
     # if valid then return user
     return auth_register(email, password, first_name, last_name)
 
+
 @app.route("/auth/changepass")
 def ChangePassword():
     oldPassword = request.form.get("old_password")
     newPassword = request.form.get("new_password")
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
-    return (True)
-
-    
+    return True
 
 
 ############### Helper Functions #################
+
 
 def getGenreList(movie_id):
     conn = sqlite3.connect("./movieDB.db")
@@ -190,8 +191,6 @@ def getGenreList(movie_id):
     conn.close()
 
     return genres
-
-
 
 
 if __name__ == "__main__":
