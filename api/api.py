@@ -69,8 +69,9 @@ def getMovieById(id):
 
 @app.route("/auth/login", methods=["POST"])
 def login():
-    email = request.form.get("email")
-    password = request.form.get("password")
+    response = request.get_json()
+    email = response["email"]
+    password = response["password"]
 
     return auth_login(email, password)
 
@@ -93,8 +94,9 @@ def register():
 
 @app.route("/auth/changepass", methods=["POST"])
 def ChangePassword():
-    oldPassword = request.form.get("old_password")
-    newPassword = request.form.get("new_password")
+    response = request.get_json()
+    oldPassword = response["old_password"]
+    newPassword = response["new_password"]
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
     return ({"worked": 1})
 
