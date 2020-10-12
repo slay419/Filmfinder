@@ -8,7 +8,8 @@ venv
 
 # testing
 /coverage
-*.db
+movies.db
+movieDB.db
 *.csv
 
 # production
@@ -24,3 +25,6 @@ __pycache__
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#etc
+/api/sqlite3.exe
