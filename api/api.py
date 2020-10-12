@@ -47,29 +47,31 @@ class Movie(Resource):
         conn = sqlite3.connect("./movieDB.db")
         cur = conn.cursor()
         movies = {}
+        # Change the sql query depending on if a search term was given or not
         if title_str is None:
             cur.execute("select * from MOVIE limit 15")
 
         else:
+            # Search through movie titles, overview and genre for matching keywords in that order
             cur.execute(
                 f"""
                 create view temp_id as
-                select movie_id from movie where title like "%{title_str}%"
+                select movie_id, 0 as subquery from movie where title like "%{title_str}%"
                 union
-                select movie_id from genre where genre like "%{title_str}%"
+                select movie_id, 2 from genre where genre like "%{title_str}%"
                 union 
-                select movie_id from movie where overview like "% {title_str} %";
+                select movie_id, 1 from movie where overview like "% {title_str} %";
                 """
             )
 
             cur.execute(
-                "select * from movie m join temp_id t on m.movie_id = t.movie_id limit 15;"
+                "select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 15;"
             )
             # return {"movies": df.to_dict("id")}
 
         index = 0
+        # Extract movie information and populate dictionary
         for movie in cur.fetchall():
-            # print(movie)
             item = {}
             item["movie_id"] = movie[0]
             item["director_id"] = movie[1]
@@ -89,7 +91,8 @@ class Movie(Resource):
             item["genres"] = getGenreList(item["movie_id"])
             movies[index] = item
             index += 1
-        cur.execute("drop view if exists temp_id;")
+
+        cur.execute("drop view IF EXISTS temp_id;")
         return {"movies": movies}
 
         """
