@@ -34,7 +34,7 @@ const Login = () => {
         <div className="Login-inputs">
           <form>
             <label for="name">Username:</label>
-            <input type="password" placeholder="Enter username" id="name"
+            <input type="test" placeholder="Enter username" id="name"
             onChange={emailHandler}
             ></input>
 

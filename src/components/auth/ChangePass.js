@@ -33,7 +33,7 @@ const ChangePass = () => {
             <div className="password-inputs">
                 <form>
                     <label for="oldPass"> Old Password:</label>
-                    <input type="text" placeholder="Enter Old Password" id="oldPass"
+                    <input type="password" placeholder="Enter Old Password" id="oldPass"
                     onChange={oldPassHandler}
                     ></input>
 

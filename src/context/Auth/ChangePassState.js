@@ -23,7 +23,7 @@ const ChangePassState = (props) => {
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
                 },
-                body: JSON.stringify({email: email, oldPassword: oldPassword, newPassword: newPassword})
+                body: JSON.stringify({email: email, old_password: oldPassword, new_password: newPassword})
             })
             .then((res) => res.json())
             .then((data) => {
