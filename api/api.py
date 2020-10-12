@@ -167,6 +167,15 @@ def register():
     # if valid then return user
     return auth_register(email, password, first_name, last_name)
 
+@app.route("/auth/changepass")
+def ChangePassword():
+    oldPassword = request.form.get("old_password")
+    newPassword = request.form.get("new_password")
+    # return something (maybe TRUE if sucessful, dunno however you want to do it)
+    return (True)
+
+    
+
 
 ############### Helper Functions #################
 
