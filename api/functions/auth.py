@@ -13,7 +13,7 @@ USER_LIST = []
 REGEX = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 
 # Secret question field??
-def auth_register(email, password, first_name, last_name):
+def auth_register(email, password, first_name, last_name, secret_question, secret_answer):
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
     u_id = 12345
     token = "test token"
@@ -33,8 +33,8 @@ def auth_register(email, password, first_name, last_name):
 
     c.execute(
         f'''
-        INSERT INTO users(user_id, first_name, last_name, email, password)
-        VALUES ({new_user_id}, "{first_name}", "{last_name}", "{email}", "{hashed_password}")
+        INSERT INTO users(user_id, first_name, last_name, email, password, secret_question, secret_answer)
+        VALUES ({new_user_id}, "{first_name}", "{last_name}", "{email}", "{hashed_password}", "{secret_question}", "{secret_answer}")
         '''
     )
     conn.commit()
@@ -83,6 +83,19 @@ def auth_login(email, password):
         return get_user_details(u_id)
     u_id = 12345
     return get_user_details(u_id)
+
+def auth_resetpass(email, secretAnswer):
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    #Search for email
+    #Search for emails Secret questions
+    #Compare secret question with secret answer
+    c.execute(f'SELECT secret_answer FROM users WHERE email=("{email}")')
+    selectedAnswer = c.fetchone()
+    # if selectedAnswer[0] != secretAnswer:
+    #     return "Incorrect answer, please try again"
+    # else:
+    #     return "Correct answer!"
 
 # bcrypt to hash password
 def get_user_details(u_id):

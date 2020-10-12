@@ -87,7 +87,7 @@ class Movie(Resource):
             item['genres'] = getGenreList(item['movie_id'])
             movies[index] = item
             index += 1
-        cur.execute("drop view temp_id;")
+        cur.execute("drop view IF EXISTS temp_id;")
         return {"movies": movies}
 
 
@@ -158,21 +158,30 @@ def register():
     password = request.form.get("password")
     first_name = request.form.get("first_name")
     last_name = request.form.get("last_name")
+    secret_question = request.form.get("secret_question")
+    secret_answer = request.form.get("secret_answer")
 
-    # print(email)
-    # print(password)
-    # print(first_name)
-    # print(last_name)
+    print(email)
+    print(password)
+    print(first_name)
+    print(last_name)
 
     # if valid then return user
-    return auth_register(email, password, first_name, last_name)
+    return auth_register(email, password, first_name, last_name, secret_question, secret_answer)
+
+@app.route("/auth/resetpass", methods=["POST"])
+def resetpass():
+    email = request.form.get("email")
+    secretAnswer = request.form.get("secretAnswer")
+
+    return auth_reset(email, secretAnswer)
 
 @app.route("/auth/changepass")
-def ChangePassword():
+def changepass():
     oldPassword = request.form.get("old_password")
     newPassword = request.form.get("new_password")
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
-    return (True)
+    return auth_changepass(oldPassword, newPassword)
 
     
 
