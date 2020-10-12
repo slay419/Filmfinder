@@ -8,7 +8,8 @@ venv
 
 # testing
 /coverage
-*.db
+movies.db
+movieDB.db
 *.csv
 
 # production
