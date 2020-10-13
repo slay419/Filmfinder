@@ -9,6 +9,8 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
+  const [secretQ, setSecretQ] = useState("");
+  const [secretA, setSecretA] = useState("");
 
   const emailHandler = (e) => {
     setEmail(e.target.value);
@@ -24,6 +26,14 @@ const Register = () => {
 
   const lnameHandler = (e) => {
     setLname(e.target.value);
+  };
+
+  const secretQHandler = (e) => {
+    setSecretQ(e.target.value);
+  };
+
+  const secretAHandler = (e) => {
+    setSecretA(e.target.value);
   };
 
   const registerContext = useContext(RegisterContext);
@@ -69,9 +79,27 @@ const Register = () => {
               onChange={lnameHandler}
             ></input>
 
+            <label for="secretQ">Secret Question:</label>
+            <input
+              type="text"
+              placeholder="Enter Secret Question"
+              id="secretQ"
+              onChange={secretQHandler}
+            ></input>
+
+            <label for="secretA">Secret Answer:</label>
+            <input
+              type="text"
+              placeholder="Enter Secret Answer"
+              id="secretA"
+              onChange={secretAHandler}
+            ></input>
+
             <button
               type="button"
-              onClick={() => registerUser(email, password, fname, lname)}
+              onClick={() =>
+                registerUser(email, password, fname, lname, secretQ, secretA)
+              }
             >
               register
             </button>

@@ -26,7 +26,6 @@ const Home = () => {
         <br></br>
         {User !== null && <Link to="/change">Change Password</Link>}
       </div>
-      <SearchBar />
       {loading ? (
         <Spinner />
       ) : (

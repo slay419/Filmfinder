@@ -21,7 +21,7 @@ const Login = () => {
 
   //first line redirects if already logged in, otherwise it loads the login page
   return (
-    <>
+    <div>
       {User !== null ? (
         <Redirect to="/" />
       ) : (
@@ -32,7 +32,7 @@ const Login = () => {
             <form>
               <label for="name">Username:</label>
               <input
-                type="text"
+                type="test"
                 placeholder="Enter username"
                 id="name"
                 onChange={emailHandler}
@@ -57,7 +57,7 @@ const Login = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

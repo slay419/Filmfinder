@@ -50,7 +50,7 @@ class Movie(Resource):
         # Change the sql query depending on if a search term was given or not
         if title_str is None:
             cur.execute("select * from MOVIE limit 15")
-
+        
         else:
             # Search through movie titles, overview and genre for matching keywords in that order
             cur.execute(
@@ -64,13 +64,11 @@ class Movie(Resource):
                 """
             )
 
-            cur.execute(
-                "select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 15;"
-            )
-            # return {"movies": df.to_dict("id")}
-
+            cur.execute("select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 15;")
+            #return {"movies": df.to_dict("id")}
+            
         index = 0
-        # Extract movie information and populate dictionary
+        # Extract movie information and populate dictionary 
         for movie in cur.fetchall():
             item = {}
             item["movie_id"] = movie[0]
@@ -99,12 +97,10 @@ class Movie(Resource):
         if title_str is None:
             df = sql.read_sql("select * from MOVIE limit 15", conn,)
             return {"movies": df.to_dict("id")}
-
         df = sql.read_sql(
             "select * from MOVIE m where m.title like '%" + title_str + "%' limit 15",
             conn,
         )
-
         #return {"movies": df.to_dict("id")}
         """
 
@@ -131,7 +127,7 @@ def getCastByMovieId(movie_id):
     cast_list = []
     for cast in cur.fetchall():
         cast_list.append(cast[0])
-    # print(cast_list)
+    print(cast_list)
 
     conn.close()
     return {"cast": cast_list}
@@ -150,18 +146,20 @@ def getGenresByMovieId(movie_id):
 
 @app.route("/auth/login", methods=["POST"])
 def login():
-    email = request.form.get("email")
-    password = request.form.get("password")
+    response = request.get_json()
+    email = response["email"]
+    password = response["password"]
 
     return auth_login(email, password)
 
 
 @app.route("/auth/register", methods=["POST"])
 def register():
-    email = request.form.get("email")
-    password = request.form.get("password")
-    first_name = request.form.get("first_name")
-    last_name = request.form.get("last_name")
+    response = request.get_json()
+    email = response["email"]
+    password =  response["password"]
+    first_name =  response["first_name"]
+    last_name =  response["last_name"]
 
     # print(email)
     # print(password)
@@ -171,13 +169,16 @@ def register():
     # if valid then return user
     return auth_register(email, password, first_name, last_name)
 
-
-@app.route("/auth/changepass")
+@app.route("/auth/changepass", methods=["POST"])
 def ChangePassword():
-    oldPassword = request.form.get("old_password")
-    newPassword = request.form.get("new_password")
+    response = request.get_json()
+    email = response["email"]
+    oldPassword = response["old_password"]
+    newPassword = response["new_password"]
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
-    return True
+    return ({"worked": 1})
+
+    
 
 
 ############### Helper Functions #################
@@ -190,7 +191,7 @@ def getGenreList(movie_id):
     genres = []
     for genre in cur.fetchall():
         genres.append(genre[0])
-    # print(genres)
+    print(genres)
     conn.close()
 
     return genres
