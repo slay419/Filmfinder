@@ -13,6 +13,8 @@ import LoginState from "./context/Auth/LoginState";
 import RegisterState from "./context/Auth/RegisterState";
 import ChangePassState from "./context/Auth/ChangePassState";
 import ForgottenPassState from "./context/Auth/ForgottenPassState";
+import { NavigationBar } from './components/common/NavigationBar';
+import profile from "./components/auth/profile";
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
             <MoviesState>
               <MovieState>
                 <Router>
+                  <NavigationBar />
                   <Switch>
                     <Route path="/" exact component={Home} />
                     <Route path="/login" exact component={Login} />
@@ -30,6 +33,7 @@ function App() {
                     <Route path="/movies/:id" component={MovieDetails} />
                     <Route path="/forgot" exact component={ForgottenPass} />
                     <Route path="/change" exact component={ChangePass} />
+                    <Route path="/profile" exact component={profile} />
                   </Switch>
                 </Router>
               </MovieState>
