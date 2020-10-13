@@ -97,12 +97,10 @@ class Movie(Resource):
         if title_str is None:
             df = sql.read_sql("select * from MOVIE limit 15", conn,)
             return {"movies": df.to_dict("id")}
-
         df = sql.read_sql(
             "select * from MOVIE m where m.title like '%" + title_str + "%' limit 15",
             conn,
         )
-
         #return {"movies": df.to_dict("id")}
         """
 
