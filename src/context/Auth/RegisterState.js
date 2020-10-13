@@ -23,8 +23,10 @@ const RegisterState = (props) => {
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
               },
-            body: JSON.stringify({email: email, password: password, first_name: fname, last_name: lname, secretQ: secretQ, secretA: secretA})
-        }).then((res) => res.json())
+
+            body: JSON.stringify({email: email, password: password, first_name: fname, last_name: lname})
+        })
+        .then((res) => res.json())
         .then((data) => {
             dispatch( {type: REGISTER, payload: data})
         }).catch((err) => {
