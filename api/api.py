@@ -190,6 +190,15 @@ def ChangePassword():
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
     return ({"worked": 1})
 
+@app.route("/auth/resetpassword", methods=["POST"])
+def resetPassword():
+    response = request.get_json()
+    email = response["email"]
+    newPassword = response["password"]
+    print(newPassword)
+    # return something (maybe TRUE if sucessful, dunno however you want to do it)
+    return ({"worked": 1})
+
 
 @app.route("/auth/testing", methods=["POST"])
 def test():
@@ -207,6 +216,20 @@ def getSecretQuestion():
     question = get_secret_question(u_id)
     return ({"question": question})
     #return ({"question": "What is Blue"})
+
+@app.route("/auth/getAnswer", methods=["POST"])
+def getSecretAnswer():
+    response = request.get_json()
+    email = response["email"]
+    answer = response["answer"]
+    print(email)
+    u_id = get_user_id(email)
+    print(u_id)
+    newAnswer = get_secret_answer(u_id)
+    if newAnswer == answer:
+        return ({"answer": 2})
+    else:
+        return ({"answer": 1})
 
 
 

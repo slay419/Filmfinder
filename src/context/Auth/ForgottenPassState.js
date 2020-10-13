@@ -2,11 +2,11 @@ import React, { useReducer } from "react";
 import ForgottenPassContext from "./ForgottenPassContext";
 import ForgottenPassReducer from "./ForgottenPassReducer";
 
-import { GET_QUESTION, ANSWER_QUESTION, QUESTION_ERROR } from "../types";
+import { GET_QUESTION, ANSWER_QUESTION, QUESTION_ERROR, PASSWORD_CHANGED } from "../types";
 
 
-const CORRECT = 2;
-const INCORRECT = 1;
+export const CORRECT = 2;
+export const INCORRECT = 1;
 export const UNANSWERED = 0;
 
 const ForgottenPassState = (props) => {
@@ -14,6 +14,7 @@ const ForgottenPassState = (props) => {
   const initialState = {
     question: null,
     correct: 0,
+    changed: 0,
   };
 
   const [state, dispatch] = useReducer(ForgottenPassReducer, initialState);
@@ -35,13 +36,13 @@ const ForgottenPassState = (props) => {
       });
   };
 
-  const answerQuestion = (u_id, ans) => {
-    fetch('./auth/getQuestion', {
+  const answerQuestion = (email, ans) => {
+    fetch('./auth/getAnswer', {
         method: "POST",
         headers: {
             "Content-type": "application/json; charset=UTF-8"
           },
-        body: JSON.stringify({u_id: u_id, ans: ans})
+        body: JSON.stringify({email: email, answer: ans})
     })
     .then((res) => res.json())
     .then((data) => {
@@ -51,7 +52,25 @@ const ForgottenPassState = (props) => {
         dispatch({ type: QUESTION_ERROR, payload: err });
     });
 
+
   };
+
+  const changePassword = (email, password) => {
+    fetch('./auth/resetpassword', {
+      method: "POST",
+      headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        },
+      body: JSON.stringify({email: email, password: password})
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        dispatch({ type: PASSWORD_CHANGED, payload: data });
+    })
+    .catch((err) => {
+        dispatch({ type: QUESTION_ERROR, payload: err });
+    });    
+  }
 
   return (
     <ForgottenPassContext.Provider
@@ -60,6 +79,8 @@ const ForgottenPassState = (props) => {
         getQuestion,
         correct: state.correct,
         answerQuestion,
+        changed: state.changed,
+        changePassword,
       }}
     >
       {props.children}

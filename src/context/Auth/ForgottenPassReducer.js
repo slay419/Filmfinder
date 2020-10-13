@@ -1,4 +1,4 @@
-import { GET_QUESTION, ANSWER_QUESTION, QUESTION_ERROR } from "../types";
+import { GET_QUESTION, ANSWER_QUESTION, QUESTION_ERROR, PASSWORD_CHANGED } from "../types";
 
 import { UNANSWERED } from "./ForgottenPassState";
 
@@ -9,15 +9,21 @@ export default (state, action) => {
       return {
         ...state,
         question: action.payload.question,
-        correct: UNANSWERED
+        correct: UNANSWERED,
+        changed: 0
       };
     case ANSWER_QUESTION:
       return {
         ...state,
-        correct: action.payload
+        correct: action.payload.answer
       };
     case QUESTION_ERROR:
       console.log(action.payload);
+    case PASSWORD_CHANGED:
+      return {
+        ...state,
+        changed: action.payload.worked
+      };
     default:
       return state;
   }

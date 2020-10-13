@@ -71,7 +71,7 @@ const Register = () => {
               onChange={fnameHandler}
             ></input>
 
-            <label for="lname">Username:</label>
+            <label for="lname">Last name:</label>
             <input
               type="text"
               placeholder="Enter Last Name"
