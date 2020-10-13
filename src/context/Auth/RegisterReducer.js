@@ -8,13 +8,13 @@ export default (state, action) => {
             return {
                 ...state,
                 User: action.payload,
-                inUse: 0,
+                error: "",
             };
         case NAME_TAKEN:
             console.log(action.payload);
             return {
                 ...state,
-                inUse: 1,
+                error: action.payload,
             };        
         case REGISTER_ERROR:
             console.log("Error: " + action.payload);
