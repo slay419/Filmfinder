@@ -198,15 +198,15 @@ def ChangePassword():
     
     return update_password(email, newPassword)
 
-
+# returns error: incorrectPassword
+# returns success: 1
 @app.route("/auth/resetpassword", methods=["POST"])
 def resetPassword():
     response = request.get_json()
     email = response["email"]
     newPassword = response["password"]
-    print(newPassword)
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
-    return ({"worked": 1})
+    return update_password(email, newPassword)
 
 
 @app.route("/auth/testing", methods=["POST"])
