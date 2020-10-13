@@ -3,31 +3,28 @@ import ForgottenPassContext from "./ForgottenPassContext";
 import ForgottenPassReducer from "./ForgottenPassReducer";
 
 import { GET_QUESTION, ANSWER_QUESTION, QUESTION_ERROR } from "../types";
-import { NULL } from "node-sass";
+
 
 const CORRECT = 2;
 const INCORRECT = 1;
-const UNANSWERED = 0;
+export const UNANSWERED = 0;
 
 const ForgottenPassState = (props) => {
+
   const initialState = {
-    question: NULL,
-    correct: 0
+    question: null,
+    correct: 0,
   };
 
   const [state, dispatch] = useReducer(ForgottenPassReducer, initialState);
 
-  const setLoading = () => {
-    dispatch({ type: SET_LOADING });
-  };
-
-  const getQuestion = (u_id) => {
-    fetch('./auth/login', {
+  const getQuestion = (email) => {
+    fetch('./auth/getQuestion', {
         method: "POST",
         headers: {
             "Content-type": "application/json; charset=UTF-8"
           },
-        body: JSON.stringify({u_id: u_id})
+        body: JSON.stringify({email: email})
     })
       .then((res) => res.json())
       .then((data) => {
@@ -39,7 +36,7 @@ const ForgottenPassState = (props) => {
   };
 
   const answerQuestion = (u_id, ans) => {
-    fetch('./auth/login', {
+    fetch('./auth/getQuestion', {
         method: "POST",
         headers: {
             "Content-type": "application/json; charset=UTF-8"
@@ -48,7 +45,7 @@ const ForgottenPassState = (props) => {
     })
     .then((res) => res.json())
     .then((data) => {
-        dispatch({ type: ANSWER_QUESTION, payload: data.correct });
+        dispatch({ type: ANSWER_QUESTION, payload: data });
     })
     .catch((err) => {
         dispatch({ type: QUESTION_ERROR, payload: err });
@@ -57,16 +54,16 @@ const ForgottenPassState = (props) => {
   };
 
   return (
-    <ForgotPassContext.Provider
+    <ForgottenPassContext.Provider
       value={{
-        movies: state.movies,
-        getMovies,
-        loading: state.loading,
-        searchMovies,
+        question: state.question,
+        getQuestion,
+        correct: state.correct,
+        answerQuestion,
       }}
     >
       {props.children}
-    </ForgotPassContext.Provider>
+    </ForgottenPassContext.Provider>
   );
 };
 

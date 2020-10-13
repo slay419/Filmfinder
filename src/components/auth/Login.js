@@ -33,8 +33,8 @@ const Login = () => {
         </div>
         <div className="Login-inputs">
           <form>
-            <label for="name">Username:</label>
-            <input type="test" placeholder="Enter username" id="name"
+            <label for="name">Email:</label>
+            <input type="email" placeholder="Enter Email" id="name"
             onChange={emailHandler}
             ></input>
 

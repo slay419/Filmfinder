@@ -1,7 +1,6 @@
 import { GET_QUESTION, ANSWER_QUESTION, QUESTION_ERROR } from "../types";
-import ForgottenPassState from "./ForgottenPassState";
 
-import {CORRECT, UNANSWERED, INCORRECT} from ForgottenPassState
+import { UNANSWERED } from "./ForgottenPassState";
 
 export default (state, action) => {
   switch (action.type) {
@@ -9,7 +8,7 @@ export default (state, action) => {
       console.log(action.payload);
       return {
         ...state,
-        question: action.payload,
+        question: action.payload.question,
         correct: UNANSWERED
       };
     case ANSWER_QUESTION:

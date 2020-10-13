@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const forgottenPassContext = createContext();
+const ForgottenPassContext = createContext();
 
-export default forgottenPassContext;
+export default ForgottenPassContext;

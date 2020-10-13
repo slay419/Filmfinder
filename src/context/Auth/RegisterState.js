@@ -24,7 +24,7 @@ const RegisterState = (props) => {
                 "Content-type": "application/json; charset=UTF-8"
               },
 
-            body: JSON.stringify({email: email, password: password, first_name: fname, last_name: lname})
+            body: JSON.stringify({email: email, password: password, first_name: fname, last_name: lname, secret_question: secretQ, secret_answer: secretA})
         })
         .then((res) => res.json())
         .then((data) => {

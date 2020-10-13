@@ -8,7 +8,7 @@ from pandas.io import sql
 from requests import get
 import re
 
-from functions.auth import auth_login, auth_register, get_secret_question, get_secret_answer
+from functions.auth import auth_login, auth_register, get_secret_question, get_secret_answer, get_user_id
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
@@ -162,8 +162,8 @@ def register():
     password =  response["password"]
     first_name =  response["first_name"]
     last_name =  response["last_name"]
-    secret_question = response["secretQ"]
-    secret_answer = response["secretA"]
+    secret_question = response["secret_question"]
+    secret_answer = response["secret_answer"]
 
 
     # email = request.form.get("email")
@@ -196,6 +196,18 @@ def test():
     question = get_secret_question(1)
     print(f"question is {question}")
     return {"question": question} 
+
+@app.route("/auth/getQuestion", methods=["POST"])
+def getSecretQuestion():
+    response = request.get_json()
+    email = response["email"]
+    print(email)
+    u_id = get_user_id(email)
+    print(u_id)
+    question = get_secret_question(u_id)
+    return ({"question": question})
+    #return ({"question": "What is Blue"})
+
 
 
 ############### Helper Functions #################
