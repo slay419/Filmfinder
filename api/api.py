@@ -25,6 +25,13 @@ api = Api(
 title_parser = reqparse.RequestParser()
 title_parser.add_argument("title", type=str)
 
+genre_parser = reqparse.RequestParser()
+genre_parser.add_argument("genre", type=str)
+
+director_parser = reqparse.RequestParser()
+director_parser.add_argument("director", type=str)
+
+
 
 def read_from_sqlite(database_file, table_name):
     conn = sqlite3.connect(database_file)
@@ -158,20 +165,32 @@ def test():
 
 #################   Search    ##################
 
-@app.route("/api/search/byGenre", methods=["POST"])
-def searchMovieByGenre():
-    genre = request.form.get("genre")
-    return searchGenre(genre)
+@api.route("/api/search/byGenre")
+class Genre(Resource):
+    @api.response(200, "OK")
+    @api.response(201, "Created")
+    @api.response(400, "Bad Request")
+    @api.response(404, "Not Found")
+    @api.expect(genre_parser)
+    def get(self):
+        genre_str = genre_parser.parse_args().get("genre")
+        return searchGenre(genre_str)
+
+@api.route("/api/search/byDirector")
+class Director(Resource):
+    @api.response(200, "OK")
+    @api.response(201, "Created")
+    @api.response(400, "Bad Request")
+    @api.response(404, "Not Found")
+    @api.expect(director_parser)
+    def get(self):
+        director_str = director_parser.parse_args().get("director")
+        return searchDirector(director_str)
 
 @app.route("/api/search/byKeyword", methods=["POST"])
 def searchMovieByKeyword():
     keyword = request.form.get("keyword")
     return searchKeyword(keyword)
-
-@app.route("/api/search/byDirector", methods=["POST"])
-def searchMovieByDirector():
-    director = request.form.get("director")
-    return searchDirector(director)
 
 
 @app.route("/api/cast/<int:movie_id>", methods=["POST"])
