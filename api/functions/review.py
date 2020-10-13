@@ -108,3 +108,18 @@ def reviewIdExists(review_id):
         return False
     conn.close()
     return True
+
+def getMovieReviewList(movie_id):
+    conn = sqlite3.connect("users.db")
+    cur = conn.cursor()
+    cur.execute(f"select review_id, comment, score, num_likes from review where movie_id = {movie_id};")
+    review_list = []
+    for review in cur.fetchall():
+        item = {}
+        item['review_id'] = review[0]
+        item['comment'] = review[1]
+        item['score'] = review[2]
+        item['num_likes'] = review[3]
+        review_list.append(item)
+    conn.close()
+    return review_list

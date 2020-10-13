@@ -24,7 +24,7 @@ from functions.search import (
     getCastList,
     getDirectorById,
 )
-from functions.review import newReview, incrementLikes, editReview
+from functions.review import newReview, incrementLikes, editReview, getMovieReviewList
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
@@ -128,7 +128,6 @@ def getMovieById(id):
     item["cast"] = getCastList(id)
     result = {}
     result[id] = item
-
     conn.close()
     return {"movie": result}
 
