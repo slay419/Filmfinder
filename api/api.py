@@ -8,7 +8,7 @@ from pandas.io import sql
 from requests import get
 import re
 
-from functions.auth import auth_login, auth_register
+from functions.auth import auth_login, auth_logout, auth_register, get_secret_question, get_secret_answer, get_user_id
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
@@ -142,7 +142,7 @@ def getGenresByMovieId(movie_id):
     # returns {genres: {...}} or {genres: [...]}
 
 
-############### Login #####################
+############### Auth Functions #####################
 
 
 @app.route("/auth/login", methods=["POST"])
@@ -154,6 +154,12 @@ def login():
     print(response)
     return auth_login(email, password)
 
+@app.route("/auth/logout", methods = ["POST"])
+def logout():
+    response = request.get_json()
+    u_id = response["u_id"]
+
+    return auth_logout(u_id)
 
 @app.route("/auth/register", methods=["POST"])
 def register():
@@ -162,24 +168,13 @@ def register():
     password =  response["password"]
     first_name =  response["first_name"]
     last_name =  response["last_name"]
-    secret_question = response["secretQ"]
-    secret_answer = response["secretA"]
+    secret_question = response["secret_question"]
+    secret_answer = response["secret_answer"]
 
     print(response)
-    # print(email)
-    # print(password)
-    # print(first_name)
-    # print(last_name)
 
     # if valid then return user
     return auth_register(email, password, first_name, last_name, secret_question, secret_answer)
-
-@app.route("/auth/resetpass", methods=["POST"])
-def resetpass():
-    email = request.form.get("email")
-    secretAnswer = request.form.get("secretAnswer")
-
-    return auth_reset(email, secretAnswer)
 
 @app.route("/auth/changepass", methods=["POST"])
 def ChangePassword():
@@ -190,7 +185,47 @@ def ChangePassword():
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
     return ({"worked": 1})
 
-    
+@app.route("/auth/resetpassword", methods=["POST"])
+def resetPassword():
+    response = request.get_json()
+    email = response["email"]
+    newPassword = response["password"]
+    print(newPassword)
+    # return something (maybe TRUE if sucessful, dunno however you want to do it)
+    return ({"worked": 1})
+
+
+@app.route("/auth/testing", methods=["POST"])
+def test():
+    question = get_secret_question(1)
+    print(f"question is {question}")
+    return {"question": question} 
+
+@app.route("/auth/getQuestion", methods=["POST"])
+def getSecretQuestion():
+    response = request.get_json()
+    email = response["email"]
+    print(email)
+    u_id = get_user_id(email)
+    print(u_id)
+    question = get_secret_question(u_id)
+    return ({"question": question})
+    #return ({"question": "What is Blue"})
+
+@app.route("/auth/getAnswer", methods=["POST"])
+def getSecretAnswer():
+    response = request.get_json()
+    email = response["email"]
+    answer = response["answer"]
+    print(email)
+    u_id = get_user_id(email)
+    print(u_id)
+    newAnswer = get_secret_answer(u_id)
+    if newAnswer == answer:
+        return ({"answer": 2})
+    else:
+        return ({"answer": 1})
+
 
 
 ############### Helper Functions #################
