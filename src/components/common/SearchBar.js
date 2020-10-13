@@ -3,6 +3,7 @@ import MoviesContext from "../../context/moviesList/moviesContext";
 import "../../styles/SearchBar.scss";
 import searchIcon from "../../icons/search-interface-symbol.svg";
 import Select from "react-select";
+import { Redirect } from "react-router-dom";
 
 const options = [
   { value: "All", label: "All" },
