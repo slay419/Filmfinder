@@ -17,8 +17,8 @@ export default (state, action) => {
                 inUse: 1,
             };        
         case REGISTER_ERROR:
-            console.log(action.payload);
-            default:
-        return state;
+            console.log("Error: " + action.payload);
+        default:
+            return state;
     }
 };

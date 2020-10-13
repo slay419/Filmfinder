@@ -11,7 +11,7 @@ import {
 const RegisterState = (props) => {
     const initialState = {
         User: null,
-        inUse : 0,
+        error : "",
         //user info stored in this state
     };
 
@@ -24,12 +24,10 @@ const RegisterState = (props) => {
                 "Content-type": "application/json; charset=UTF-8"
               },
             body: JSON.stringify({email: email, password: password, first_name: fname, last_name: lname, secretQ: secretQ, secretA: secretA})
-        })
-        .then((res) => res.json())
+        }).then((res) => res.json())
         .then((data) => {
-            dispatch( {type: REGISTER, payload: null})
-        })
-        .catch((err) => {
+            dispatch( {type: REGISTER, payload: data})
+        }).catch((err) => {
             dispatch( {type: REGISTER_ERROR, payload: err})
         });
     };
@@ -38,7 +36,7 @@ const RegisterState = (props) => {
         <RegisterContext.Provider
           value={{
             User: state.User,
-            inUse: state.inUse,
+            error: state.error,
             registerUser,
           }}
         >

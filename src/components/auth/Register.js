@@ -49,34 +49,35 @@ const Register = () => {
         <h1>Register Now</h1>
         <form>
             <label for="email">Email:</label>
-            <input type="text" placeholder="Enter email" id="email"
-            onChange={emailHandler}
-            ></input>
+            <input type="email" placeholder="Enter email" id="email"
+            onChange={emailHandler} 
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            required></input>
 
             <label for="pword">Password:</label>
             <input type="password" placeholder="Enter password" id="pword"
             onChange={passwordHandler}
-            ></input>
+            required></input>
 
             <label for="fname">First Name:</label>
             <input type="text" placeholder="Enter First Name" id="fname"
-            onChange={fnameHandler}
-            ></input>
+            onChange={fnameHandler} size="50" maxlength="50" 
+            required></input>
 
             <label for="lname">Username:</label>
             <input type="text" placeholder="Enter Last Name" id="lname"
-            onChange={lnameHandler}
-            ></input>
+            onChange={lnameHandler} size="50" maxlength="50"
+            required></input>
 
             <label for="secretQ">Secret Question:</label>
             <input type="text" placeholder="Enter Secret Question" id="secretQ"
             onChange={secretQHandler}
-            ></input>
+            required></input>
 
             <label for="secretA">Secret Answer:</label>
             <input type="text" placeholder="Enter Secret Answer" id="secretA"
             onChange={secretAHandler}
-            ></input>           
+            required></input>         
 
 
             <button type="button" onClick={()=> registerUser(email, password, fname, lname, secretQ, secretA)}>register</button>
