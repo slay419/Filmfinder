@@ -91,7 +91,6 @@ def getDirectorById(director_id):
     cur = conn.cursor()
     cur.execute(f"select cast_name from cast where cast_id = {director_id};")
     director_name = cur.fetchone()[0]
-    print("director name is: " + director_name)
     conn.close()
     return director_name
 
