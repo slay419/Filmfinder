@@ -1,4 +1,11 @@
-import { GET_MOVIES, SET_LOADING, MOVIES_ERROR, SEARCH_MOVIES } from "../types";
+import {
+  GET_MOVIES,
+  SET_LOADING,
+  MOVIES_ERROR,
+  SEARCH_MOVIES,
+  SEARCH_MOVIES_DIRECTOR,
+  SEARCH_MOVIES_GENRE,
+} from "../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -10,6 +17,18 @@ export default (state, action) => {
         loading: !state.loading,
       };
     case SEARCH_MOVIES:
+      return {
+        ...state,
+        movies: action.payload,
+        loading: !state.loading,
+      };
+    case SEARCH_MOVIES_GENRE:
+      return {
+        ...state,
+        movies: action.payload,
+        loading: !state.loading,
+      };
+    case SEARCH_MOVIES_DIRECTOR:
       return {
         ...state,
         movies: action.payload,
