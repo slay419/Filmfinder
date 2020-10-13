@@ -42,23 +42,17 @@ def auth_register(
     }
 
 def update_password(email, newP):
-    
     # Check if password matches regex
-    if not re.match(newP, PASSWORDREGEX):
-        return {
-            "error": "incorrectPassword"
-        }
-    # Valid password was entered    
-    hashed_password = hashlib.sha256(newP.encode()).hexdigest()
-    conn = sqlite3.connect("users.db")
-    c = conn.cursor()
-    c.execute(f"UPDATE users SET password = '{hashed_password}' WHERE email = '{email}';")
-    conn.commit()
-    conn.close()
-
-    return {
-        "success": 1
-    }
+    if re.match(newP, PASSWORDREGEX):
+        # Valid password was entered    
+        hashed_password = hashlib.sha256(newP.encode()).hexdigest()
+        conn = sqlite3.connect("users.db")
+        c = conn.cursor()
+        c.execute(f"UPDATE users SET password = '{hashed_password}' WHERE email = '{email}';")
+        conn.commit()
+        conn.close()
+        return {"success": 1}
+    return {"error": "incorrectPassword"}
 
 
 def auth_login(email, password):

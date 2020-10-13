@@ -151,7 +151,6 @@ def login():
     response = request.get_json()
     email = response["email"]
     password = response["password"]
-
     print(response)
     return auth_login(email, password)
 
