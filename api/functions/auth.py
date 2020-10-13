@@ -11,6 +11,7 @@ import hashlib
 
 USER_LIST = []
 REGEX = "^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+PASSWORDREGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" # at least 8 characters, one number one uppercase one lowercase
 
 # Secret question field??
 def auth_register(
@@ -41,23 +42,17 @@ def auth_register(
     }
 
 def update_password(email, newP):
-    regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
     # Check if password matches regex
-    if not re.match(newP, regex):
-        return {
-            "error": "incorrectPassword"
-        }
-    # Valid password was entered    
-    hashed_password = hashlib.sha256(newP.encode()).hexdigest()
-    conn = sqlite3.connect("users.db")
-    c = conn.cursor()
-    c.execute(f"UPDATE users SET password = '{hashed_password}' WHERE email = '{email}';")
-    conn.commit()
-    conn.close()
-
-    return {
-        "success": 1
-    }
+    if re.match(newP, PASSWORDREGEX):
+        # Valid password was entered    
+        hashed_password = hashlib.sha256(newP.encode()).hexdigest()
+        conn = sqlite3.connect("users.db")
+        c = conn.cursor()
+        c.execute(f"UPDATE users SET password = '{hashed_password}' WHERE email = '{email}';")
+        conn.commit()
+        conn.close()
+        return {"success": 1}
+    return {"error": "incorrectPassword"}
 
 
 def auth_login(email, password):
@@ -69,12 +64,15 @@ def auth_login(email, password):
     c = conn.cursor()
     c.execute(f'SELECT password FROM users WHERE email=("{email}")')
     selected_password = c.fetchone()
+
     get_user_id(email)
     print(selected_password)
     if selected_password[0] != hashed_password:
-        raise ValueError("Invalid password please try again")
+        return {"error": "wrongLogin"}
     u_id = get_user_id(email)
     USER_LIST.append(u_id)
+    if u_id == -1:
+        return {"error": "wrongLogin"}
     return get_user_details(u_id)
 
 def auth_logout(u_id):
@@ -130,7 +128,7 @@ def get_user_id(email):
     c.execute(f'SELECT user_id FROM users WHERE email=("{email}")')
     u_id = c.fetchone()
     if u_id is None:
-        return -1
+        return False
     return u_id[0]
 
 def get_user_details(u_id):

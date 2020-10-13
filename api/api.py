@@ -142,13 +142,14 @@ def getGenresByMovieId(movie_id):
 
 ############### Auth Functions #####################
 
-
+# return statements
+# error: wrongLogin
+# user details as dictionary
 @app.route("/auth/login", methods=["POST"])
 def login():
     response = request.get_json()
     email = response["email"]
     password = response["password"]
-
     print(response)
     return auth_login(email, password)
 
@@ -191,15 +192,15 @@ def ChangePassword():
     
     return update_password(email, newPassword)
 
-
+# returns error: incorrectPassword
+# returns success: 1
 @app.route("/auth/resetpassword", methods=["POST"])
 def resetPassword():
     response = request.get_json()
     email = response["email"]
     newPassword = response["password"]
-    print(newPassword)
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
-    return ({"worked": 1})
+    return update_password(email, newPassword)
 
 
 @app.route("/auth/testing", methods=["POST"])
