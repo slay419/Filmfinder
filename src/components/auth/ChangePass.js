@@ -8,7 +8,6 @@ import LoginContext from "../../context/Auth/LoginContext";
 const ChangePass = () => {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
 
     const loginContext = useContext(LoginContext);
     const { User } = loginContext;
@@ -21,9 +20,6 @@ const ChangePass = () => {
     };  
     const newPassHandler = (e) => {
         setNewPassword(e.target.value);
-    };  
-    const confirmPassHandler = (e) => {
-        setConfirmPassword(e.target.value);
     };  
 
 
@@ -42,16 +38,12 @@ const ChangePass = () => {
                     onChange={newPassHandler}
                     ></input>
 
-                    <label for="confPass">Confirm New Password:</label>
-                    <input type="password" placeholder="Confirm Password" id="confPass"
-                    onChange={confirmPassHandler}
-                    ></input>
-
-                    <button type="button" onClick={()=> changePassword(User.email, oldPassword, newPassword, confirmPassword)}>Change Password</button>                                       
+                    <button type="button" onClick={()=> changePassword(User.email, oldPassword, newPassword)}>Change Password</button>                                       
                 </form>
                 {Match !== 1 && 
                     <h1>Passwords do not match</h1>
                 }
+                {console.log(Changed)}
                 {Changed == 1 && 
                     <h1>Change accepted</h1>
                 }                

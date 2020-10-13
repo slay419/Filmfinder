@@ -13,9 +13,13 @@ import LoginState from "./context/Auth/LoginState";
 import RegisterState from "./context/Auth/RegisterState";
 import Header from "./components/common/Header";
 import ChangePassState from "./context/Auth/ChangePassState";
+import ForgottenPassState from "./context/Auth/ForgottenPassState";
+
+import profile from "./components/auth/profile";
 
 function App() {
   return (
+    <ForgottenPassState>
     <LoginState>
       <RegisterState>
         <MoviesState>
@@ -31,14 +35,16 @@ function App() {
                     <Route path="/movies/:id" component={MovieDetails} />
                     <Route path="/forgot" exact component={ForgottenPass} />
                     <Route path="/change" exact component={ChangePass} />
+                    <Route path="/profile" exact component={profile} />
                   </Switch>
                 </Router>
               </div>
-            </ChangePassState>
-          </MovieState>
-        </MoviesState>
-      </RegisterState>
-    </LoginState>
+              </ChangePassState>
+            </MovieState>
+          </MoviesState>
+        </RegisterState>
+      </LoginState>
+    </ForgottenPassState>
   );
 }
 

@@ -86,6 +86,16 @@ def searchDirector(director_name):
     return {"movies": movies}
 
 
+def getDirectorById(director_id):
+    conn = sqlite3.connect("./movieDB.db")
+    cur = conn.cursor()
+    cur.execute(f"select cast_name from cast where cast_id = {director_id};")
+    director_name = cur.fetchone()[0]
+    print("director name is: " + director_name)
+    conn.close()
+    return director_name
+
+
 def getGenreList(movie_id):
     conn = sqlite3.connect("./movieDB.db")
     cur = conn.cursor()

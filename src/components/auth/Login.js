@@ -22,9 +22,7 @@ const Login = () => {
   //first line redirects if already logged in, otherwise it loads the login page
   return (
     <div>
-      {User !== null ? (
-        <Redirect to="/" />
-      ) : (
+      {User !== null ? <Redirect to="/" /> : (
         <div className="login">
           <h1>Login Page</h1>
           <div>{isValid !== 1 && <h1>Invalid Login</h1>}</div>

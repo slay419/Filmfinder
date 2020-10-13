@@ -13,6 +13,7 @@ from functions.auth import (
     auth_register,
     get_secret_question,
     get_secret_answer,
+    get_user_id,
 )
 from functions.search import (
     searchGenre,
@@ -21,6 +22,7 @@ from functions.search import (
     extractMovieDetails,
     getGenreList,
     getCastList,
+    getDirectorById,
 )
 from functions.review import newReview, incrementLikes, editReview
 
@@ -36,6 +38,12 @@ api = Api(
 
 title_parser = reqparse.RequestParser()
 title_parser.add_argument("title", type=str)
+
+genre_parser = reqparse.RequestParser()
+genre_parser.add_argument("genre", type=str)
+
+director_parser = reqparse.RequestParser()
+director_parser.add_argument("director", type=str)
 
 
 def read_from_sqlite(database_file, table_name):
@@ -102,6 +110,7 @@ def getMovieById(id):
     movie = cur.fetchone()
     item = {}
     item["director_id"] = movie[1]
+    item["director_name"] = getDirectorById(movie[1])
     item["adult"] = movie[2]
     item["title"] = movie[3]
     item["release_date"] = movie[4]
@@ -137,12 +146,20 @@ def login():
 
 @app.route("/auth/register", methods=["POST"])
 def register():
-    email = request.form.get("email")
-    password = request.form.get("password")
-    first_name = request.form.get("first_name")
-    last_name = request.form.get("last_name")
-    secret_question = request.form.get("secret_question")
-    secret_answer = request.form.get("secret_answer")
+    response = request.get_json()
+    email = response["email"]
+    password = response["password"]
+    first_name = response["first_name"]
+    last_name = response["last_name"]
+    secret_question = response["secret_question"]
+    secret_answer = response["secret_answer"]
+
+    # email = request.form.get("email")
+    # password = request.form.get("password")
+    # first_name = request.form.get("first_name")
+    # last_name = request.form.get("last_name")
+    # secret_question = request.form.get("secret_question")
+    # secret_answer = request.form.get("secret_answer")
 
     # print(email)
     # print(password)
@@ -163,6 +180,16 @@ def ChangePassword():
     return True
 
 
+@app.route("/auth/resetpassword", methods=["POST"])
+def resetPassword():
+    response = request.get_json()
+    email = response["email"]
+    newPassword = response["password"]
+    print(newPassword)
+    # return something (maybe TRUE if sucessful, dunno however you want to do it)
+    return {"worked": 1}
+
+
 @app.route("/auth/testing", methods=["POST"])
 def test():
     question = get_secret_question(1)
@@ -170,25 +197,61 @@ def test():
     return {"question": question}
 
 
-#################   Search    ##################
+@app.route("/auth/getQuestion", methods=["POST"])
+def getSecretQuestion():
+    response = request.get_json()
+    email = response["email"]
+    print(email)
+    u_id = get_user_id(email)
+    print(u_id)
+    question = get_secret_question(u_id)
+    return {"question": question}
+    # return ({"question": "What is Blue"})
 
 
-@app.route("/api/search/byGenre", methods=["POST"])
-def searchMovieByGenre():
-    genre = request.form.get("genre")
-    return searchGenre(genre)
+@app.route("/auth/getAnswer", methods=["POST"])
+def getSecretAnswer():
+    response = request.get_json()
+    email = response["email"]
+    answer = response["answer"]
+    print(email)
+    u_id = get_user_id(email)
+    print(u_id)
+    newAnswer = get_secret_answer(u_id)
+    if newAnswer == answer:
+        return {"answer": 2}
+    else:
+        return {"answer": 1}
+
+
+@api.route("/api/search/byGenre")
+class Genre(Resource):
+    @api.response(200, "OK")
+    @api.response(201, "Created")
+    @api.response(400, "Bad Request")
+    @api.response(404, "Not Found")
+    @api.expect(genre_parser)
+    def get(self):
+        genre_str = genre_parser.parse_args().get("genre")
+        return searchGenre(genre_str)
+
+
+@api.route("/api/search/byDirector")
+class Director(Resource):
+    @api.response(200, "OK")
+    @api.response(201, "Created")
+    @api.response(400, "Bad Request")
+    @api.response(404, "Not Found")
+    @api.expect(director_parser)
+    def get(self):
+        director_str = director_parser.parse_args().get("director")
+        return searchDirector(director_str)
 
 
 @app.route("/api/search/byKeyword", methods=["POST"])
 def searchMovieByKeyword():
     keyword = request.form.get("keyword")
     return searchKeyword(keyword)
-
-
-@app.route("/api/search/byDirector", methods=["POST"])
-def searchMovieByDirector():
-    director = request.form.get("director")
-    return searchDirector(director)
 
 
 @app.route("/api/cast/<int:movie_id>", methods=["POST"])

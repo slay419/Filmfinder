@@ -16,25 +16,21 @@ const ChangePassState = (props) => {
 
     const [state, dispatch] = useReducer(ChangePassReducer, initialState);
 
-    const changePassword = (email, oldPassword, newPassword, confirmPassword) => {
-        if (newPassword == confirmPassword){
-            fetch('./auth/changepass', {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                },
-                body: JSON.stringify({email: email, old_password: oldPassword, new_password: newPassword})
-            })
-            .then((res) => res.json())
-            .then((data) => {
-                dispatch( {type: CHANGE_PASSWORD, payload: data})
-            })
-            .catch((err) => {
-                dispatch( {type: CHANGE_ERROR, payload: err})
-            });
-        } else {
-            dispatch( {type: NO_MATCH, payload: null});
-        }
+    const changePassword = (email, oldPassword, newPassword) => {
+        fetch('./auth/changepass', {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify({email: email, old_password: oldPassword, new_password: newPassword})
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            dispatch( {type: CHANGE_PASSWORD, payload: data})
+        })
+        .catch((err) => {
+            dispatch( {type: CHANGE_ERROR, payload: err})
+        });
     };
 
     return (

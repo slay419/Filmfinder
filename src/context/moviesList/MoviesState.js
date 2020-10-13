@@ -58,13 +58,7 @@ const MoviesState = (props) => {
       getMovies();
     } else {
       setLoading();
-      fetch(`/api/search/byDirector`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-        body: JSON.stringify({ director: text }),
-      })
+      fetch(`/api/search/byDirector?director=${text}`)
         .then((res) => res.json())
         .then((data) => {
           const movies_list = Object.values(data.movies);
@@ -81,13 +75,7 @@ const MoviesState = (props) => {
       getMovies();
     } else {
       setLoading();
-      fetch(`/api/search/byGenre`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-        body: JSON.stringify({ genre: text }),
-      })
+      fetch(`/api/search/byGenre?genre=${text}`)
         .then((res) => res.json())
         .then((data) => {
           const movies_list = Object.values(data.movies);
