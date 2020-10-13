@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../../styles/MovieItem.scss";
 
 const MovieItem = ({ movie }) => {
-  const { movie_id, imdb_id, title, date, overview } = movie;
+  const { movie_id, imdb_id, title, release_date, overview } = movie;
   return (
     <div className="movie-item">
       <Link to={`/movies/${movie_id}`}>
@@ -16,7 +16,7 @@ const MovieItem = ({ movie }) => {
 
       <div>
         <Link className="movie-title" to={`/movies/${movie_id}`}>
-          {`${title} (${date.substring(0, 4)})`}
+          {`${title} (${release_date.substring(0, 4)})`}
         </Link>
         <p>{overview}</p>
       </div>
