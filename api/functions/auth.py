@@ -134,7 +134,7 @@ def check_valid_names(first_name, last_name):
 def get_secret_question(u_id):
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
-    c.execute(f"select secret_question from users where user_id = {u_id}";)
+    c.execute(f"select secret_question from users where user_id = {u_id};")
     question = c.fetchone()[0]
     conn.close()
     return question
@@ -142,7 +142,7 @@ def get_secret_question(u_id):
 def get_secret_answer(u_id):
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
-    c.execute(f"select secret_answer from users where user_id = {u_id}";)
+    c.execute(f"select secret_answer from users where user_id = {u_id};")
     question = c.fetchone()[0]
     conn.close()
     return question

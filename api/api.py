@@ -9,6 +9,7 @@ from requests import get
 import re
 
 from functions.auth import auth_login, auth_register, get_secret_question, get_secret_answer
+from functions.search import searchGenre, searchKeyword, searchDirector, extractMovieDetails, getGenreList, getCastList
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
@@ -105,16 +106,9 @@ def getMovieById(id):
     item["cast"] = getCastList(id)
     result = {}
     result[id] = item
-    
 
-    #df = sql.read_sql("select * from MOVIE m where m.movie_id = " + str(id), conn,)
     conn.close()
-
     return {"movie": result}
-
-    #return {"movie": df.set_index("movie_id").to_dict("index")}
-
-
 
 
 
@@ -160,57 +154,22 @@ def test():
     print(f"question is {question}")
     return {"question": question} 
 
-#################   Search    ##############
+#################   Search    ##################
 
 @app.route("/api/search/byGenre", methods=["POST"])
 def searchMovieByGenre():
     genre = request.form.get("genre")
-    conn = sqlite3.connect("./movieDB.db")
-    cur = conn.cursor()
-    cur.execute(
-        f"""
-        select m.movie_id, director_id, adult, title, release_date, runtime, budget, 
-        revenue, imdb_id, movie_language, overview, tagline, poster, vote_avg, vote_count
-        from genre g join movie m on g.movie_id = m.movie_id
-        where g.genre like "{genre}" and vote_count > 50
-        order by vote_avg desc, vote_count desc
-        limit 15;
-        """
-    )
-    index = 0
-    movies = {}
-    for movie in cur.fetchall():
-        item = extractMovieDetails(movie)
-        movies[index] = item
-        index += 1
-    
-    conn.close()
-    return {"movies": movies}
+    return searchGenre(genre)
 
 @app.route("/api/search/byKeyword", methods=["POST"])
 def searchMovieByKeyword():
     keyword = request.form.get("keyword")
-    conn = sqlite3.connect("./movieDB.db")
-    cur = conn.cursor()
-    cur.execute(
-        f"""
-        select m.movie_id, director_id, adult, title, release_date, runtime, budget, 
-        revenue, imdb_id, movie_language, overview, tagline, poster, vote_avg, vote_count
-        from keyword k join movie m on k.movie_id = m.movie_id
-        where k.keyword like "{keyword}" and vote_count > 50
-        order by vote_avg desc, vote_count desc
-        limit 15;
-        """
-    )
-    index = 0
-    movies = {}
-    for movie in cur.fetchall():
-        item = extractMovieDetails(movie)
-        movies[index] = item
-        index += 1
-    
-    conn.close()
-    return {"movies": movies}
+    return searchKeyword(keyword)
+
+@app.route("/api/search/byDirector", methods=["POST"])
+def searchMovieByDirector():
+    director = request.form.get("director")
+    return searchDirector(director)
 
 
 @app.route("/api/cast/<int:movie_id>", methods=["POST"])
@@ -225,56 +184,7 @@ def getGenresByMovieId(movie_id):
     return {"genres": genres}
 
 
-############### Helper Functions #################
 
-
-def getGenreList(movie_id):
-    conn = sqlite3.connect("./movieDB.db")
-    cur = conn.cursor()
-    cur.execute(f"select genre from GENRE where movie_id = {movie_id};")
-    genres = []
-    for genre in cur.fetchall():
-        genres.append(genre[0])
-    conn.close()
-    return genres
-
-def getCastList(movie_id):
-    conn = sqlite3.connect("./movieDB.db")
-    cur = conn.cursor()
-    cur.execute(
-        f"""
-        select c.cast_name
-        from cast c join acting a on c.cast_id = a.actor_id
-        where a.movie_id = {movie_id};
-        """
-    )
-    cast_list = []
-    for cast in cur.fetchall():
-        cast_list.append(cast[0])
-    conn.close()
-    return cast_list
-
-
-# Extracts the default movie details from the movies table in sqlite
-def extractMovieDetails(movie):
-    item = {}
-    item["movie_id"] = movie[0]
-    item["director_id"] = movie[1]
-    item["adult"] = movie[2]
-    item["title"] = movie[3]
-    item["release_date"] = movie[4]
-    item["runtime"] = movie[5]
-    item["budget"] = movie[6]
-    item["revenue"] = movie[7]
-    item["imdb_id"] = movie[8]
-    item["language"] = movie[9]
-    item["overview"] = movie[10]
-    item["tagline"] = movie[11]
-    item["poster"] = movie[12]
-    item["vote_avg"] = movie[13]
-    item["vote_count"] = movie[14]
-    item["genres"] = getGenreList(item["movie_id"])
-    return item
 
 
 if __name__ == "__main__":
