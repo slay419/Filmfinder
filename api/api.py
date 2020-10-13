@@ -8,7 +8,7 @@ from pandas.io import sql
 from requests import get
 import re
 
-from functions.auth import auth_login, auth_register, get_secret_question, get_secret_answer, get_user_id
+from functions.auth import auth_login, auth_register, get_secret_question, get_secret_answer, get_user_id, update_password
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
@@ -179,14 +179,23 @@ def register():
     # if valid then return user
     return auth_register(email, password, first_name, last_name, secret_question, secret_answer)
 
+############### Accounts #####################
+
+# these are the return values
+# error: samePassword
+# error: incorrectPassword
+# success: 1
 @app.route("/auth/changepass", methods=["POST"])
 def ChangePassword():
     response = request.get_json()
     email = response["email"]
     oldPassword = response["old_password"]
     newPassword = response["new_password"]
-    # return something (maybe TRUE if sucessful, dunno however you want to do it)
-    return ({"worked": 1})
+    if newPassword == oldPassword:
+        return ({"error": "samePassword"})
+    
+    return update_password(email, newPassword)
+
 
 @app.route("/auth/resetpassword", methods=["POST"])
 def resetPassword():
@@ -201,7 +210,7 @@ def resetPassword():
 @app.route("/auth/testing", methods=["POST"])
 def test():
     question = get_secret_question(1)
-    print(f"question is {question}")
+    print("question is {question}")
     return {"question": question} 
 
 @app.route("/auth/getQuestion", methods=["POST"])

@@ -66,6 +66,26 @@ def auth_register(
     return {"u_id": new_user_id, "token": token}
 
 
+def update_password(email, newP):
+    regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
+    # Check if password matches regex
+    if not re.match(newP, regex):
+        return {
+            "error": "incorrectPassword"
+        }
+    # Valid password was entered    
+    hashed_password = hashlib.sha256(newP.encode()).hexdigest()
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(f"UPDATE users SET password = '{hashed_password}' WHERE email = '{email}';")
+    conn.commit()
+    conn.close()
+
+    return {
+        "success": 1
+    }
+
+
 def auth_login(email, password):
     # return token
     # process user details
