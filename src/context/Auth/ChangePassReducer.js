@@ -6,7 +6,7 @@ export default (state, action) => {
             console.log(action.payload);
             return {
                 ...state,
-                Change: 1,
+                Changed: 1,
                 Match: 1
             };
         case NO_MATCH:
