@@ -22,9 +22,6 @@ const Home = () => {
   return (
     <div className="home">
       <div className="user-info">
-        {User !== null ? User.first_name : "hello user"}
-        <br></br>
-        {User !== null && <Link to="/change">Change Password</Link>}
       </div>
       {loading ? (
         <Spinner />
