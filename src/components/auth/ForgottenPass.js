@@ -33,7 +33,7 @@ const ForgottenPass = () => {
 
     return (
         <div>
-            <h1> Forgotten Password Page (WIP)</h1>
+            <h1> Forgotten Password Page</h1>
             <form>
                 <label for="email">Enter Email:</label>
                 <input type="email" placeholder="Enter Email" id="email"

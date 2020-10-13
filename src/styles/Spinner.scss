@@ -1,4 +1,10 @@
-.spinner {
-  width: 60px;
-  height: 60px;
+.spinner-wrapper {
+  .spinner {
+    position: absolute;
+    top: 40%;
+    right: 50%;
+    width: 60px;
+    height: 60px;
+    margin: auto;
+  }
 }
