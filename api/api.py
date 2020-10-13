@@ -151,6 +151,7 @@ def login():
     email = response["email"]
     password = response["password"]
 
+    print(response)
     return auth_login(email, password)
 
 
@@ -161,11 +162,14 @@ def register():
     password =  response["password"]
     first_name =  response["first_name"]
     last_name =  response["last_name"]
-    
-    print(email)
-    print(password)
-    print(first_name)
-    print(last_name)
+    secret_question = response["secretQ"]
+    secret_answer = response["secretA"]
+
+    print(response)
+    # print(email)
+    # print(password)
+    # print(first_name)
+    # print(last_name)
 
     # if valid then return user
     return auth_register(email, password, first_name, last_name, secret_question, secret_answer)

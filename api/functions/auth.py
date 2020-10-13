@@ -77,11 +77,11 @@ def auth_login(email, password):
     c.execute(f'SELECT password FROM users WHERE email=("{email}")')
     selected_password = c.fetchone()
     get_user_id(email)
+    print(selected_password)
     if selected_password[0] != hashed_password:
-        print("Invalid password please try again")
         u_id = 0
-        return get_user_details(u_id)
-    u_id = 12345
+        raise ValueError("Invalid password please try again")
+    u_id = get_user_id(email)
     return get_user_details(u_id)
 
 def auth_resetpass(email, secretAnswer):
