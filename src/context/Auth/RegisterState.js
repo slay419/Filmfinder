@@ -2,11 +2,7 @@ import React, { useReducer } from "react";
 import RegisterContext from "./RegisterContext";
 import RegisterReducer from "./RegisterReducer";
 
-import {
-    NAME_TAKEN,
-    REGISTER_ERROR,
-    REGISTER,
-} from "../types";
+import { NAME_TAKEN, REGISTER_ERROR, REGISTER } from "../types";
 
 const RegisterState = (props) => {
     const initialState = {
@@ -15,7 +11,7 @@ const RegisterState = (props) => {
         //user info stored in this state
     };
 
-    const [state, dispatch] = useReducer(RegisterReducer, initialState);
+  const [state, dispatch] = useReducer(RegisterReducer, initialState);
 
     const registerUser = (email, password, fname, lname, secretQ, secretA) => {
         fetch('./auth/register', {
@@ -24,7 +20,13 @@ const RegisterState = (props) => {
                 "Content-type": "application/json; charset=UTF-8"
               },
 
-            body: JSON.stringify({email: email, password: password, first_name: fname, last_name: lname, secret_question: secretQ, secret_answer: secretA})
+            body: JSON.stringify({
+              email: email, 
+              password: password, 
+              first_name: fname, 
+              last_name: lname, 
+              secret_question: secretQ, 
+              secret_answer: secretA})
         })
         .then((res) => res.json())
         .then((data) => {

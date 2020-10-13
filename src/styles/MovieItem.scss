@@ -1,25 +1,40 @@
+a {
+  text-decoration: none;
+}
 .movie-item {
-  display: flex;
-  justify-content: left;
-  padding: 2rem;
   margin: 1rem 0;
-  background: #f4f4f4;
-  width: 65%;
+  color: #191919;
+  //border: 1px solid gainsboro;
+  //border-radius: 5px;
+  display: inline-block;
 
-  .movie-title {
-    font-size: 1.5rem;
-    text-decoration: none;
-    color: black;
-    font-weight: 600;
+  .movie-item-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+    width: 220px;
+  }
 
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
+  .movie-header {
+    display: flex;
+    justify-content: space-between;
+    .movie-title {
+      font-size: 1rem;
+      text-decoration: none;
+      color: #191919;
+      font-weight: 600;
     }
   }
 
+  p {
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+  }
   .movie-img {
-    max-height: 200px;
+    //max-width: 1px;
+    width: 100%;
     margin-right: 2rem;
   }
 }

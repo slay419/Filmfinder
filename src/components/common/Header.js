@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import SearchBar from "./SearchBar";
 import LoginContext from "../../context/Auth/LoginContext";
 
 const Header = () => {
@@ -10,6 +11,7 @@ const Header = () => {
       <h3 className="logo">
         <Link to="/">.FilmFinder</Link>
       </h3>
+      <SearchBar />
       {User === null ? (
         <ul>
           <li>
@@ -25,7 +27,7 @@ const Header = () => {
             <Link to="/forgot">Logout</Link>
           </li>
           <li>
-            <Link to="/">{User.first_name}</Link>
+            <Link to="/profile">{User.first_name}</Link>
           </li>
         </ul>
       )}

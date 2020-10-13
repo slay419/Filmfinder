@@ -1,0 +1,30 @@
+.search-bar {
+  display: flex;
+
+  form {
+    display: flex;
+    align-items: center;
+    border: 1px solid gainsboro;
+    border-radius: 3px;
+
+    input {
+      font-family: "Poppins";
+      font-size: 0.8rem;
+      padding: 10px;
+      height: 1.4rem;
+      width: 300px;
+      border: none;
+      &:focus {
+        outline: none;
+      }
+    }
+    img {
+      height: 13px;
+      width: 12px;
+      margin-left: 10px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

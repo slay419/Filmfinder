@@ -8,7 +8,8 @@ from pandas.io import sql
 from requests import get
 import re
 
-from functions.auth import auth_login, auth_register, get_secret_question, get_secret_answer, get_user_id, update_password
+from functions.auth import auth_login, auth_logout, auth_register, get_secret_question, get_secret_answer, get_user_id, update_password
+
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
@@ -89,7 +90,6 @@ class Movie(Resource):
             item["genres"] = getGenreList(item["movie_id"])
             movies[index] = item
             index += 1
-
         cur.execute("drop view IF EXISTS temp_id;")
         return {"movies": movies}
 
@@ -97,12 +97,10 @@ class Movie(Resource):
         if title_str is None:
             df = sql.read_sql("select * from MOVIE limit 15", conn,)
             return {"movies": df.to_dict("id")}
-
         df = sql.read_sql(
             "select * from MOVIE m where m.title like '%" + title_str + "%' limit 15",
             conn,
         )
-
         #return {"movies": df.to_dict("id")}
         """
 
@@ -143,17 +141,26 @@ def getGenresByMovieId(movie_id):
     # returns {genres: {...}} or {genres: [...]}
 
 
-############### Login #####################
+############### Auth Functions #####################
 
-
+# return statements
+# error: wrongLogin
+# user details as dictionary
 @app.route("/auth/login", methods=["POST"])
 def login():
     response = request.get_json()
     email = response["email"]
     password = response["password"]
 
+    print(response)
     return auth_login(email, password)
 
+@app.route("/auth/logout", methods = ["POST"])
+def logout():
+    response = request.get_json()
+    u_id = response["u_id"]
+
+    return auth_logout(u_id)
 
 @app.route("/auth/register", methods=["POST"])
 def register():
@@ -165,18 +172,7 @@ def register():
     secret_question = response["secret_question"]
     secret_answer = response["secret_answer"]
 
-
-    # email = request.form.get("email")
-    # password = request.form.get("password")
-    # first_name = request.form.get("first_name")
-    # last_name = request.form.get("last_name")
-    # secret_question = request.form.get("secret_question")
-    # secret_answer = request.form.get("secret_answer")
-
-    # print(email)
-    # print(password)
-    # print(first_name)
-    # print(last_name)
+    print(response)
 
     # if valid then return user
     return auth_register(email, password, first_name, last_name, secret_question, secret_answer)
