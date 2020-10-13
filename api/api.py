@@ -8,7 +8,7 @@ from pandas.io import sql
 from requests import get
 import re
 
-from functions.auth import auth_login, auth_register
+from functions.auth import auth_login, auth_register, get_secret_question, get_secret_answer
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
@@ -162,6 +162,16 @@ def register():
     password =  response["password"]
     first_name =  response["first_name"]
     last_name =  response["last_name"]
+    secret_question = response["secretQ"]
+    secret_answer = response["secretA"]
+
+
+    # email = request.form.get("email")
+    # password = request.form.get("password")
+    # first_name = request.form.get("first_name")
+    # last_name = request.form.get("last_name")
+    # secret_question = request.form.get("secret_question")
+    # secret_answer = request.form.get("secret_answer")
 
     # print(email)
     # print(password)
@@ -169,7 +179,7 @@ def register():
     # print(last_name)
 
     # if valid then return user
-    return auth_register(email, password, first_name, last_name)
+    return auth_register(email, password, first_name, last_name, secret_question, secret_answer)
 
 @app.route("/auth/changepass", methods=["POST"])
 def ChangePassword():
@@ -180,7 +190,12 @@ def ChangePassword():
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
     return ({"worked": 1})
 
-    
+
+@app.route("/auth/testing", methods=["POST"])
+def test():
+    question = get_secret_question(1)
+    print(f"question is {question}")
+    return {"question": question} 
 
 
 ############### Helper Functions #################
