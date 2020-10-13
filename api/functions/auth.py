@@ -10,32 +10,34 @@ import re
 import hashlib
 
 USER_LIST = []
-REGEX = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+REGEX = "^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
 
 # Secret question field??
-def auth_register(email, password, first_name, last_name, secret_question, secret_answer):
+def auth_register(
+    email, password, first_name, last_name, secret_question, secret_answer
+):
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
     u_id = 12345
     token = "test token"
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect("users.db")
     c = conn.cursor()
-    c.execute('SELECT * FROM users;')
+    c.execute("SELECT * FROM users;")
     new_user_id = len(c.fetchall()) + 1
     # Add new user to the database
     # May need to consider tokens and admin privlidges to add
 
-    #Check email
+    # Check email
     check_valid_email(email)
-    #Check password
+    # Check password
     check_valid_password(password)
-    #Check names
+    # Check names
     check_valid_names(first_name, last_name)
 
     c.execute(
-        f'''
+        f"""
         INSERT INTO users(user_id, first_name, last_name, email, password, secret_question, secret_answer)
         VALUES ({new_user_id}, "{first_name}", "{last_name}", "{email}", "{hashed_password}", "{secret_question}", "{secret_answer}");
-        '''
+        """
     )
     conn.commit()
     # #prepare u_id, token and password (hashed in db)
@@ -61,16 +63,14 @@ def auth_register(email, password, first_name, last_name, secret_question, secre
     # })
     # #auth_login(email, password)
     conn.close()
-    return {
-        'u_id': new_user_id,
-        'token' : token
-    }
+    return {"u_id": new_user_id, "token": token}
+
 
 def auth_login(email, password):
-    # return token 
-    # process user details 
-        # add to database 
-        # 
+    # return token
+    # process user details
+    # add to database
+    #
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
@@ -84,21 +84,23 @@ def auth_login(email, password):
     u_id = 12345
     return get_user_details(u_id)
 
+
 # bcrypt to hash password
 def get_user_details(u_id):
     # search user with id and return details
     return {
-        'u_id': u_id,
-        'first_name': "sampleFirstName",
-        'last_name': "sampleLastName",
-        'email': "sampleEmail", 
-        'wishlist': ["a", "b", "c"],
-        'banlist': ["d", "e", "f"],
-        'profile_picture': "sample link to profile"
+        "u_id": u_id,
+        "first_name": "sampleFirstName",
+        "last_name": "sampleLastName",
+        "email": "sampleEmail",
+        "wishlist": ["a", "b", "c"],
+        "banlist": ["d", "e", "f"],
+        "profile_picture": "sample link to profile",
     }
 
+
 def get_user_id(email):
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect("users.db")
     c = conn.cursor()
     c.execute(f'SELECT user_id FROM users WHERE email=("{email}")')
     u_id = c.fetchone()
@@ -106,17 +108,20 @@ def get_user_id(email):
         return -1
     return u_id[0]
 
+
 def check_valid_email(email):
-    #Case 1 check valid format
+    # Case 1 check valid format
     if not re.match(REGEX, email):
         raise ValueError(f"Email: {email} is not in the right form.")
-    #Case 2 check email doesn't already exist
+    # Case 2 check email doesn't already exist
     if get_user_id(email) != -1:
         raise ValueError(f"Email: {email} is already registered.")
+
 
 def check_valid_password(password):
     if len(password) < 6:
         raise ValueError(f"Password: {password} must be at least 6 characters long.")
+
 
 def check_valid_names(first_name, last_name):
     maxlen = 50
@@ -138,6 +143,7 @@ def get_secret_question(u_id):
     question = c.fetchone()[0]
     conn.close()
     return question
+
 
 def get_secret_answer(u_id):
     conn = sqlite3.connect("users.db")

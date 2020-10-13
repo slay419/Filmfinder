@@ -8,7 +8,7 @@ from pandas.io import sql
 from requests import get
 import re
 
-from functions.auth import auth_login, auth_register, get_secret_question, get_secret_answer
+from functions.auth import auth_login, auth_register, get_secret_question, get_secret_answer, get_user_id
 from functions.search import searchGenre, searchKeyword, searchDirector, extractMovieDetails, getGenreList, getCastList, getDirectorById
 from functions.review import newReview, incrementLikes, editReview
 
@@ -126,20 +126,30 @@ def getMovieById(id):
 
 @app.route("/auth/login", methods=["POST"])
 def login():
-    email = request.form.get("email")
-    password = request.form.get("password")
+    response = request.get_json()
+    email = response["email"]
+    password = response["password"]
 
     return auth_login(email, password)
 
 
 @app.route("/auth/register", methods=["POST"])
 def register():
-    email = request.form.get("email")
-    password = request.form.get("password")
-    first_name = request.form.get("first_name")
-    last_name = request.form.get("last_name")
-    secret_question = request.form.get("secret_question")
-    secret_answer = request.form.get("secret_answer")
+    response = request.get_json()
+    email = response["email"]
+    password =  response["password"]
+    first_name =  response["first_name"]
+    last_name =  response["last_name"]
+    secret_question = response["secret_question"]
+    secret_answer = response["secret_answer"]
+
+
+    # email = request.form.get("email")
+    # password = request.form.get("password")
+    # first_name = request.form.get("first_name")
+    # last_name = request.form.get("last_name")
+    # secret_question = request.form.get("secret_question")
+    # secret_answer = request.form.get("secret_answer")
 
     # print(email)
     # print(password)
@@ -149,12 +159,23 @@ def register():
     # if valid then return user
     return auth_register(email, password, first_name, last_name, secret_question, secret_answer)
 
-@app.route("/auth/changepass")
+@app.route("/auth/changepass", methods=["POST"])
 def ChangePassword():
-    oldPassword = request.form.get("old_password")
-    newPassword = request.form.get("new_password")
+    response = request.get_json()
+    email = response["email"]
+    oldPassword = response["old_password"]
+    newPassword = response["new_password"]
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
-    return (True)
+    return ({"worked": 1})
+
+@app.route("/auth/resetpassword", methods=["POST"])
+def resetPassword():
+    response = request.get_json()
+    email = response["email"]
+    newPassword = response["password"]
+    print(newPassword)
+    # return something (maybe TRUE if sucessful, dunno however you want to do it)
+    return ({"worked": 1})
 
 
 @app.route("/auth/testing", methods=["POST"])
@@ -163,7 +184,32 @@ def test():
     print(f"question is {question}")
     return {"question": question} 
 
-#################   Search    ##################
+@app.route("/auth/getQuestion", methods=["POST"])
+def getSecretQuestion():
+    response = request.get_json()
+    email = response["email"]
+    print(email)
+    u_id = get_user_id(email)
+    print(u_id)
+    question = get_secret_question(u_id)
+    return ({"question": question})
+    #return ({"question": "What is Blue"})
+
+@app.route("/auth/getAnswer", methods=["POST"])
+def getSecretAnswer():
+    response = request.get_json()
+    email = response["email"]
+    answer = response["answer"]
+    print(email)
+    u_id = get_user_id(email)
+    print(u_id)
+    newAnswer = get_secret_answer(u_id)
+    if newAnswer == answer:
+        return ({"answer": 2})
+    else:
+        return ({"answer": 1})
+
+
 
 @api.route("/api/search/byGenre")
 class Genre(Resource):
