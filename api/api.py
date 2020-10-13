@@ -71,28 +71,9 @@ class Movie(Resource):
         # Extract movie information and populate dictionary 
         for movie in cur.fetchall():
             item = extractMovieDetails(movie)
-
-            '''
-            item = {}
-            item["movie_id"] = movie[0]
-            item["director_id"] = movie[1]
-            item["adult"] = movie[2]
-            item["title"] = movie[3]
-            item["release_date"] = movie[4]
-            item["runtime"] = movie[5]
-            item["budget"] = movie[6]
-            item["revenue"] = movie[7]
-            item["imdb_id"] = movie[8]
-            item["language"] = movie[9]
-            item["overview"] = movie[10]
-            item["tagline"] = movie[11]
-            item["poster"] = movie[12]
-            item["vote_avg"] = movie[13]
-            item["vote_count"] = movie[14]
-            item["genres"] = getGenreList(item["movie_id"])
-            '''
             movies[index] = item
             index += 1
+            
 
         cur.execute("drop view IF EXISTS temp_id;")
         return {"movies": movies}
@@ -134,18 +115,7 @@ def getMovieById(id):
     #return {"movie": df.set_index("movie_id").to_dict("index")}
 
 
-@app.route("/api/cast/<int:movie_id>", methods=["POST"])
-def getCastByMovieId(movie_id):
-    cast_list = getCastList(movie_id)
-    return {"cast": cast_list}
-    # returns {cast: {...}} or {cast: [...]}
 
-
-@app.route("/api/genres/<int:movie_id>", methods=["POST"])
-def getGenresByMovieId(movie_id):
-    genres = getGenreList(movie_id)
-    return {"genres": genres}
-    # returns {genres: {...}} or {genres: [...]}
 
 
 ############### Login #####################
@@ -174,6 +144,70 @@ def register():
     # if valid then return user
     return auth_register(email, password, first_name, last_name)
 
+#################   Search    ##############
+
+@app.route("/api/search/byGenre", methods=["POST"])
+def searchMovieByGenre():
+    genre = request.form.get("genre")
+    conn = sqlite3.connect("./movieDB.db")
+    cur = conn.cursor()
+    cur.execute(
+        f"""
+        select m.movie_id, director_id, adult, title, release_date, runtime, budget, 
+        revenue, imdb_id, movie_language, overview, tagline, poster, vote_avg, vote_count
+        from genre g join movie m on g.movie_id = m.movie_id
+        where g.genre like "{genre}" and vote_count > 50
+        order by vote_avg desc, vote_count desc
+        limit 15;
+        """
+    )
+    index = 0
+    movies = {}
+    for movie in cur.fetchall():
+        item = extractMovieDetails(movie)
+        movies[index] = item
+        index += 1
+    
+    conn.close()
+    return {"movies": movies}
+
+@app.route("/api/search/byKeyword", methods=["POST"])
+def searchMovieByKeyword():
+    keyword = request.form.get("keyword")
+    conn = sqlite3.connect("./movieDB.db")
+    cur = conn.cursor()
+    cur.execute(
+        f"""
+        select m.movie_id, director_id, adult, title, release_date, runtime, budget, 
+        revenue, imdb_id, movie_language, overview, tagline, poster, vote_avg, vote_count
+        from keyword k join movie m on k.movie_id = m.movie_id
+        where k.keyword like "{keyword}" and vote_count > 50
+        order by vote_avg desc, vote_count desc
+        limit 15;
+        """
+    )
+    index = 0
+    movies = {}
+    for movie in cur.fetchall():
+        item = extractMovieDetails(movie)
+        movies[index] = item
+        index += 1
+    
+    conn.close()
+    return {"movies": movies}
+
+
+@app.route("/api/cast/<int:movie_id>", methods=["POST"])
+def getCastByMovieId(movie_id):
+    cast_list = getCastList(movie_id)
+    return {"cast": cast_list}
+
+
+@app.route("/api/genres/<int:movie_id>", methods=["POST"])
+def getGenresByMovieId(movie_id):
+    genres = getGenreList(movie_id)
+    return {"genres": genres}
+
 
 ############### Helper Functions #################
 
@@ -185,7 +219,6 @@ def getGenreList(movie_id):
     genres = []
     for genre in cur.fetchall():
         genres.append(genre[0])
-    print(genres)
     conn.close()
     return genres
 
