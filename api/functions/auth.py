@@ -17,16 +17,11 @@ def auth_register(
     email, password, first_name, last_name, secret_question, secret_answer
 ):
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
-    u_id = 12345
-    token = "test token"
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect('users.db')
     c = conn.cursor()
     c.execute("SELECT * FROM users;")
     new_user_id = len(c.fetchall()) + 1
-    # Add new user to the database
-    # May need to consider tokens and admin privlidges to add
-
-    # Check email
+    #Check email
     check_valid_email(email)
     # Check password
     check_valid_password(password)
@@ -40,31 +35,10 @@ def auth_register(
         """
     )
     conn.commit()
-    # #prepare u_id, token and password (hashed in db)
-    # hashed_password = hash_password(password)
-    # u_id = 101 + len(data['users'])
-    # token = generate_token(u_id)
-
-    # #generate appropriate permission id
-    # permission_id = generate_permission_id()
-
-    # #append all relevant information to users dictionary
-    # data['users'].append({
-    #     'email' : email,
-    #     'password' : hashed_password,
-    #     'first_name' : first_name,
-    #     'last_name' : last_name,
-    #     'u_id': u_id,
-    #     'permission_id' : permission_id,
-    #     'handle' : handle,
-    #     'tokens'  : [token],
-    #     'reset_code' : None,
-    #     'profile_img_url' : None
-    # })
-    # #auth_login(email, password)
     conn.close()
-    return {"u_id": new_user_id, "token": token}
-
+    return {
+        'u_id': new_user_id,
+    }
 
 def update_password(email, newP):
     regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
@@ -87,46 +61,41 @@ def update_password(email, newP):
 
 
 def auth_login(email, password):
-    # return token
-    # process user details
-    # add to database
-    #
+    # return token 
+    # process user details 
+    # add to database 
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
     c.execute(f'SELECT password FROM users WHERE email=("{email}")')
     selected_password = c.fetchone()
     get_user_id(email)
+    print(selected_password)
     if selected_password[0] != hashed_password:
-        print("Invalid password please try again")
-        u_id = 0
-        return get_user_details(u_id)
-    u_id = 12345
+        raise ValueError("Invalid password please try again")
+    u_id = get_user_id(email)
+    USER_LIST.append(u_id)
     return get_user_details(u_id)
 
+def auth_logout(u_id):
+    USER_LIST.remove(u_id)
+    return get_user_details(u_id)
 
-# bcrypt to hash password
-def get_user_details(u_id):
-    # search user with id and return details
-    return {
-        "u_id": u_id,
-        "first_name": "sampleFirstName",
-        "last_name": "sampleLastName",
-        "email": "sampleEmail",
-        "wishlist": ["a", "b", "c"],
-        "banlist": ["d", "e", "f"],
-        "profile_picture": "sample link to profile",
-    }
-
-
-def get_user_id(email):
+def auth_resetpass(email, secretAnswer):
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
-    c.execute(f'SELECT user_id FROM users WHERE email=("{email}")')
-    u_id = c.fetchone()
-    if u_id is None:
-        return -1
-    return u_id[0]
+    #Search for email
+    #Search for emails Secret questions
+    #Compare secret question with secret answer
+    c.execute(f'SELECT secret_answer FROM users WHERE email=("{email}")')
+    selectedAnswer = c.fetchone()
+    # if selectedAnswer[0] != secretAnswer:
+    #     return "Incorrect answer, please try again"
+    # else:
+    #     return "Correct answer!"
+
+
+######################  HELPER FUNCTIONS  ########################
 
 
 def check_valid_email(email):
@@ -155,7 +124,35 @@ def check_valid_names(first_name, last_name):
     if len(last_name) < minlen:
         raise ValueError(f"Last name: {last_name} cannot be empty")
 
+def get_user_id(email):
+    conn = sqlite3.connect('users.db')
+    c = conn.cursor()
+    c.execute(f'SELECT user_id FROM users WHERE email=("{email}")')
+    u_id = c.fetchone()
+    if u_id is None:
+        return -1
+    return u_id[0]
 
+def get_user_details(u_id):
+    # search user with id and return details
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(f'SELECT * FROM users WHERE user_id=("{u_id}")')
+    data = c.fetchall()
+    u_id = data[0][0]
+    first_name = data[0][1]
+    last_name = data[0][2]
+    email = data[0][3]
+    return {
+        'u_id': u_id,
+        'first_name': first_name,
+        'last_name': last_name,
+        'email': email, 
+        'wishlist': ["a", "b", "c"],
+        'banlist': ["d", "e", "f"],
+        'profile_picture': "sample link to profile"
+    }
+    
 def get_secret_question(u_id):
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
@@ -168,7 +165,7 @@ def get_secret_question(u_id):
 def get_secret_answer(u_id):
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
-    c.execute(f"select secret_answer from users where user_id = {u_id};")
-    question = c.fetchone()[0]
+    c.execute(f"select secret_answer from users where user_id = {u_id}")
+    answer = c.fetchone()[0]
     conn.close()
-    return question
+    return answer
