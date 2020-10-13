@@ -10,6 +10,7 @@ import re
 
 from functions.auth import auth_login, auth_register, get_secret_question, get_secret_answer
 from functions.search import searchGenre, searchKeyword, searchDirector, extractMovieDetails, getGenreList, getCastList
+from functions.review import newReview, incrementLikes, editReview
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
@@ -184,7 +185,27 @@ def getGenresByMovieId(movie_id):
     return {"genres": genres}
 
 
+################    Review    ##################
 
+@app.route("/api/review/createReview", methods=["POST"])
+def createReviewForMovie():
+    user_id = int(request.form.get("user_id"))
+    movie_id = int(request.form.get("movie_id"))
+    comment = request.form.get("comment")
+    score = int(request.form.get("score"))
+    return newReview(user_id, movie_id, comment, score)
+
+@app.route("/api/review/likeReviewComment", methods=["POST"])
+def likeReviewComment():
+    review_id = int(request.form.get("review_id"))
+    return incrementLikes(review_id)
+
+@app.route("/api/review/editMovieReview", methods=["POST"])
+def editMovieReview():
+    review_id = int(request.form.get("review_id"))
+    comment = request.form.get("comment")
+    score = int(request.form.get("score"))
+    return editReview(review_id, comment, score)
 
 
 if __name__ == "__main__":
