@@ -15,35 +15,35 @@ import Header from "./components/common/Header";
 import ChangePassState from "./context/Auth/ChangePassState";
 import ForgottenPassState from "./context/Auth/ForgottenPassState";
 
-import profile from "./components/auth/profile";
+import profile from "./components/common/profile";
 
 function App() {
   return (
     <ForgottenPassState>
-    <LoginState>
-      <RegisterState>
-        <MoviesState>
-          <MovieState>
-            <ChangePassState>
-              <div className="container">
-                <Router>
-                  <Header />
-                  <Switch>
-                    <Route path="/" exact component={Home} />
-                    <Route path="/login" exact component={Login} />
-                    <Route path="/register" exact component={Register} />
-                    <Route path="/movies/:id" component={MovieDetails} />
-                    <Route path="/forgot" exact component={ForgottenPass} />
-                    <Route path="/change" exact component={ChangePass} />
-                    <Route path="/profile" exact component={profile} />
-                  </Switch>
-                </Router>
-              </div>
-              </ChangePassState>
-            </MovieState>
-          </MoviesState>
-        </RegisterState>
-      </LoginState>
+      <LoginState>
+        <RegisterState>
+          <MoviesState>
+            <MovieState>
+              <ChangePassState>
+                <div className="container">
+                  <Router>
+                    <Header />
+                    <Switch>
+                      <Route path="/" exact component={Home} />
+                      <Route path="/login" exact component={Login} />
+                      <Route path="/register" exact component={Register} />
+                      <Route path="/movies/:id" component={MovieDetails} />
+                      <Route path="/forgot" exact component={ForgottenPass} />
+                      <Route path="/change" exact component={ChangePass} />
+                      <Route path="/profile" exact component={profile} />
+                    </Switch>
+                  </Router>
+                </div>
+                </ChangePassState>
+              </MovieState>
+            </MoviesState>
+          </RegisterState>
+        </LoginState>
     </ForgottenPassState>
   );
 }
