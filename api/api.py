@@ -9,7 +9,7 @@ from requests import get
 import re
 
 from functions.auth import auth_login, auth_register, get_secret_question, get_secret_answer
-from functions.search import searchGenre, searchKeyword, searchDirector, extractMovieDetails, getGenreList, getCastList
+from functions.search import searchGenre, searchKeyword, searchDirector, extractMovieDetails, getGenreList, getCastList, getDirectorById
 from functions.review import newReview, incrementLikes, editReview
 
 app = Flask(__name__)
@@ -90,6 +90,7 @@ def getMovieById(id):
     movie = cur.fetchone()
     item = {}
     item["director_id"] = movie[1]
+    item["director_name"] = getDirectorById(movie[1])
     item["adult"] = movie[2]
     item["title"] = movie[3]
     item["release_date"] = movie[4]
