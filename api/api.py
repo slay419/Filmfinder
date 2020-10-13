@@ -8,8 +8,22 @@ from pandas.io import sql
 from requests import get
 import re
 
-from functions.auth import auth_login, auth_register, get_secret_question, get_secret_answer, get_user_id
-from functions.search import searchGenre, searchKeyword, searchDirector, extractMovieDetails, getGenreList, getCastList, getDirectorById
+from functions.auth import (
+    auth_login,
+    auth_register,
+    get_secret_question,
+    get_secret_answer,
+    get_user_id,
+)
+from functions.search import (
+    searchGenre,
+    searchKeyword,
+    searchDirector,
+    extractMovieDetails,
+    getGenreList,
+    getCastList,
+    getDirectorById,
+)
 from functions.review import newReview, incrementLikes, editReview
 
 app = Flask(__name__)
@@ -30,7 +44,6 @@ genre_parser.add_argument("genre", type=str)
 
 director_parser = reqparse.RequestParser()
 director_parser.add_argument("director", type=str)
-
 
 
 def read_from_sqlite(database_file, table_name):
@@ -59,7 +72,7 @@ class Movie(Resource):
         # Change the sql query depending on if a search term was given or not
         if title_str is None:
             cur.execute("select * from MOVIE limit 15")
-        
+
         else:
             # Search through movie titles, overview and genre for matching keywords in that order
             cur.execute(
@@ -73,20 +86,20 @@ class Movie(Resource):
                 """
             )
 
-            cur.execute("select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 15;")
-            #return {"movies": df.to_dict("id")}
-            
+            cur.execute(
+                "select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 15;"
+            )
+            # return {"movies": df.to_dict("id")}
+
         index = 0
-        # Extract movie information and populate dictionary 
+        # Extract movie information and populate dictionary
         for movie in cur.fetchall():
             item = extractMovieDetails(movie)
             movies[index] = item
             index += 1
-            
 
         cur.execute("drop view IF EXISTS temp_id;")
         return {"movies": movies}
-
 
 
 @app.route("/api/movies/<int:id>")
@@ -120,15 +133,13 @@ def getMovieById(id):
     return {"movie": result}
 
 
-
 ############### Login #####################
 
 
 @app.route("/auth/login", methods=["POST"])
 def login():
-    response = request.get_json()
-    email = response["email"]
-    password = response["password"]
+    email = request.form.get("email")
+    password = request.form.get("password")
 
     return auth_login(email, password)
 
@@ -137,12 +148,11 @@ def login():
 def register():
     response = request.get_json()
     email = response["email"]
-    password =  response["password"]
-    first_name =  response["first_name"]
-    last_name =  response["last_name"]
+    password = response["password"]
+    first_name = response["first_name"]
+    last_name = response["last_name"]
     secret_question = response["secret_question"]
     secret_answer = response["secret_answer"]
-
 
     # email = request.form.get("email")
     # password = request.form.get("password")
@@ -157,16 +167,18 @@ def register():
     # print(last_name)
 
     # if valid then return user
-    return auth_register(email, password, first_name, last_name, secret_question, secret_answer)
+    return auth_register(
+        email, password, first_name, last_name, secret_question, secret_answer
+    )
 
-@app.route("/auth/changepass", methods=["POST"])
+
+@app.route("/auth/changepass")
 def ChangePassword():
-    response = request.get_json()
-    email = response["email"]
-    oldPassword = response["old_password"]
-    newPassword = response["new_password"]
+    oldPassword = request.form.get("old_password")
+    newPassword = request.form.get("new_password")
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
-    return ({"worked": 1})
+    return True
+
 
 @app.route("/auth/resetpassword", methods=["POST"])
 def resetPassword():
@@ -175,14 +187,15 @@ def resetPassword():
     newPassword = response["password"]
     print(newPassword)
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
-    return ({"worked": 1})
+    return {"worked": 1}
 
 
 @app.route("/auth/testing", methods=["POST"])
 def test():
     question = get_secret_question(1)
     print(f"question is {question}")
-    return {"question": question} 
+    return {"question": question}
+
 
 @app.route("/auth/getQuestion", methods=["POST"])
 def getSecretQuestion():
@@ -192,8 +205,9 @@ def getSecretQuestion():
     u_id = get_user_id(email)
     print(u_id)
     question = get_secret_question(u_id)
-    return ({"question": question})
-    #return ({"question": "What is Blue"})
+    return {"question": question}
+    # return ({"question": "What is Blue"})
+
 
 @app.route("/auth/getAnswer", methods=["POST"])
 def getSecretAnswer():
@@ -205,10 +219,9 @@ def getSecretAnswer():
     print(u_id)
     newAnswer = get_secret_answer(u_id)
     if newAnswer == answer:
-        return ({"answer": 2})
+        return {"answer": 2}
     else:
-        return ({"answer": 1})
-
+        return {"answer": 1}
 
 
 @api.route("/api/search/byGenre")
@@ -222,6 +235,7 @@ class Genre(Resource):
         genre_str = genre_parser.parse_args().get("genre")
         return searchGenre(genre_str)
 
+
 @api.route("/api/search/byDirector")
 class Director(Resource):
     @api.response(200, "OK")
@@ -232,6 +246,7 @@ class Director(Resource):
     def get(self):
         director_str = director_parser.parse_args().get("director")
         return searchDirector(director_str)
+
 
 @app.route("/api/search/byKeyword", methods=["POST"])
 def searchMovieByKeyword():
@@ -253,6 +268,7 @@ def getGenresByMovieId(movie_id):
 
 ################    Review    ##################
 
+
 @app.route("/api/review/createReview", methods=["POST"])
 def createReviewForMovie():
     user_id = int(request.form.get("user_id"))
@@ -261,10 +277,12 @@ def createReviewForMovie():
     score = int(request.form.get("score"))
     return newReview(user_id, movie_id, comment, score)
 
+
 @app.route("/api/review/likeReviewComment", methods=["POST"])
 def likeReviewComment():
     review_id = int(request.form.get("review_id"))
     return incrementLikes(review_id)
+
 
 @app.route("/api/review/editMovieReview", methods=["POST"])
 def editMovieReview():
@@ -275,4 +293,5 @@ def editMovieReview():
 
 
 if __name__ == "__main__":
-    app.run(port=5000) 
+    app.run(port=5000)
+

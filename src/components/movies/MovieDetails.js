@@ -16,34 +16,33 @@ const MovieDetails = (props) => {
     vote_avg,
     vote_count,
     cast,
-    crew,
   } = movie;
 
   const id = props.match.params.id;
 
   useEffect(() => {
     getMovieById(id);
-    console.log(movie);
   }, []);
 
   return movie === {} ? (
     <div>...</div>
   ) : (
     <div>
-      <h1>title: {title}</h1>
+      <h1>{title}</h1>
       <p>
-        genres:
-        {/* {genres.map((e) => (
-          <div>{e}</div>
-        ))} */}
+        {genres}
+        {/* {genres === undefined ? (
+          <></>
+        ) : (
+          genres.map((e) => <div key={e}>{e}</div>)
+        )} */}
       </p>
-      <p>decription: {overview}</p>
-      <p>release date: {date}</p>
-      <p>runtime: {runtime}</p>
-      <p>vote average: {vote_avg}</p>
-      <p>vote count: {vote_count}</p>
-      <p>cast: {cast}</p>
-      <p>crew: {crew}</p>
+      <p>{overview}</p>
+      <p>{date}</p>
+      <p>{runtime}</p>
+      <p>{vote_avg}</p>
+      <p>{vote_count}</p>
+      <p>{cast}</p>
     </div>
   );
 };

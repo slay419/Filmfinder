@@ -27,6 +27,8 @@ const MovieState = (props) => {
     await fetch("/api/movies/" + id)
       .then((res) => res.json())
       .then((data) => {
+        console.log("THE DATA");
+        console.log(data);
         dispatch({ type: GET_MOVIE_BY_ID, payload: data.movie[id] });
       })
       .catch((err) => {

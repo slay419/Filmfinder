@@ -30,10 +30,11 @@ def searchGenre(genre):
         item = extractMovieDetails(movie)
         movies[index] = item
         index += 1
-    
+
     conn.close()
 
     return {"movies": movies}
+
 
 def searchKeyword(keyword):
     conn = sqlite3.connect("./movieDB.db")
@@ -55,9 +56,10 @@ def searchKeyword(keyword):
         item = extractMovieDetails(movie)
         movies[index] = item
         index += 1
-    
+
     conn.close()
     return {"movies": movies}
+
 
 def searchDirector(director_name):
     conn = sqlite3.connect("./movieDB.db")
@@ -79,9 +81,10 @@ def searchDirector(director_name):
         item = extractMovieDetails(movie)
         movies[index] = item
         index += 1
-    
+
     conn.close()
     return {"movies": movies}
+
 
 def getDirectorById(director_id):
     conn = sqlite3.connect("./movieDB.db")
@@ -92,6 +95,7 @@ def getDirectorById(director_id):
     conn.close()
     return director_name
 
+
 def getGenreList(movie_id):
     conn = sqlite3.connect("./movieDB.db")
     cur = conn.cursor()
@@ -101,6 +105,7 @@ def getGenreList(movie_id):
         genres.append(genre[0])
     conn.close()
     return genres
+
 
 def getCastList(movie_id):
     conn = sqlite3.connect("./movieDB.db")
@@ -139,5 +144,4 @@ def extractMovieDetails(movie):
     item["vote_count"] = movie[14]
     item["genres"] = getGenreList(item["movie_id"])
     return item
-
 

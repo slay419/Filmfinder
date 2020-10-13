@@ -2,7 +2,14 @@ import React, { useReducer } from "react";
 import MoviesContext from "./moviesContext";
 import MoviesReducer from "./moviesReducer";
 
-import { GET_MOVIES, SET_LOADING, MOVIES_ERROR, SEARCH_MOVIES } from "../types";
+import {
+  GET_MOVIES,
+  SET_LOADING,
+  MOVIES_ERROR,
+  SEARCH_MOVIES,
+  SEARCH_MOVIES_GENRE,
+  SEARCH_MOVIES_DIRECTOR,
+} from "../types";
 
 const MoviesState = (props) => {
   const initialState = {
@@ -46,6 +53,40 @@ const MoviesState = (props) => {
     }
   };
 
+  const searchMoviesDirector = (text) => {
+    if (text === "") {
+      getMovies();
+    } else {
+      setLoading();
+      fetch(`/api/search/byDirector?director=${text}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const movies_list = Object.values(data.movies);
+          dispatch({ type: SEARCH_MOVIES_DIRECTOR, payload: movies_list });
+        })
+        .catch((err) => {
+          dispatch({ type: MOVIES_ERROR, payload: err });
+        });
+    }
+  };
+
+  const searchMoviesGenre = (text) => {
+    if (text === "") {
+      getMovies();
+    } else {
+      setLoading();
+      fetch(`/api/search/byGenre?genre=${text}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const movies_list = Object.values(data.movies);
+          dispatch({ type: SEARCH_MOVIES_GENRE, payload: movies_list });
+        })
+        .catch((err) => {
+          dispatch({ type: MOVIES_ERROR, payload: err });
+        });
+    }
+  };
+
   return (
     <MoviesContext.Provider
       value={{
@@ -53,6 +94,8 @@ const MoviesState = (props) => {
         getMovies,
         loading: state.loading,
         searchMovies,
+        searchMoviesGenre,
+        searchMoviesDirector,
       }}
     >
       {props.children}
