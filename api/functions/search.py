@@ -134,3 +134,4 @@ def extractMovieDetails(movie):
     item["vote_count"] = movie[14]
     item["genres"] = getGenreList(item["movie_id"])
     return item
+

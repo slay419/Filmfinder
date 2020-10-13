@@ -13,9 +13,7 @@ USER_LIST = []
 REGEX = "^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
 
 # Secret question field??
-def auth_register(
-    email, password, first_name, last_name, secret_question, secret_answer
-):
+def auth_register(email, password, first_name, last_name, secret_question, secret_answer):
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
     u_id = 12345
     token = "test token"
@@ -34,10 +32,10 @@ def auth_register(
     check_valid_names(first_name, last_name)
 
     c.execute(
-        f"""
+        f'''
         INSERT INTO users(user_id, first_name, last_name, email, password, secret_question, secret_answer)
         VALUES ({new_user_id}, "{first_name}", "{last_name}", "{email}", "{hashed_password}", "{secret_question}", "{secret_answer}");
-        """
+        '''
     )
     conn.commit()
     # #prepare u_id, token and password (hashed in db)
@@ -144,7 +142,10 @@ def get_secret_question(u_id):
     conn.close()
     return question
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> kevin
 def get_secret_answer(u_id):
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
