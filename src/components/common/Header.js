@@ -27,7 +27,7 @@ const Header = () => {
             <Link to="/forgot">Logout</Link>
           </li>
           <li>
-            <Link to="/">{User.first_name}</Link>
+            <Link to="/profile">{User.first_name}</Link>
           </li>
         </ul>
       )}
