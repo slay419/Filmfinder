@@ -110,6 +110,8 @@ def reviewIdExists(review_id):
     return True
 
 def getMovieReviewList(movie_id):
+    if not movieIdExists(movie_id):
+        raise ValueError(f"No movie with id: {movie_id} exists in the database")
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
     cur.execute(f"select review_id, comment, score, num_likes from review where movie_id = {movie_id};")

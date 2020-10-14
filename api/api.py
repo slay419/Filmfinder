@@ -291,6 +291,12 @@ def editMovieReview():
     score = int(request.form.get("score"))
     return editReview(review_id, comment, score)
 
+@app.route("/api/review/getMovieReviews", methods=["POST"])
+def getMovieReviewsById():
+    movie_id = int(request.form.get("movie_id"))
+    review_list = getMovieReviewList(movie_id)
+    return {"reviews": review_list}
+
 
 if __name__ == "__main__":
     app.run(port=5000)
