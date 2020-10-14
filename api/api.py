@@ -100,7 +100,6 @@ class Movie(Resource):
             item = extractMovieDetails(movie)
             movies[index] = item
             index += 1
-
         cur.execute("drop view IF EXISTS temp_id;")
         return {"movies": movies}
 
@@ -136,15 +135,26 @@ def getMovieById(id):
     return {"movie": result}
 
 
-############### Login #####################
+############### Auth Functions #####################
 
-
+# return statements
+# error: wrongLogin
+# user details as dictionary
 @app.route("/auth/login", methods=["POST"])
 def login():
-    email = request.form.get("email")
-    password = request.form.get("password")
-
+    response = request.get_json()
+    email = response["email"]
+    password = response["password"]
+    print(response)
     return auth_login(email, password)
+
+
+@app.route("/auth/logout", methods=["POST"])
+def logout():
+    response = request.get_json()
+    u_id = response["u_id"]
+
+    return auth_logout(u_id)
 
 
 @app.route("/auth/register", methods=["POST"])
@@ -157,17 +167,7 @@ def register():
     secret_question = response["secret_question"]
     secret_answer = response["secret_answer"]
 
-    # email = request.form.get("email")
-    # password = request.form.get("password")
-    # first_name = request.form.get("first_name")
-    # last_name = request.form.get("last_name")
-    # secret_question = request.form.get("secret_question")
-    # secret_answer = request.form.get("secret_answer")
-
-    # print(email)
-    # print(password)
-    # print(first_name)
-    # print(last_name)
+    print(response)
 
     # if valid then return user
     return auth_register(
@@ -175,22 +175,33 @@ def register():
     )
 
 
-@app.route("/auth/changepass")
+############### Accounts #####################
+
+# these are the return values
+# error: samePassword
+# error: incorrectPassword
+# success: 1
+@app.route("/auth/changepass", methods=["POST"])
 def ChangePassword():
-    oldPassword = request.form.get("old_password")
-    newPassword = request.form.get("new_password")
-    # return something (maybe TRUE if sucessful, dunno however you want to do it)
-    return True
+    response = request.get_json()
+    email = response["email"]
+    oldPassword = response["old_password"]
+    newPassword = response["new_password"]
+    if newPassword == oldPassword:
+        return {"error": "New password is the same as old password"}
+
+    return update_password(email, newPassword)
 
 
+# returns error: incorrectPassword
+# returns success: 1
 @app.route("/auth/resetpassword", methods=["POST"])
 def resetPassword():
     response = request.get_json()
     email = response["email"]
     newPassword = response["password"]
-    print(newPassword)
     # return something (maybe TRUE if sucessful, dunno however you want to do it)
-    return {"worked": 1}
+    return update_password(email, newPassword)
 
 
 @app.route("/auth/testing", methods=["POST"])
@@ -294,6 +305,7 @@ def editMovieReview():
     comment = request.form.get("comment")
     score = int(request.form.get("score"))
     return editReview(review_id, comment, score)
+
 
 @api.route("/api/review/getMovieReviews")
 class MovieReivews(Resource):

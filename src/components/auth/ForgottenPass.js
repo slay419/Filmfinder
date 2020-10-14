@@ -25,7 +25,7 @@ const ForgottenPass = () => {
       };
 
     const forgottenPassContext = useContext(ForgottenPassContext);
-    const { question, getQuestion, correct, answerQuestion, changed, changePassword } = forgottenPassContext;
+    const { question, getQuestion, correct, answerQuestion, changed, changePassword, error } = forgottenPassContext;
 
     useEffect(() => {
         console.log(question)
@@ -58,6 +58,7 @@ const ForgottenPass = () => {
                                     onChange={passwordHandler}
                                     ></input>
                                     <button type="button" onClick={()=> changePassword(email, password)}>Submit Answer</button>
+                                    {error !== null && <h1>{error}</h1>}
                                 </form>
                                 {changed == 1 ? <p>Password Change successful</p> : <div></div>}
                             </div>

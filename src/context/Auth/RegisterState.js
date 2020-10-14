@@ -2,12 +2,12 @@ import React, { useReducer } from "react";
 import RegisterContext from "./RegisterContext";
 import RegisterReducer from "./RegisterReducer";
 
-import { NAME_TAKEN, REGISTER_ERROR, REGISTER } from "../types";
+import { ERROR, REGISTER_ERROR, REGISTER } from "../types";
 
 const RegisterState = (props) => {
     const initialState = {
         User: null,
-        error : "",
+        error : null,
         //user info stored in this state
     };
 
@@ -30,7 +30,11 @@ const RegisterState = (props) => {
         })
         .then((res) => res.json())
         .then((data) => {
+          if ("error" in data){
+            dispatch( {type: ERROR, payload: data})
+          } else {
             dispatch( {type: REGISTER, payload: data})
+          }
         }).catch((err) => {
             dispatch( {type: REGISTER_ERROR, payload: err})
         });

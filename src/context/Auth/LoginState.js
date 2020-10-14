@@ -5,12 +5,13 @@ import LoginReducer from "./LoginReducer";
 import {
     LOGIN,
     LOGIN_ERROR,
+    ERROR,
 } from "../types";
 
 const LoginState = (props) => {
     const initialState = {
         User: null,
-        isValid: 1
+        isValid: null
         //user info stored in this state
     };
 
@@ -26,7 +27,11 @@ const LoginState = (props) => {
         })
         .then((res) => res.json())
         .then((data) => {
-            dispatch( {type: LOGIN, payload: data})
+            if ("error" in data){
+              dispatch( {type: ERROR, payload: data})
+            } else {
+              dispatch( {type: LOGIN, payload: data})
+            }
         })
         .catch((err) => {
             dispatch( {type: LOGIN_ERROR, payload: err})
