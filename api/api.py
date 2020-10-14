@@ -45,6 +45,9 @@ genre_parser.add_argument("genre", type=str)
 director_parser = reqparse.RequestParser()
 director_parser.add_argument("director", type=str)
 
+movie_id_parser = reqparse.RequestParser()
+movie_id_parser.add_argument("movie_id", type=int)
+
 
 def read_from_sqlite(database_file, table_name):
     conn = sqlite3.connect(database_file)
@@ -291,11 +294,17 @@ def editMovieReview():
     score = int(request.form.get("score"))
     return editReview(review_id, comment, score)
 
-@app.route("/api/review/getMovieReviews", methods=["POST"])
-def getMovieReviewsById():
-    movie_id = int(request.form.get("movie_id"))
-    review_list = getMovieReviewList(movie_id)
-    return {"reviews": review_list}
+@api.route("/api/review/getMovieReviews")
+class MovieReivews(Resource):
+    @api.response(200, "OK")
+    @api.response(201, "Created")
+    @api.response(400, "Bad Request")
+    @api.response(404, "Not Found")
+    @api.expect(movie_id_parser)
+    def get(self):
+        movie_id_int = movie_id_parser.parse_args().get("movie_id")
+        review_list = getMovieReviewList(movie_id_int)
+        return {"reviews": review_list}
 
 
 if __name__ == "__main__":
