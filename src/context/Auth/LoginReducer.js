@@ -1,4 +1,4 @@
-import { LOGIN, LOGIN_ERROR, ERROR } from "../types";
+import { LOGIN, LOGIN_ERROR, ERROR, LOGOUT } from "../types";
 
 export default (state, action) => {
     switch (action.type) {
@@ -7,6 +7,12 @@ export default (state, action) => {
         return {
           ...state,
           User: action.payload,
+        };
+      case LOGOUT:
+        console.log(action.payload);
+        return {
+          ...state,
+          User: null,
         };
       case ERROR:
           console.log(action.payload);
