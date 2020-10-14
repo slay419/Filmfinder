@@ -169,8 +169,6 @@ def register():
     secret_question = response["secret_question"]
     secret_answer = response["secret_answer"]
 
-    print(response)
-
     # if valid then return user
     return auth_register(
         email, password, first_name, last_name, secret_question, secret_answer
