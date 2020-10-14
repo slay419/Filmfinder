@@ -13,7 +13,6 @@ USER_LIST = []
 REGEX = "^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
 PASSWORDREGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" # at least 8 characters, one number one uppercase one lowercase
 
-# Secret question field??
 def auth_register(
     email, password, first_name, last_name, secret_question, secret_answer
 ):
@@ -87,19 +86,6 @@ def auth_logout(u_id):
     USER_LIST.remove(u_id)
     return get_user_details(u_id)
 
-def auth_resetpass(email, secretAnswer):
-    conn = sqlite3.connect("users.db")
-    c = conn.cursor()
-    #Search for email
-    #Search for emails Secret questions
-    #Compare secret question with secret answer
-    c.execute(f'SELECT secret_answer FROM users WHERE email=("{email}")')
-    selectedAnswer = c.fetchone()
-    # if selectedAnswer[0] != secretAnswer:
-    #     return "Incorrect answer, please try again"
-    # else:
-    #     return "Correct answer!"
-
 
 ######################  HELPER FUNCTIONS  ########################
 
@@ -110,12 +96,12 @@ def check_valid_email(email):
         return {"error" : "Email is not in correct form"}
     # Case 2 check email doesn't already exist
     if get_user_id(email) != False:
-        return {"error" : "Email is already reigstered"}
+        return {"error" : "Email is already registered"}
     return {"success" : 1}
 
 def check_valid_password(password):
-    if len(password) < 6:
-        return {"error" : "Password must be at least 6 characters long"}
+    if not re.match(PASSWORDREGEX, password):
+        return {"error" : "Password must contain at least one uppercase letter, one lowercase letter and be 8 characters long"}
     return {"success" : 1}
 
 
@@ -123,11 +109,11 @@ def check_valid_names(first_name, last_name):
     maxlen = 50
     minlen = 1
     if len(first_name) > maxlen:
-        return {"error" : "Frist name is longer than 50 characters"}
+        return {"error" : "First name cannot be longer than 50 characters"}
     if len(first_name) < minlen:
         return {"error" : "First name cannot be empty"}
     if len(last_name) > maxlen:
-        return {"error" : "Last name is longer than 50 characters"}
+        return {"error" : "Last name cannot be longer than 50 characters"}
     if len(last_name) < minlen:
         return {"error" : "Last name cannot be empty"}
     return {"success" : 1}
@@ -135,10 +121,10 @@ def check_valid_names(first_name, last_name):
 def check_question(question, answer):
     # Case 1 check valid format
     if len(question) < 1:
-        return {"error" : "Question cannot be Empty"}
+        return {"error" : "Please enter a Secret Question"}
     # Case 2 check email doesn't already exist
     if len(answer) < 1:
-        return {"error" : "Answer cannot be empty"}
+        return {"error" : "Please enter a Secret Answer"}
     return {"success" : 1}
 
 def get_user_id(email):
