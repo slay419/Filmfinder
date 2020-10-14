@@ -1,59 +1,14 @@
 import React, { useEffect, useContext, useState } from "react";
 import MovieContext from "../../context/movie/movieContext";
-import LoginContext from "../../context/Auth/LoginContext";
-import { styled } from "@material-ui/core/styles";
-import { TextField, Button } from "@material-ui/core";
-import Select from "react-select";
+
+import Reviews from "../reviews/Reviews";
+
 import "../../styles/MovieDetails.scss";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import GradeIcon from "@material-ui/icons/Grade";
 import Tilt from "react-tilt";
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: "#6ab7ff",
-      main: "#1e88e5",
-      dark: "#005cb2",
-      contrastText: "#fff",
-    },
-    secondary: {
-      light: "#ff7961",
-      main: "#f44336",
-      dark: "#ba000d",
-      contrastText: "#000",
-    },
-  },
-});
-
-const options = [
-  { value: "1", label: "1" },
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
-  { value: "6", label: "6" },
-  { value: "7", label: "7" },
-  { value: "8", label: "8" },
-  { value: "9", label: "9" },
-  { value: "10", label: "10" },
-];
-
-const ReviewTextField = styled(TextField)({
-  display: "flex",
-});
-
-const SubmitButton = styled(Button)({
-  marginTop: "10px",
-  marginLeft: "10px",
-  fontFamily: "Poppins",
-});
 
 const MovieDetails = (props) => {
   const [reviewText, setReviewText] = useState("");
-  const [score, setScore] = useState("5");
-
-  const loginContext = useContext(LoginContext);
-  const { User } = loginContext;
 
   const movieContext = useContext(MovieContext);
   const { getMovieById, loading, movie, postReview } = movieContext;
@@ -65,9 +20,8 @@ const MovieDetails = (props) => {
     tagline,
     overview,
     release_date,
-    runtime,
+    director_name,
     vote_avg,
-    vote_count,
     cast,
   } = movie;
 
@@ -77,18 +31,6 @@ const MovieDetails = (props) => {
   }
 
   const id = props.match.params.id;
-
-  const handleSubmitReview = () => {
-    postReview(1, 8844, reviewText, 5);
-  };
-
-  const handleReviewText = (e) => {
-    setReviewText(e.target.value);
-  };
-
-  const handleSelectChange = (selectedOption) => {
-    setScore(selectedOption.value);
-  };
 
   useEffect(() => {
     getMovieById(id);
@@ -114,68 +56,43 @@ const MovieDetails = (props) => {
           <p className="overview">{overview}</p>
         </div>
         <div className="movie-detail-stats">
-          <p>
-            {genres}
-            {/* {genres === undefined ? (
-          <></>
-        ) : (
-          genres.map((e) => <div key={e}>{e}</div>)
-        )} */}
+          <p className="score">
+            {vote_avg}
+            <GradeIcon style={{ color: "gold" }} />
           </p>
-          <p>{runtime}</p>
-          <p>{vote_avg}</p>
-          <p>{vote_count}</p>
-          <p>{cast}</p>
+          <p>
+            Director: <span className="bb">{director_name}</span>
+          </p>
+          <p>
+            Genres:
+            {genres === undefined ? (
+              <></>
+            ) : (
+              <div className="genres">
+                {genres.map((e) => (
+                  <span className="bb" key={e}>
+                    {e}
+                  </span>
+                ))}
+              </div>
+            )}
+          </p>
+          <p>
+            Cast:{" "}
+            {cast === undefined ? (
+              <></>
+            ) : (
+              cast.map((e) => (
+                <span className="" key={e}>
+                  {`${e}, `}
+                </span>
+              ))
+            )}
+          </p>
         </div>
       </div>
 
-      <h2>Reviews</h2>
-      <ThemeProvider theme={theme}>
-        <div className="review-box">
-          <ReviewTextField
-            id="review-input-box"
-            label="leave a review..."
-            variant="outlined"
-            color="primary"
-            onChange={handleReviewText}
-            multiline
-            rows={4}
-          />
-          <div className="score-submit-box">
-            <div className="score-select">
-              <Select
-                onChange={handleSelectChange}
-                options={options}
-                styles={{
-                  control: (styles) => ({
-                    ...styles,
-                    //height: "30px",
-                    //width: "120px",
-                    fontSize: "0.8rem",
-                    fontFamily: "Poppins",
-                  }),
-                  option: (styles) => ({
-                    ...styles,
-                    //display: "block",
-                    //height: "30px",
-                    //width: "120px",
-                    fontSize: "0.8rem",
-                    fontFamily: "Poppins",
-                  }),
-                }}
-              />
-            </div>
-
-            <SubmitButton
-              onClick={handleSubmitReview}
-              variant="contained"
-              color="primary"
-            >
-              Submit
-            </SubmitButton>
-          </div>
-        </div>
-      </ThemeProvider>
+      <Reviews />
     </div>
   );
 };

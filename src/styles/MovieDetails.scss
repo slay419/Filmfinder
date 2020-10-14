@@ -27,6 +27,32 @@
         font-weight: 300;
       }
     }
+    .movie-detail-stats {
+      font-size: 14px;
+      font-weight: 300;
+      max-width: 20vw;
+      p {
+        margin-bottom: 10px;
+      }
+      .genres {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .bb {
+        border: 1px solid black;
+        border-radius: 3px;
+        background-color: gainsboro;
+        padding: 2px 6px;
+        margin-top: 8px;
+        margin-right: 10px;
+      }
+      .score {
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        padding: 24px 0;
+      }
+    }
   }
 
   .score-submit-box {

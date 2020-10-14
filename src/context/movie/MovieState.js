@@ -62,12 +62,17 @@ const MovieState = (props) => {
       });
   };
 
+  const getReviews = (movie_id) => {
+    
+  };
+
   return (
     <MovieContext.Provider
       value={{
         movie: state.movie,
         getMovieById,
         postReview,
+        getReviews,
       }}
     >
       {props.children}
