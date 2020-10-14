@@ -3,7 +3,7 @@ import MoviesContext from "../../context/moviesList/moviesContext";
 import "../../styles/SearchBar.scss";
 import searchIcon from "../../icons/search-interface-symbol.svg";
 import Select from "react-select";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const options = [
   { value: "All", label: "All" },
@@ -12,6 +12,12 @@ const options = [
 ];
 
 const SearchBar = () => {
+  const history = useHistory();
+
+  const routeChange = () => {
+    history.push("/");
+  };
+
   const moviesContext = useContext(MoviesContext);
   const {
     searchMovies,
@@ -29,6 +35,7 @@ const SearchBar = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
+
     switch (option) {
       case "All":
         searchMovies(searchInput);
@@ -43,6 +50,7 @@ const SearchBar = () => {
         searchMovies(searchInput);
         break;
     }
+    routeChange();
   };
 
   const onFocus = () => {

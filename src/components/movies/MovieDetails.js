@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import MovieContext from "../../context/movie/movieContext";
+import MoviesContext from "../../context/moviesList/moviesContext";
 
 import Reviews from "../reviews/Reviews";
 
@@ -7,11 +8,36 @@ import "../../styles/MovieDetails.scss";
 import GradeIcon from "@material-ui/icons/Grade";
 import Tilt from "react-tilt";
 
+import { useHistory } from "react-router-dom";
+
 const MovieDetails = (props) => {
   const [reviewText, setReviewText] = useState("");
 
   const movieContext = useContext(MovieContext);
   const { getMovieById, loading, movie, postReview } = movieContext;
+
+  const moviesContext = useContext(MoviesContext);
+  const {
+    searchMovies,
+    searchMoviesGenre,
+    searchMoviesDirector,
+  } = moviesContext;
+
+  const history = useHistory();
+
+  const routeChange = () => {
+    history.push("/");
+  };
+
+  const clickDirector = (director) => {
+    searchMoviesDirector(director);
+    routeChange();
+  };
+
+  const clickGenre = (genre) => {
+    searchMoviesGenre(genre);
+    routeChange();
+  };
 
   const {
     title,
@@ -61,7 +87,10 @@ const MovieDetails = (props) => {
             <GradeIcon style={{ color: "gold" }} />
           </p>
           <p>
-            Director: <span className="bb">{director_name}</span>
+            Director:{" "}
+            <span onClick={() => clickDirector(director_name)} className="bb">
+              {director_name}
+            </span>
           </p>
           <>
             Genres:
@@ -70,7 +99,7 @@ const MovieDetails = (props) => {
             ) : (
               <div className="genres">
                 {genres.map((e) => (
-                  <span className="bb" key={e}>
+                  <span onClick={() => clickGenre(e)} className="bb" key={e}>
                     {e}
                   </span>
                 ))}
