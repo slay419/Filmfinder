@@ -6,6 +6,7 @@ import {
     LOGIN,
     LOGIN_ERROR,
     ERROR,
+    LOGOUT
 } from "../types";
 
 const LoginState = (props) => {
@@ -38,12 +39,34 @@ const LoginState = (props) => {
         });
     };
 
+    const logout = (u_id) => {
+      fetch('./auth/logout', {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          },
+        body: JSON.stringify({u_id: u_id})
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        if ("error" in data){
+          dispatch( {type: ERROR, payload: data})
+        } else {
+          dispatch( {type: LOGOUT, payload: data})
+        }
+    })
+    .catch((err) => {
+        dispatch( {type: LOGIN_ERROR, payload: err})
+    });      
+    }
+
     return (
         <LoginContext.Provider
           value={{
             User: state.User,
             isValid: state.isValid,
             login,
+            logout,
           }}
         >
           {props.children}
