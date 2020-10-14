@@ -59,7 +59,7 @@ def update_password(email, newP):
         conn.commit()
         conn.close()
         return {"success": 1}
-    return {"error": "Old Password is incorrect"}
+    return {"error": "Invalid new password"}
 
 
 def auth_login(email, password):

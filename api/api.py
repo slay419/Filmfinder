@@ -7,6 +7,7 @@ import pandas as pd
 from pandas.io import sql
 from requests import get
 import re
+import hashlib
 
 from functions.auth import (
     auth_login,
@@ -190,7 +191,14 @@ def ChangePassword():
     newPassword = response["new_password"]
     if newPassword == oldPassword:
         return {"error": "New password is the same as old password"}
-
+    conn = sqlite3.connect("users.db")
+    cur = conn.cursor()
+    hashed_password = hashlib.sha256(oldPassword.encode()).hexdigest()
+    cur.execute(f"select password from users where email=('{email}')")
+    checkPass = cur.fetchone()
+    print(checkPass[0])
+    if hashed_password != checkPass[0]:
+        return {"error": "Old password is incorrect"}
     return update_password(email, newPassword)
 
 
