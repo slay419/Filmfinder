@@ -79,11 +79,17 @@ def auth_login(email, password):
     u_id = get_user_id(email)
     if u_id == False:
         return {"error": "Invalid Login"}
+    if u_id in USER_LIST:
+        return {"error": "That user is already logged in"}
     USER_LIST.append(u_id)
+    print(USER_LIST)
     return get_user_details(u_id)
 
 def auth_logout(u_id):
+    if u_id not in USER_LIST:
+        return {"error": "You are not currently logged in"}
     USER_LIST.remove(u_id)
+    print(USER_LIST)
     return get_user_details(u_id)
 
 
