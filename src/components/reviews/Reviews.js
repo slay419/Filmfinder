@@ -68,7 +68,9 @@ const Reviews = () => {
   }, [movie_id]);
 
   const handleSubmitReview = () => {
-    postReview(1, 8844, reviewText, 5);
+    console.log(User);
+    console.log(User.u_id, movie_id, reviewText, score);
+    postReview(User.u_id, movie_id, reviewText, score);
   };
 
   const handleReviewText = (e) => {

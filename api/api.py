@@ -291,7 +291,7 @@ def createReviewForMovie():
     user_id = response["user_id"]
     movie_id = response["movie_id"]
     comment = response["comment"]
-    score = response["score"]
+    score = int(response["score"])
     return newReview(user_id, movie_id, comment, score)
 
 
