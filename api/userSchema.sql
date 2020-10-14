@@ -15,4 +15,4 @@ CREATE TABLE IF NOT EXISTS review (
     comment text,
     score integer,
     num_likes integer
-)
+);
