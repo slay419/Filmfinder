@@ -1,2 +1,39 @@
 .movie-details {
+  .movie-details-box {
+    margin: 50px 0;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    column-gap: 50px;
+    .movie-img {
+      width: 100%;
+    }
+    .movie-detail-content {
+      .title {
+        font-size: 64px;
+        margin-bottom: 5px;
+        .year {
+          font-size: 24px;
+          font-weight: 200;
+        }
+      }
+      .tagline {
+        text-transform: uppercase;
+        font-size: 16px;
+        font-weight: 300;
+        margin-bottom: 15px;
+      }
+      .overview {
+        font-size: 13px;
+        font-weight: 300;
+      }
+    }
+  }
+
+  .score-submit-box {
+    display: flex;
+    .score-select {
+      width: 75px;
+      margin-top: 10px;
+    }
+  }
 }

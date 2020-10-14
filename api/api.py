@@ -270,10 +270,11 @@ def getGenresByMovieId(movie_id):
 
 @app.route("/api/review/createReview", methods=["POST"])
 def createReviewForMovie():
-    user_id = int(request.form.get("user_id"))
-    movie_id = int(request.form.get("movie_id"))
-    comment = request.form.get("comment")
-    score = int(request.form.get("score"))
+    response = request.get_json(force=True)
+    user_id = response["user_id"]
+    movie_id = response["movie_id"]
+    comment = response["comment"]
+    score = response["score"]
     return newReview(user_id, movie_id, comment, score)
 
 
