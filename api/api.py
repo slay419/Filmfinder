@@ -14,6 +14,7 @@ from functions.auth import (
     get_secret_question,
     get_secret_answer,
     get_user_id,
+    auth_logout,
 )
 from functions.search import (
     searchGenre,
@@ -23,6 +24,7 @@ from functions.search import (
     getGenreList,
     getCastList,
     getDirectorById,
+    
 )
 from functions.review import newReview, incrementLikes, editReview, getMovieReviewList
 
