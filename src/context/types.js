@@ -25,3 +25,4 @@ export const QUESTION_ERROR = "QUESTION_ERROR";
 export const PASSWORD_CHANGED = "PASSWORD_CHANGED";
 
 export const POST_REVIEW = "POST_REVIEW";
+export const GET_REVIEWS = "GET_REVIEWS";

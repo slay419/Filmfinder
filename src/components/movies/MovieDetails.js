@@ -63,7 +63,7 @@ const MovieDetails = (props) => {
           <p>
             Director: <span className="bb">{director_name}</span>
           </p>
-          <p>
+          <>
             Genres:
             {genres === undefined ? (
               <></>
@@ -76,7 +76,7 @@ const MovieDetails = (props) => {
                 ))}
               </div>
             )}
-          </p>
+          </>
           <p>
             Cast:{" "}
             {cast === undefined ? (

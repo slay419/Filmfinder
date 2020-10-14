@@ -9,13 +9,14 @@ import {
   SEARCH_MOVIES,
   GET_MOVIE_BY_ID,
   POST_REVIEW,
+  GET_REVIEWS,
 } from "../types";
 
 const MovieState = (props) => {
   const initialState = {
     movie: {},
     loading: false,
-    reviews: {},
+    reviews: null,
   };
 
   const [state, dispatch] = useReducer(MovieReducer, initialState);
@@ -63,13 +64,21 @@ const MovieState = (props) => {
   };
 
   const getReviews = (movie_id) => {
-    
+    fetch(`/api/review/getMovieReviews?movie_id=${movie_id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: GET_REVIEWS, payload: data.reviews });
+      })
+      .catch((err) => {
+        dispatch({ type: MOVIES_ERROR, payload: err });
+      });
   };
 
   return (
     <MovieContext.Provider
       value={{
         movie: state.movie,
+        reviews: state.reviews,
         getMovieById,
         postReview,
         getReviews,

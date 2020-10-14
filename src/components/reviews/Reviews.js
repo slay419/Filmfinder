@@ -58,11 +58,14 @@ const Reviews = () => {
   const { User } = loginContext;
 
   const movieContext = useContext(MovieContext);
-  const { postReview, movie } = movieContext;
+  const { postReview, movie, reviews, getReviews } = movieContext;
 
   const { movie_id } = movie;
-
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (movie_id !== undefined) {
+      getReviews(movie_id);
+    }
+  }, [movie_id]);
 
   const handleSubmitReview = () => {
     postReview(1, 8844, reviewText, 5);
@@ -79,7 +82,7 @@ const Reviews = () => {
   return (
     <div>
       <h2>Reviews</h2>
-      <ReviewList />
+      <ReviewList reviews={reviews} />
       {User !== null ? (
         <ThemeProvider theme={theme}>
           <div className="review-box">

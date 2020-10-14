@@ -1,7 +1,17 @@
 import React from "react";
 
-const ReviewItem = () => {
-  return <div>review item</div>;
+const ReviewItem = ({ review }) => {
+  const { comment, score } = review;
+  console.log(review);
+  return (
+    <div>
+      <div>
+        <p>
+          {comment} {score}
+        </p>
+      </div>
+    </div>
+  );
 };
 
 export default ReviewItem;
