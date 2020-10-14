@@ -25,7 +25,7 @@ const Login = () => {
       {User !== null ? <Redirect to="/" /> : (
         <div className="login">
           <h1>Login Page</h1>
-          <div>{isValid !== 1 && <h1>Invalid Login</h1>}</div>
+      <div>{isValid !== null && <h1>{isValid}</h1>}</div>
           <div className="Login-inputs">
             <form>
               <label for="name">Username:</label>

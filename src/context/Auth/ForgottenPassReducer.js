@@ -22,8 +22,13 @@ export default (state, action) => {
     case PASSWORD_CHANGED:
       return {
         ...state,
-        changed: action.payload.worked
+        changed: action.payload.success
       };
+      case PASSWORD_CHANGED:
+        return {
+          ...state,
+          error: action.payload.error
+        };    
     default:
       return state;
   }

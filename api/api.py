@@ -188,7 +188,7 @@ def ChangePassword():
     oldPassword = response["old_password"]
     newPassword = response["new_password"]
     if newPassword == oldPassword:
-        return ({"error": "samePassword"})
+        return ({"error": "New password is the same as old password"})
     
     return update_password(email, newPassword)
 

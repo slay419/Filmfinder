@@ -2,7 +2,7 @@ import React, { useReducer } from "react";
 import ForgottenPassContext from "./ForgottenPassContext";
 import ForgottenPassReducer from "./ForgottenPassReducer";
 
-import { GET_QUESTION, ANSWER_QUESTION, QUESTION_ERROR, PASSWORD_CHANGED } from "../types";
+import { GET_QUESTION, ANSWER_QUESTION, QUESTION_ERROR, PASSWORD_CHANGED, ERROR } from "../types";
 
 
 export const CORRECT = 2;
@@ -13,6 +13,7 @@ const ForgottenPassState = (props) => {
 
   const initialState = {
     question: null,
+    error: null,
     correct: 0,
     changed: 0,
   };
@@ -65,7 +66,11 @@ const ForgottenPassState = (props) => {
     })
     .then((res) => res.json())
     .then((data) => {
-        dispatch({ type: PASSWORD_CHANGED, payload: data });
+      if ("error" in data){
+        dispatch( {type: ERROR, payload: data})
+      } else {
+        dispatch( {type: PASSWORD_CHANGED, payload: data})
+      }
     })
     .catch((err) => {
         dispatch({ type: QUESTION_ERROR, payload: err });
@@ -81,6 +86,7 @@ const ForgottenPassState = (props) => {
         answerQuestion,
         changed: state.changed,
         changePassword,
+        error: state.error
       }}
     >
       {props.children}

@@ -23,12 +23,17 @@ def auth_register(
     c.execute("SELECT * FROM users;")
     new_user_id = len(c.fetchall()) + 1
     #Check email
-    check_valid_email(email)
+    check = check_valid_email(email)
+    if "error" in check:
+        return check
     # Check password
-    check_valid_password(password)
+    check = check_valid_password(password)
+    if "error" in check:
+        return check    
     # Check names
-    check_valid_names(first_name, last_name)
-
+    check = check_valid_names(first_name, last_name)
+    if "error" in check:
+        return check
     c.execute(
         f"""
         INSERT INTO users(user_id, first_name, last_name, email, password, secret_question, secret_answer)
@@ -43,7 +48,7 @@ def auth_register(
 
 def update_password(email, newP):
     # Check if password matches regex
-    if re.match(newP, PASSWORDREGEX):
+    if re.match(PASSWORDREGEX, newP):
         # Valid password was entered    
         hashed_password = hashlib.sha256(newP.encode()).hexdigest()
         conn = sqlite3.connect("users.db")
@@ -52,7 +57,7 @@ def update_password(email, newP):
         conn.commit()
         conn.close()
         return {"success": 1}
-    return {"error": "incorrectPassword"}
+    return {"error": "Old Password is incorrect"}
 
 
 def auth_login(email, password):
@@ -67,12 +72,12 @@ def auth_login(email, password):
 
     get_user_id(email)
     print(selected_password)
-    if selected_password[0] != hashed_password:
-        return {"error": "wrongLogin"}
+    if selected_password == None or selected_password[0] != hashed_password:
+        return {"error": "Invalid Login"}
     u_id = get_user_id(email)
+    if u_id == False:
+        return {"error": "Invalid Login"}
     USER_LIST.append(u_id)
-    if u_id == -1:
-        return {"error": "wrongLogin"}
     return get_user_details(u_id)
 
 def auth_logout(u_id):
@@ -99,28 +104,30 @@ def auth_resetpass(email, secretAnswer):
 def check_valid_email(email):
     # Case 1 check valid format
     if not re.match(REGEX, email):
-        raise ValueError(f"Email: {email} is not in the right form.")
+        return {"error" : "{email} is not in correct form"}
     # Case 2 check email doesn't already exist
-    if get_user_id(email) != -1:
-        raise ValueError(f"Email: {email} is already registered.")
-
+    if get_user_id(email) != False:
+        return {"error" : "{email} is already reigstered"}
+    return {"success" : 1}
 
 def check_valid_password(password):
     if len(password) < 6:
-        raise ValueError(f"Password: {password} must be at least 6 characters long.")
+        return {"error" : "Password must be at least 6 characters long"}
+    return {"success" : 1}
 
 
 def check_valid_names(first_name, last_name):
     maxlen = 50
     minlen = 1
     if len(first_name) > maxlen:
-        raise ValueError(f"First name: {first_name} is longer than 50 characters")
+        return {"error" : "{first_name} is longer than 50 characters"}
     if len(first_name) < minlen:
-        raise ValueError(f"First name: {first_name} cannot be empty")
+        return {"error" : "First name cannot be empty"}
     if len(last_name) > maxlen:
-        raise ValueError(f"Last name: {last_name} is longer than 50 characters")
+        return {"error" : "{last_name} is longer than 50 characters"}
     if len(last_name) < minlen:
-        raise ValueError(f"Last name: {last_name} cannot be empty")
+        return {"error" : "Last name cannot be empty"}
+    return {"success" : 1}
 
 def get_user_id(email):
     conn = sqlite3.connect('users.db')

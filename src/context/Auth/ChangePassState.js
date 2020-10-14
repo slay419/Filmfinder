@@ -10,7 +10,7 @@ import {
 
 const ChangePassState = (props) => {
     const initialState = {
-        Match: 1,
+        Match: null,
         Changed: 0,
     };
 
@@ -26,7 +26,11 @@ const ChangePassState = (props) => {
         })
         .then((res) => res.json())
         .then((data) => {
-            dispatch( {type: CHANGE_PASSWORD, payload: data})
+            if ("error" in data){
+                dispatch( {type: NO_MATCH, payload: data})
+              } else {
+                dispatch( {type: CHANGE_PASSWORD, payload: data})
+              }
         })
         .catch((err) => {
             dispatch( {type: CHANGE_ERROR, payload: err})

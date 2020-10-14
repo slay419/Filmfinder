@@ -7,13 +7,15 @@ export default (state, action) => {
             return {
                 ...state,
                 Changed: 1,
-                Match: 1
+                Match: null
             };
         case NO_MATCH:
             console.log(action.payload);
             return {
                 ...state,
-                Match: 0,
+                Match: action.payload.error,
+                Change: 0
+                
             };
         case CHANGE_ERROR:
             console.log(action.payload);
