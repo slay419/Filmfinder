@@ -3,7 +3,7 @@ import MoviesContext from "../../context/moviesList/moviesContext";
 import "../../styles/SearchBar.scss";
 import searchIcon from "../../icons/search-interface-symbol.svg";
 import Select from "react-select";
-import { useReducer } from "react";
+import { Redirect } from "react-router-dom";
 
 const options = [
   { value: "All", label: "All" },
@@ -13,8 +13,13 @@ const options = [
 
 const SearchBar = () => {
   const moviesContext = useContext(MoviesContext);
-  const { searchMovies } = moviesContext;
+  const {
+    searchMovies,
+    searchMoviesGenre,
+    searchMoviesDirector,
+  } = moviesContext;
   const [searchInput, setSearchInput] = useState("");
+  const [option, setOption] = useState("All");
 
   let formOutline = useRef(null);
 
@@ -24,7 +29,20 @@ const SearchBar = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    searchMovies(searchInput);
+    switch (option) {
+      case "All":
+        searchMovies(searchInput);
+        break;
+      case "Directors":
+        searchMoviesDirector(searchInput);
+        break;
+      case "Genres":
+        searchMoviesGenre(searchInput);
+        break;
+      default:
+        searchMovies(searchInput);
+        break;
+    }
   };
 
   const onFocus = () => {
@@ -32,6 +50,10 @@ const SearchBar = () => {
   };
   const onBlur = () => {
     formOutline.style.border = "1px solid gainsboro";
+  };
+
+  const handleSelectChange = (selectedOption) => {
+    setOption(selectedOption.value);
   };
 
   return (
@@ -45,13 +67,14 @@ const SearchBar = () => {
         <input
           className="search-field"
           type="text"
-          placeholder="Search movies, genres, descriptions..."
+          placeholder={`Search ${option}`}
           onChange={searchInputHandler}
           onFocus={onFocus}
           onBlur={onBlur}
         />
       </form>
       <Select
+        onChange={handleSelectChange}
         options={options}
         styles={{
           control: (styles) => ({

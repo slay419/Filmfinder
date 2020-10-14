@@ -7,3 +7,12 @@ CREATE TABLE IF NOT EXISTS users (
     secret_question text,
     secret_answer text
 );
+
+CREATE TABLE IF NOT EXISTS review (
+    review_id integer PRIMARY KEY,
+    user_id integer,
+    movie_id integer,
+    comment text,
+    score integer,
+    num_likes integer
+)
