@@ -34,6 +34,9 @@ def auth_register(
     check = check_valid_names(first_name, last_name)
     if "error" in check:
         return check
+    check = check_question(secret_question, secret_answer)
+    if "error" in check:
+        return check
     c.execute(
         f"""
         INSERT INTO users(user_id, first_name, last_name, email, password, secret_question, secret_answer)
@@ -104,10 +107,10 @@ def auth_resetpass(email, secretAnswer):
 def check_valid_email(email):
     # Case 1 check valid format
     if not re.match(REGEX, email):
-        return {"error" : "{email} is not in correct form"}
+        return {"error" : "Email is not in correct form"}
     # Case 2 check email doesn't already exist
     if get_user_id(email) != False:
-        return {"error" : "{email} is already reigstered"}
+        return {"error" : "Email is already reigstered"}
     return {"success" : 1}
 
 def check_valid_password(password):
@@ -120,13 +123,22 @@ def check_valid_names(first_name, last_name):
     maxlen = 50
     minlen = 1
     if len(first_name) > maxlen:
-        return {"error" : "{first_name} is longer than 50 characters"}
+        return {"error" : "Frist name is longer than 50 characters"}
     if len(first_name) < minlen:
         return {"error" : "First name cannot be empty"}
     if len(last_name) > maxlen:
-        return {"error" : "{last_name} is longer than 50 characters"}
+        return {"error" : "Last name is longer than 50 characters"}
     if len(last_name) < minlen:
         return {"error" : "Last name cannot be empty"}
+    return {"success" : 1}
+
+def check_question(question, answer):
+    # Case 1 check valid format
+    if len(question) < 1:
+        return {"error" : "Question cannot be Empty"}
+    # Case 2 check email doesn't already exist
+    if len(answer) < 1:
+        return {"error" : "Answer cannot be empty"}
     return {"success" : 1}
 
 def get_user_id(email):
