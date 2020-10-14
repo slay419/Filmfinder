@@ -109,6 +109,7 @@ def getMovieById(id):
     cur.execute(f"select * from MOVIE where movie_id = {id}")
     movie = cur.fetchone()
     item = {}
+    item["movie_id"] = movie[0]
     item["director_id"] = movie[1]
     item["director_name"] = getDirectorById(movie[1])
     item["adult"] = movie[2]
