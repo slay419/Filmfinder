@@ -16,6 +16,7 @@ import ChangePassState from "./context/Auth/ChangePassState";
 import ForgottenPassState from "./context/Auth/ForgottenPassState";
 
 import profile from "./components/common/profile";
+import Footer from "./components/common/Footer";
 
 function App() {
   return (
@@ -39,11 +40,12 @@ function App() {
                     </Switch>
                   </Router>
                 </div>
-                </ChangePassState>
-              </MovieState>
-            </MoviesState>
-          </RegisterState>
-        </LoginState>
+                <Footer />
+              </ChangePassState>
+            </MovieState>
+          </MoviesState>
+        </RegisterState>
+      </LoginState>
     </ForgottenPassState>
   );
 }
