@@ -121,7 +121,7 @@ const Register = () => {
         <Redirect to="/login" />
       ) : (
         <div className="register">
-          <h1>Register Now</h1>
+          <h1>Register</h1>
 
           {error !== null && (
             <Collapse in={open}>
