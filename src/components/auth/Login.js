@@ -53,6 +53,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(true);
+  const [openSuccess, setOpenSuccess] = useState(false);
 
   const loginContext = useContext(LoginContext);
   const { User, isValid, login } = loginContext;
@@ -70,6 +71,7 @@ const Login = () => {
     setOpen(true);
     login(email, password);
   };
+
   //first line redirects if already logged in, otherwise it loads the login page
   return (
     <div>
@@ -77,8 +79,22 @@ const Login = () => {
         <Redirect to="/" />
       ) : (
         <div className="login">
-          <h1>Login Page</h1>
-          <div>{isValid !== null && <h1>{isValid}</h1>}</div>
+          <h1>Login</h1>
+
+          <div>
+            {isValid !== null && (
+              <Collapse in={open}>
+                <Alert
+                  onClose={() => {
+                    setOpen(false);
+                  }}
+                  severity="error"
+                >
+                  {isValid}
+                </Alert>
+              </Collapse>
+            )}
+          </div>
 
           <form onSubmit={handleSubmit} autoComplete="off">
             <ThemeProvider theme={theme}>
@@ -105,34 +121,6 @@ const Login = () => {
               </Button>
             </ThemeProvider>
           </form>
-
-          {/* <div className="Login-inputs">
-            <form>
-              <label for="name">Username:</label>
-              <input
-                type="test"
-                placeholder="Enter username"
-                id="name"
-                onChange={emailHandler}
-              ></input>
-
-              <label for="pword">Password:</label>
-              <input
-                type="password"
-                placeholder="Enter password"
-                id="pword"
-                onChange={passwordHandler}
-              ></input>
-
-              <button type="button" onClick={() => login(email, password)}>
-                Login
-              </button>
-              <p>
-                Not Registered ?<Link to="/register">Create account Now!</Link>
-              </p>
-              <Link to="/forgot">Forgot Password</Link>
-            </form>
-          </div> */}
         </div>
       )}
     </div>
