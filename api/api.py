@@ -14,6 +14,8 @@ from functions.auth import (
     get_secret_question,
     get_secret_answer,
     get_user_id,
+    auth_logout,
+    update_password
 )
 from functions.search import (
     searchGenre,
