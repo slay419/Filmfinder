@@ -5,9 +5,10 @@ import ProfileReducer from "./ProfileReducer";
 import { REGISTER } from "../types";
 
 const ProfileState = (props) => {
-    const initialState = {
-        User: null
-    };
+  // placeholder state, not currently used
+  const initialState = {
+      User: null
+  };
 
   const [state, dispatch] = useReducer(RegisterReducer, initialState);
 

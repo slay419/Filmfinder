@@ -14,6 +14,7 @@ const RegisterState = (props) => {
   const [state, dispatch] = useReducer(RegisterReducer, initialState);
 
     const registerUser = (email, password, fname, lname, secretQ, secretA) => {
+        // pass user details to the back end to register the user
         fetch('./auth/register', {
             method: "POST",
             headers: {
@@ -31,11 +32,14 @@ const RegisterState = (props) => {
         .then((res) => res.json())
         .then((data) => {
           if ("error" in data){
+            // error occured in the data passed to back end
             dispatch( {type: ERROR, payload: data})
           } else {
+            // register successful, update state
             dispatch( {type: REGISTER, payload: data})
           }
         }).catch((err) => {
+            // unexpected error occured
             dispatch( {type: REGISTER_ERROR, payload: err})
         });
     };

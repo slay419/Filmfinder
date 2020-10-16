@@ -21,6 +21,7 @@ const ForgottenPassState = (props) => {
   const [state, dispatch] = useReducer(ForgottenPassReducer, initialState);
 
   const getQuestion = (email) => {
+    //fetch the question from the back end
     fetch('./auth/getQuestion', {
         method: "POST",
         headers: {
@@ -30,14 +31,17 @@ const ForgottenPassState = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        //question recieved successfully, udate state to show it
         dispatch({ type: GET_QUESTION, payload: data });
       })
       .catch((err) => {
+        // error recevieved
         dispatch({ type: QUESTION_ERROR, payload: err });
       });
   };
 
   const answerQuestion = (email, ans) => {
+    // send answer to back end for validation
     fetch('./auth/getAnswer', {
         method: "POST",
         headers: {
@@ -47,6 +51,7 @@ const ForgottenPassState = (props) => {
     })
     .then((res) => res.json())
     .then((data) => {
+        // question successfully recieved, update state to reflect correctness
         dispatch({ type: ANSWER_QUESTION, payload: data });
     })
     .catch((err) => {
@@ -57,6 +62,7 @@ const ForgottenPassState = (props) => {
   };
 
   const changePassword = (email, password) => {
+    // now that question is validated, change password
     fetch('./auth/resetpassword', {
       method: "POST",
       headers: {
@@ -67,8 +73,10 @@ const ForgottenPassState = (props) => {
     .then((res) => res.json())
     .then((data) => {
       if ("error" in data){
+        // if error occurs, i.e. password is invalid, update state to display error
         dispatch( {type: ERROR, payload: data})
       } else {
+        // password changed successfully, update page to show this
         dispatch( {type: PASSWORD_CHANGED, payload: data})
       }
     })
