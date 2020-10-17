@@ -9,6 +9,7 @@ import GradeIcon from "@material-ui/icons/Grade";
 import Tilt from "react-tilt";
 
 import { useHistory } from "react-router-dom";
+import Recommendations from "../recommendations/Recommendations";
 
 const MovieDetails = (props) => {
   const [reviewText, setReviewText] = useState("");
@@ -60,7 +61,7 @@ const MovieDetails = (props) => {
 
   useEffect(() => {
     getMovieById(id);
-  }, []);
+  }, [id]);
 
   return movie === {} ? (
     <div>...</div>
@@ -120,7 +121,7 @@ const MovieDetails = (props) => {
           </p>
         </div>
       </div>
-
+      <Recommendations id={id} />
       <Reviews />
     </div>
   );

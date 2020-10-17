@@ -153,7 +153,7 @@ def searchSimilarMovies(movie_id):
     # First query for the list of movies that share at least ONE matching genre
     cur.execute(
         f"""
-        create view matchingGenres as
+        create temp view if not exists matchingGenres as
         select m.movie_id, title, genre
         from movie m join genre g on m.movie_id = g.movie_id
         where g.genre in (
@@ -165,7 +165,7 @@ def searchSimilarMovies(movie_id):
     # Next make query for list of movies that share at least ONE matching keyword
     cur.execute(
         f"""
-        create view matchingKeywords as
+        create temp view if not exists matchingKeywords as
         select m.movie_id, title, keyword
         from movie m join keyword k on m.movie_id = k.movie_id
         where k.keyword in (
@@ -211,21 +211,25 @@ def searchSimilarMovies(movie_id):
 def searchRecommendedMovies(user_id):
     conn = sqlite3.connect("./users.db")
     cur = conn.cursor()
-    
-    # Select all the movies that the user has left a good review on 
+
+    # Select all the movies that the user has left a good review on
     movie_id_list = []
     cur.execute(f"select movie_id from review where user_id = {user_id} and score > 6;")
     for row in cur.fetchall():
         movie_id_list.append(row[0])
-    
+
     # Get list of all similar movies of each entry
     recommended_movies_list = []
     for movie_id in movie_id_list:
-        similar_movie = searchSimilarMovies(movie_id)['movies'].values()
+        similar_movie = searchSimilarMovies(movie_id)["movies"].values()
         for movie in similar_movie:
             recommended_movies_list.append(movie)
 
-    sorted_list = sorted(recommended_movies_list, key=lambda i: (i['vote_avg'], i['vote_count']), reverse=True)
+    sorted_list = sorted(
+        recommended_movies_list,
+        key=lambda i: (i["vote_avg"], i["vote_count"]),
+        reverse=True,
+    )
     top_list = sorted_list[:5]
     print(top_list)
 
