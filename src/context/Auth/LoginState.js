@@ -5,12 +5,14 @@ import LoginReducer from "./LoginReducer";
 import {
     LOGIN,
     LOGIN_ERROR,
+    ERROR,
+    LOGOUT
 } from "../types";
 
 const LoginState = (props) => {
     const initialState = {
         User: null,
-        isValid: 1
+        isValid: null
         //user info stored in this state
     };
 
@@ -26,12 +28,37 @@ const LoginState = (props) => {
         })
         .then((res) => res.json())
         .then((data) => {
-            dispatch( {type: LOGIN, payload: data})
+            if ("error" in data){
+              dispatch( {type: ERROR, payload: data})
+            } else {
+              dispatch( {type: LOGIN, payload: data})
+            }
         })
         .catch((err) => {
             dispatch( {type: LOGIN_ERROR, payload: err})
         });
     };
+
+    const logout = (u_id) => {
+      fetch('./auth/logout', {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          },
+        body: JSON.stringify({u_id: u_id})
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        if ("error" in data){
+          dispatch( {type: ERROR, payload: data})
+        } else {
+          dispatch( {type: LOGOUT, payload: data})
+        }
+    })
+    .catch((err) => {
+        dispatch( {type: LOGIN_ERROR, payload: err})
+    });      
+    }
 
     return (
         <LoginContext.Provider
@@ -39,6 +66,7 @@ const LoginState = (props) => {
             User: state.User,
             isValid: state.isValid,
             login,
+            logout,
           }}
         >
           {props.children}

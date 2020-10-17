@@ -10,6 +10,8 @@ export const MOVIES_ERROR = "MOVIES_ERROR";
 
 export const LOGIN = "LOGIN";
 export const LOGIN_ERROR = "LOGIN_ERROR";
+export const ERROR = "ERROR";
+export const LOGOUT = "LOGOUT";
 
 export const REGISTER = "REGISTER";
 export const NAME_TAKEN = "NAME_TAKEN";
@@ -23,3 +25,6 @@ export const GET_QUESTION = "GET_QUESTION";
 export const ANSWER_QUESTION = "ANSWER_QUESTION";
 export const QUESTION_ERROR = "QUESTION_ERROR";
 export const PASSWORD_CHANGED = "PASSWORD_CHANGED";
+
+export const POST_REVIEW = "POST_REVIEW";
+export const GET_REVIEWS = "GET_REVIEWS";

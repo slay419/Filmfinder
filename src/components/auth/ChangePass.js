@@ -40,8 +40,8 @@ const ChangePass = () => {
 
                     <button type="button" onClick={()=> changePassword(User.email, oldPassword, newPassword)}>Change Password</button>                                       
                 </form>
-                {Match !== 1 && 
-                    <h1>Passwords do not match</h1>
+                {Match !== null && 
+                    <h1>{Match}</h1>
                 }
                 {console.log(Changed)}
                 {Changed == 1 && 

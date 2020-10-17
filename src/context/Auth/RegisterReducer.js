@@ -1,5 +1,5 @@
 
-import { REGISTER, REGISTER_ERROR, NAME_TAKEN } from "../types";
+import { REGISTER, REGISTER_ERROR, ERROR } from "../types";
 
 export default (state, action) => {
     switch (action.type) {
@@ -8,13 +8,13 @@ export default (state, action) => {
             return {
                 ...state,
                 User: action.payload,
-                error: "",
+                error: null,
             };
-        case NAME_TAKEN:
+        case ERROR:
             console.log(action.payload);
             return {
                 ...state,
-                error: action.payload,
+                error: action.payload.error,
             };        
         case REGISTER_ERROR:
             console.log("Error: " + action.payload);

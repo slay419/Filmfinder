@@ -8,12 +8,15 @@ import {
   MOVIES_ERROR,
   SEARCH_MOVIES,
   GET_MOVIE_BY_ID,
+  POST_REVIEW,
+  GET_REVIEWS,
 } from "../types";
 
 const MovieState = (props) => {
   const initialState = {
     movie: {},
     loading: false,
+    reviews: null,
   };
 
   const [state, dispatch] = useReducer(MovieReducer, initialState);
@@ -36,11 +39,49 @@ const MovieState = (props) => {
       });
   };
 
+  const postReview = (user_id, movie_id, comment, score) => {
+    let body = JSON.stringify({
+      user_id,
+      movie_id,
+      comment,
+      score,
+    });
+    fetch("/api/review/createReview", {
+      mode: "no-cors",
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: body,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: POST_REVIEW, payload: data });
+      })
+      .catch((err) => {
+        dispatch({ type: MOVIES_ERROR, payload: err });
+      });
+  };
+
+  const getReviews = (movie_id) => {
+    fetch(`/api/review/getMovieReviews?movie_id=${movie_id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: GET_REVIEWS, payload: data.reviews });
+      })
+      .catch((err) => {
+        dispatch({ type: MOVIES_ERROR, payload: err });
+      });
+  };
+
   return (
     <MovieContext.Provider
       value={{
         movie: state.movie,
+        reviews: state.reviews,
         getMovieById,
+        postReview,
+        getReviews,
       }}
     >
       {props.children}

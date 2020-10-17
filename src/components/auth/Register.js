@@ -37,7 +37,7 @@ const Register = () => {
   };
 
   const registerContext = useContext(RegisterContext);
-  const { User, inUse, registerUser } = registerContext;
+  const { User, error, registerUser } = registerContext;
 
   return (
     <>
@@ -46,6 +46,7 @@ const Register = () => {
       ) : (
         <div className="register">
           <h1>Register Now</h1>
+          {error !== null && <h1>{error}</h1>}
           <form>
             <label for="email">Email:</label>
             <input
