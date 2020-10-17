@@ -1,4 +1,4 @@
-import { GET_QUESTION, ANSWER_QUESTION, QUESTION_ERROR, PASSWORD_CHANGED } from "../types";
+import { GET_QUESTION, ANSWER_QUESTION, QUESTION_ERROR, PASSWORD_CHANGED, ERROR } from "../types";
 
 import { UNANSWERED } from "./ForgottenPassState";
 
@@ -24,7 +24,7 @@ export default (state, action) => {
         ...state,
         changed: action.payload.success
       };
-      case PASSWORD_CHANGED:
+      case ERROR:
         return {
           ...state,
           error: action.payload.error

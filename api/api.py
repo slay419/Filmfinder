@@ -7,6 +7,7 @@ import pandas as pd
 from pandas.io import sql
 from requests import get
 import re
+import hashlib
 
 from functions.auth import (
     auth_login,
@@ -14,6 +15,8 @@ from functions.auth import (
     get_secret_question,
     get_secret_answer,
     get_user_id,
+    auth_logout,
+    update_password,
 )
 from functions.search import (
     searchGenre,
@@ -23,6 +26,7 @@ from functions.search import (
     getGenreList,
     getCastList,
     getDirectorById,
+    
 )
 from functions.review import newReview, incrementLikes, editReview, getMovieReviewList
 
@@ -167,8 +171,6 @@ def register():
     secret_question = response["secret_question"]
     secret_answer = response["secret_answer"]
 
-    print(response)
-
     # if valid then return user
     return auth_register(
         email, password, first_name, last_name, secret_question, secret_answer
@@ -189,7 +191,14 @@ def ChangePassword():
     newPassword = response["new_password"]
     if newPassword == oldPassword:
         return {"error": "New password is the same as old password"}
-
+    conn = sqlite3.connect("users.db")
+    cur = conn.cursor()
+    hashed_password = hashlib.sha256(oldPassword.encode()).hexdigest()
+    cur.execute(f"select password from users where email=('{email}')")
+    checkPass = cur.fetchone()
+    print(checkPass[0])
+    if hashed_password != checkPass[0]:
+        return {"error": "Old password is incorrect"}
     return update_password(email, newPassword)
 
 
@@ -289,7 +298,7 @@ def createReviewForMovie():
     user_id = response["user_id"]
     movie_id = response["movie_id"]
     comment = response["comment"]
-    score = response["score"]
+    score = int(response["score"])
     return newReview(user_id, movie_id, comment, score)
 
 
