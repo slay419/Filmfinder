@@ -26,7 +26,7 @@ from functions.search import (
     getGenreList,
     getCastList,
     getDirectorById,
-    
+    searchSimilarMovies
 )
 from functions.review import newReview, incrementLikes, editReview, getMovieReviewList
 
@@ -247,6 +247,8 @@ def getSecretAnswer():
         return {"answer": 1}
 
 
+############### Search ###############
+
 @api.route("/api/search/byGenre")
 class Genre(Resource):
     @api.response(200, "OK")
@@ -287,6 +289,10 @@ def getCastByMovieId(movie_id):
 def getGenresByMovieId(movie_id):
     genres = getGenreList(movie_id)
     return {"genres": genres}
+
+@app.route("/api/movies/similarTo/<int:movie_id>", methods=["GET"])
+def getSimilarMovies(movie_id):
+    return searchSimilarMovies(movie_id)
 
 
 ################    Review    ##################

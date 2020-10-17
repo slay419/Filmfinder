@@ -144,3 +144,63 @@ def extractMovieDetails(movie):
     item["genres"] = getGenreList(item["movie_id"])
     return item
 
+
+# Finds similar movies based on number of matching genres and keywords
+def searchSimilarMovies(movie_id):
+    conn = sqlite3.connect("./movieDB.db")
+    cur = conn.cursor()
+
+    # First query for the list of movies that share at least ONE matching genre
+    cur.execute(
+        f"""
+        create view matchingGenres as
+        select m.movie_id, title, genre
+        from movie m join genre g on m.movie_id = g.movie_id
+        where g.genre in (
+            select genre from genre where movie_id = {movie_id}
+        );
+        """
+    )
+
+    # Next make query for list of movies that share at least ONE matching keyword
+    cur.execute(
+        f"""
+        create view matchingKeywords as
+        select m.movie_id, title, keyword
+        from movie m join keyword k on m.movie_id = k.movie_id
+        where k.keyword in (
+            select keyword from keyword where movie_id = {movie_id}
+        );
+        """
+    )
+
+    # Combine both views and sort by num matching genres and then keywords
+    cur.execute(
+        f"""
+        select m.movie_id, director_id, adult, m.title, release_date, runtime, budget, revenue, imdb_id, 
+            movie_language, overview, tagline, poster, vote_avg, vote_count, 
+            count(distinct(g.genre)) as num_matching_g, count(distinct(k.keyword)) as num_matching_k
+        from matchingGenres g 
+            join matchingKeywords k on g.movie_id = k.movie_id 
+            join movie m on g.movie_id = m.movie_id
+        where g.movie_id <> {movie_id}
+        group by g.movie_id
+        order by 
+            num_matching_g desc,
+            num_matching_k desc
+        limit 10;
+        """
+    )
+    index = 0
+    movies = {}
+    for movie in cur.fetchall():
+        item = extractMovieDetails(movie)
+        movies[index] = item
+        index += 1
+
+    cur.execute("drop view matchingGenres;")
+    cur.execute("drop view matchingKeywords;")
+
+    conn.close()
+
+    return {"movies": movies}
