@@ -5,7 +5,7 @@ import LoginContext from "../../context/Auth/LoginContext";
 
 const Header = () => {
   const loginContext = useContext(LoginContext);
-  const { User } = loginContext;
+  const { User, isValid, Login, logout } = loginContext;
   return (
     <div className="header">
       <h3 className="logo">
@@ -24,7 +24,7 @@ const Header = () => {
       ) : (
         <ul>
           <li>
-            <Link to="/forgot">Logout</Link>
+            <Link to="/" onClick={() => logout(User.u_id)}>Logout</Link>
           </li>
           <li>
             <Link to="/profile">{User.first_name}</Link>

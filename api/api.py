@@ -7,6 +7,7 @@ import pandas as pd
 from pandas.io import sql
 from requests import get
 import re
+import hashlib
 
 from functions.auth import (
     auth_login,
@@ -14,6 +15,8 @@ from functions.auth import (
     get_secret_question,
     get_secret_answer,
     get_user_id,
+    auth_logout,
+    update_password,
 )
 from functions.search import (
     searchGenre,
@@ -23,6 +26,8 @@ from functions.search import (
     getGenreList,
     getCastList,
     getDirectorById,
+    searchSimilarMovies,
+    searchRecommendedMovies
 )
 from functions.review import newReview, incrementLikes, editReview, getMovieReviewList
 
@@ -75,6 +80,7 @@ class Movie(Resource):
         # Change the sql query depending on if a search term was given or not
         if title_str is None:
             cur.execute("select * from MOVIE limit 15")
+            #cur.execute("select * from MOVIE where vote_count > 1000 order by vote_avg desc limit 15;")
 
         else:
             # Search through movie titles, overview and genre for matching keywords in that order
@@ -167,8 +173,6 @@ def register():
     secret_question = response["secret_question"]
     secret_answer = response["secret_answer"]
 
-    print(response)
-
     # if valid then return user
     return auth_register(
         email, password, first_name, last_name, secret_question, secret_answer
@@ -189,7 +193,14 @@ def ChangePassword():
     newPassword = response["new_password"]
     if newPassword == oldPassword:
         return {"error": "New password is the same as old password"}
-
+    conn = sqlite3.connect("users.db")
+    cur = conn.cursor()
+    hashed_password = hashlib.sha256(oldPassword.encode()).hexdigest()
+    cur.execute(f"select password from users where email=('{email}')")
+    checkPass = cur.fetchone()
+    print(checkPass[0])
+    if hashed_password != checkPass[0]:
+        return {"error": "Old password is incorrect"}
     return update_password(email, newPassword)
 
 
@@ -238,6 +249,8 @@ def getSecretAnswer():
         return {"answer": 1}
 
 
+############### Search ###############
+
 @api.route("/api/search/byGenre")
 class Genre(Resource):
     @api.response(200, "OK")
@@ -279,6 +292,13 @@ def getGenresByMovieId(movie_id):
     genres = getGenreList(movie_id)
     return {"genres": genres}
 
+@app.route("/api/movies/similarTo/<int:movie_id>", methods=["GET"])
+def getSimilarMovies(movie_id):
+    return searchSimilarMovies(movie_id)
+
+@app.route("/api/movies/recommendedFor/<int:user_id>", methods=["GET"])
+def getRecommendedMovies(user_id):
+    return searchRecommendedMovies(user_id)
 
 ################    Review    ##################
 

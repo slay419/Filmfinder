@@ -45,5 +45,14 @@ Meeting 7: Thursday 8/10/2020
 Things going well, Proposal was submitted on time and completed and the first sprint has started.
 Tasks have been divided into front end and back end to allow us to work on the entire project.
 I will be working on the react/javascript front end with Peter and am feeling pretty good about it.
-I havent worked with React before but it doesnt seem super complicated and I thin i can get the hang of it.
+I havent worked with React before but it doesnt seem super complicated and I think i can get the hang of it.
+
+Meeting 8: Thursday 15/10/2020
+Just finished our progress demonstration and retrospective. I think it went well.
+No serious bugs were shown in the demonstration and the minor ones that were shown have been noted and will be fixed.
+Though we didn't finish all of the user stories in the sprint, this sprint was out largest and i feel it went very well.
+I have been assigned to be the comment police: the person who will ensure proper code commenting is added and maintained on the code.
+I shouldn't haveany problems with this, i ust need to add the comments to my sections of the code first.
+Overall I have a good grasp on react and the front end coding that it uses and feel I have been "pulling my weight" 
+and have done a fair share of the tasks.
 
