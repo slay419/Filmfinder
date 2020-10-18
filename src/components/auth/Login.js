@@ -1,9 +1,9 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import React from "react";
 import "../../styles/Login.scss";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import LoginContext from "../../context/Auth/LoginContext";
-import { TextField, Button, Collapse } from "@material-ui/core";
+import { TextField, Button, Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import {
   createMuiTheme,
@@ -11,6 +11,7 @@ import {
   styled,
 } from "@material-ui/core/styles";
 
+// creating a theme for material-ui components to match existing styles
 const theme = createMuiTheme({
   typography: {
     fontFamily: [
@@ -44,20 +45,22 @@ const theme = createMuiTheme({
   },
 });
 
+// material ui styled component
 const RegisterTextField = styled(TextField)({
   fontFamily: "Poppins",
-  //marginTop: 10,
 });
 
 const Login = () => {
+  // initialising local state for email, password and login error pop-up
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(true);
-  const [openSuccess, setOpenSuccess] = useState(false);
 
+  // bringing in login context
   const loginContext = useContext(LoginContext);
   const { User, isValid, login } = loginContext;
 
+  // input handlers
   const emailHandler = (e) => {
     setEmail(e.target.value);
   };
@@ -66,6 +69,7 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
+  // handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     setOpen(true);
@@ -82,8 +86,15 @@ const Login = () => {
           <h1>Login</h1>
 
           <div>
+            {/* If there is an error then show the error message */}
             {isValid !== null && (
-              <Collapse in={open}>
+              <Snackbar
+                onClose={() => {
+                  setOpen(false);
+                }}
+                autoHideDuration={6000}
+                open={open}
+              >
                 <Alert
                   onClose={() => {
                     setOpen(false);
@@ -92,10 +103,10 @@ const Login = () => {
                 >
                   {isValid}
                 </Alert>
-              </Collapse>
+              </Snackbar>
             )}
           </div>
-
+          {/* This is the form for email and password, includes the submit button too */}
           <form onSubmit={handleSubmit} autoComplete="off">
             <ThemeProvider theme={theme}>
               <RegisterTextField
