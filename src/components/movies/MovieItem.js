@@ -5,7 +5,7 @@ import GradeIcon from "@material-ui/icons/Grade";
 import Tilt from "react-tilt";
 
 const MovieItem = ({ movie }) => {
-  const { movie_id, imdb_id, title, release_date, overview, vote_avg } = movie;
+  const { movie_id, imdb_id, title, release_date, vote_avg } = movie;
 
   console.log(movie);
   return (
