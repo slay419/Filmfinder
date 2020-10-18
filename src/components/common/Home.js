@@ -19,7 +19,7 @@ const Home = () => {
 
   useEffect(() => {
     getMovies();
-  }, [getMovies]);
+  }, []);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {

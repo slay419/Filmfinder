@@ -13,6 +13,7 @@ import Recommendations from "../recommendations/Recommendations";
 import "../../styles/MovieDetails.scss";
 import GradeIcon from "@material-ui/icons/Grade";
 import Tilt from "react-tilt";
+import ShowMoreText from "react-show-more-text";
 
 const MovieDetails = (props) => {
   // using movieContext and moviesContext
@@ -42,6 +43,11 @@ const MovieDetails = (props) => {
     routeChange();
   };
 
+  // function to handle wishlist
+  const handleAddToWishlist = () => {
+    alert("added to wishlist no implemented yet");
+  };
+
   // extracting values from the movie object
   const {
     title,
@@ -67,20 +73,26 @@ const MovieDetails = (props) => {
   // get all the movie info upon loading & receiving id from the url
   useEffect(() => {
     getMovieById(id);
-  }, [id, getMovieById]);
+  }, [id]);
 
   return movie === {} ? (
     <div>...</div>
   ) : (
     <div className="movie-details">
       <div className="movie-details-box">
-        <Tilt className="Tilt Tilt-inner" options={{ max: 25 }}>
-          <img
-            className="movie-img"
-            src={`http://img.omdbapi.com/?apikey=d7afa05e&i=${imdb_id}`}
-            alt={title}
-          />
-        </Tilt>
+        <div className="">
+          <Tilt className="Tilt Tilt-inner" options={{ max: 25 }}>
+            <img
+              className="movie-img"
+              src={`http://img.omdbapi.com/?apikey=d7afa05e&i=${imdb_id}`}
+              alt={title}
+            />
+          </Tilt>
+          <span onClick={handleAddToWishlist} className="wishlist-btn">
+            Add to Wishlist
+          </span>
+        </div>
+
         <div className="movie-detail-content">
           <h1 className="title">
             {title} <span className="year">({year})</span>
@@ -113,18 +125,23 @@ const MovieDetails = (props) => {
               </div>
             )}
           </>
-          <p>
+          <div>
             Cast:{" "}
             {cast === undefined ? (
               <></>
             ) : (
-              cast.map((e) => (
-                <span className="" key={e}>
-                  {`${e}, `}
-                </span>
-              ))
+              <ShowMoreText
+                /* Default options */
+                lines={8}
+                more="Show more"
+                less="Show less"
+                anchorClass=""
+                expanded={false}
+              >
+                {cast.map((e) => `${e}, `)}
+              </ShowMoreText>
             )}
-          </p>
+          </div>
         </div>
       </div>
       <Recommendations id={id} />
