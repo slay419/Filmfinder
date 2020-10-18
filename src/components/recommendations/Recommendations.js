@@ -30,7 +30,7 @@ const Recommendations = ({ id }) => {
     if (id) {
       getRecommendations(id);
     }
-  }, [id]);
+  }, [getRecommendations, id]);
 
   return (
     <div>

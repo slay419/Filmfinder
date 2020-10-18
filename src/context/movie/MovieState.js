@@ -3,10 +3,8 @@ import MovieContext from "./movieContext";
 import MovieReducer from "./movieReducer";
 
 import {
-  GET_MOVIES,
   SET_LOADING,
   MOVIES_ERROR,
-  SEARCH_MOVIES,
   GET_MOVIE_BY_ID,
   POST_REVIEW,
   GET_REVIEWS,
