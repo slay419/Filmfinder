@@ -22,7 +22,7 @@ export default (state, action) => {
       };
     case LOGIN_ERROR:
       console.log(action.payload);
-
+      return state;
     default:
       return state;
   }

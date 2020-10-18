@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { useState, useContext } from "react";
 import "../../styles/register.scss";
 import RegisterContext from "../../context/Auth/RegisterContext";

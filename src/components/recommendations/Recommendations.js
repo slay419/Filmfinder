@@ -1,12 +1,16 @@
 import React, { useContext, useEffect } from "react";
-import Slider from "react-slick";
+
+// Components
+import RecommendationSlide from "./RecommendationSlide";
+
+// Context
 import MovieContext from "../../context/movie/movieContext";
 
+// Styling
+import Slider from "react-slick";
 import "../../styles/Recommendations.scss";
-import RecommendationSlide from "./RecommendationSlide";
-// import "~slick-carousel/slick/slick.css";
-// import "~slick-carousel/slick/slick-theme.css";
 
+// slider style settings
 const sliderSettings = {
   className: "center",
   centerMode: true,
@@ -17,9 +21,11 @@ const sliderSettings = {
 };
 
 const Recommendations = ({ id }) => {
+  // using the movie context
   const movieContext = useContext(MovieContext);
-  const { getRecommendations, recommendations, movie } = movieContext;
+  const { getRecommendations, recommendations } = movieContext;
 
+  // on load, get the similar movies
   useEffect(() => {
     if (id) {
       getRecommendations(id);
@@ -32,6 +38,7 @@ const Recommendations = ({ id }) => {
       {recommendations === null ? (
         <></>
       ) : (
+        // If the recomendations are not null, show the slider with recommended movies
         <Slider {...sliderSettings}>
           {recommendations.map((rec) => {
             return <RecommendationSlide movie={rec} key={rec.movie_id} />;
