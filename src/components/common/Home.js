@@ -1,12 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-import "../../styles/Home.scss";
+
+// Components
 import MovieList from "../movies/MovieList";
-import MoviesContext from "../../context/moviesList/moviesContext";
 import Spinner from "./Spinner";
-import "../../styles/Home.scss";
-import LoginContext from "../../context/Auth/LoginContext";
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
+
+// Context
+import MoviesContext from "../../context/moviesList/moviesContext";
+import LoginContext from "../../context/Auth/LoginContext";
+
+// styles
+import "../../styles/Home.scss";
 
 const Home = () => {
   const loginContext = useContext(LoginContext);

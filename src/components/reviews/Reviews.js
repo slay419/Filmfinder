@@ -77,7 +77,7 @@ const Reviews = () => {
     if (movie_id !== undefined) {
       getReviews(movie_id);
     }
-  }, [getReviews, movie_id]);
+  }, [movie_id]);
 
   // post review to db on submit
   const handleSubmitReview = () => {
