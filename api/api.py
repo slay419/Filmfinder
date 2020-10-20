@@ -26,7 +26,8 @@ from functions.search import (
     getGenreList,
     getCastList,
     getDirectorById,
-    
+    searchSimilarMovies,
+    searchRecommendedMovies
 )
 from functions.review import newReview, incrementLikes, editReview, getMovieReviewList
 
@@ -79,6 +80,7 @@ class Movie(Resource):
         # Change the sql query depending on if a search term was given or not
         if title_str is None:
             cur.execute("select * from MOVIE limit 15")
+            #cur.execute("select * from MOVIE where vote_count > 1000 order by vote_avg desc limit 15;")
 
         else:
             # Search through movie titles, overview and genre for matching keywords in that order
@@ -247,6 +249,8 @@ def getSecretAnswer():
         return {"answer": 1}
 
 
+############### Search ###############
+
 @api.route("/api/search/byGenre")
 class Genre(Resource):
     @api.response(200, "OK")
@@ -288,6 +292,13 @@ def getGenresByMovieId(movie_id):
     genres = getGenreList(movie_id)
     return {"genres": genres}
 
+@app.route("/api/movies/similarTo/<int:movie_id>", methods=["GET"])
+def getSimilarMovies(movie_id):
+    return searchSimilarMovies(movie_id)
+
+@app.route("/api/movies/recommendedFor/<int:user_id>", methods=["GET"])
+def getRecommendedMovies(user_id):
+    return searchRecommendedMovies(user_id)
 
 ################    Review    ##################
 

@@ -3,13 +3,12 @@ import MovieContext from "./movieContext";
 import MovieReducer from "./movieReducer";
 
 import {
-  GET_MOVIES,
   SET_LOADING,
   MOVIES_ERROR,
-  SEARCH_MOVIES,
   GET_MOVIE_BY_ID,
   POST_REVIEW,
   GET_REVIEWS,
+  GET_RECOMMENDATIONS,
 } from "../types";
 
 const MovieState = (props) => {
@@ -17,6 +16,7 @@ const MovieState = (props) => {
     movie: {},
     loading: false,
     reviews: null,
+    recommendations: null,
   };
 
   const [state, dispatch] = useReducer(MovieReducer, initialState);
@@ -63,6 +63,18 @@ const MovieState = (props) => {
       });
   };
 
+  const getRecommendations = (movie_id) => {
+    fetch("/api/movies/similarTo/" + movie_id)
+      .then((res) => res.json())
+      .then((data) => {
+        const movies_list = Object.values(data.movies);
+        dispatch({ type: GET_RECOMMENDATIONS, payload: movies_list });
+      })
+      .catch((err) => {
+        dispatch({ type: MOVIES_ERROR, payload: err });
+      });
+  };
+
   const getReviews = (movie_id) => {
     fetch(`/api/review/getMovieReviews?movie_id=${movie_id}`)
       .then((res) => res.json())
@@ -79,9 +91,11 @@ const MovieState = (props) => {
       value={{
         movie: state.movie,
         reviews: state.reviews,
+        recommendations: state.recommendations,
         getMovieById,
         postReview,
         getReviews,
+        getRecommendations,
       }}
     >
       {props.children}

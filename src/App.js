@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
+
+// Components
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Home from "./components/common/Home";
 import ForgottenPass from "./components/auth/ForgottenPass";
 import ChangePass from "./components/auth/ChangePass";
 import MovieDetails from "./components/movies/MovieDetails";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Header from "./components/common/Header";
+import ChangePassState from "./context/Auth/ChangePassState";
+import ForgottenPassState from "./context/Auth/ForgottenPassState";
+import profile from "./components/common/profile";
+import Footer from "./components/common/Footer";
+
+// Context
 import MoviesState from "./context/moviesList/MoviesState";
 import MovieState from "./context/movie/MovieState";
 import LoginState from "./context/Auth/LoginState";
 import RegisterState from "./context/Auth/RegisterState";
-import Header from "./components/common/Header";
-import ChangePassState from "./context/Auth/ChangePassState";
-import ForgottenPassState from "./context/Auth/ForgottenPassState";
-
-import profile from "./components/common/profile";
-import Footer from "./components/common/Footer";
 
 function App() {
   return (

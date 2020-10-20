@@ -1,9 +1,9 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import React from "react";
 import "../../styles/Login.scss";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import LoginContext from "../../context/Auth/LoginContext";
-import { TextField, Button, Collapse } from "@material-ui/core";
+import { TextField, Button, Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import {
   createMuiTheme,
@@ -11,6 +11,7 @@ import {
   styled,
 } from "@material-ui/core/styles";
 
+// creating a theme for material-ui components to match existing styles
 const theme = createMuiTheme({
   typography: {
     fontFamily: [
@@ -44,19 +45,22 @@ const theme = createMuiTheme({
   },
 });
 
+// material ui styled component
 const RegisterTextField = styled(TextField)({
   fontFamily: "Poppins",
-  //marginTop: 10,
 });
 
 const Login = () => {
+  // initialising local state for email, password and login error pop-up
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(true);
 
+  // bringing in login context
   const loginContext = useContext(LoginContext);
   const { User, isValid, login } = loginContext;
 
+  // input handlers
   const emailHandler = (e) => {
     setEmail(e.target.value);
   };
@@ -65,11 +69,13 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
+  // handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     setOpen(true);
     login(email, password);
   };
+
   //first line redirects if already logged in, otherwise it loads the login page
   return (
     <div>
@@ -77,9 +83,30 @@ const Login = () => {
         <Redirect to="/" />
       ) : (
         <div className="login">
-          <h1>Login Page</h1>
-          <div>{isValid !== null && <h1>{isValid}</h1>}</div>
+          <h1>Login</h1>
 
+          <div>
+            {/* If there is an error then show the error message */}
+            {isValid !== null && (
+              <Snackbar
+                onClose={() => {
+                  setOpen(false);
+                }}
+                autoHideDuration={6000}
+                open={open}
+              >
+                <Alert
+                  onClose={() => {
+                    setOpen(false);
+                  }}
+                  severity="error"
+                >
+                  {isValid}
+                </Alert>
+              </Snackbar>
+            )}
+          </div>
+          {/* This is the form for email and password, includes the submit button too */}
           <form onSubmit={handleSubmit} autoComplete="off">
             <ThemeProvider theme={theme}>
               <RegisterTextField
@@ -105,34 +132,6 @@ const Login = () => {
               </Button>
             </ThemeProvider>
           </form>
-
-          {/* <div className="Login-inputs">
-            <form>
-              <label for="name">Username:</label>
-              <input
-                type="test"
-                placeholder="Enter username"
-                id="name"
-                onChange={emailHandler}
-              ></input>
-
-              <label for="pword">Password:</label>
-              <input
-                type="password"
-                placeholder="Enter password"
-                id="pword"
-                onChange={passwordHandler}
-              ></input>
-
-              <button type="button" onClick={() => login(email, password)}>
-                Login
-              </button>
-              <p>
-                Not Registered ?<Link to="/register">Create account Now!</Link>
-              </p>
-              <Link to="/forgot">Forgot Password</Link>
-            </form>
-          </div> */}
         </div>
       )}
     </div>

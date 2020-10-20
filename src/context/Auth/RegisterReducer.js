@@ -1,4 +1,3 @@
-
 import { REGISTER, REGISTER_ERROR, ERROR } from "../types";
 
 export default (state, action) => {

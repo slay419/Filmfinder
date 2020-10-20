@@ -2,21 +2,16 @@ import React, { useReducer } from "react";
 import LoginContext from "./LoginContext";
 import LoginReducer from "./LoginReducer";
 
-import {
-    LOGIN,
-    LOGIN_ERROR,
-    ERROR,
-    LOGOUT
-} from "../types";
+import { LOGIN, LOGIN_ERROR, ERROR, LOGOUT } from "../types";
 
 const LoginState = (props) => {
-    const initialState = {
-        User: null,
-        isValid: null
-        //user info stored in this state
-    };
+  const initialState = {
+    User: null,
+    isValid: null,
+    //user info stored in this state
+  };
 
-    const [state, dispatch] = useReducer(LoginReducer, initialState);
+  const [state, dispatch] = useReducer(LoginReducer, initialState);
 
     const login = (email, password) => {
       // send login details to the back end for validation
@@ -68,18 +63,18 @@ const LoginState = (props) => {
     });      
     }
 
-    return (
-        <LoginContext.Provider
-          value={{
-            User: state.User,
-            isValid: state.isValid,
-            login,
-            logout,
-          }}
-        >
-          {props.children}
-        </LoginContext.Provider>
-      );
+  return (
+    <LoginContext.Provider
+      value={{
+        User: state.User,
+        isValid: state.isValid,
+        login,
+        logout,
+      }}
+    >
+      {props.children}
+    </LoginContext.Provider>
+  );
 };
 
 export default LoginState;
