@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import React from "react";
 import "../../styles/Login.scss";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link} from "react-router-dom";
 import LoginContext from "../../context/Auth/LoginContext";
 import { TextField, Button, Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
@@ -131,6 +131,7 @@ const Login = () => {
                 Submit
               </Button>
             </ThemeProvider>
+            <Link to="/forgot">Forgot Password</Link>
           </form>
         </div>
       )}
