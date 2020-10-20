@@ -13,7 +13,6 @@ USER_LIST = []
 REGEX = "^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
 PASSWORDREGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" # at least 8 characters, one number one uppercase one lowercase
 
-# Secret question field??
 def auth_register(
     email, password, first_name, last_name, secret_question, secret_answer
 ):
@@ -32,6 +31,9 @@ def auth_register(
         return check    
     # Check names
     check = check_valid_names(first_name, last_name)
+    if "error" in check:
+        return check
+    check = check_question(secret_question, secret_answer)
     if "error" in check:
         return check
     c.execute(
@@ -57,7 +59,7 @@ def update_password(email, newP):
         conn.commit()
         conn.close()
         return {"success": 1}
-    return {"error": "Old Password is incorrect"}
+    return {"error": "Invalid new password"}
 
 
 def auth_login(email, password):
@@ -77,25 +79,18 @@ def auth_login(email, password):
     u_id = get_user_id(email)
     if u_id == False:
         return {"error": "Invalid Login"}
+    if u_id in USER_LIST:
+        return {"error": "That user is already logged in"}
     USER_LIST.append(u_id)
+    print(USER_LIST)
     return get_user_details(u_id)
 
 def auth_logout(u_id):
+    if u_id not in USER_LIST:
+        return {"error": "You are not currently logged in"}
     USER_LIST.remove(u_id)
+    print(USER_LIST)
     return get_user_details(u_id)
-
-def auth_resetpass(email, secretAnswer):
-    conn = sqlite3.connect("users.db")
-    c = conn.cursor()
-    #Search for email
-    #Search for emails Secret questions
-    #Compare secret question with secret answer
-    c.execute(f'SELECT secret_answer FROM users WHERE email=("{email}")')
-    selectedAnswer = c.fetchone()
-    # if selectedAnswer[0] != secretAnswer:
-    #     return "Incorrect answer, please try again"
-    # else:
-    #     return "Correct answer!"
 
 
 ######################  HELPER FUNCTIONS  ########################
@@ -104,15 +99,15 @@ def auth_resetpass(email, secretAnswer):
 def check_valid_email(email):
     # Case 1 check valid format
     if not re.match(REGEX, email):
-        return {"error" : "{email} is not in correct form"}
+        return {"error" : "Email is not in correct form"}
     # Case 2 check email doesn't already exist
     if get_user_id(email) != False:
-        return {"error" : "{email} is already reigstered"}
+        return {"error" : "Email is already registered"}
     return {"success" : 1}
 
 def check_valid_password(password):
-    if len(password) < 6:
-        return {"error" : "Password must be at least 6 characters long"}
+    if not re.match(PASSWORDREGEX, password):
+        return {"error" : "Password must contain at least one uppercase letter, one lowercase letter and be 8 characters long"}
     return {"success" : 1}
 
 
@@ -120,13 +115,22 @@ def check_valid_names(first_name, last_name):
     maxlen = 50
     minlen = 1
     if len(first_name) > maxlen:
-        return {"error" : "{first_name} is longer than 50 characters"}
+        return {"error" : "First name cannot be longer than 50 characters"}
     if len(first_name) < minlen:
         return {"error" : "First name cannot be empty"}
     if len(last_name) > maxlen:
-        return {"error" : "{last_name} is longer than 50 characters"}
+        return {"error" : "Last name cannot be longer than 50 characters"}
     if len(last_name) < minlen:
         return {"error" : "Last name cannot be empty"}
+    return {"success" : 1}
+
+def check_question(question, answer):
+    # Case 1 check valid format
+    if len(question) < 1:
+        return {"error" : "Please enter a Secret Question"}
+    # Case 2 check email doesn't already exist
+    if len(answer) < 1:
+        return {"error" : "Please enter a Secret Answer"}
     return {"success" : 1}
 
 def get_user_id(email):

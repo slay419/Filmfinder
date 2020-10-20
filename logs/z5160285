@@ -13,3 +13,29 @@ related to the novelty mark.
 
 For next week I planned to finish our flow diagrams and refine the story boards. Everyone would then combine their parts into the proposal before we had a final review
 and submitted our work.
+
+Week 3
+In week 3 our main goal was to finalise the project proposal. To do this we had to complete the storyboards and flow charts. I worked on the flow charts and Peter and Steven
+helped me complete the story boards. Aidan was working hard to understand React since he had no experience with the front end but was still working fantastically. Kevin had cleaned
+up our databases and mapped out our relational database.
+
+I think our proposal was done well and we achieved all that was asked from us. We had some issues regarding how we wanted to do the storyboard where we mapped each individual 
+page or we were to map each "goal" a user would have when using our website. In the end and after discussion with Rachid we chose with the first one since it was easier work.
+
+For next week it was time to start our first sprint. Since most of us were rusty from python flask we would be employing pair programming so that everyone could get caught up to date.
+
+Week 4
+In week 4 we attempted to finish our sprint. The first sprint was actually quite large and we questioned wether or not we would be able to finish it all. I worked on some forget 
+password/change password features and pair programmed with the group. Kevin, Steven and I were tasked with the backend while Peter and Aidan were working on the front end. Everyone
+was working extremely well together and I was happy with the progress we were making. By the end of the week we had just finished login and we were looking for any errors
+while Peter was improving the overall design of the website. Aidan was working very closely with the backend as he was tasked with checking our backend code worked.
+
+Next week we had to present and we were looking forward to it. We still had more work to do and our goal was to complete as many user stories as possible
+
+Week 5
+We presented our current work and I believe we showed a good product. Overall we finished all account details and some search/movie details. We received feedback from Rachid
+with regards to sending a confirmation email when a user registered their account and we will be attempting to implement this later down the future. Although we had some user
+stories that weren't completed we weren't worried since Sprint 1 was huge and we decided to push it into Sprint 2. 
+
+We held our retrospective meeting straight after our demonstration and discussed what we had to improve. Obviously next week we were going to start Sprint 2 and we aimed to 
+finish the stories we could not complete in Sprint 1. Our group works extremely well now, with daily meetings at night while we all code together and share our thoughts.
