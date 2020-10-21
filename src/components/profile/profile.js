@@ -77,11 +77,13 @@ const Profile = () => {
   };
 
   const handleWishList = () => {
-    alert("not implemented");
+    let path = '/profile/wishlist';
+    history.push(path);
   };
 
   const handleBannedList = () => {
-    alert("not implemented");
+    let path = '/profile/bannedlist';
+    history.push(path);
   }; 
 
   const handleReviews = () => {
@@ -89,7 +91,7 @@ const Profile = () => {
   }; 
 
   const handlePassword = () => {
-    let path = '/change';
+    let path = '/profile/change';
     history.push(path);
   };
 
