@@ -12,7 +12,7 @@ import MovieDetails from "./components/movies/MovieDetails";
 import Header from "./components/common/Header";
 import ChangePassState from "./context/Auth/ChangePassState";
 import ForgottenPassState from "./context/Auth/ForgottenPassState";
-import profile from "./components/common/profile";
+import profile from "./components/profile/profile";
 import Footer from "./components/common/Footer";
 
 // Context
