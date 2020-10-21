@@ -20,28 +20,57 @@ I created API routes for filtering movies by title name and getting movies by id
 Then I created the search page on the front end as well as the full details page - this stuff works now.
 TODO: Write up architecture + user stories + first sprint in proposal, determine the database structure including Users/Reviews/Actors tables
 
--- Week 2: Meeting 1 (Thu) --
+-- Week 2: Meeting 4 (Thu) --
 I started to write/draw up the web app architecture diagram
 This was quite difficult since I couldn't find a standard for drawing a software architecture diagram so i just tried my best
 Extra detail was added to the diagram by including the technologies table.
 As a group we figure out what things ne
 The group decided to skip the Friday meeting as we needed more time to complete our proposal tasks
 
--- Week 2: Meeting 2 (Tue) --
+-- Week 2: Meeting 5 (Tue) --
 I wrote up the external actors table
 As a group we ran through the parts of the proposal rubric/marking criteria and compared it to what we had completed
 Then we delegated the remaining tasks and discussed any queries we had
 I added an explanation part to the proposal
-We planned to finish off the proposal after asking questions during our tutorial.
+TODO: We planned to finish off the proposal after asking questions during our tutorial.
 
--- Week 3: Meeting 1 (Thu) --
+-- Week 3: Meeting 6 (Thu) --
 We talked about the proposal and listened to what our tutor had to say, especially with regards to storyboards and flow diagrams
 The first sprint will be commencing and will encompass our main objectives for the coming days
 For the next meeting I want to get everyone working on the project from their own computers!
 
--- Week 3: Meeting 2 (Sun) --
+-- Week 3: Meeting 7 (Sun) --
 Added flow diagrams and the wireframes to the proposal. These diagrams were difficult to make with draw.io so we switched over to using the balsamiq prototyping software
 Submitted proposal
 The first sprint has started
-We will need to find a way to get the data base up 
+TODO: We will need to find a way to get the data base up 
 I need to create a document for the team to get things working -> might work on this with michael/steven then share to the rest of the team.
+
+-- Week 4: Meeting 8 --
+I wrote up a quick guide on getting the thing set up on you machine so people could get it working
+I spent a night with michael, steven and kevin getting it working on their respective machines
+Glad to be getting started
+TODO: Run through Frontend with Aidan and the Backend with the other team members
+
+-- Week 4: Meeting 9 --
+I ran through React with Aidan including how it works with the API, I have high hopes
+I have been focused on laying down the boilerplate code for both the frontend and backend people to reference when writing their own routes and components
+TODO: Settle on a database/api architecture to consistently meet the needs of the frontend.
+
+-- Week 5: Meeting 10 --
+Aidan has really gotten the hang of things and is making a lot of progress
+I am happy to have been able to assist him when necessary to get some great results
+My focus has been to fix bugs and add small bits of functionality as well as functional styling.
+I want to try and handle as much of the interaction that I can through the front end to limit the amount of requests made to our API.
+Syntax and code organisation could do with some refactoring
+Kevin and the backend boys have come through with expanding the database and api routes to cover most of the functionality
+We plan on doing a little practice demo with Steven who will present the demonstration to the tutor.
+TODO: wrap things up and prepare for the demo
+
+-- Week 5: Meeting 11 --
+Finished up with the progress demonstration and retrospective, feeling pretty good.
+We finished up most of the user stories in the sprint, but there are still some left to do.
+Happy with how to team is going and I feel like people have been contributing consistently.
+I'm going to try and implement the GTD Natural Planning model for each meeting to help guide our work.
+TODO: Get the team aware of whats coming up in the next sprint.
+
