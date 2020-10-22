@@ -106,6 +106,7 @@ def reviewIdExists(review_id):
     cur = conn.cursor()
     cur.execute(f"select * from review where review_id = {review_id}")
     if len(cur.fetchall()) == 0:
+        conn.close()
         return False
     conn.close()
     return True
