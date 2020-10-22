@@ -30,6 +30,12 @@ from functions.search import (
 )
 from functions.review import newReview, incrementLikes, editReview, getMovieReviewList
 
+from functions.bannedList import (
+    bannedList_block,
+    bannedList_unblock,
+    bannedList_view
+)
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
 
@@ -328,6 +334,14 @@ class MovieReivews(Resource):
         review_list = getMovieReviewList(movie_id_int)
         return {"reviews": review_list}
 
+################    Banned List    ##################
+@api.route("/api/bannedList/block", methods=["POST"])
+def block():
+    response = request.get_json()
+    user_id = response["user_id"]
+    block_id = response["block_id"]
+    print(response)
+    return bannedList_block(user_id, block_id)
 
 if __name__ == "__main__":
     app.run(port=5000)
