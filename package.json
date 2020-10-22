@@ -5,17 +5,22 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/styles": "^4.10.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "gsap": "^3.5.1",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-select": "^3.1.0",
-    "react-tilt": "^0.1.4"
+    "react-show-more-text": "^1.4.4",
+    "react-slick": "^0.27.12",
+    "react-tilt": "^0.1.4",
+    "read-more-react": "^1.0.10"
   },
   "scripts": {
     "start": "react-scripts start",

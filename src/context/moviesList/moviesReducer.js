@@ -42,6 +42,7 @@ export default (state, action) => {
       };
     case MOVIES_ERROR:
       console.log(action.payload);
+      return state;
     default:
       return state;
   }

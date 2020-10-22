@@ -25,3 +25,16 @@ For next week, I plan on helping finish any missing details in the proposal as w
 possible alternatives to the database since the .db file is >100mb. Also, hopefully I would like to
 get coding in the backend.
 
+
+Week 3
+
+We had another 2 meetings where we worked on the proposal together and completed it with ease before submitting.
+
+
+Week 4
+
+During this week, I mostly worked on the final touches on the movie db such as fixing the fields to have appropriate
+data types. I also created the users db and worked on the backend functions such as searching for director, genre
+keywords, etc. Towards the end, I also started on creating/editing movie reviews to finish off one of the user stories.
+We had meetings on Monday, Tuesday and Wednesday night to combine our code together and ensured the frontend 
+connected with the backend smoothly. No issues this week.
