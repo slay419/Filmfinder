@@ -279,6 +279,10 @@ def getGenresByMovieId(movie_id):
     genres = getGenreList(movie_id)
     return {"genres": genres}
 
+################   Wishlist   ##################
+@app.route("/api/wishlist/add", methods=["POST"]) 
+def addToWishlist():
+
 
 ################    Review    ##################
 
@@ -308,7 +312,7 @@ def editMovieReview():
 
 
 @api.route("/api/review/getMovieReviews")
-class MovieReivews(Resource):
+class MovieReviews(Resource):
     @api.response(200, "OK")
     @api.response(201, "Created")
     @api.response(400, "Bad Request")
