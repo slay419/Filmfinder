@@ -30,7 +30,6 @@ def newReview(user_id, movie_id, comment, score):
 
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
-    cur.execute(f"select * from users where user_id = {user_id}")
 
     cur.execute("select * from review;")
     review_id = len(cur.fetchall()) + 1
@@ -85,6 +84,7 @@ def movieIdExists(movie_id):
     movie_cur = movie_conn.cursor()
     movie_cur.execute(f"select * from movie where movie_id = {movie_id};")
     if len(movie_cur.fetchall()) == 0:
+        movie_conn.close()
         return False
     movie_conn.close()
     return True
@@ -95,6 +95,7 @@ def userIdExists(user_id):
     cur = conn.cursor()
     cur.execute(f"select * from users where user_id = {user_id}")
     if len(cur.fetchall()) == 0:
+        conn.close()
         return False
     conn.close()
     return True

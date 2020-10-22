@@ -144,3 +144,93 @@ def extractMovieDetails(movie):
     item["genres"] = getGenreList(item["movie_id"])
     return item
 
+
+# Finds similar movies based on number of matching genres and keywords
+def searchSimilarMovies(movie_id):
+    conn = sqlite3.connect("./movieDB.db")
+    cur = conn.cursor()
+
+    # First query for the list of movies that share at least ONE matching genre
+    cur.execute(
+        f"""
+        create temp view if not exists matchingGenres as
+        select m.movie_id, title, genre
+        from movie m join genre g on m.movie_id = g.movie_id
+        where g.genre in (
+            select genre from genre where movie_id = {movie_id}
+        );
+        """
+    )
+
+    # Next make query for list of movies that share at least ONE matching keyword
+    cur.execute(
+        f"""
+        create temp view if not exists matchingKeywords as
+        select m.movie_id, title, keyword
+        from movie m join keyword k on m.movie_id = k.movie_id
+        where k.keyword in (
+            select keyword from keyword where movie_id = {movie_id}
+        );
+        """
+    )
+
+    # Combine both views and sort by num matching genres, keywords, and then average score
+    cur.execute(
+        f"""
+        select m.movie_id, director_id, adult, m.title, release_date, runtime, budget, revenue, imdb_id, 
+            movie_language, overview, tagline, poster, vote_avg, vote_count, 
+            count(distinct(g.genre)) as num_matching_g, count(distinct(k.keyword)) as num_matching_k
+        from matchingGenres g 
+            join matchingKeywords k on g.movie_id = k.movie_id 
+            join movie m on g.movie_id = m.movie_id
+        where g.movie_id <> {movie_id}
+        group by g.movie_id
+        order by 
+            num_matching_g desc,
+            num_matching_k desc,
+            vote_avg desc
+        limit 10;
+        """
+    )
+    index = 0
+    movies = {}
+    for movie in cur.fetchall():
+        item = extractMovieDetails(movie)
+        movies[index] = item
+        index += 1
+
+    cur.execute("drop view matchingGenres;")
+    cur.execute("drop view matchingKeywords;")
+
+    conn.close()
+
+    return {"movies": movies}
+
+
+# Finds similar movies based on all the movies the user has reviewed
+def searchRecommendedMovies(user_id):
+    conn = sqlite3.connect("./users.db")
+    cur = conn.cursor()
+
+    # Select all the movies that the user has left a good review on
+    movie_id_list = []
+    cur.execute(f"select movie_id from review where user_id = {user_id} and score > 6;")
+    for row in cur.fetchall():
+        movie_id_list.append(row[0])
+
+    # Get list of all similar movies of each entry
+    recommended_movies_list = []
+    for movie_id in movie_id_list:
+        similar_movie = searchSimilarMovies(movie_id)["movies"].values()
+        for movie in similar_movie:
+            recommended_movies_list.append(movie)
+
+    sorted_list = sorted(
+        recommended_movies_list,
+        key=lambda i: (i["vote_avg"], i["vote_count"]),
+        reverse=True,
+    )
+    top_list = sorted_list[:5]
+    print(top_list)
+
+    return {"movies": top_list}

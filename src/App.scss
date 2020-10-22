@@ -7,6 +7,7 @@
 .container {
   width: 1280px;
   margin: 0 auto;
+  min-height: 100vh;
 
   .header {
     height: 100px;
@@ -27,4 +28,11 @@
       }
     }
   }
+}
+
+.footer {
+  height: 150px;
+  bottom: 0;
+  background-color: #191919;
+  color: white;
 }

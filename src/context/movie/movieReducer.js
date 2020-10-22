@@ -4,6 +4,7 @@ import {
   MOVIES_ERROR,
   POST_REVIEW,
   GET_REVIEWS,
+  GET_RECOMMENDATIONS,
 } from "../types";
 
 export default (state, action) => {
@@ -33,6 +34,12 @@ export default (state, action) => {
     case MOVIES_ERROR:
       console.log(action.payload);
       return state;
+    case GET_RECOMMENDATIONS:
+      console.log(action.payload);
+      return {
+        ...state,
+        recommendations: action.payload,
+      };
     default:
       return state;
   }

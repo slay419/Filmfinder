@@ -1,8 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
-import LoginContext from "../../context/Auth/LoginContext";
-import MovieContext from "../../context/movie/movieContext";
+// components
 import ReviewList from "./ReviewList";
 
+// context
+import LoginContext from "../../context/Auth/LoginContext";
+import MovieContext from "../../context/movie/movieContext";
+
+// styles
 import {
   createMuiTheme,
   ThemeProvider,
@@ -11,6 +15,7 @@ import {
 import { TextField, Button } from "@material-ui/core";
 import Select from "react-select";
 
+// theming for material ui components
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -28,6 +33,7 @@ const theme = createMuiTheme({
   },
 });
 
+// options for dropdown select box
 const options = [
   { value: "1", label: "1" },
   { value: "2", label: "2" },
@@ -41,6 +47,7 @@ const options = [
   { value: "10", label: "10" },
 ];
 
+// custom styled components for review form
 const ReviewTextField = styled(TextField)({
   display: "flex",
 });
@@ -50,10 +57,13 @@ const SubmitButton = styled(Button)({
   marginLeft: "10px",
   fontFamily: "Poppins",
 });
+
 const Reviews = () => {
+  // initalising local state
   const [score, setScore] = useState("5");
   const [reviewText, setReviewText] = useState("");
 
+  // using movie and login context
   const loginContext = useContext(LoginContext);
   const { User } = loginContext;
 
@@ -61,16 +71,22 @@ const Reviews = () => {
   const { postReview, movie, reviews, getReviews } = movieContext;
 
   const { movie_id } = movie;
+
+  // on load, get reviews for active movie
   useEffect(() => {
     if (movie_id !== undefined) {
       getReviews(movie_id);
     }
   }, [movie_id]);
 
+  // post review to db on submit
   const handleSubmitReview = () => {
-    postReview(1, 8844, reviewText, 5);
+    console.log(User);
+    console.log(User.u_id, movie_id, reviewText, score);
+    postReview(User.u_id, movie_id, reviewText, score);
   };
 
+  // handle input text and select value
   const handleReviewText = (e) => {
     setReviewText(e.target.value);
   };
@@ -82,8 +98,10 @@ const Reviews = () => {
   return (
     <div>
       <h2>Reviews</h2>
+      {/* previous reviews in reviews list */}
       <ReviewList reviews={reviews} />
       {User !== null ? (
+        // form for new review creation and submission
         <ThemeProvider theme={theme}>
           <div className="review-box">
             <ReviewTextField
@@ -119,7 +137,7 @@ const Reviews = () => {
                   }}
                 />
               </div>
-
+              {/* button to submit review */}
               <SubmitButton
                 onClick={handleSubmitReview}
                 variant="contained"

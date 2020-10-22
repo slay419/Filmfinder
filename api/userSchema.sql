@@ -15,4 +15,19 @@ CREATE TABLE IF NOT EXISTS review (
     comment text,
     score integer,
     num_likes integer
-)
+);
+
+CREATE TABLE IF NOT EXISTS friend_list (
+    user_id integer,
+    friend_id integer
+);
+
+CREATE TABLE IF NOT EXISTS wishlist (
+    user_id integer,
+    movie_id integer
+);
+
+CREATE TABLE IF NOT EXISTS banned_list (
+    user_id integer,
+    banned_id integer
+);
