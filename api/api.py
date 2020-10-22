@@ -346,14 +346,25 @@ class MovieReivews(Resource):
         return {"reviews": review_list}
 
 ################    Banned List    ##################
-@api.route("/api/bannedList/block", methods=["POST"])
+@app.route("/bannedList/block", methods=["POST"])
 def block():
     response = request.get_json()
     user_id = response["user_id"]
-    block_id = response["block_id"]
-    print(response)
-    return bannedList_block(user_id, block_id)
+    banned_id = response["banned_id"]
+    return bannedList_block(user_id, banned_id)
 
+@app.route("/bannedList/unblock", methods=["POST"])
+def unblock():
+    response = request.get_json()
+    user_id = response["user_id"]
+    banned_id = response["banned_id"]
+    return bannedList_unblock(user_id, banned_id)
+
+@app.route("/bannedList/view", methods=["POST"])
+def view():
+    response = request.get_json()
+    user_id = response["user_id"]
+    return bannedList_view(user_id)
 if __name__ == "__main__":
     app.run(port=5000)
 
