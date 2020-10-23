@@ -16,6 +16,7 @@ const ChangePassState = (props) => {
 
     const [state, dispatch] = useReducer(ChangePassReducer, initialState);
 
+    // changes the password by fetching the back end
     const changePassword = (email, oldPassword, newPassword) => {
         fetch('./auth/changepass', {
             method: "POST",
@@ -26,9 +27,12 @@ const ChangePassState = (props) => {
         })
         .then((res) => res.json())
         .then((data) => {
+            // if back end response is an error message
             if ("error" in data){
+                // change state to reflect error message
                 dispatch( {type: NO_MATCH, payload: data})
               } else {
+                // change password successful and state updated to reflect it
                 dispatch( {type: CHANGE_PASSWORD, payload: data})
               }
         })

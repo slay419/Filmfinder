@@ -9,12 +9,19 @@ import {
   SEARCH_MOVIES,
   SEARCH_MOVIES_GENRE,
   SEARCH_MOVIES_DIRECTOR,
+  NEXT_PAGE,
+  PREV_PAGE,
 } from "../types";
+
 
 const MoviesState = (props) => {
   const initialState = {
     movies: [],
     loading: false,
+    page: 1,
+    postsPerPage: 15,
+    currentPage: [],
+    maxPage: 1
   };
 
   const [state, dispatch] = useReducer(MoviesReducer, initialState);
@@ -29,7 +36,7 @@ const MoviesState = (props) => {
       .then((res) => res.json())
       .then((data) => {
         const movies_list = Object.values(data.movies);
-        dispatch({ type: GET_MOVIES, payload: movies_list.slice(0, 15) });
+        dispatch({ type: GET_MOVIES, payload: movies_list });
       })
       .catch((err) => {
         dispatch({ type: MOVIES_ERROR, payload: err });
@@ -70,6 +77,20 @@ const MoviesState = (props) => {
     }
   };
 
+  const getNextPage = () => {
+    if (state.page != state.maxPage){
+      setLoading();
+      setTimeout(() => {  dispatch({ type: NEXT_PAGE, payload: state.movies.slice(state.page*state.postsPerPage, (state.page+1)*state.postsPerPage)}); }, 20);
+    }
+  }
+
+  const getPrevPage = () => {
+    if (state.page != 1){
+      setLoading();
+      setTimeout(() => {  dispatch({ type: PREV_PAGE, payload: state.movies.slice((state.page-2)*state.postsPerPage, (state.page-1)*state.postsPerPage) }); }, 20);      
+    }
+  }
+
   const searchMoviesGenre = (text) => {
     if (text === "") {
       getMovies();
@@ -90,12 +111,17 @@ const MoviesState = (props) => {
   return (
     <MoviesContext.Provider
       value={{
-        movies: state.movies,
+        currentPage: state.currentPage,
         getMovies,
         loading: state.loading,
         searchMovies,
         searchMoviesGenre,
         searchMoviesDirector,
+        getNextPage,
+        getPrevPage,
+        movies: state.movies,
+        page: state.page,
+        maxPage: state.maxPage,
       }}
     >
       {props.children}

@@ -2,6 +2,8 @@ export const GET_MOVIES = "GET_MOVIES";
 export const SEARCH_MOVIES = "SEARCH_MOVIES";
 export const SEARCH_MOVIES_GENRE = "SEARCH_MOVIES_GENRE";
 export const SEARCH_MOVIES_DIRECTOR = "SEARCH_MOVIES_DIRECTOR";
+export const NEXT_PAGE = "NEXT_PAGE";
+export const PREV_PAGE = "PREV_PAGE";
 
 export const GET_MOVIE_BY_ID = "GET_MOVIE_BY_ID";
 
@@ -30,3 +32,6 @@ export const POST_REVIEW = "POST_REVIEW";
 export const GET_REVIEWS = "GET_REVIEWS";
 
 export const GET_RECOMMENDATIONS = "GET_RECOMMENDATIONS";
+
+export const GET_WISHLIST = "GET_WISHLIST";
+export const WISHLIST_ERROR = "WISHLIST_ERROR";

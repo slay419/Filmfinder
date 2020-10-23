@@ -29,8 +29,16 @@ from functions.search import (
     searchSimilarMovies,
     searchRecommendedMovies
 )
-from functions.review import newReview, incrementLikes, editReview, getMovieReviewList
-
+from functions.review import (
+    newReview, 
+    incrementLikes, 
+    editReview, 
+    getMovieReviewList
+)
+#from functions.wishlist import (
+#    checkWishlist,
+#    addWishlist
+#)
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
 
@@ -79,7 +87,7 @@ class Movie(Resource):
         movies = {}
         # Change the sql query depending on if a search term was given or not
         if title_str is None:
-            cur.execute("select * from MOVIE limit 15")
+            cur.execute("select * from MOVIE limit 100")
             #cur.execute("select * from MOVIE where vote_count > 1000 order by vote_avg desc limit 15;")
 
         else:
@@ -96,7 +104,7 @@ class Movie(Resource):
             )
 
             cur.execute(
-                "select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 15;"
+                "select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 100;"
             )
             # return {"movies": df.to_dict("id")}
 
@@ -292,6 +300,53 @@ def getGenresByMovieId(movie_id):
     genres = getGenreList(movie_id)
     return {"genres": genres}
 
+################   Wishlist   ##################
+@app.route("/api/wishlist/add", methods=["POST"]) 
+def addToWishlist():
+    return {"success" : "False"}
+
+# Don't know how to set this up so change it if the frontend requires
+# Returns true or false 
+# Front end uses this so we can change from add to wishlist / remove from wishlist
+@app.route("/api/wishlist/check", methods=["POST"])
+def checkInWishlist(user_id, movie_id):
+    if checkWishlist(user_id, movie_id):
+        return {"success": "True"}
+    return {"success": "False"}
+
+@app.route("/profile/wishlist/get", methods=["POST"])
+def getWishlist():
+    response = request.get_json()
+    u_id = response["u_id"]
+    movies = {}
+    # database stuff
+    conn = sqlite3.connect("./movieDB.db")
+    cur = conn.cursor()
+    
+    ################################################################
+    # needs to be changed for wishlist
+    cur.execute("select * from MOVIE limit 15")
+
+
+    index = 0
+    # Extract movie information and populate dictionary
+    for movie in cur.fetchall():
+        item = extractMovieDetails(movie)
+        movies[index] = item
+        index += 1
+
+    return {"movies" : movies, "number" : len(movies)}
+
+@app.route("/profile/wishlist/remove", methods=["POST"])
+# removes the movie_id element from the users wishlist and returns the new wishlst
+def removeWishlist():
+    response = request.get_json()
+    u_id = response["u_id"]
+    movie_id = response["movie_id"]
+    # returns the wishlist with the movie id element removed
+    return {"not implemented yet" : 1}
+
+#############   Recommendations   ##############
 @app.route("/api/movies/similarTo/<int:movie_id>", methods=["GET"])
 def getSimilarMovies(movie_id):
     return searchSimilarMovies(movie_id)
@@ -328,7 +383,7 @@ def editMovieReview():
 
 
 @api.route("/api/review/getMovieReviews")
-class MovieReivews(Resource):
+class MovieReviews(Resource):
     @api.response(200, "OK")
     @api.response(201, "Created")
     @api.response(400, "Bad Request")
