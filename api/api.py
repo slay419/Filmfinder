@@ -29,8 +29,16 @@ from functions.search import (
     searchSimilarMovies,
     searchRecommendedMovies
 )
-from functions.review import newReview, incrementLikes, editReview, getMovieReviewList
-
+from functions.review import (
+    newReview, 
+    incrementLikes, 
+    editReview, 
+    getMovieReviewList
+)
+from functions.wishlist import (
+    checkWishlist,
+    addWishlist
+)
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
 
@@ -292,6 +300,21 @@ def getGenresByMovieId(movie_id):
     genres = getGenreList(movie_id)
     return {"genres": genres}
 
+################   Wishlist   ##################
+@app.route("/api/wishlist/add", methods=["POST"]) 
+def addToWishlist():
+
+# Don't know how to set this up so change it if the frontend requires
+# Returns true or false 
+# Front end uses this so we can change from add to wishlist / remove from wishlist
+@app.route("/api/wishlist/check", methods=["POST"])
+def checkInWishlist(user_id, movie_id):
+    if checkWishlist(user_id, movie_id):
+        return {"success": "True"}
+    return {"success": "False"}
+
+
+#############   Recommendations   ##############
 @app.route("/api/movies/similarTo/<int:movie_id>", methods=["GET"])
 def getSimilarMovies(movie_id):
     return searchSimilarMovies(movie_id)
@@ -328,7 +351,7 @@ def editMovieReview():
 
 
 @api.route("/api/review/getMovieReviews")
-class MovieReivews(Resource):
+class MovieReviews(Resource):
     @api.response(200, "OK")
     @api.response(201, "Created")
     @api.response(400, "Bad Request")
