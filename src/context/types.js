@@ -30,3 +30,6 @@ export const POST_REVIEW = "POST_REVIEW";
 export const GET_REVIEWS = "GET_REVIEWS";
 
 export const GET_RECOMMENDATIONS = "GET_RECOMMENDATIONS";
+
+export const GET_WISHLIST = "GET_WISHLIST";
+export const WISHLIST_ERROR = "WISHLIST_ERROR";

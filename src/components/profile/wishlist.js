@@ -1,9 +1,18 @@
 import React from "react";
+import Spinner from "../common/Spinner";
+import MovieList from "../movies/MovieList";
 
 const wishlist = () => {
     return (
         <div>
-            <h1>Bold of you to assume this was done</h1>
+            <h1>Your Wishlist:</h1>
+            {loading ? (
+                <Spinner />
+            ) : (
+                <div>
+                <MovieList movies={movies} />
+                </div>
+            )}
         </div>
     )
 }
