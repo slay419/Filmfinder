@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 
 const options = [{ value: "Score", label: "Score" }];
@@ -12,6 +12,7 @@ const SortBar = () => {
     <div>
       <Select
         onChange={handleSelectChange}
+        placeholder={"Score"}
         options={options}
         styles={{
           control: (styles) => ({
