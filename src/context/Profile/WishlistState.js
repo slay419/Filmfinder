@@ -20,17 +20,42 @@ const WishlistState = (props) => {
     dispatch({ type: SET_LOADING });
   };
 
-  const getWishlist = () => {
+  const getWishlist = (u_id) => {
     setLoading();
-    fetch("./api/movies")
-      .then((res) => res.json())
-      .then((data) => {
-        const movies_list = Object.values(data.movies);
-        dispatch({ type: GET_WISHLIST, payload: movies_list.slice(0, data.number) });
-      })
-      .catch((err) => {
-        dispatch({ type: WISHLIST_ERROR, payload: err });
-      });
+    fetch('./wishlist/get', {
+      method: "POST",
+      headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        },
+      body: JSON.stringify({u_id: u_id})
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      const movies_list = Object.values(data.movies);
+      dispatch({ type: GET_WISHLIST, payload: movies_list.slice(0, data.number) });
+    })
+    .catch((err) => {
+      dispatch({ type: WISHLIST_ERROR, payload: err });
+    });
+  };
+
+  const removeMovie = (movie_id) => {
+    setLoading();
+    fetch('./wishlist/remove', {
+      method: "POST",
+      headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        },
+      body: JSON.stringify({movie_id: movie_id})
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      const movies_list = Object.values(data.movies);
+      dispatch({ type: GET_WISHLIST, payload: movies_list.slice(0, data.number) });
+    })
+    .catch((err) => {
+      dispatch({ type: WISHLIST_ERROR, payload: err });
+    });
   };
   return (
     <WishlistContext.Provider
@@ -38,11 +63,11 @@ const WishlistState = (props) => {
         wishlist: state.wishlist,
         getWishlist,
         loading: state.loading,
+        removeMovie
       }}
     >
       {props.children}
     </WishlistContext.Provider>
   );
-
-export default MoviesState;
 };
+export default WishlistState;

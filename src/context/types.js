@@ -2,6 +2,8 @@ export const GET_MOVIES = "GET_MOVIES";
 export const SEARCH_MOVIES = "SEARCH_MOVIES";
 export const SEARCH_MOVIES_GENRE = "SEARCH_MOVIES_GENRE";
 export const SEARCH_MOVIES_DIRECTOR = "SEARCH_MOVIES_DIRECTOR";
+export const NEXT_PAGE = "NEXT_PAGE";
+export const PREV_PAGE = "PREV_PAGE";
 
 export const GET_MOVIE_BY_ID = "GET_MOVIE_BY_ID";
 

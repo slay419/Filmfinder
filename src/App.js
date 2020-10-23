@@ -22,36 +22,39 @@ import MoviesState from "./context/moviesList/MoviesState";
 import MovieState from "./context/movie/MovieState";
 import LoginState from "./context/Auth/LoginState";
 import RegisterState from "./context/Auth/RegisterState";
+import WishlistState from "./context/Profile/WishlistState"
 
 function App() {
   return (
     <ForgottenPassState>
       <LoginState>
-        <RegisterState>
-          <MoviesState>
-            <MovieState>
-              <ChangePassState>
-                <div className="container">
-                  <Router>
-                    <Header />
-                    <Switch>
-                      <Route path="/" exact component={Home} />
-                      <Route path="/login" exact component={Login} />
-                      <Route path="/register" exact component={Register} />
-                      <Route path="/movies/:id" component={MovieDetails} />
-                      <Route path="/forgot" exact component={ForgottenPass} />
-                      <Route path="/profile" exact component={profile} />
-                      <Route path="/profile/wishlist" exact component={wishlist} />
-                      <Route path="/profile/bannedlist" exact component={bannedlist} />
-                      <Route path="/profile/change" exact component={ChangePass} />
-                    </Switch>
-                  </Router>
-                </div>
-                <Footer />
-              </ChangePassState>
-            </MovieState>
-          </MoviesState>
-        </RegisterState>
+        <WishlistState>
+          <RegisterState>
+            <MoviesState>
+              <MovieState>
+                <ChangePassState>
+                  <div className="container">
+                    <Router>
+                      <Header />
+                      <Switch>
+                        <Route path="/" exact component={Home} />
+                        <Route path="/login" exact component={Login} />
+                        <Route path="/register" exact component={Register} />
+                        <Route path="/movies/:id" component={MovieDetails} />
+                        <Route path="/forgot" exact component={ForgottenPass} />
+                        <Route path="/profile" exact component={profile} />
+                        <Route path="/profile/wishlist" exact component={wishlist} />
+                        <Route path="/profile/bannedlist" exact component={bannedlist} />
+                        <Route path="/profile/change" exact component={ChangePass} />
+                      </Switch>
+                    </Router>
+                  </div>
+                  <Footer />
+                </ChangePassState>
+              </MovieState>
+            </MoviesState>
+          </RegisterState>
+        </WishlistState>
       </LoginState>
     </ForgottenPassState>
   );

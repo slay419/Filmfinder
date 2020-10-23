@@ -7,7 +7,7 @@ import Tilt from "react-tilt";
 const MovieItem = ({ movie }) => {
   const { movie_id, imdb_id, title, release_date, vote_avg } = movie;
 
-  console.log(movie);
+  //console.log(movie);
   return (
     <Tilt className="Tilt Tilt-inner" options={{ max: 40 }}>
       <Link to={`/movies/${movie_id}`} className="movie-item ">

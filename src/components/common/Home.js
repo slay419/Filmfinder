@@ -20,7 +20,7 @@ const Home = () => {
   const [successOpen, setSuccessOpen] = useState(User !== null);
 
   const moviesContext = useContext(MoviesContext);
-  const { movies, getMovies, loading } = moviesContext;
+  const { currentPage, getMovies, loading, page, maxPage, getNextPage, getPrevPage } = moviesContext;
 
   useEffect(() => {
     getMovies();
@@ -32,7 +32,6 @@ const Home = () => {
     }
     setSuccessOpen(false);
   };
-
   return (
     <div className="home">
       <div className="user-info"></div>
@@ -40,9 +39,14 @@ const Home = () => {
         <Spinner />
       ) : (
         <div>
-          <MovieList movies={movies} />
+          <MovieList movies={currentPage} />
         </div>
       )}
+      <div className="pageBar">
+        <button class="previous" onClick={() => getPrevPage()}>&laquo; Previous</button>
+        <p> {page} of {maxPage}</p>
+        <button class="next" onClick={() => getNextPage()}>Next &raquo;</button>
+      </div>
       <Snackbar
         open={successOpen}
         autoHideDuration={6000}
