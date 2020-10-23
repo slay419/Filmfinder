@@ -18,6 +18,7 @@
     "react-scripts": "3.4.3",
     "react-select": "^3.1.0",
     "react-show-more-text": "^1.4.4",
+    "react-slick": "^0.27.12",
     "react-tilt": "^0.1.4",
     "read-more-react": "^1.0.10"
   },
