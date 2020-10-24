@@ -11,8 +11,10 @@ import {
   SEARCH_MOVIES_DIRECTOR,
   NEXT_PAGE,
   PREV_PAGE,
+  SORT_MOVIES_BY_SCORE,
+  FILTER_MOVIES_BY_RATING,
+  FILTER_MOVIES_BY_YEAR,
 } from "../types";
-
 
 const MoviesState = (props) => {
   const initialState = {
@@ -21,7 +23,7 @@ const MoviesState = (props) => {
     page: 1,
     postsPerPage: 15,
     currentPage: [],
-    maxPage: 1
+    maxPage: 1,
   };
 
   const [state, dispatch] = useReducer(MoviesReducer, initialState);
@@ -78,18 +80,42 @@ const MoviesState = (props) => {
   };
 
   const getNextPage = () => {
-    if (state.page != state.maxPage){
+    if (state.page != state.maxPage) {
       setLoading();
-      setTimeout(() => {  dispatch({ type: NEXT_PAGE, payload: state.movies.slice(state.page*state.postsPerPage, (state.page+1)*state.postsPerPage)}); }, 20);
+      setTimeout(() => {
+        dispatch({
+          type: NEXT_PAGE,
+          payload: state.movies.slice(
+            state.page * state.postsPerPage,
+            (state.page + 1) * state.postsPerPage
+          ),
+        });
+      }, 20);
     }
-  }
+  };
 
   const getPrevPage = () => {
-    if (state.page != 1){
+    if (state.page != 1) {
       setLoading();
-      setTimeout(() => {  dispatch({ type: PREV_PAGE, payload: state.movies.slice((state.page-2)*state.postsPerPage, (state.page-1)*state.postsPerPage) }); }, 20);      
+      setTimeout(() => {
+        dispatch({
+          type: PREV_PAGE,
+          payload: state.movies.slice(
+            (state.page - 2) * state.postsPerPage,
+            (state.page - 1) * state.postsPerPage
+          ),
+        });
+      }, 20);
     }
-  }
+  };
+
+  const sortByScore = () => {
+    setLoading();
+    let sortedMovies = state.movies.sort((a, b) => {
+      return a.vote_avg > b.vote_avg ? -1 : 1;
+    });
+    dispatch({ type: SORT_MOVIES_BY_SCORE, payload: sortedMovies });
+  };
 
   const searchMoviesGenre = (text) => {
     if (text === "") {
@@ -108,6 +134,20 @@ const MoviesState = (props) => {
     }
   };
 
+  const filterMoviesByRating = () => {
+    setLoading();
+    const filteredMovies = state.movies.filter((e) => e.adult === "True");
+    dispatch({ type: FILTER_MOVIES_BY_RATING, payload: filteredMovies });
+  };
+
+  const filterMoviesByYear = (year) => {
+    setLoading();
+    const filteredMovies = state.movies.filter(
+      (m) => m.release_date.slice(0, 4) === year
+    );
+    dispatch({ type: FILTER_MOVIES_BY_YEAR, payload: filteredMovies });
+  };
+
   return (
     <MoviesContext.Provider
       value={{
@@ -119,6 +159,9 @@ const MoviesState = (props) => {
         searchMoviesDirector,
         getNextPage,
         getPrevPage,
+        sortByScore,
+        filterMoviesByRating,
+        filterMoviesByYear,
         movies: state.movies,
         page: state.page,
         maxPage: state.maxPage,

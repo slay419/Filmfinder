@@ -7,6 +7,9 @@ import {
   SEARCH_MOVIES_GENRE,
   NEXT_PAGE,
   PREV_PAGE,
+  SORT_MOVIES_BY_SCORE,
+  FILTER_MOVIES_BY_RATING,
+  FILTER_MOVIES_BY_YEAR,
 } from "../types";
 
 export default (state, action) => {
@@ -20,7 +23,9 @@ export default (state, action) => {
         loading: !state.loading,
         currentPage: action.payload.slice(0, state.postsPerPage),
         page: 1,
-        maxPage: Math.ceil((Object.keys(action.payload).length)/state.postsPerPage),
+        maxPage: Math.ceil(
+          Object.keys(action.payload).length / state.postsPerPage
+        ),
       };
     case NEXT_PAGE:
       //console.log(action.payload);
@@ -37,12 +42,13 @@ export default (state, action) => {
         ...state,
         currentPage: action.payload,
         loading: !state.loading,
-        page: state.page - 1
+        page: state.page - 1,
       };
     case SEARCH_MOVIES:
       return {
         ...state,
         movies: action.payload,
+        currentPage: action.payload.slice(0, state.postsPerPage),
         loading: !state.loading,
       };
     case SEARCH_MOVIES_GENRE:
@@ -52,7 +58,9 @@ export default (state, action) => {
         loading: !state.loading,
         currentPage: action.payload.slice(0, state.postsPerPage),
         page: 1,
-        maxPage: Math.ceil((Object.keys(action.payload).length)/state.postsPerPage),
+        maxPage: Math.ceil(
+          Object.keys(action.payload).length / state.postsPerPage
+        ),
       };
     case SEARCH_MOVIES_DIRECTOR:
       return {
@@ -61,12 +69,35 @@ export default (state, action) => {
         loading: !state.loading,
         currentPage: action.payload.slice(0, state.postsPerPage),
         page: 1,
-        maxPage: Math.ceil((Object.keys(action.payload).length)/state.postsPerPage),
+        maxPage: Math.ceil(
+          Object.keys(action.payload).length / state.postsPerPage
+        ),
       };
     case SET_LOADING:
       console.log(state.loading);
       return {
         ...state,
+        loading: !state.loading,
+      };
+    case FILTER_MOVIES_BY_YEAR:
+      return {
+        ...state,
+        movies: action.payload,
+        currentPage: action.payload.slice(0, state.postsPerPage),
+        loading: !state.loading,
+      };
+    case FILTER_MOVIES_BY_RATING:
+      return {
+        ...state,
+        movies: action.payload,
+        currentPage: action.payload.slice(0, state.postsPerPage),
+        loading: !state.loading,
+      };
+    case SORT_MOVIES_BY_SCORE:
+      return {
+        ...state,
+        movies: action.payload,
+        currentPage: action.payload.slice(0, state.postsPerPage),
         loading: !state.loading,
       };
     case MOVIES_ERROR:
