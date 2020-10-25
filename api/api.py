@@ -29,7 +29,7 @@ from functions.search import (
     searchSimilarMovies,
     searchRecommendedMovies
 )
-from functions.review import newReview, incrementLikes, editReview, getMovieReviewList
+from functions.review import (newReview, incrementLikes, editReview, getMovieReviewList)
 
 from functions.bannedList import (
     bannedList_block,
@@ -41,7 +41,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
 
 api = Api(
-    app,
+    app, 
     version="1.0",
     title="Film Finder API",
     description="an api to help us find some films LOL",
@@ -92,7 +92,7 @@ class Movie(Resource):
             # Search through movie titles, overview and genre for matching keywords in that order
             cur.execute(
                 f"""
-                create view temp_id as
+                create view temp_id ass
                 select movie_id, 0 as subquery from movie where title like "%{title_str}%"
                 union
                 select movie_id, 2 from genre where genre like "%{title_str}%"
@@ -393,7 +393,7 @@ class MovieReviews(Resource):
         return {"reviews": review_list}
 
 ################    Banned List    ##################
-@api.route("/api/bannedList/block", methods=["POST"])
+@app.route("/api/bannedList/block", methods=["POST"])
 def block():
     response = request.get_json()
     user_id = response["user_id"]

@@ -1,5 +1,11 @@
-
-import { REGISTER, REGISTER_ERROR, NAME_TAKEN } from "../types";
+import {
+  REGISTER,
+  REGISTER_ERROR,
+  NAME_TAKEN,
+  BANNED_LIST_ERROR,
+  GET_BANNED_LIST,
+  BAN_USER,
+} from "../types";
 //
 // Placeholder file
 //
@@ -7,21 +13,29 @@ import { REGISTER, REGISTER_ERROR, NAME_TAKEN } from "../types";
 //
 
 export default (state, action) => {
-    switch (action.type) {
-        
-        case REGISTER:
-            console.log(action.payload);
-            return {
-                ...state,
-            };
-        case NAME_TAKEN:
-            console.log(action.payload);
-            return {
-                ...state,
-            };        
-        case REGISTER_ERROR:
-            console.log("Error: " + action.payload);
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case REGISTER:
+      console.log(action.payload);
+      return {
+        ...state,
+      };
+    case NAME_TAKEN:
+      console.log(action.payload);
+      return {
+        ...state,
+      };
+    case GET_BANNED_LIST:
+      return { ...state };
+    case BAN_USER:
+      alert(action.payload);
+      return state;
+    case REGISTER_ERROR:
+      console.log("Error: " + action.payload);
+      return state;
+    case BANNED_LIST_ERROR:
+      console.log("Error: " + action.payload);
+      return state;
+    default:
+      return state;
+  }
 };
