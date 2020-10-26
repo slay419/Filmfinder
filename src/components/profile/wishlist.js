@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import LoginContext from "../../context/Auth/LoginContext";
-import ProfileContext from "../../context/Profile/WishlistContext";
+import AuthContext from "../../context/Auth/AuthContext";
+import ProfileContext from "../../context/Profile/ProfileContext";
 import Spinner from "../common/Spinner";
 import MovieList from "../movies/MovieList";
 
 const Wishlist = () => {
-    const loginContext = useContext(LoginContext);
-    const { User } = loginContext;
+    const authContext = useContext(AuthContext);
+    const { User } = authContext;
 
     const profileContext = useContext(ProfileContext);
     const { wishlist, getWishlist, loading, removeMovie } = profileContext;

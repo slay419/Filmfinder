@@ -92,7 +92,7 @@ class Movie(Resource):
             # Search through movie titles, overview and genre for matching keywords in that order
             cur.execute(
                 f"""
-                create view temp_id ass
+                create view temp_id as
                 select movie_id, 0 as subquery from movie where title like "%{title_str}%"
                 union
                 select movie_id, 2 from genre where genre like "%{title_str}%"
@@ -191,7 +191,7 @@ def register():
 # error: samePassword
 # error: incorrectPassword
 # success: 1
-@app.route("/auth/changepass", methods=["POST"])
+@app.route("/profile/auth/changepass", methods=["POST"])
 def ChangePassword():
     response = request.get_json()
     email = response["email"]

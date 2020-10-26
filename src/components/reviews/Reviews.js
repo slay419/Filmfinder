@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from "react";
 import ReviewList from "./ReviewList";
 
 // context
-import LoginContext from "../../context/Auth/LoginContext";
+import AuthContext from "../../context/Auth/AuthContext";
 import MovieContext from "../../context/movie/movieContext";
 
 // styles
@@ -64,8 +64,8 @@ const Reviews = () => {
   const [reviewText, setReviewText] = useState("");
 
   // using movie and login context
-  const loginContext = useContext(LoginContext);
-  const { User } = loginContext;
+  const authContext = useContext(AuthContext);
+  const { User } = authContext;
 
   const movieContext = useContext(MovieContext);
   const { postReview, movie, reviews, getReviews } = movieContext;

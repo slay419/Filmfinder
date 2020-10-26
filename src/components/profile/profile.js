@@ -1,5 +1,5 @@
 import React from "react";
-import LoginContext from "../../context/Auth/LoginContext";
+import AuthContext from "../../context/Auth/AuthContext";
 import { useContext, useState } from "react";
 // import ProfileContext from "../../context/Profile/ProfileContext";
 import { Link, useHistory } from "react-router-dom";
@@ -51,8 +51,8 @@ const theme = createMuiTheme({
 });
 
 const Profile = () => {
-  const loginContext = useContext(LoginContext);
-  const { User } = loginContext;
+  const authContext = useContext(AuthContext);
+  const { User } = authContext;
 
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");

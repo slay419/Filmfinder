@@ -9,7 +9,7 @@ import SortBar from "./SortBar";
 
 // Context
 import MoviesContext from "../../context/moviesList/moviesContext";
-import LoginContext from "../../context/Auth/LoginContext";
+import AuthContext from "../../context/Auth/AuthContext";
 
 // styles
 import "../../styles/Home.scss";
@@ -17,8 +17,8 @@ import FilterRatingBar from "./FilterRatingBar";
 import FilterYearBar from "./FilterYearBar";
 
 const Home = () => {
-  const loginContext = useContext(LoginContext);
-  const { User } = loginContext;
+  const authContext = useContext(AuthContext);
+  const { User } = authContext;
 
   const [successOpen, setSuccessOpen] = useState(User !== null);
 

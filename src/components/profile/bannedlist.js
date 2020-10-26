@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import ProfileContext from "../../context/Profile/ProfileContext";
-import LoginContext from "../../context/Auth/LoginContext";
+import AuthContext from "../../context/Auth/AuthContext";
 
 const Bannedlist = () => {
   const profileContext = useContext(ProfileContext);
   const { banUser } = profileContext;
 
-  const loginContext = useContext(LoginContext);
-  const { User } = loginContext;
+  const authContext = useContext(AuthContext);
+  const { User } = authContext;
 
   const onBanClick = () => {
     console.log(User);
