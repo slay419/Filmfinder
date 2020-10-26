@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import LoginContext from "../../context/Auth/LoginContext";
-import WishlistContext from "../../context/Profile/WishlistContext";
+import ProfileContext from "../../context/Profile/WishlistContext";
 import Spinner from "../common/Spinner";
 import MovieList from "../movies/MovieList";
 
@@ -8,8 +8,8 @@ const Wishlist = () => {
     const loginContext = useContext(LoginContext);
     const { User } = loginContext;
 
-    const wishlistContext = useContext(WishlistContext);
-    const { wishlist, getWishlist, loading, removeMovie } = wishlistContext;
+    const profileContext = useContext(ProfileContext);
+    const { wishlist, getWishlist, loading, removeMovie } = profileContext;
 
     useEffect(() => {
         getWishlist(User.u_id);
