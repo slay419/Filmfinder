@@ -5,6 +5,9 @@ import {
   BANNED_LIST_ERROR,
   GET_BANNED_LIST,
   BAN_USER,
+  GET_WISHLIST,
+  SET_LOADING,
+  WISHLIST_ERROR
 } from "../types";
 //
 // Placeholder file
@@ -35,6 +38,25 @@ export default (state, action) => {
     case BANNED_LIST_ERROR:
       console.log("Error: " + action.payload);
       return state;
+    case GET_WISHLIST:
+        // retrieve the wishlist
+        console.log(action.payload);
+        return {
+            ...state,
+            wishlist: action.payload,
+            loading: !state.loading,
+          };
+    case SET_LOADING:
+        // change the loading sign from active to inactive
+        console.log(state.loading);
+        return {
+            ...state,
+            loading: !state.loading,
+        };
+    case WISHLIST_ERROR:
+        // unexpected error has occured
+        console.log(action.payload);
+        return state;
     default:
       return state;
   }
