@@ -82,6 +82,27 @@ const ProfileState = (props) => {
     });
   };
 
+  const updateDetails = (u_id, firstName, lastName, secretQ, secretA) => {
+    fetch('./update', {
+      method: "POST",
+      headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        },
+      body: JSON.stringify({u_id: u_id, fname: firstName, lname: lastName, secretQ: secretQ, secretA: secretA})
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if ("error" in data){ 
+        // placeholder
+        dispatch({ type: WISHLIST_ERROR, payload: data });
+      }
+    })
+    .catch((err) => {
+      // placeholder
+      dispatch({ type: WISHLIST_ERROR, payload: err });
+    });
+  };
+
   return (
     <ProfileContext.Provider
       value={{
@@ -91,7 +112,8 @@ const ProfileState = (props) => {
         wishlist: state.wishlist,
         getWishlist,
         loading: state.loading,
-        removeMovie
+        removeMovie,
+        updateDetails,
       }}
     >
       {props.children}

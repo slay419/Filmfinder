@@ -13,6 +13,7 @@ import {
     PASSWORD_CHANGED,
     CHANGE_PASSWORD,
     NO_MATCH,
+    SET_USER,
  } from "../types";
 
  export const CORRECT = 2;
@@ -20,20 +21,38 @@ import {
  export const UNANSWERED = 0; 
 
 const AuthState = (props) => {
-  const initialState = {
-    User: null,
-    isValid: null,
-    error : null,
-    question: null,
-    correct: 0,
-    changedForg: 0,
-    Match: null,
-    Changed: 0,
-    redir: 0
-    //user info stored in this state
-  };
+    const initialState = {
+        User: null,
+        isValid: null,
+        error : null,
+        question: null,
+        correct: 0,
+        changedForg: 0,
+        Match: null,
+        Changed: 0,
+        redir: 0
+        //user info stored in this state
+    };
 
-  const [state, dispatch] = useReducer(AuthReducer, initialState);
+    const [state, dispatch] = useReducer(AuthReducer, initialState);
+  
+    const setUser = (u_id) => {
+        fetch('./auth/getuser', {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+
+            body: JSON.stringify({u_id: u_id})
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            dispatch( {type: SET_USER, payload: data})
+        }).catch((err) => {
+            // unexpected error occured
+            dispatch( {type: UNEXPECTED_ERROR, payload: err})
+        });
+    };
 
     const registerUser = (email, password, fname, lname, secretQ, secretA) => {
         // pass user details to the back end to register the user
@@ -222,7 +241,8 @@ const AuthState = (props) => {
         Match: state.Match,
         Changed: state.Changed,
         changePassword,
-        redir: state.redir
+        redir: state.redir,
+        setUser,
       }}
     >
       {props.children}

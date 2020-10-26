@@ -17,6 +17,7 @@ export const LOGIN = "LOGIN";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const ERROR = "ERROR";
 export const LOGOUT = "LOGOUT";
+export const SET_USER = "SET_USER";
 
 export const REGISTER = "REGISTER";
 export const NAME_TAKEN = "NAME_TAKEN";
@@ -38,6 +39,7 @@ export const GET_RECOMMENDATIONS = "GET_RECOMMENDATIONS";
 
 export const GET_WISHLIST = "GET_WISHLIST";
 export const WISHLIST_ERROR = "WISHLIST_ERROR";
+export const REMOVE_ITEM = "REMOVE_ITEM";
 
 export const GET_BANNED_LIST = "GET_BANNED_LIST";
 export const BAN_USER = "BAN_USER";

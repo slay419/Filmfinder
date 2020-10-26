@@ -17,6 +17,7 @@ from functions.auth import (
     get_user_id,
     auth_logout,
     update_password,
+    get_user_details,
 )
 from functions.search import (
     searchGenre,
@@ -210,6 +211,12 @@ def ChangePassword():
     return update_password(email, newPassword)
 
 
+@app.route("/auth/getuser", methods=["POST"])
+def getUser():
+    response = request.get_json()
+    u_id = response["u_id"]
+    return get_user_details(u_id)
+
 # returns error: incorrectPassword
 # returns success: 1
 @app.route("/auth/resetpassword", methods=["POST"])
@@ -297,6 +304,20 @@ def getCastByMovieId(movie_id):
 def getGenresByMovieId(movie_id):
     genres = getGenreList(movie_id)
     return {"genres": genres}
+
+################   Profile    ##################
+
+@app.route("/profile/update", methods=["POST"])
+def updateDetails():
+    response = request.get_json()
+    u_id = response["u_id"]
+    fname = response["fname"]
+    lname = response["lname"]
+    secretQ = response["secreatQ"]
+    secretA = response["secretA"]
+    # this function is for updating the details in u_id's profile
+    # hopefully someone else can implement it
+    return {"success" : 1}
 
 ################   Wishlist   ##################
 @app.route("/api/wishlist/add", methods=["POST"]) 
