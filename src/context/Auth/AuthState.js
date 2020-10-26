@@ -184,13 +184,7 @@ const AuthState = (props) => {
         })
         .then((res) => res.json())
         .then((data) => {
-            if ("error" in data){
-                // if error occured in process, update front end
-                dispatch( {type: ERROR, payload: data})
-            } else {
-                // logout successful
-                dispatch( {type: LOGOUT, payload: data})
-            }
+            dispatch( {type: LOGOUT, payload: data})
         })
         .catch((err) => {
             // unexpected error occured
