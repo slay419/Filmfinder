@@ -14,14 +14,19 @@ import "../../styles/MovieDetails.scss";
 import GradeIcon from "@material-ui/icons/Grade";
 import Tilt from "react-tilt";
 import ShowMoreText from "react-show-more-text";
+import AuthContext from "../../context/Auth/AuthContext";
 
 const MovieDetails = (props) => {
-  // using movieContext and moviesContext
+  // using movieContext and moviesContext and User
   const movieContext = useContext(MovieContext);
-  const { getMovieById, movie } = movieContext;
+  const { getMovieById, movie, wishlist, onWishlist, addToWishlist, removeFromWishlist } = movieContext;
+
+  const authContext = useContext(AuthContext);
+  const { User } = authContext;
 
   const moviesContext = useContext(MoviesContext);
   const { searchMoviesGenre, searchMoviesDirector } = moviesContext;
+
 
   // history is used for route change
   const history = useHistory();
@@ -45,8 +50,16 @@ const MovieDetails = (props) => {
 
   // function to handle wishlist
   const handleAddToWishlist = () => {
-    alert("added to wishlist no implemented yet");
+    if (User == null){
+      alert("You Must be logged in to access Wishlist functionality");
+    } else {
+      addToWishlist(movie.movie_id, User.u_id);
+    }
   };
+
+  const handleRemoveFromWishlist = () => {
+    removeFromWishlist(movie.movie_id, User.u_id)  
+  }
 
   // extracting values from the movie object
   const {
@@ -73,6 +86,9 @@ const MovieDetails = (props) => {
   // get all the movie info upon loading & receiving id from the url
   useEffect(() => {
     getMovieById(id);
+    if (User !== null){
+      onWishlist(id, User.u_id)
+    }
   }, [id]);
 
   return movie === {} ? (
@@ -88,9 +104,15 @@ const MovieDetails = (props) => {
               alt={title}
             />
           </Tilt>
-          <span onClick={handleAddToWishlist} className="wishlist-btn">
-            Add to Wishlist
-          </span>
+          {wishlist == 1 ? (
+            <span onClick={handleRemoveFromWishlist} className="wishlist-btn">
+              Remove from Wishlist
+            </span>
+          ) : (
+            <span onClick={handleAddToWishlist} className="wishlist-btn">
+              Add to Wishlist
+            </span>
+          )}
         </div>
 
         <div className="movie-detail-content">

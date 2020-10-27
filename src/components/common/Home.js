@@ -57,14 +57,14 @@ const Home = () => {
         </div>
       )}
       <div className="pageBar">
-        <button class="previous" onClick={() => getPrevPage()}>
+        <button class="pageButton" onClick={() => getPrevPage()}>
           &laquo; Previous
         </button>
         <p>
           {" "}
           {page} of {maxPage}
         </p>
-        <button class="next" onClick={() => getNextPage()}>
+        <button class="pageButton" onClick={() => getNextPage()}>
           Next &raquo;
         </button>
       </div>

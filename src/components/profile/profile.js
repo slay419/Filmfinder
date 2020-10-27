@@ -1,5 +1,6 @@
 import React from "react";
 import AuthContext from "../../context/Auth/AuthContext";
+import ProfileContext from "../../context/Profile/ProfileContext";
 import { useContext, useState } from "react";
 // import ProfileContext from "../../context/Profile/ProfileContext";
 import { Link, useHistory } from "react-router-dom";
@@ -54,6 +55,9 @@ const Profile = () => {
   const authContext = useContext(AuthContext);
   const { User } = authContext;
 
+  const profileContext = useContext(ProfileContext);
+  const { updateDetails } = profileContext;
+
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [secretQ, setSecretQ] = useState("");
@@ -73,7 +77,7 @@ const Profile = () => {
   };
 
   const handleSubmit = (e) => {
-    console.log("this would be submitted if it worked");
+    updateDetails(User.u_id, fname, lname, secretQ, secretA);
   };
 
   const handleWishList = () => {
