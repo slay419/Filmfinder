@@ -14,6 +14,7 @@ import profile from "./components/profile/profile";
 import wishlist from "./components/profile/wishlist";
 import bannedlist from "./components/profile/bannedlist";
 import Footer from "./components/common/Footer";
+import publicProfile from "./components/profile/publicProfile";
 
 // Context
 import MoviesState from "./context/moviesList/MoviesState";
@@ -40,22 +41,27 @@ function App() {
                       exact
                       component={ForgottenPass}
                     />
-                    <Route path="/profile" exact component={profile} />
+                    <Route path="/myprofile" exact component={profile} />
                     <Route
-                      path="/profile/wishlist"
+                      path="/myprofile/wishlist"
                       exact
                       component={wishlist}
                     />
                     <Route
-                      path="/profile/bannedlist"
+                      path="/myprofile/bannedlist"
                       exact
                       component={bannedlist}
                     />
                     <Route
-                      path="/profile/change"
+                      path="/myprofile/change"
                       exact
                       component={ChangePass}
                     />
+                    <Route
+                      path="/profile/:uid"
+                      exact
+                      component={publicProfile}
+                      />
                   </Switch>
                 </Router>
               </div>
