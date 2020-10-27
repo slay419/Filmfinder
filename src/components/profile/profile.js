@@ -81,12 +81,12 @@ const Profile = () => {
   };
 
   const handleWishList = () => {
-    let path = '/profile/wishlist';
+    let path = '/myprofile/wishlist';
     history.push(path);
   };
 
   const handleBannedList = () => {
-    let path = '/profile/bannedlist';
+    let path = '/myprofile/bannedlist';
     history.push(path);
   }; 
 
@@ -95,7 +95,7 @@ const Profile = () => {
   }; 
 
   const handlePassword = () => {
-    let path = '/profile/change';
+    let path = '/myprofile/change';
     history.push(path);
   };
 

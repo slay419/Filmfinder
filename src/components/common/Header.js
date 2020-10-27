@@ -44,7 +44,7 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Link to="/profile">{User.first_name}</Link>
+            <Link to="/myprofile">{User.first_name}</Link>
           </li>
         </ul>
       )}
