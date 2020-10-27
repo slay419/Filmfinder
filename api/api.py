@@ -29,7 +29,7 @@ from functions.search import (
     searchSimilarMovies,
     searchRecommendedMovies
 )
-from functions.review import (newReview, incrementLikes, editReview, getMovieReviewList)
+from functions.review import (newReview, incrementLikes, editReview, deleteReview, getMovieReviewList)
 
 from functions.bannedList import (
     bannedList_block,
@@ -380,6 +380,13 @@ def editMovieReview():
     return editReview(review_id, comment, score)
 
 
+@app.route("/api/review/deleteMovieReview", methods=["DELETE"])
+def deleteReviewForMovie():
+    response = request.get_json()
+    review_id = request.form.get("review_id")
+    return deleteReview(review_id)
+
+
 @api.route("/api/review/getMovieReviews")
 class MovieReviews(Resource):
     @api.response(200, "OK")
@@ -400,7 +407,7 @@ def block():
     banned_id = response["banned_id"]
     return bannedList_block(user_id, banned_id)
 
-@app.route("/bannedList/unblock", methods=["POST"])
+@app.route("/api/bannedList/unblock", methods=["POST"])
 def unblock():
     response = request.get_json()
     user_id = response["user_id"]
