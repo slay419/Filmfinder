@@ -21,7 +21,7 @@ def searchGenre(genre):
         where g.genre like "{genre}" and vote_count > 50
         group by m.movie_id
         order by vote_avg desc, vote_count desc
-        limit 150;
+        limit 600;
         """
     )
     index = 0
@@ -47,7 +47,7 @@ def searchKeyword(keyword):
         where k.keyword like "{keyword}" and vote_count > 50
         group by m.movie_id
         order by vote_avg desc, vote_count desc
-        limit 150;
+        limit 600;
         """
     )
     index = 0
@@ -72,7 +72,7 @@ def searchDirector(director_name):
         where cast_name like "%{director_name}%"
         group by m.movie_id
         order by release_date desc
-        limit 150;
+        limit 600;
         """
     )
     index = 0

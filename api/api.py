@@ -90,7 +90,7 @@ class Movie(Resource):
         movies = {}
         # Change the sql query depending on if a search term was given or not
         if title_str is None:
-            cur.execute("select * from MOVIE limit 150")
+            cur.execute("select * from MOVIE limit 600")
             #cur.execute("select * from MOVIE where vote_count > 1000 order by vote_avg desc limit 15;")
 
         else:
@@ -107,7 +107,7 @@ class Movie(Resource):
             )
 
             cur.execute(
-                "select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 150;"
+                "select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 600;"
             )
             # return {"movies": df.to_dict("id")}
 
