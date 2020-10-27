@@ -46,7 +46,7 @@ const ProfileState = (props) => {
 
   const getWishlist = (u_id) => {
     setLoading();
-    fetch('./wishlist/get', {
+    fetch('/api/wishlist/get', {
       method: "POST",
       headers: {
           "Content-type": "application/json; charset=UTF-8"
@@ -63,14 +63,14 @@ const ProfileState = (props) => {
     });
   };
 
-  const removeMovie = (movie_id) => {
+  const removeMovie = (movie_id, u_id) => {
     setLoading();
-    fetch('./wishlist/remove', {
+    fetch('/api/wishlist/remove', {
       method: "POST",
       headers: {
           "Content-type": "application/json; charset=UTF-8"
         },
-      body: JSON.stringify({movie_id: movie_id})
+      body: JSON.stringify({movie_id: movie_id, u_id: u_id})
     })
     .then((res) => res.json())
     .then((data) => {

@@ -12,11 +12,13 @@ const Header = () => {
   // using login context for user and logout
   const authContext = useContext(AuthContext);
   const { User, logout, setUser } = authContext;
-  if (localStorage.getItem("FilmFinderUser") != null){
+  useEffect(() => {
     if (User == null){
-      setUser(localStorage.getItem("FilmFinderUser"));
+      if (localStorage.getItem("FilmFinderUser") != null){
+        setUser(localStorage.getItem("FilmFinderUser"));
+      }
     }
-  }
+  }, []);
   return (
     <div className="header">
       <h3 className="logo">
