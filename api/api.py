@@ -34,7 +34,8 @@ from functions.review import (
     newReview, 
     incrementLikes, 
     editReview, 
-    getMovieReviewList)
+    getMovieReviewList
+)
 
 from functions.bannedList import (
     bannedList_block,
@@ -42,6 +43,12 @@ from functions.bannedList import (
     bannedList_view
 )
 
+from functions.wishlist import (
+    checkWishlist,
+    addWishlist,
+    getUserWishlist,
+    removeFromWishlist
+)
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
 
@@ -325,7 +332,7 @@ def updateDetails():
 
 ################   Wishlist   ##################
 
-## Placeholder: NOT IMPLEMENTED YET
+## Placeholder: Need to check
 # adds movie_id to user_id's wishlist
 # return {"success" : 1} if successful
 @app.route("/api/wishlist/add", methods=["POST"]) 
@@ -333,9 +340,8 @@ def addToWishlist():
     response = request.get_json()
     user_id = response["u_id"]
     movie_id = response["movie_id"]
-    return {"success" : 1}
+    return addWishlist(user_id, movie_id)
 
-# Don't know how to set this up so change it if the frontend requires
 # Returns true or false 
 # Front end uses this so we can change from add to wishlist / remove from wishlist
 @app.route("/api/wishlist/check", methods=["POST"])
@@ -347,41 +353,26 @@ def checkInWishlist():
         return {"success": 1}
     return {"success": 0}
 
-## Placeholder: NOT IMPLEMENTED YET
+## Placeholder: Need to check
 # just copied and pasted from movies search to finish front end
 # should just need to adjust sql statements to fix it
 @app.route("/api/wishlist/get", methods=["POST"])
 def getWishlist():
     response = request.get_json()
     u_id = response["u_id"]
-    movies = {}
-    # database stuff
-    conn = sqlite3.connect("./movieDB.db")
-    cur = conn.cursor()
-    
-    ################################################################
-    # needs to be changed for wishlist
-    cur.execute("select * from MOVIE limit 15")
-
-
-    index = 0
-    # Extract movie information and populate dictionary
-    for movie in cur.fetchall():
-        item = extractMovieDetails(movie)
-        movies[index] = item
-        index += 1
-
-    return {"movies" : movies, "number" : len(movies)}
+    return getUserWishlist(u_id)
 
 # removes the movie_id element from the users wishlist and returns the new wishlst
-## Placeholder: NOT IMPLEMENTED YET
+## Placeholder: Need to check
 @app.route("/api/wishlist/remove", methods=["POST"])
 def removeWishlist():
     response = request.get_json()
     u_id = response["u_id"]
     movie_id = response["movie_id"]
     # returns the wishlist with the movie id element removed
-    return {"success" : 1}
+    removeFromWishlist(u_id, movie_id)
+
+    return getUserWishlist(u_id)
 
 #############   Recommendations   ##############
 @app.route("/api/movies/similarTo/<int:movie_id>", methods=["GET"])

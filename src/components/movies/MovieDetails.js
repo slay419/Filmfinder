@@ -48,7 +48,7 @@ const MovieDetails = (props) => {
     routeChange();
   };
 
-  // function to handle wishlist
+  // function to handle wishlistrun s
   const handleAddToWishlist = () => {
     if (User == null){
       alert("You Must be logged in to access Wishlist functionality");

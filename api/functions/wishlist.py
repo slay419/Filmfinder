@@ -11,6 +11,9 @@ import hashlib
 from functions.review import(
     userIdExists
 )
+from functions.search import (
+    extractMovieDetails
+)
 
 # Add movie to wishlist
 # Remove movie from wishlist
@@ -22,7 +25,7 @@ def addWishlist(user_id, movie_id):
     # Check if user exists in the database
     # Sanity check because the user has to be logged in to add to wishlist
     if not userIdExists(user_id):
-        raise ValueError(f"No user with id: {user_id} exists in the database")
+        return {"error": (f"No user with id: {user_id} exists in the database")}
 
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
@@ -35,7 +38,7 @@ def addWishlist(user_id, movie_id):
     )
     conn.commit()
     conn.close()
-    return True
+    return {"success": 1}
 
 # Checks if the movie is in the user's wishlist
 def checkWishlist(user_id, movie_id):
@@ -47,3 +50,32 @@ def checkWishlist(user_id, movie_id):
         return False
     conn.close()
     return True
+
+def getUserWishlist(user_id):
+    movies = {}
+    conn = sqlite3.connect("./users.db")
+    conn.execute("ATTACH DATABASE 'movieDB.db' as movieDB")
+    cur = conn.cursor()
+    cur.execute(
+        f"""SELECT * 
+        FROM movieDB.movie
+        WHERE movie_id IN (SELECT movie_id
+            FROM wishlist 
+            WHERE user_id={user_id})"""
+    )
+    for index, movie in enumerate(cur.fetchall()):
+        item = extractMovieDetails(movie)
+        movies[index] = item
+
+    conn.close()
+    return {"movies": movies, "number": len(movies)}
+
+
+def removeFromWishlist(user_id, movie_id):
+    conn = sqlite3.connect("./users.db")
+    cur = conn.cursor()
+    cur.execute(f"DELETE FROM wishlist WHERE user_id={user_id} AND movie_id={movie_id}")
+
+    conn.commit()
+    conn.close()
+    return
