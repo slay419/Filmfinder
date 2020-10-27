@@ -454,7 +454,7 @@ def unblock():
     banned_id = response["banned_id"]
     return bannedList_unblock(user_id, banned_id)
 
-@app.route("/bannedList/view", methods=["POST"])
+@app.route("/api/bannedList/view", methods=["POST"])
 def view():
     response = request.get_json()
     user_id = response["user_id"]
