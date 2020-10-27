@@ -46,7 +46,7 @@ const ProfileState = (props) => {
 
   const getWishlist = (u_id) => {
     setLoading();
-    fetch('./wishlist/get', {
+    fetch('/api/wishlist/get', {
       method: "POST",
       headers: {
           "Content-type": "application/json; charset=UTF-8"
@@ -63,14 +63,14 @@ const ProfileState = (props) => {
     });
   };
 
-  const removeMovie = (movie_id) => {
+  const removeMovie = (movie_id, u_id) => {
     setLoading();
-    fetch('./wishlist/remove', {
+    fetch('/api/wishlist/remove', {
       method: "POST",
       headers: {
           "Content-type": "application/json; charset=UTF-8"
         },
-      body: JSON.stringify({movie_id: movie_id})
+      body: JSON.stringify({movie_id: movie_id, u_id: u_id})
     })
     .then((res) => res.json())
     .then((data) => {
@@ -78,6 +78,27 @@ const ProfileState = (props) => {
       dispatch({ type: GET_WISHLIST, payload: movies_list.slice(0, data.number) });
     })
     .catch((err) => {
+      dispatch({ type: WISHLIST_ERROR, payload: err });
+    });
+  };
+
+  const updateDetails = (u_id, firstName, lastName, secretQ, secretA) => {
+    fetch('./update', {
+      method: "POST",
+      headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        },
+      body: JSON.stringify({u_id: u_id, fname: firstName, lname: lastName, secretQ: secretQ, secretA: secretA})
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if ("error" in data){ 
+        // placeholder
+        dispatch({ type: WISHLIST_ERROR, payload: data });
+      }
+    })
+    .catch((err) => {
+      // placeholder
       dispatch({ type: WISHLIST_ERROR, payload: err });
     });
   };
@@ -91,7 +112,8 @@ const ProfileState = (props) => {
         wishlist: state.wishlist,
         getWishlist,
         loading: state.loading,
-        removeMovie
+        removeMovie,
+        updateDetails,
       }}
     >
       {props.children}

@@ -5,6 +5,7 @@ import {
   POST_REVIEW,
   GET_REVIEWS,
   GET_RECOMMENDATIONS,
+  WISHLIST_CHECK,
 } from "../types";
 
 export default (state, action) => {
@@ -39,6 +40,12 @@ export default (state, action) => {
       return {
         ...state,
         recommendations: action.payload,
+      };
+    case WISHLIST_CHECK:
+      console.log(action.payload);
+      return {
+        ...state,
+        wishlist: action.payload,
       };
     default:
       return state;

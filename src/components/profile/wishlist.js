@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import AuthContext from "../../context/Auth/AuthContext";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import Spinner from "../common/Spinner";
-import MovieList from "../movies/MovieList";
+import Wishlister from "./Wishlister";
 
 const Wishlist = () => {
     const authContext = useContext(AuthContext);
@@ -22,7 +22,7 @@ const Wishlist = () => {
                 <Spinner />
             ) : (
                 <div>
-                <MovieList movies={wishlist} />
+                <Wishlister movies={wishlist} />
                 </div>
             )}
         </div>

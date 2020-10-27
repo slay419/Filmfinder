@@ -17,6 +17,7 @@ from functions.auth import (
     get_user_id,
     auth_logout,
     update_password,
+    get_user_details,
 )
 from functions.search import (
     searchGenre,
@@ -29,7 +30,12 @@ from functions.search import (
     searchSimilarMovies,
     searchRecommendedMovies
 )
-from functions.review import (newReview, incrementLikes, editReview, deleteReview, getMovieReviewList)
+from functions.review import (
+    newReview, 
+    incrementLikes, 
+    editReview,
+    deleteReview,
+    getMovieReviewList)
 
 from functions.bannedList import (
     bannedList_block,
@@ -85,7 +91,7 @@ class Movie(Resource):
         movies = {}
         # Change the sql query depending on if a search term was given or not
         if title_str is None:
-            cur.execute("select * from MOVIE limit 100")
+            cur.execute("select * from MOVIE limit 150")
             #cur.execute("select * from MOVIE where vote_count > 1000 order by vote_avg desc limit 15;")
 
         else:
@@ -102,7 +108,7 @@ class Movie(Resource):
             )
 
             cur.execute(
-                "select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 100;"
+                "select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 150;"
             )
             # return {"movies": df.to_dict("id")}
 
@@ -210,6 +216,12 @@ def ChangePassword():
     return update_password(email, newPassword)
 
 
+@app.route("/auth/getuser", methods=["POST"])
+def getUser():
+    response = request.get_json()
+    u_id = response["u_id"]
+    return get_user_details(u_id)
+
 # returns error: incorrectPassword
 # returns success: 1
 @app.route("/auth/resetpassword", methods=["POST"])
@@ -298,21 +310,48 @@ def getGenresByMovieId(movie_id):
     genres = getGenreList(movie_id)
     return {"genres": genres}
 
+################   Profile    ##################
+
+@app.route("/profile/update", methods=["POST"])
+def updateDetails():
+    response = request.get_json()
+    u_id = response["u_id"]
+    fname = response["fname"]
+    lname = response["lname"]
+    secretQ = response["secreatQ"]
+    secretA = response["secretA"]
+    # this function is for updating the details in u_id's profile
+    # hopefully someone else can implement it
+    return {"success" : 1}
+
 ################   Wishlist   ##################
+
+## Placeholder: NOT IMPLEMENTED YET
+# adds movie_id to user_id's wishlist
+# return {"success" : 1} if successful
 @app.route("/api/wishlist/add", methods=["POST"]) 
 def addToWishlist():
-    return {"success" : "False"}
+    response = request.get_json()
+    user_id = response["u_id"]
+    movie_id = response["movie_id"]
+    return {"success" : 1}
 
 # Don't know how to set this up so change it if the frontend requires
 # Returns true or false 
 # Front end uses this so we can change from add to wishlist / remove from wishlist
 @app.route("/api/wishlist/check", methods=["POST"])
-def checkInWishlist(user_id, movie_id):
+def checkInWishlist():
+    response = request.get_json()
+    user_id = response["u_id"]
+    movie_id = response["movie_id"]
     if checkWishlist(user_id, movie_id):
-        return {"success": "True"}
-    return {"success": "False"}
+        return {"success": 1}
+    return {"success": 0}
 
-@app.route("/profile/wishlist/get", methods=["POST"])
+## Placeholder: NOT IMPLEMENTED YET
+# just copied and pasted from movies search to finish front end
+# should just need to adjust sql statements to fix it
+@app.route("/api/wishlist/get", methods=["POST"])
 def getWishlist():
     response = request.get_json()
     u_id = response["u_id"]
@@ -335,14 +374,15 @@ def getWishlist():
 
     return {"movies" : movies, "number" : len(movies)}
 
-@app.route("/profile/wishlist/remove", methods=["POST"])
 # removes the movie_id element from the users wishlist and returns the new wishlst
+## Placeholder: NOT IMPLEMENTED YET
+@app.route("/api/wishlist/remove", methods=["POST"])
 def removeWishlist():
     response = request.get_json()
     u_id = response["u_id"]
     movie_id = response["movie_id"]
     # returns the wishlist with the movie id element removed
-    return {"not implemented yet" : 1}
+    return {"success" : 1}
 
 #############   Recommendations   ##############
 @app.route("/api/movies/similarTo/<int:movie_id>", methods=["GET"])

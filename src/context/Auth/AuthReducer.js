@@ -8,7 +8,8 @@ import {
     LOGIN, 
     LOGOUT, 
     UNEXPECTED_ERROR,
-    REGISTER
+    REGISTER,
+    SET_USER
 } from "../types";
 
 import { UNANSWERED } from "./AuthState";
@@ -55,6 +56,7 @@ export default (state, action) => {
         case LOGIN:
             // successfully loged in, add user details to state
             console.log(action.payload);
+            localStorage.setItem("FilmFinderUser", action.payload.u_id);
             return {
                 ...state,
                 User: action.payload,
@@ -62,6 +64,7 @@ export default (state, action) => {
         case LOGOUT:
             // logout successful, remove user details from state
             console.log(action.payload);
+            localStorage.removeItem("FilmFinderUser");
             return {
                 ...state,
                 User: null,
@@ -73,6 +76,13 @@ export default (state, action) => {
                 ...state,
                 redir: 1,
                 error: null,
+            };
+        case SET_USER:
+            // change user as user is already logged in
+            //console.log(action.payload);
+            return {
+                ...state,
+                User : action.payload,
             };
         case ERROR:
             // error occured in back end, display error
