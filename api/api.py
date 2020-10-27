@@ -19,6 +19,9 @@ from functions.auth import (
     update_password,
     get_user_details,
 )
+from functions.profile import (
+    profile_update
+)
 from functions.search import (
     searchGenre,
     searchKeyword,
@@ -322,7 +325,7 @@ def updateDetails():
     secretA = response["secretA"]
     # this function is for updating the details in u_id's profile
     # hopefully someone else can implement it
-    return {"success" : 1}
+    return profile_update(u_id, fname, lname, secretQ, secretA)
 
 ################   Wishlist   ##################
 
