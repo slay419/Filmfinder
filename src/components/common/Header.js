@@ -44,7 +44,7 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Link to="/myprofile">{User.first_name}</Link>
+            <Link to="/myprofile">{User.first_name.charAt(0).toUpperCase() + User.first_name.slice(1)}</Link>
           </li>
         </ul>
       )}

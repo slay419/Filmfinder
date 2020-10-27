@@ -107,7 +107,7 @@ const Profile = () => {
 
   return (
     <div className='Profile'>
-      <h1>{User.first_name}'s Profile:</h1>
+      <h1>{User.first_name.charAt(0).toUpperCase() + User.first_name.slice(1)}'s Profile:</h1>
         <div class="bodys">
           <div class="column">
             <h2> Update Profile Details:</h2>
