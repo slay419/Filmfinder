@@ -50,6 +50,10 @@ export default (state, action) => {
         movies: action.payload,
         currentPage: action.payload.slice(0, state.postsPerPage),
         loading: !state.loading,
+        page: 1,
+        maxPage: Math.ceil(
+          Object.keys(action.payload).length / state.postsPerPage
+        ),
       };
     case SEARCH_MOVIES_GENRE:
       return {
