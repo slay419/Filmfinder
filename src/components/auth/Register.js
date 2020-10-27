@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { useState, useContext } from "react";
 import "../../styles/register.scss";
-import RegisterContext from "../../context/Auth/RegisterContext";
+import AuthContext from "../../context/Auth/AuthContext";
 import { TextField, Button, Collapse } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import {
@@ -112,12 +112,12 @@ const Register = () => {
       : " "
     : " ";
 
-  const registerContext = useContext(RegisterContext);
-  const { User, error, registerUser } = registerContext;
+  const authContext = useContext(AuthContext);
+  const { error, registerUser, redir } = authContext;
 
   return (
     <>
-      {User !== null ? (
+      {redir !== 0 ? (
         <Redirect to="/login" />
       ) : (
         <div className="register">

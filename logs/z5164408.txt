@@ -56,3 +56,9 @@ I shouldn't haveany problems with this, i ust need to add the comments to my sec
 Overall I have a good grasp on react and the front end coding that it uses and feel I have been "pulling my weight" 
 and have done a fair share of the tasks.
 
+Monday 26/10/2020
+Ramping up for the second sprint is going well.
+I have been placed on improving the profile page, pagination and wishlist content for the front end.
+Its going well and I have completed the first 2 tasks, witht the third well underway.
+Peter is also workig with me onn the front end, working on filering, reviews and the banned list.
+I think we will have no problem complting the workload by the presentation on thursday.

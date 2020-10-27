@@ -5,22 +5,33 @@ import MovieList from "../movies/MovieList";
 import Spinner from "./Spinner";
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
+import SortBar from "./SortBar";
 
 // Context
 import MoviesContext from "../../context/moviesList/moviesContext";
-import LoginContext from "../../context/Auth/LoginContext";
+import AuthContext from "../../context/Auth/AuthContext";
 
 // styles
 import "../../styles/Home.scss";
+import FilterRatingBar from "./FilterRatingBar";
+import FilterYearBar from "./FilterYearBar";
 
 const Home = () => {
-  const loginContext = useContext(LoginContext);
-  const { User } = loginContext;
+  const authContext = useContext(AuthContext);
+  const { User } = authContext;
 
   const [successOpen, setSuccessOpen] = useState(User !== null);
 
   const moviesContext = useContext(MoviesContext);
-  const { movies, getMovies, loading } = moviesContext;
+  const {
+    currentPage,
+    getMovies,
+    loading,
+    page,
+    maxPage,
+    getNextPage,
+    getPrevPage,
+  } = moviesContext;
 
   useEffect(() => {
     getMovies();
@@ -32,7 +43,6 @@ const Home = () => {
     }
     setSuccessOpen(false);
   };
-
   return (
     <div className="home">
       <div className="user-info"></div>
@@ -40,9 +50,24 @@ const Home = () => {
         <Spinner />
       ) : (
         <div>
-          <MovieList movies={movies} />
+          <SortBar />
+          <FilterYearBar />
+          <FilterRatingBar />
+          <MovieList movies={currentPage} />
         </div>
       )}
+      <div className="pageBar">
+        <button class="previous" onClick={() => getPrevPage()}>
+          &laquo; Previous
+        </button>
+        <p>
+          {" "}
+          {page} of {maxPage}
+        </p>
+        <button class="next" onClick={() => getNextPage()}>
+          Next &raquo;
+        </button>
+      </div>
       <Snackbar
         open={successOpen}
         autoHideDuration={6000}

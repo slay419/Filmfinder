@@ -2,8 +2,7 @@ import React from "react";
 import { useContext, useState } from "react";
 
 // COntext
-import ChangePassContext from "../../context/Auth/ChangePassContext";
-import LoginContext from "../../context/Auth/LoginContext";
+import AuthContext from "../../context/Auth/AuthContext";
 
 // Styles
 import "../../styles/ChangePass.scss";
@@ -12,11 +11,8 @@ const ChangePass = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
-  const loginContext = useContext(LoginContext);
-  const { User } = loginContext;
-
-  const changePassContext = useContext(ChangePassContext);
-  const { Match, Changed, changePassword } = changePassContext;
+  const authContext = useContext(AuthContext);
+  const { User, Match, Changed, changePassword } = authContext;
 
   const oldPassHandler = (e) => {
     setOldPassword(e.target.value);

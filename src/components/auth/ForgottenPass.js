@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 
 // Context
-import ForgottenPassContext from "../../context/Auth/ForgottenPassContext";
-import { CORRECT, INCORRECT } from "../../context/Auth/ForgottenPassState";
+import AuthContext from "../../context/Auth/AuthContext";
+import { CORRECT, INCORRECT } from "../../context/Auth/AuthState";
 
 const ForgottenPass = () => {
   const [email, setEmail] = useState("");
@@ -23,16 +23,16 @@ const ForgottenPass = () => {
     setPassword(e.target.value);
   };
 
-  const forgottenPassContext = useContext(ForgottenPassContext);
+  const authContext = useContext(AuthContext);
   const {
     question,
     getQuestion,
     correct,
     answerQuestion,
-    changed,
-    changePassword,
+    changedForg,
+    changePasswordForg,
     error,
-  } = forgottenPassContext;
+  } = authContext;
 
   useEffect(() => {
     console.log(question);
@@ -73,13 +73,13 @@ const ForgottenPass = () => {
                   ></input>
                   <button
                     type="button"
-                    onClick={() => changePassword(email, password)}
+                    onClick={() => changePasswordForg(email, password)}
                   >
                     Submit Answer
                   </button>
                   {error !== null && <h1>{error}</h1>}
                 </form>
-                {changed === 1 ? (
+                {changedForg === 1 ? (
                   <p>Password Change successful</p>
                 ) : (
                   <div></div>

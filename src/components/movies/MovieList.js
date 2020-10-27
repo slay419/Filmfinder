@@ -19,7 +19,7 @@ const MovieList = ({ movies }) => {
       y: 70,
       opacity: 0,
     });
-  }, [movieList]);
+  }, [movies]);
 
   return (
     <div className="movie-list">

@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from "react";
 import ReviewList from "./ReviewList";
 
 // context
-import LoginContext from "../../context/Auth/LoginContext";
+import AuthContext from "../../context/Auth/AuthContext";
 import MovieContext from "../../context/movie/movieContext";
 
 // styles
@@ -64,8 +64,8 @@ const Reviews = () => {
   const [reviewText, setReviewText] = useState("");
 
   // using movie and login context
-  const loginContext = useContext(LoginContext);
-  const { User } = loginContext;
+  const authContext = useContext(AuthContext);
+  const { User } = authContext;
 
   const movieContext = useContext(MovieContext);
   const { postReview, movie, reviews, getReviews } = movieContext;
@@ -117,20 +117,19 @@ const Reviews = () => {
               <div className="score-select">
                 <Select
                   onChange={handleSelectChange}
+                  placeholder={"score"}
                   options={options}
                   styles={{
                     control: (styles) => ({
                       ...styles,
-                      //height: "30px",
-                      //width: "120px",
+                      width: "120px",
                       fontSize: "0.8rem",
                       fontFamily: "Poppins",
                     }),
                     option: (styles) => ({
                       ...styles,
-                      //display: "block",
                       //height: "30px",
-                      //width: "120px",
+                      width: "120px",
                       fontSize: "0.8rem",
                       fontFamily: "Poppins",
                     }),
@@ -138,13 +137,15 @@ const Reviews = () => {
                 />
               </div>
               {/* button to submit review */}
-              <SubmitButton
-                onClick={handleSubmitReview}
-                variant="contained"
-                color="primary"
-              >
-                Submit
-              </SubmitButton>
+              <span className="score-submit">
+                <SubmitButton
+                  onClick={handleSubmitReview}
+                  variant="contained"
+                  color="primary"
+                >
+                  Submit
+                </SubmitButton>
+              </span>
             </div>
           </div>
         </ThemeProvider>

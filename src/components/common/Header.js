@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 
 // context
-import LoginContext from "../../context/Auth/LoginContext";
+import AuthContext from "../../context/Auth/AuthContext";
 
 const Header = () => {
   // using login context for user and logout
-  const loginContext = useContext(LoginContext);
-  const { User, logout } = loginContext;
+  const authContext = useContext(AuthContext);
+  const { User, logout } = authContext;
 
   return (
     <div className="header">

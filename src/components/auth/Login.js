@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import React from "react";
 import "../../styles/Login.scss";
-import { Redirect } from "react-router-dom";
-import LoginContext from "../../context/Auth/LoginContext";
+import { Redirect, Link} from "react-router-dom";
+import AuthContext from "../../context/Auth/AuthContext";
 import { TextField, Button, Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import {
@@ -57,8 +57,8 @@ const Login = () => {
   const [open, setOpen] = useState(true);
 
   // bringing in login context
-  const loginContext = useContext(LoginContext);
-  const { User, isValid, login } = loginContext;
+  const authContext = useContext(AuthContext);
+  const { User, isValid, login } = authContext;
 
   // input handlers
   const emailHandler = (e) => {
@@ -131,6 +131,7 @@ const Login = () => {
                 Submit
               </Button>
             </ThemeProvider>
+            <Link to="/forgot">Forgot Password</Link>
           </form>
         </div>
       )}
