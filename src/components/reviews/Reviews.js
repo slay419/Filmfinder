@@ -96,7 +96,7 @@ const Reviews = () => {
   };
 
   return (
-    <div>
+    <div className="reviews">
       <h2>Reviews</h2>
       {/* previous reviews in reviews list */}
       <ReviewList reviews={reviews} />
