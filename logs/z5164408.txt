@@ -62,3 +62,11 @@ I have been placed on improving the profile page, pagination and wishlist conten
 Its going well and I have completed the first 2 tasks, witht the third well underway.
 Peter is also workig with me onn the front end, working on filering, reviews and the banned list.
 I think we will have no problem complting the workload by the presentation on thursday.
+
+Thursday 29/10/2020
+My bad, in previous logs I had put down the wrong day fro the second demo, woops.
+Anyway progress is great, only two user stories still remain to be completed for this sprint,
+See no problems in copleteing this sprint for the presentation.
+Still plan to do many bug fixe and cleanup in the code but otherwise this should be goood
+Kevin will continue working on the back end moving into sprint 3, whilst the other backend people
+will move to the front end for the final sprint to ensure we can squash the bugs and get everything running well
