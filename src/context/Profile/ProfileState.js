@@ -11,6 +11,7 @@ import {
   WISHLIST_ERROR,
   PUBLIC_USER,
   GET_USER_BY_ID,
+  GET_RECOMMENDATIONS,
 } from "../types";
 
 const ProfileState = (props) => {
@@ -20,6 +21,7 @@ const ProfileState = (props) => {
     bannedList: [],
     wishlist: [],
     loading: false,
+    recommendations: null,
   };
 
   const [state, dispatch] = useReducer(ProfileReducer, initialState);
@@ -122,6 +124,32 @@ const ProfileState = (props) => {
     });
   };
 
+  const getRecommendations = (u_id) =>{
+    /*
+    //Implemented here but not on backend
+    fetch('./update', {
+      method: "POST",
+      headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        },
+      body: JSON.stringify({u_id: u_id})
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if ("error" in data){ 
+        // placeholder
+        dispatch({ type: WISHLIST_ERROR, payload: data });
+      } else {
+        dispatch({ type: GET_RECOMMENDATIONS, payload: data });
+      }
+    })
+    .catch((err) => {
+      // placeholder
+      dispatch({ type: WISHLIST_ERROR, payload: err });
+    });
+    */
+  }
+
   return (
     <ProfileContext.Provider
       value={{
@@ -134,6 +162,8 @@ const ProfileState = (props) => {
         removeMovie,
         updateDetails,
         getUserById,
+        recommendations: state.recommendations,
+        getRecommendations,
       }}
     >
       {props.children}

@@ -66,6 +66,12 @@ export default (state, action) => {
         User: action.payload,
         loading: !state.loading,
       };
+      case GET_USER_BY_ID:
+        console.log(action.payload);
+        return {
+          ...state,
+          Recommendations: action.payload,
+        };
     default:
       return state;
   }

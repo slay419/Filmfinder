@@ -1,6 +1,7 @@
 import React from "react";
 import AuthContext from "../../context/Auth/AuthContext";
 import ProfileContext from "../../context/Profile/ProfileContext";
+import ReviewRec from "../profile/ReviewRec"
 import { useContext, useState } from "react";
 // import ProfileContext from "../../context/Profile/ProfileContext";
 import { Link, useHistory } from "react-router-dom";
@@ -104,19 +105,20 @@ const Profile = () => {
   //const { profileUser } = profileContext;
 
   //const [email, setEmail] = useState("");
-
+  console.log(User)
   return (
     <div className='Profile'>
-      <h1>{User.first_name.charAt(0).toUpperCase() + User.first_name.slice(1)}'s Profile:</h1>
+      <h1>Your Profile:</h1>
       <Link to={'/profile/' + User.u_id}> Public Profile</Link>
         <div class="bodys">
           <div class="column">
+            <h2> Your Email: {User.email}</h2>
             <h2> Update Profile Details:</h2>
             <form onSubmit={handleSubmit} autoComplete="off">
             <ThemeProvider theme={theme}>
               <UpdateTextField
                 size="small"
-                label="First Name"
+                label={User.first_name}
                 variant="outlined"
                 onChange={fnameHandler}
                 helperText=" "
@@ -124,7 +126,7 @@ const Profile = () => {
               />
               <UpdateTextField
                 size="small"
-                label="last name"
+                label={User.last_name}
                 variant="outlined"
                 onChange={lnameHandler}
                 helperText=" "
@@ -132,7 +134,7 @@ const Profile = () => {
               />
               <UpdateTextField
                 size="small"
-                label="secret question"
+                label="Enter New Secret Question"
                 variant="outlined"
                 onChange={secretQHandler}
                 helperText=" "
@@ -140,7 +142,7 @@ const Profile = () => {
               />
               <UpdateTextField
                 size="small"
-                label="answer"
+                label="Enter new secret answer"
                 variant="outlined"
                 onChange={secretAHandler}
                 helperText=" "
@@ -155,21 +157,22 @@ const Profile = () => {
             </ThemeProvider>
             </form>
           </div>
-        <div class="column">
-          <span onClick={handlePassword} className="btn">
-                Change Password
-          </span>
-          <span onClick={handleWishList} className="btn">
-                View Wishlist
-          </span>
-          <span onClick={handleBannedList} className="btn">
-                View banned list
-          </span>
-          <span onClick={handleReviews} className="btn">
-                View recent reviews
-          </span>
+          <div class="column">
+            <span onClick={handlePassword} className="btn">
+                  Change Password
+            </span>
+            <span onClick={handleWishList} className="btn">
+                  View Wishlist
+            </span>
+            <span onClick={handleBannedList} className="btn">
+                  View banned list
+            </span>
+            <span onClick={handleReviews} className="btn">
+                  View recent reviews
+            </span>
+          </div>
         </div>
-      </div>
+        <ReviewRec id={User.u_id} />
     </div>
   );
 };
