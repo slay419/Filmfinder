@@ -21,7 +21,8 @@
     "react-show-more-text": "^1.4.4",
     "react-slick": "^0.27.12",
     "react-tilt": "^0.1.4",
-    "read-more-react": "^1.0.10"
+    "read-more-react": "^1.0.10",
+    "typescript": "^4.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
