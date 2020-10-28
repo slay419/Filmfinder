@@ -1,8 +1,10 @@
 import time
 from flask import Flask
+from flask_mail import Mail, Message
 from flask_restplus import Resource, Api, fields, reqparse, inputs
 import sqlite3
 import json
+from random import randint
 import pandas as pd
 from pandas.io import sql
 from requests import get
@@ -10,11 +12,12 @@ import re
 import hashlib
 
 USER_LIST = []
+EMAIL_LIST = []     # Stores dictionaries of user confirmation codes
 REGEX = "^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
 PASSWORDREGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" # at least 8 characters, one number one uppercase one lowercase
 
 def auth_register(
-    email, password, first_name, last_name, secret_question, secret_answer
+    email, password, password_confirmation, first_name, last_name, secret_question, secret_answer, app
 ):
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
     conn = sqlite3.connect('users.db')
@@ -36,14 +39,20 @@ def auth_register(
     check = check_question(secret_question, secret_answer)
     if "error" in check:
         return check
-    c.execute(
-        f"""
-        INSERT INTO users(user_id, first_name, last_name, email, password, secret_question, secret_answer)
-        VALUES ({new_user_id}, "{first_name}", "{last_name}", "{email}", "{hashed_password}", "{secret_question}", "{secret_answer}");
-        """
-    )
-    conn.commit()
+    check = check_matching_password(password, password_confirmation)
+    if "error" in check:
+        return check
+    # c.execute(
+    #     f"""
+    #     INSERT INTO users(user_id, first_name, last_name, email, password, secret_question, secret_answer)
+    #     VALUES ({new_user_id}, "{first_name}", "{last_name}", "{email}", "{hashed_password}", "{secret_question}", "{secret_answer}");
+    #     """
+    # )
+    # conn.commit()
+    send_confirmation_email(email, app)
+    store_user_details(new_user_id, first_name, last_name, email, hashed_password, secret_question, secret_answer)
     conn.close()
+    
     return {
         'u_id': new_user_id,
     }
@@ -81,6 +90,8 @@ def auth_login(email, password):
         return {"error": "Invalid Login"}
     if u_id in USER_LIST:
         return {"error": "That user is already logged in"}
+    if not has_confirmed_email(email):
+        return {"error": "User has not verified their email address yet"}
     USER_LIST.append(u_id)
     print(USER_LIST)
     return get_user_details(u_id)
@@ -92,8 +103,49 @@ def auth_logout(u_id):
     print(USER_LIST)
     return get_user_details(u_id)
 
+def send_confirmation_email(email, app):
+    mail = Mail(app)
+    msg = Message("Reset Code", sender="filmfindercomp3900@gmail.com", recipients=[email])
+    confirmation_code = str(randint(1000, 9999))
+    update_email_code_list(email, confirmation_code)
+    msg.body = f"Your confirmation code is: {confirmation_code}"
+    mail.send(msg)
+
+def check_confirmation_code(email, user_code):
+    for dict in EMAIL_LIST:
+        print(dict)
+        if email in dict:
+            stored_code = dict[email]
+            if int(user_code) == int(stored_code):
+                user_id = get_user_id(email)
+                update_confirmed_user(email)
+                return {"u_id": user_id}
+            else:
+                return {"error": "Confirmation codes do not match"}
+    print("ERROR NO CONFIRMATION CODE FOUND")
+    return {"error": "No confirmation code has been found for the given email"}
 
 ######################  HELPER FUNCTIONS  ########################
+
+def store_user_details(u_id, first_name, last_name, email, password, secret_question, secret_answer):
+    conn = sqlite3.connect('users.db')
+    c = conn.cursor()
+    c.execute(
+        f"""
+        INSERT INTO users(user_id, first_name, last_name, email, password, secret_question, secret_answer)
+        VALUES ({u_id}, "{first_name}", "{last_name}", "{email}", "{password}", "{secret_question}", "{secret_answer}");
+        """
+    )
+    conn.commit()
+    conn.close()
+
+def update_email_code_list(email, confirmation_code):
+    user_dict = {email: confirmation_code}
+    if any(email in d for d in EMAIL_LIST):
+        d.update(user_dict)
+    else:
+        EMAIL_LIST.append(user_dict)
+    print(EMAIL_LIST)
 
 
 def check_valid_email(email):
@@ -110,6 +162,10 @@ def check_valid_password(password):
         return {"error" : "Password must contain at least one uppercase letter, one lowercase letter and be 8 characters long"}
     return {"success" : 1}
 
+def check_matching_password(password, password_confirmation):
+    if password != password_confirmation:
+        return {"error": "Passwords do not match"}
+    return {"success": 1}
 
 def check_valid_names(first_name, last_name):
     maxlen = 50
@@ -132,6 +188,23 @@ def check_question(question, answer):
     if len(answer) < 1:
         return {"error" : "Please enter a Secret Answer"}
     return {"success" : 1}
+
+def update_confirmed_user(email):
+    user_id = get_user_id(email)
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(f"INSERT INTO confirmed_users(user_id, confirmed_email) VALUES ({user_id}, 1);")
+    conn.commit()
+    conn.close()
+
+def has_confirmed_email(email):
+    user_id = get_user_id(email)
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(f"SELECT * from confirmed_users where user_id = {user_id};")
+    if len(c.fetchall()) == 0:
+        return False
+    return True
 
 def get_user_id(email):
     conn = sqlite3.connect('users.db')
