@@ -12,6 +12,7 @@ const MovieList = ({ movies }) => {
   const movieDomNodes = [];
 
   useEffect(() => {
+    setMovieList([]);
     setMovieList(movies);
     gsap.from(movieDomNodes, {
       duration: 0.3,
@@ -28,7 +29,7 @@ const MovieList = ({ movies }) => {
           <div
             ref={(e) => (movieDomNodes[index] = e)}
             className=""
-            key={movie.title}
+            key={movie.id}
           >
             <MovieItem movie={movie} />
           </div>

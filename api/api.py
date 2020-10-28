@@ -221,6 +221,19 @@ def ChangePassword():
         return {"error": "Old password is incorrect"}
     return update_password(email, newPassword)
 
+@app.route("/api/users/<int:id>")
+def getUserById(id):
+    conn = sqlite3.connect("./users.db")
+    cur = conn.cursor()
+    cur.execute(f"select * from users where user_id = {id}")
+    user = cur.fetchone()
+    item = {}
+    item["user_id"] = user[0]
+    item["first_name"] = user[1]
+    item["last_name"] = user[2]
+    conn.close()
+    return item
+
 
 @app.route("/auth/getuser", methods=["POST"])
 def getUser():
@@ -421,6 +434,7 @@ class MovieReviews(Resource):
         movie_id_int = movie_id_parser.parse_args().get("movie_id")
         review_list = getMovieReviewList(movie_id_int)
         return {"reviews": review_list}
+
 
 ################    Banned List    ##################
 @app.route("/api/bannedList/block", methods=["POST"])
