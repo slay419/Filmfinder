@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from "react";
 
 // Components
-import RecommendationSlide from "./RecommendationSlide";
+import RecommendationSlide from "../recommendations/RecommendationSlide";
 
 // Context
-import MovieContext from "../../context/movie/movieContext";
+import ProfileContext from "../../context/Profile/ProfileContext";
 
 // Styling
 import Slider from "react-slick";
@@ -20,10 +20,10 @@ const sliderSettings = {
   speed: 500,
 };
 
-const Recommendations = ({ id }) => {
+const ReviewRec = ({ id }) => {
   // using the movie context
-  const movieContext = useContext(MovieContext);
-  const { getRecommendations, recommendations } = movieContext;
+  const profileContext = useContext(ProfileContext);
+  const { getRecommendations, recommendations } = profileContext;
 
   // on load, get the similar movies
   useEffect(() => {
@@ -35,12 +35,12 @@ const Recommendations = ({ id }) => {
   return (
     <div>
       <h1>Recommendations</h1>
-      <br />
-      <br />
+      <p> These recommendations are based on review history</p>
       {recommendations === null ? (
         <></>
       ) : (
         // If the recomendations are not null, show the slider with recommended movies
+        
         <Slider {...sliderSettings}>
           {recommendations.map((rec) => {
             return <RecommendationSlide movie={rec} key={rec.movie_id} />;
@@ -51,4 +51,4 @@ const Recommendations = ({ id }) => {
   );
 };
 
-export default Recommendations;
+export default ReviewRec;

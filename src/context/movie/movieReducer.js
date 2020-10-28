@@ -36,7 +36,6 @@ export default (state, action) => {
       console.log(action.payload);
       return state;
     case GET_RECOMMENDATIONS:
-      console.log(action.payload);
       return {
         ...state,
         recommendations: action.payload,

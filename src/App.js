@@ -15,6 +15,7 @@ import wishlist from "./components/profile/wishlist";
 import bannedlist from "./components/profile/bannedlist";
 import Footer from "./components/common/Footer";
 import publicProfile from "./components/profile/publicProfile";
+import PublicWishlist from "./components/profile/PublicWishlist";
 
 // Context
 import MoviesState from "./context/moviesList/MoviesState";
@@ -61,6 +62,11 @@ function App() {
                       path="/profile/:uid"
                       exact
                       component={publicProfile}
+                      />
+                    <Route
+                      path="/profile/wishlist/:uid"
+                      exact
+                      component={PublicWishlist}
                       />
                   </Switch>
                 </Router>

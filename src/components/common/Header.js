@@ -12,6 +12,7 @@ const Header = () => {
   // using login context for user and logout
   const authContext = useContext(AuthContext);
   const { User, logout, setUser } = authContext;
+
   useEffect(() => {
     if (User == null){
       if (localStorage.getItem("FilmFinderUser") != null){
@@ -19,6 +20,7 @@ const Header = () => {
       }
     }
   }, []);
+  
   return (
     <div className="header">
       <h3 className="logo">
@@ -44,7 +46,7 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Link to="/myprofile">{User.first_name}</Link>
+            <Link to="/myprofile">{User.first_name.charAt(0).toUpperCase() + User.first_name.slice(1)}</Link>
           </li>
         </ul>
       )}

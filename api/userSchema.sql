@@ -31,3 +31,8 @@ CREATE TABLE IF NOT EXISTS banned_list (
     user_id integer,
     banned_id integer
 );
+
+CREATE TABLE IF NOT EXISTS confirmed_users (
+    user_id integer PRIMARY KEY,
+    confirmed_email integer
+)

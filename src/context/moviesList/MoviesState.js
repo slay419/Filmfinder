@@ -114,7 +114,10 @@ const MoviesState = (props) => {
     let sortedMovies = state.movies.sort((a, b) => {
       return a.vote_avg > b.vote_avg ? -1 : 1;
     });
-    dispatch({ type: SORT_MOVIES_BY_SCORE, payload: sortedMovies });
+    setTimeout(
+      () => dispatch({ type: SORT_MOVIES_BY_SCORE, payload: sortedMovies }),
+      100
+    );
   };
 
   const searchMoviesGenre = (text) => {
@@ -137,7 +140,11 @@ const MoviesState = (props) => {
   const filterMoviesByRating = () => {
     setLoading();
     const filteredMovies = state.movies.filter((e) => e.adult === "True");
-    dispatch({ type: FILTER_MOVIES_BY_RATING, payload: filteredMovies });
+    setTimeout(
+      () =>
+        dispatch({ type: FILTER_MOVIES_BY_RATING, payload: filteredMovies }),
+      20
+    );
   };
 
   const filterMoviesByYear = (year) => {
@@ -145,7 +152,10 @@ const MoviesState = (props) => {
     const filteredMovies = state.movies.filter(
       (m) => m.release_date.slice(0, 4) === year
     );
-    dispatch({ type: FILTER_MOVIES_BY_YEAR, payload: filteredMovies });
+    setTimeout(
+      () => dispatch({ type: FILTER_MOVIES_BY_YEAR, payload: filteredMovies }),
+      20
+    );
   };
 
   return (

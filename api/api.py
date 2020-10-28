@@ -18,6 +18,7 @@ from functions.auth import (
     auth_logout,
     update_password,
     get_user_details,
+    check_confirmation_code
 )
 from functions.profile import (
     profile_update
@@ -46,6 +47,12 @@ from functions.bannedList import (
     bannedList_view
 )
 
+from functions.wishlist import (
+    checkWishlist,
+    addWishlist,
+    getUserWishlist,
+    removeFromWishlist
+)
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
 
@@ -54,6 +61,14 @@ api = Api(
     version="1.0",
     title="Film Finder API",
     description="an api to help us find some films LOL",
+)
+
+app.config.update(
+    MAIL_SERVER='smtp.gmail.com',
+    MAIL_PORT=465,
+    MAIL_USE_SSL=True,
+    MAIL_USERNAME='filmfindercomp3900@gmail.com',
+    MAIL_PASSWORD="fortniteforlife"
 )
 
 title_parser = reqparse.RequestParser()
@@ -94,7 +109,7 @@ class Movie(Resource):
         movies = {}
         # Change the sql query depending on if a search term was given or not
         if title_str is None:
-            cur.execute("select * from MOVIE limit 150")
+            cur.execute("select * from MOVIE limit 300")
             #cur.execute("select * from MOVIE where vote_count > 1000 order by vote_avg desc limit 15;")
 
         else:
@@ -111,7 +126,7 @@ class Movie(Resource):
             )
 
             cur.execute(
-                "select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 150;"
+                "select * from movie m join temp_id t on m.movie_id = t.movie_id group by m.movie_id order by t.subquery limit 600;"
             )
             # return {"movies": df.to_dict("id")}
 
@@ -158,6 +173,18 @@ def getMovieById(id):
 
 ############### Auth Functions #####################
 
+#   Kevin's notes for frontend
+#   Registering needs one more field to confirm matching passwords
+#       returns a new error message if not matching: "Passwords do not match"
+#   after registering - now need to redirect to a page with a confirmation code text field
+#       can backend store the email? if not then get user to enter email again
+#   new route has been made for the redirect page: /auth/confirmEmail
+#       returns a dicitonary with the user id and also some error messages
+#   login now performs a check to see if the user has confirmed their email first before logging in
+#       login also has one more error message: "User has not verified their email address yet"
+
+
+
 # return statements
 # error: wrongLogin
 # user details as dictionary
@@ -183,6 +210,7 @@ def register():
     response = request.get_json()
     email = response["email"]
     password = response["password"]
+    password_confirmation = response["password_confirmation"]
     first_name = response["first_name"]
     last_name = response["last_name"]
     secret_question = response["secret_question"]
@@ -190,8 +218,15 @@ def register():
 
     # if valid then return user
     return auth_register(
-        email, password, first_name, last_name, secret_question, secret_answer
+        email, password, password_confirmation, first_name, last_name, secret_question, secret_answer, app
     )
+
+@app.route("/auth/confirmEmail", methods=["POST"])
+def confirm():
+    response = request.get_json()
+    email = response["email"]
+    code = response["confirmation_code"]
+    return check_confirmation_code(email, code)
 
 
 ############### Accounts #####################
@@ -217,6 +252,19 @@ def ChangePassword():
     if hashed_password != checkPass[0]:
         return {"error": "Old password is incorrect"}
     return update_password(email, newPassword)
+
+@app.route("/api/users/<int:id>")
+def getUserById(id):
+    conn = sqlite3.connect("./users.db")
+    cur = conn.cursor()
+    cur.execute(f"select * from users where user_id = {id}")
+    user = cur.fetchone()
+    item = {}
+    item["user_id"] = user[0]
+    item["first_name"] = user[1]
+    item["last_name"] = user[2]
+    conn.close()
+    return item
 
 
 @app.route("/auth/getuser", methods=["POST"])
@@ -329,7 +377,7 @@ def updateDetails():
 
 ################   Wishlist   ##################
 
-## Placeholder: NOT IMPLEMENTED YET
+## Placeholder: Need to check
 # adds movie_id to user_id's wishlist
 # return {"success" : 1} if successful
 @app.route("/api/wishlist/add", methods=["POST"]) 
@@ -337,9 +385,8 @@ def addToWishlist():
     response = request.get_json()
     user_id = response["u_id"]
     movie_id = response["movie_id"]
-    return {"success" : 1}
+    return addWishlist(user_id, movie_id)
 
-# Don't know how to set this up so change it if the frontend requires
 # Returns true or false 
 # Front end uses this so we can change from add to wishlist / remove from wishlist
 @app.route("/api/wishlist/check", methods=["POST"])
@@ -351,41 +398,26 @@ def checkInWishlist():
         return {"success": 1}
     return {"success": 0}
 
-## Placeholder: NOT IMPLEMENTED YET
+## Placeholder: Need to check
 # just copied and pasted from movies search to finish front end
 # should just need to adjust sql statements to fix it
 @app.route("/api/wishlist/get", methods=["POST"])
 def getWishlist():
     response = request.get_json()
     u_id = response["u_id"]
-    movies = {}
-    # database stuff
-    conn = sqlite3.connect("./movieDB.db")
-    cur = conn.cursor()
-    
-    ################################################################
-    # needs to be changed for wishlist
-    cur.execute("select * from MOVIE limit 15")
-
-
-    index = 0
-    # Extract movie information and populate dictionary
-    for movie in cur.fetchall():
-        item = extractMovieDetails(movie)
-        movies[index] = item
-        index += 1
-
-    return {"movies" : movies, "number" : len(movies)}
+    return getUserWishlist(u_id)
 
 # removes the movie_id element from the users wishlist and returns the new wishlst
-## Placeholder: NOT IMPLEMENTED YET
+## Placeholder: Need to check
 @app.route("/api/wishlist/remove", methods=["POST"])
 def removeWishlist():
     response = request.get_json()
     u_id = response["u_id"]
     movie_id = response["movie_id"]
     # returns the wishlist with the movie id element removed
-    return {"success" : 1}
+    removeFromWishlist(u_id, movie_id)
+
+    return getUserWishlist(u_id)
 
 #############   Recommendations   ##############
 @app.route("/api/movies/similarTo/<int:movie_id>", methods=["GET"])
@@ -441,6 +473,7 @@ class MovieReviews(Resource):
         movie_id_int = movie_id_parser.parse_args().get("movie_id")
         review_list = getMovieReviewList(movie_id_int)
         return {"reviews": review_list}
+
 
 ################    Banned List    ##################
 @app.route("/api/bannedList/block", methods=["POST"])

@@ -54,7 +54,7 @@ const AuthState = (props) => {
         });
     };
 
-    const registerUser = (email, password, fname, lname, secretQ, secretA) => {
+    const registerUser = (email, password, conPassword, fname, lname, secretQ, secretA) => {
         // pass user details to the back end to register the user
         fetch('./auth/register', {
             method: "POST",
@@ -64,7 +64,8 @@ const AuthState = (props) => {
 
             body: JSON.stringify({
             email: email, 
-            password: password, 
+            password: password,
+            password_confirmation: conPassword, 
             first_name: fname, 
             last_name: lname, 
             secret_question: secretQ, 

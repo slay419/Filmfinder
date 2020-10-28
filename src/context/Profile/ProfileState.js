@@ -2,14 +2,17 @@ import React, { useReducer } from "react";
 import ProfileContext from "./ProfileContext";
 import ProfileReducer from "./ProfileReducer";
 
-import { 
-  REGISTER, 
-  BAN_USER, 
-  BANNED_LIST_ERROR,  
+import {
+  REGISTER,
+  BAN_USER,
+  BANNED_LIST_ERROR,
   GET_WISHLIST,
   SET_LOADING,
-  WISHLIST_ERROR
- } from "../types";
+  WISHLIST_ERROR,
+  PUBLIC_USER,
+  GET_USER_BY_ID,
+  GET_RECOMMENDATIONS,
+} from "../types";
 
 const ProfileState = (props) => {
   // placeholder state, not currently used
@@ -18,7 +21,7 @@ const ProfileState = (props) => {
     bannedList: [],
     wishlist: [],
     loading: false,
-    
+    recommendations: null,
   };
 
   const [state, dispatch] = useReducer(ProfileReducer, initialState);
@@ -49,18 +52,21 @@ const ProfileState = (props) => {
     fetch('/api/wishlist/get', {
       method: "POST",
       headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        },
-      body: JSON.stringify({u_id: u_id})
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ u_id: u_id }),
     })
-    .then((res) => res.json())
-    .then((data) => {
-      const movies_list = Object.values(data.movies);
-      dispatch({ type: GET_WISHLIST, payload: movies_list.slice(0, data.number) });
-    })
-    .catch((err) => {
-      dispatch({ type: WISHLIST_ERROR, payload: err });
-    });
+      .then((res) => res.json())
+      .then((data) => {
+        const movies_list = Object.values(data.movies);
+        dispatch({
+          type: GET_WISHLIST,
+          payload: movies_list.slice(0, data.number),
+        });
+      })
+      .catch((err) => {
+        dispatch({ type: WISHLIST_ERROR, payload: err });
+      });
   };
 
   const removeMovie = (movie_id, u_id) => {
@@ -75,11 +81,26 @@ const ProfileState = (props) => {
     .then((res) => res.json())
     .then((data) => {
       const movies_list = Object.values(data.movies);
-      dispatch({ type: GET_WISHLIST, payload: movies_list.slice(0, data.number) });
+      dispatch({
+        type: GET_WISHLIST,
+        payload: movies_list.slice(0, data.number),
+      });
     })
     .catch((err) => {
       dispatch({ type: WISHLIST_ERROR, payload: err });
     });
+  };
+
+  const getUserById = (id) => {
+    setLoading()
+    fetch(`/api/users/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: GET_USER_BY_ID, payload: data });
+      })
+      .catch((err) => {
+        dispatch({ type: WISHLIST_ERROR, payload: err });
+      });
   };
 
   const updateDetails = (u_id, firstName, lastName, secretQ, secretA) => {
@@ -103,10 +124,31 @@ const ProfileState = (props) => {
     });
   };
 
+  const getRecommendations = (u_id) =>{
+    
+    //Implemented here but not on backend
+    fetch(`/api/movies/recommendedFor/${u_id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      if ("error" in data){ 
+        // placeholder
+        dispatch({ type: WISHLIST_ERROR, payload: data });
+      } else {
+        dispatch({ type: GET_RECOMMENDATIONS, payload: data });
+      }
+    })
+    .catch((err) => {
+      // placeholder
+      dispatch({ type: WISHLIST_ERROR, payload: err });
+    });
+    
+  }
+
   return (
     <ProfileContext.Provider
       value={{
-        //User: state.User,
+        User: state.User,
         bannedList: state.bannedList,
         banUser,
         wishlist: state.wishlist,
@@ -114,6 +156,9 @@ const ProfileState = (props) => {
         loading: state.loading,
         removeMovie,
         updateDetails,
+        getUserById,
+        recommendations: state.recommendations,
+        getRecommendations,
       }}
     >
       {props.children}

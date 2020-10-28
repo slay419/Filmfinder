@@ -41,9 +41,12 @@ export const GET_WISHLIST = "GET_WISHLIST";
 export const WISHLIST_ERROR = "WISHLIST_ERROR";
 export const REMOVE_ITEM = "REMOVE_ITEM";
 export const WISHLIST_CHECK = "WISHLIST_CHECK";
+export const PUBLIC_USER = "PUBLIC_USER";
 
 export const GET_BANNED_LIST = "GET_BANNED_LIST";
 export const BAN_USER = "BAN_USER";
 export const BANNED_LIST_ERROR = "BANNED_LIST_ERROR";
+
+export const GET_USER_BY_ID = "GET_USER_BY_ID";
 
 export const UNEXPECTED_ERROR = "UNEXPECTED_ERROR";
