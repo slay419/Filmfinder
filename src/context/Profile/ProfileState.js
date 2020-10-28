@@ -205,7 +205,7 @@ const ProfileState = (props) => {
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
-      body: JSON.stringify({ user_id: user_id, banned: block_id }),
+      body: JSON.stringify({ user_id: user_id, banned_id: block_id }),
     })
     .then((res) => res.json())
     .then((data) => {
