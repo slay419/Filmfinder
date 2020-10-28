@@ -67,7 +67,7 @@ export default (state, action) => {
       console.log(action.payload);
       return {
         ...state,
-        User: action.payload,
+        profile: action.payload,
         loading: false,
       };
     case GET_RECOMMENDATIONS:

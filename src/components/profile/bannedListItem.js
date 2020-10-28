@@ -3,11 +3,16 @@ import ProfileContext from "../../context/Profile/ProfileContext";
 
 const BannedListItem = ({ user }) => {
   const profileContext = useContext(ProfileContext);
-  const { getUserById, profile } = profileContext;
+  const { getUserById, profile, unbanUser } = profileContext;
 
   useEffect(() => {
     getUserById(user);
   }, []);
+
+  const handleRemove = (e) => {
+    unbanUser(e);
+  };
+  console.log(profile);
 
   return (
     <div>
@@ -26,7 +31,7 @@ const BannedListItem = ({ user }) => {
           >
             {profile.first_name} {profile.last_name}
             <span
-              onClick={() => console.log("remove")}
+              onClick={() => handleRemove(profile.user_id)}
               style={{ color: "red", cursor: "pointer" }}
             >
               remove

@@ -14,6 +14,8 @@ const Bannedlist = () => {
     getBannedList(User.u_id);
   }, []);
 
+  console.log(bannedList);
+
   return (
     <div>
       <h1>This is who is on your banned list:</h1>
