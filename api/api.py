@@ -97,7 +97,7 @@ class Movie(Resource):
         movies = {}
         # Change the sql query depending on if a search term was given or not
         if title_str is None:
-            cur.execute("select * from MOVIE limit 600")
+            cur.execute("select * from MOVIE limit 300")
             #cur.execute("select * from MOVIE where vote_count > 1000 order by vote_avg desc limit 15;")
 
         else:
