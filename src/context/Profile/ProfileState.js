@@ -8,7 +8,8 @@ import {
   BANNED_LIST_ERROR,  
   GET_WISHLIST,
   SET_LOADING,
-  WISHLIST_ERROR
+  WISHLIST_ERROR,
+  PUBLIC_USER,
  } from "../types";
 
 const ProfileState = (props) => {
@@ -103,10 +104,33 @@ const ProfileState = (props) => {
     });
   };
 
+  const getPublicUser = (u_id) => {
+    fetch('/profile/getpublicuser', {
+      method: "POST",
+      headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        },
+      body: JSON.stringify({u_id: u_id})
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if ("error" in data){ 
+        // placeholder
+        dispatch({ type: WISHLIST_ERROR, payload: data });
+      } else {
+        dispatch({ type: PUBLIC_USER, payload: data });
+      }
+    })
+    .catch((err) => {
+      // placeholder
+      dispatch({ type: WISHLIST_ERROR, payload: err });
+    });  
+  }
+
   return (
     <ProfileContext.Provider
       value={{
-        //User: state.User,
+        User: state.User,
         bannedList: state.bannedList,
         banUser,
         wishlist: state.wishlist,
@@ -114,6 +138,7 @@ const ProfileState = (props) => {
         loading: state.loading,
         removeMovie,
         updateDetails,
+        getPublicUser,
       }}
     >
       {props.children}

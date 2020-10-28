@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 
 import "../../styles/publicProfile.scss";
 
-const PublicProfile = () => {
+const PublicProfile = (props) => {
     
     /*
         #############################################################
@@ -21,19 +21,23 @@ const PublicProfile = () => {
     */
     const history = useHistory();
     const profileContext = useContext(ProfileContext);
-    const { updateDetails } = profileContext;
+    const { User, getPublicUser } = profileContext;
+
+    const uid = props.match.params.uid;
+    getPublicUser(uid);
 
     const handleWishList = () => {
-        let path = '/profile/wishlist';
+        let path = '/profile/wishlist/' + uid;
         history.push(path);
     };
 
     const handleReviews = () => {
         alert("not implemented");
     }; 
-
+    //<h1>{User.first_name.charAt(0).toUpperCase() + User.first_name.slice(1) + " " + User.last_name.charAt(0).toUpperCase() + User.last_name.slice(1)}'s Profile:</h1>
     return (
         <div class="publicProfile">
+            
             <div class="column">
                 <span onClick={handleWishList} className="btn">
                         View Wishlist

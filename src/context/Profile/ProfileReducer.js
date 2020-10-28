@@ -8,7 +8,8 @@ import {
   GET_WISHLIST,
   SET_LOADING,
   WISHLIST_ERROR,
-  REMOVE_ITEM
+  REMOVE_ITEM,
+  PUBLIC_USER,
 } from "../types";
 //
 // Placeholder file
@@ -47,6 +48,13 @@ export default (state, action) => {
           ...state,
           wishlist: action.payload,
           loading: !state.loading,
+        };
+    case PUBLIC_USER:
+      // retrieve the wishlist
+      console.log(action.payload);
+      return {
+          ...state,
+          User: action.payload,
         };
     case SET_LOADING:
       // change the loading sign from active to inactive
