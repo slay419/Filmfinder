@@ -20,6 +20,9 @@ from functions.auth import (
     get_user_details,
     check_confirmation_code
 )
+from functions.profile import (
+    profile_update
+)
 from functions.search import (
     searchGenre,
     searchKeyword,
@@ -32,11 +35,11 @@ from functions.search import (
     searchRecommendedMovies
 )
 from functions.review import (
-    newReview,
-    incrementLikes,
+    newReview, 
+    incrementLikes, 
     editReview,
-    getMovieReviewList
-)
+    deleteReview,
+    getMovieReviewList)
 
 from functions.bannedList import (
     bannedList_block,
@@ -370,7 +373,7 @@ def updateDetails():
     secretA = response["secretA"]
     # this function is for updating the details in u_id's profile
     # hopefully someone else can implement it
-    return {"success" : 1}
+    return profile_update(u_id, fname, lname, secretQ, secretA)
 
 ################   Wishlist   ##################
 
@@ -452,6 +455,13 @@ def editMovieReview():
     return editReview(review_id, comment, score)
 
 
+@app.route("/api/review/deleteMovieReview", methods=["DELETE"])
+def deleteReviewForMovie():
+    response = request.get_json(force=True)
+    review_id = response["review_id"]
+    return deleteReview(review_id)
+
+
 @api.route("/api/review/getMovieReviews")
 class MovieReviews(Resource):
     @api.response(200, "OK")
@@ -461,7 +471,7 @@ class MovieReviews(Resource):
     @api.expect(movie_id_parser)
     def get(self):
         movie_id_int = movie_id_parser.parse_args().get("movie_id")
-        review_list = getMovieReviewList(movie_id_int)
+        review_list = getMovieReviewList(movie_id_int) #hardcorded hope it works
         return {"reviews": review_list}
 
 
@@ -470,10 +480,21 @@ class MovieReviews(Resource):
 def block():
     response = request.get_json()
     user_id = response["user_id"]
-    block_id = response["block_id"]
-    print(response)
-    return bannedList_block(user_id, block_id)
+    banned_id = response["banned_id"]
+    return bannedList_block(user_id, banned_id)
 
+@app.route("/api/bannedList/unblock", methods=["POST"])
+def unblock():
+    response = request.get_json()
+    user_id = response["user_id"]
+    banned_id = response["banned_id"]
+    return bannedList_unblock(user_id, banned_id)
+
+@app.route("/api/bannedList/view", methods=["POST"])
+def view():
+    response = request.get_json()
+    user_id = response["user_id"]
+    return bannedList_view(user_id)
 if __name__ == "__main__":
     app.run(port=5000)
 

@@ -49,7 +49,7 @@ export default (state, action) => {
         ...state,
         movies: action.payload,
         currentPage: action.payload.slice(0, state.postsPerPage),
-        loading: !state.loading,
+        loading: false,
         page: 1,
         maxPage: Math.ceil(
           Object.keys(action.payload).length / state.postsPerPage

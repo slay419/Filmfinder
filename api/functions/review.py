@@ -8,6 +8,7 @@ from pandas.io import sql
 from requests import get
 import re
 import hashlib
+import uuid
 
 # Insert new value into users database
 # CONSIDER: better way of getting the user_id from a token?
@@ -17,22 +18,26 @@ import hashlib
 def newReview(user_id, movie_id, comment, score):
     # check that the movie_id exists in the movie db
     if not movieIdExists(movie_id):
-        raise ValueError(f"No movie with id: {movie_id} exists in the database")
+        return {"error": f"No movie with id: {movie_id} exists in the database"}
 
     # check that the user_id exists in the user db
     if not userIdExists(user_id):
-        raise ValueError(f"No user with id: {user_id} exists in the database")
+        return {"error": f"No user with id: {user_id} exists in the database"}
 
     if score < 0:
-        raise ValueError("Score cannot be negative")
+        return {"error": "Score cannot be negative"}
     elif score > 10:
-        raise ValueError("Score cannot be greater than 10")
+        return {"error": "Score cannot be greater than 10"}
 
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
 
-    cur.execute("select * from review;")
-    review_id = len(cur.fetchall()) + 1
+    cur.execute(f"""
+        SELECT * FROM review order by review_id desc limit 1
+    """)
+    review_id = cur.fetchone()[0] + 1
+    print("REVIEWID", review_id)
+
     cur.execute(
         f"""
         INSERT INTO review(review_id, user_id, movie_id, comment, score, num_likes)
@@ -47,11 +52,11 @@ def newReview(user_id, movie_id, comment, score):
 
 def editReview(review_id, comment, score):
     if not reviewIdExists(review_id):
-        raise ValueError(f"No review with id: {review_id} exists in the database")
+        return {"error": f"No review with id: {review_id} exists in the database"}
     if score < 0:
-        raise ValueError("Score cannot be negative")
+        return {"error": "Score cannot be negative"}
     elif score > 10:
-        raise ValueError("Score cannot be greater than 10")
+        return {"error": "Score cannot be greater than 10"}
 
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
@@ -63,10 +68,24 @@ def editReview(review_id, comment, score):
     return {"success": "True"}
 
 
+def deleteReview(review_id):
+    if not reviewIdExists(review_id):
+        return {"error": f"No review with id: {review_id} exists in the database"}
+
+    conn = sqlite3.connect("users.db")
+    cur = conn.cursor()
+    cur.execute(
+        f'DELETE FROM review WHERE review_id = "{review_id}";'
+    )
+    conn.commit()
+    conn.close()
+    return {"success": "True"}
+
+
 # Increment the review num likes by 1
 def incrementLikes(review_id):
     if not reviewIdExists(review_id):
-        raise ValueError(f"No review with id: {review_id} exists in the database")
+        return {"error": f"No review with id: {review_id} exists in the database"}
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
     cur.execute(f"select * from review where review_id = {review_id};")
@@ -113,7 +132,7 @@ def reviewIdExists(review_id):
 
 def getMovieReviewList(movie_id):
     if not movieIdExists(movie_id):
-        raise ValueError(f"No movie with id: {movie_id} exists in the database")
+        return {"error": f"No movie with id: {movie_id} exists in the database"}
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
     cur.execute(f"select review_id, comment, score, num_likes, user_id from review where movie_id = {movie_id};")

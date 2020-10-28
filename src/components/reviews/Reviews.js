@@ -62,6 +62,7 @@ const Reviews = () => {
   // initalising local state
   const [score, setScore] = useState("5");
   const [reviewText, setReviewText] = useState("");
+  const [reviewList, setReviewList] = useState([]);
 
   // using movie and login context
   const authContext = useContext(AuthContext);
@@ -76,6 +77,7 @@ const Reviews = () => {
   useEffect(() => {
     if (movie_id !== undefined) {
       getReviews(movie_id);
+      setReviewList(reviews);
     }
   }, [movie_id]);
 
@@ -99,7 +101,7 @@ const Reviews = () => {
     <div className="reviews">
       <h2>Reviews</h2>
       {/* previous reviews in reviews list */}
-      <ReviewList reviews={reviews} />
+      <ReviewList reviews={reviews} setReviewList={setReviewList} />
       {User !== null ? (
         // form for new review creation and submission
         <ThemeProvider theme={theme}>

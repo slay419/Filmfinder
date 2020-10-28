@@ -2,6 +2,7 @@ import React from "react";
 import ReviewItem from "./ReviewItem";
 
 const ReviewList = ({ reviews }) => {
+  console.log(reviews);
   return (
     <div>
       {reviews === null ? (

@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import AuthContext from "../../context/Auth/AuthContext";
+import MovieContext from "../../context/movie/movieContext";
 import "../../styles/Reviews.scss";
 
 const ReviewItem = ({ review }) => {
@@ -10,15 +11,20 @@ const ReviewItem = ({ review }) => {
 
   const authContext = useContext(AuthContext);
 
-  const { comment, score, user_id } = review;
+  const movieContext = useContext(MovieContext);
+  const { deleteReview } = movieContext;
 
-  const handleDelete = () => {
-    console.log("delete");
+  const { comment, score, user_id, review_id } = review;
+
+  const handleDelete = (review_id) => {
+    console.log("Review id" + review_id);
+    deleteReview(review_id);
   };
 
   useEffect(() => {
     getUserById(user_id);
   }, []);
+
   console.log(User);
   console.log(review);
   return (
@@ -36,13 +42,17 @@ const ReviewItem = ({ review }) => {
               <p>comment: {comment} </p>
             </div>
 
-            {authContext !== null && authContext.User.u_id === User.user_id && (
-              <div className="right">
-                <span onClick={handleDelete} className="delete-btn">
-                  Delete
-                </span>
-              </div>
-            )}
+            {authContext.User !== null &&
+              authContext.User.u_id === User.user_id && (
+                <div className="right">
+                  <span
+                    onClick={() => handleDelete(review_id)}
+                    className="delete-btn"
+                  >
+                    Delete
+                  </span>
+                </div>
+              )}
           </>
         )}
       </div>

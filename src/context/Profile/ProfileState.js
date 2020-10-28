@@ -49,7 +49,7 @@ const ProfileState = (props) => {
 
   const getWishlist = (u_id) => {
     setLoading();
-    fetch('/api/wishlist/get', {
+    fetch("/api/wishlist/get", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -71,79 +71,85 @@ const ProfileState = (props) => {
 
   const removeMovie = (movie_id, u_id) => {
     setLoading();
-    fetch('/api/wishlist/remove', {
+    fetch("/api/wishlist/remove", {
       method: "POST",
       headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        },
-      body: JSON.stringify({movie_id: movie_id, u_id: u_id})
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ movie_id: movie_id, u_id: u_id }),
     })
-    .then((res) => res.json())
-    .then((data) => {
-      const movies_list = Object.values(data.movies);
-      dispatch({
-        type: GET_WISHLIST,
-        payload: movies_list.slice(0, data.number),
-      });
-    })
-    .catch((err) => {
-      dispatch({ type: WISHLIST_ERROR, payload: err });
-    });
-  };
-
-  const getUserById = (id) => {
-    setLoading()
-    fetch(`/api/users/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        dispatch({ type: GET_USER_BY_ID, payload: data });
+        const movies_list = Object.values(data.movies);
+        dispatch({
+          type: GET_WISHLIST,
+          payload: movies_list.slice(0, data.number),
+        });
       })
       .catch((err) => {
         dispatch({ type: WISHLIST_ERROR, payload: err });
       });
   };
 
-  const updateDetails = (u_id, firstName, lastName, secretQ, secretA) => {
-    fetch('./update', {
-      method: "POST",
-      headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        },
-      body: JSON.stringify({u_id: u_id, fname: firstName, lname: lastName, secretQ: secretQ, secretA: secretA})
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      if ("error" in data){ 
-        // placeholder
-        dispatch({ type: WISHLIST_ERROR, payload: data });
-      }
-    })
-    .catch((err) => {
-      // placeholder
-      dispatch({ type: WISHLIST_ERROR, payload: err });
-    });
+  const getUserById = (id) => {
+    setLoading();
+    setTimeout(() => {
+      fetch(`/api/users/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          dispatch({ type: GET_USER_BY_ID, payload: data });
+        })
+        .catch((err) => {
+          dispatch({ type: WISHLIST_ERROR, payload: err });
+        });
+    }, 1000);
   };
 
-  const getRecommendations = (u_id) =>{
-    
+  const updateDetails = (u_id, firstName, lastName, secretQ, secretA) => {
+    fetch("./update", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        u_id: u_id,
+        fname: firstName,
+        lname: lastName,
+        secretQ: secretQ,
+        secretA: secretA,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if ("error" in data) {
+          // placeholder
+          dispatch({ type: WISHLIST_ERROR, payload: data });
+        }
+      })
+      .catch((err) => {
+        // placeholder
+        dispatch({ type: WISHLIST_ERROR, payload: err });
+      });
+  };
+
+  const getRecommendations = (u_id) => {
     //Implemented here but not on backend
     fetch(`/api/movies/recommendedFor/${u_id}`)
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-      if ("error" in data){ 
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if ("error" in data) {
+          // placeholder
+          dispatch({ type: WISHLIST_ERROR, payload: data });
+        } else {
+          dispatch({ type: GET_RECOMMENDATIONS, payload: data });
+        }
+      })
+      .catch((err) => {
         // placeholder
-        dispatch({ type: WISHLIST_ERROR, payload: data });
-      } else {
-        dispatch({ type: GET_RECOMMENDATIONS, payload: data });
-      }
-    })
-    .catch((err) => {
-      // placeholder
-      dispatch({ type: WISHLIST_ERROR, payload: err });
-    });
-    
-  }
+        dispatch({ type: WISHLIST_ERROR, payload: err });
+      });
+  };
 
   return (
     <ProfileContext.Provider

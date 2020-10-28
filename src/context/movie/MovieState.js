@@ -89,7 +89,17 @@ const MovieState = (props) => {
   };
 
   const deleteReview = (review_id) => {
-    fetch();
+    fetch("/api/review/deleteMovieReview", {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        review_id: review_id,
+      }),
+    }).catch((err) => {
+      dispatch({ type: MOVIES_ERROR, payload: err });
+    });
   };
 
   const addToWishlist = (movie_id, u_id) => {
@@ -168,6 +178,7 @@ const MovieState = (props) => {
         wishlist: state.wishlist,
         onWishlist,
         removeFromWishlist,
+        deleteReview,
       }}
     >
       {props.children}
