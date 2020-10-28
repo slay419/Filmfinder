@@ -90,8 +90,10 @@ def auth_login(email, password):
         return {"error": "Invalid Login"}
     if u_id in USER_LIST:
         return {"error": "That user is already logged in"}
+    """
     if not has_confirmed_email(email):
         return {"error": "User has not verified their email address yet"}
+    """
     USER_LIST.append(u_id)
     print(USER_LIST)
     return get_user_details(u_id)
@@ -221,6 +223,7 @@ def get_user_details(u_id):
     c = conn.cursor()
     c.execute(f'SELECT * FROM users WHERE user_id=("{u_id}")')
     data = c.fetchall()
+    print(data)
     u_id = data[0][0]
     first_name = data[0][1]
     last_name = data[0][2]

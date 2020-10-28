@@ -32,14 +32,15 @@ const ReviewRec = ({ id }) => {
     }
   }, [id]);
 
-  console.log(recommendations)
   return (
     <div>
       <h1>Recommendations</h1>
+      <p> These recommendations are based on review history</p>
       {recommendations === null ? (
         <></>
       ) : (
         // If the recomendations are not null, show the slider with recommended movies
+        
         <Slider {...sliderSettings}>
           {recommendations.map((rec) => {
             return <RecommendationSlide movie={rec} key={rec.movie_id} />;

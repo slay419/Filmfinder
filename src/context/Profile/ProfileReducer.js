@@ -9,6 +9,7 @@ import {
   SET_LOADING,
   WISHLIST_ERROR,
   GET_USER_BY_ID,
+  GET_RECOMMENDATIONS
 } from "../types";
 //
 // Placeholder file
@@ -71,6 +72,12 @@ export default (state, action) => {
         return {
           ...state,
           Recommendations: action.payload,
+        };
+      case GET_RECOMMENDATIONS:
+        console.log(action.payload);
+        return {
+          ...state,
+          recommendations: action.payload.movies,
         };
     default:
       return state;

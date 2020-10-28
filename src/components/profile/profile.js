@@ -104,8 +104,7 @@ const Profile = () => {
   //const profileContext = useContext(ProfileContext);
   //const { profileUser } = profileContext;
 
-  //const [email, setEmail] = useState("");
-  console.log(User)
+  //const [email, setEmail] = useState("")
   return (
     <div className='Profile'>
       <h1>Your Profile:</h1>

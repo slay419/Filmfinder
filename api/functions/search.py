@@ -246,6 +246,6 @@ def searchRecommendedMovies(user_id):
         reverse=True,
     )
     top_list = sorted_list[:5]
-    print(top_list)
+    #print(top_list)
 
     return {"movies": top_list}

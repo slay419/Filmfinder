@@ -52,6 +52,7 @@ const RegisterTextField = styled(TextField)({
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [conPassword, setConPassword] = useState("");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [secretQ, setSecretQ] = useState("");
@@ -64,6 +65,9 @@ const Register = () => {
   };
   const passwordHandler = (e) => {
     setPassword(e.target.value);
+  };
+  const conPasswordHandler = (e) => {
+    setConPassword(e.target.value);
   };
   const fnameHandler = (e) => {
     setFname(e.target.value);
@@ -81,7 +85,7 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setOpen(true);
-    registerUser(email, password, fname, lname, secretQ, secretA);
+    registerUser(email, password, conPassword, fname, lname, secretQ, secretA);
   };
 
   const emailValidator = !(
@@ -157,6 +161,16 @@ const Register = () => {
                 error={passwordValidator}
                 required
               />
+              <RegisterTextField
+                size="small"
+                label="Confirm password"
+                variant="outlined"
+                type="password"
+                onChange={conPasswordHandler}
+                helperText={passwordHelperText}
+                error={passwordValidator}
+                required
+              />              
               <RegisterTextField
                 size="small"
                 label="first name"

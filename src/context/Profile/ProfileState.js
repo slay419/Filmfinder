@@ -125,17 +125,12 @@ const ProfileState = (props) => {
   };
 
   const getRecommendations = (u_id) =>{
-    /*
+    
     //Implemented here but not on backend
-    fetch('./update', {
-      method: "POST",
-      headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        },
-      body: JSON.stringify({u_id: u_id})
-    })
+    fetch(`/api/movies/recommendedFor/${u_id}`)
     .then((res) => res.json())
     .then((data) => {
+      console.log(data);
       if ("error" in data){ 
         // placeholder
         dispatch({ type: WISHLIST_ERROR, payload: data });
@@ -147,7 +142,7 @@ const ProfileState = (props) => {
       // placeholder
       dispatch({ type: WISHLIST_ERROR, payload: err });
     });
-    */
+    
   }
 
   return (
