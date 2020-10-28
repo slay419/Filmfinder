@@ -490,7 +490,7 @@ def block():
 def unblock():
     response = request.get_json()
     user_id = response["user_id"]
-    banned_id = response["banned_id"]
+    banned_id = response["block_id"]
     return bannedList_unblock(user_id, banned_id)
 
 @app.route("/api/bannedList/view", methods=["POST"])
