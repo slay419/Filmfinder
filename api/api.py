@@ -18,6 +18,7 @@ from functions.auth import (
     auth_logout,
     update_password,
     get_user_details,
+    check_confirmation_code
 )
 from functions.search import (
     searchGenre,
@@ -31,9 +32,9 @@ from functions.search import (
     searchRecommendedMovies
 )
 from functions.review import (
-    newReview, 
-    incrementLikes, 
-    editReview, 
+    newReview,
+    incrementLikes,
+    editReview,
     getMovieReviewList
 )
 
@@ -57,6 +58,14 @@ api = Api(
     version="1.0",
     title="Film Finder API",
     description="an api to help us find some films LOL",
+)
+
+app.config.update(
+    MAIL_SERVER='smtp.gmail.com',
+    MAIL_PORT=465,
+    MAIL_USE_SSL=True,
+    MAIL_USERNAME='filmfindercomp3900@gmail.com',
+    MAIL_PASSWORD="fortniteforlife"
 )
 
 title_parser = reqparse.RequestParser()
@@ -161,6 +170,18 @@ def getMovieById(id):
 
 ############### Auth Functions #####################
 
+#   Kevin's notes for frontend
+#   Registering needs one more field to confirm matching passwords
+#       returns a new error message if not matching: "Passwords do not match"
+#   after registering - now need to redirect to a page with a confirmation code text field
+#       can backend store the email? if not then get user to enter email again
+#   new route has been made for the redirect page: /auth/confirmEmail
+#       returns a dicitonary with the user id and also some error messages
+#   login now performs a check to see if the user has confirmed their email first before logging in
+#       login also has one more error message: "User has not verified their email address yet"
+
+
+
 # return statements
 # error: wrongLogin
 # user details as dictionary
@@ -186,6 +207,7 @@ def register():
     response = request.get_json()
     email = response["email"]
     password = response["password"]
+    password_confirmation = response["password_confirmation"]
     first_name = response["first_name"]
     last_name = response["last_name"]
     secret_question = response["secret_question"]
@@ -193,8 +215,15 @@ def register():
 
     # if valid then return user
     return auth_register(
-        email, password, first_name, last_name, secret_question, secret_answer
+        email, password, password_confirmation, first_name, last_name, secret_question, secret_answer, app
     )
+
+@app.route("/auth/confirmEmail", methods=["POST"])
+def confirm():
+    response = request.get_json()
+    email = response["email"]
+    code = response["confirmation_code"]
+    return check_confirmation_code(email, code)
 
 
 ############### Accounts #####################
