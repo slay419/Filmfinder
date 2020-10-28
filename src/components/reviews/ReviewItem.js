@@ -1,5 +1,7 @@
 import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import ProfileContext from "../../context/Profile/ProfileContext";
+import "../../styles/Reviews.scss";
 
 const ReviewItem = ({ review }) => {
   const profileContext = useContext(ProfileContext);
@@ -13,12 +15,19 @@ const ReviewItem = ({ review }) => {
   console.log(User);
   console.log(review);
   return (
-    <div>
+    <div className="review-item">
       <div>
-        <p>{User && User.first_name}</p>
-        <p>
-          {comment} {score}
-        </p>
+        {User === null ? (
+          <></>
+        ) : (
+          <>
+            <Link to="/users/1" className="review-name">
+              {User.first_name} {User.last_name}
+            </Link>
+            <p>score: {score}</p>
+            <p>comment: {comment} </p>
+          </>
+        )}
       </div>
     </div>
   );

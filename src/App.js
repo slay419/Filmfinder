@@ -14,6 +14,7 @@ import profile from "./components/profile/profile";
 import wishlist from "./components/profile/wishlist";
 import bannedlist from "./components/profile/bannedlist";
 import Footer from "./components/common/Footer";
+import UserProfile from "./components/profile/UserProfile";
 
 // Context
 import MoviesState from "./context/moviesList/MoviesState";
@@ -27,39 +28,28 @@ function App() {
       <AuthState>
         <MoviesState>
           <MovieState>
-              <div className="container">
-                <Router>
-                  <Header />
-                  <Switch>
-                    <Route path="/" exact component={Home} />
-                    <Route path="/login" exact component={Login} />
-                    <Route path="/register" exact component={Register} />
-                    <Route path="/movies/:id" component={MovieDetails} />
-                    <Route
-                      path="/forgot"
-                      exact
-                      component={ForgottenPass}
-                    />
-                    <Route path="/profile" exact component={profile} />
-                    <Route
-                      path="/profile/wishlist"
-                      exact
-                      component={wishlist}
-                    />
-                    <Route
-                      path="/profile/bannedlist"
-                      exact
-                      component={bannedlist}
-                    />
-                    <Route
-                      path="/profile/change"
-                      exact
-                      component={ChangePass}
-                    />
-                  </Switch>
-                </Router>
-              </div>
-              <Footer />
+            <div className="container">
+              <Router>
+                <Header />
+                <Switch>
+                  <Route path="/" exact component={Home} />
+                  <Route path="/login" exact component={Login} />
+                  <Route path="/register" exact component={Register} />
+                  <Route path="/movies/:id" component={MovieDetails} />
+                  <Route path="/forgot" exact component={ForgottenPass} />
+                  <Route path="/profile" exact component={profile} />
+                  <Route path="/profile/wishlist" exact component={wishlist} />
+                  <Route
+                    path="/profile/bannedlist"
+                    exact
+                    component={bannedlist}
+                  />
+                  <Route path="/profile/change" exact component={ChangePass} />
+                  <Route path="/users/1" component={UserProfile} />
+                </Switch>
+              </Router>
+            </div>
+            <Footer />
           </MovieState>
         </MoviesState>
       </AuthState>
