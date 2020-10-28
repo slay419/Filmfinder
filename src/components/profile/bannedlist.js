@@ -1,22 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import AuthContext from "../../context/Auth/AuthContext";
 
 const Bannedlist = () => {
   const profileContext = useContext(ProfileContext);
-  const { banUser } = profileContext;
+  const { bannedList, getBannedList } = profileContext;
 
   const authContext = useContext(AuthContext);
   const { User } = authContext;
 
   useEffect(() => {
-    getMovies();
+    getBannedList(User.u_id);
   }, []);
 
   return (
     <div>
-      <h1>Bold of you to assume this was done</h1>
-      <button onClick={onBanClick}>Ban User</button>
+      
     </div>
   );
 };

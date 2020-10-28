@@ -30,7 +30,10 @@ export default (state, action) => {
         ...state,
       };
     case GET_BANNED_LIST:
-      return { ...state };
+      return { 
+        ...state,
+        bannedList: action.payload,
+      };
     case BAN_USER:
       alert(action.payload);
       return state;

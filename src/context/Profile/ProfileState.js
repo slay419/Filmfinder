@@ -12,6 +12,7 @@ import {
   PUBLIC_USER,
   GET_USER_BY_ID,
   GET_RECOMMENDATIONS,
+  GET_BANNED_LIST,
 } from "../types";
 
 const ProfileState = (props) => {
@@ -146,9 +147,14 @@ const ProfileState = (props) => {
   }
 
   const getBannedList = (u_id) =>{
-    
     //Implemented here but not on backend
-    fetch(`/api/movies/recommendedFor/${u_id}`)
+    fetch("/api/bannedList/view", {
+      method: "POST",
+      headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        },
+      body: JSON.stringify({user_id: u_id})
+    })
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
@@ -156,7 +162,7 @@ const ProfileState = (props) => {
         // placeholder
         dispatch({ type: WISHLIST_ERROR, payload: data });
       } else {
-        dispatch({ type: GET_RECOMMENDATIONS, payload: data });
+        dispatch({ type: GET_BANNED_LIST, payload: data });
       }
     })
     .catch((err) => {
@@ -180,6 +186,7 @@ const ProfileState = (props) => {
         getUserById,
         recommendations: state.recommendations,
         getRecommendations,
+        getBannedList,
       }}
     >
       {props.children}
