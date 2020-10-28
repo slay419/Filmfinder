@@ -10,7 +10,7 @@ const BannedListItem = ({ user }) => {
   }, []);
 
   const handleRemove = (e) => {
-    unbanUser(e);
+    unbanUser(user, e);
   };
   console.log(profile);
 
