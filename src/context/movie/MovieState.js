@@ -88,66 +88,70 @@ const MovieState = (props) => {
       });
   };
 
+  const deleteReview = (review_id) => {
+    fetch();
+  };
+
   const addToWishlist = (movie_id, u_id) => {
-    fetch('/api/wishlist/add', {
+    fetch("/api/wishlist/add", {
       method: "POST",
       headers: {
-          "Content-type": "application/json; charset=UTF-8"
-          },
+        "Content-type": "application/json; charset=UTF-8",
+      },
       body: JSON.stringify({
-        u_id: u_id, 
-        movie_id: movie_id
+        u_id: u_id,
+        movie_id: movie_id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: WISHLIST_CHECK, payload: data.success });
       })
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      dispatch({ type: WISHLIST_CHECK, payload: data.success });
-    })
-    .catch((err) => {
-      dispatch({ type: MOVIES_ERROR, payload: err });
-    })
+      .catch((err) => {
+        dispatch({ type: MOVIES_ERROR, payload: err });
+      });
   };
 
   const onWishlist = (movie_id, u_id) => {
-    fetch("/api/wishlist/check", {      
+    fetch("/api/wishlist/check", {
       method: "POST",
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
-        },
+        "Content-type": "application/json; charset=UTF-8",
+      },
       body: JSON.stringify({
         movie_id: movie_id,
         u_id: u_id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: WISHLIST_CHECK, payload: data.success });
       })
-    })      
-    .then((res) => res.json())
-    .then((data) => {
-      dispatch({ type: WISHLIST_CHECK, payload: data.success });
-    })
-    .catch((err) => {
-      dispatch({ type: MOVIES_ERROR, payload: err });
-    })
+      .catch((err) => {
+        dispatch({ type: MOVIES_ERROR, payload: err });
+      });
   };
 
   const removeFromWishlist = (movie_id, u_id) => {
-    fetch("/api/wishlist/remove", {      
+    fetch("/api/wishlist/remove", {
       method: "POST",
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
-        },
+        "Content-type": "application/json; charset=UTF-8",
+      },
       body: JSON.stringify({
         movie_id: movie_id,
         u_id: u_id,
-      })
-    })      
-    .then((res) => res.json())
-    .then((data) => {
-      if (!("error" in data)){
-        dispatch({ type: WISHLIST_CHECK, payload: 0 });
-      }
+      }),
     })
-    .catch((err) => {
-      dispatch({ type: MOVIES_ERROR, payload: err });
-    })    
+      .then((res) => res.json())
+      .then((data) => {
+        if (!("error" in data)) {
+          dispatch({ type: WISHLIST_CHECK, payload: 0 });
+        }
+      })
+      .catch((err) => {
+        dispatch({ type: MOVIES_ERROR, payload: err });
+      });
   };
 
   return (
