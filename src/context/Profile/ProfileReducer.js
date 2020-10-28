@@ -36,7 +36,10 @@ export default (state, action) => {
         bannedList: action.payload.banned_list,
       };
     case BAN_USER:
-      return state;
+      return {
+        ...state,
+        banned: action.payload.success,
+      };
     case REGISTER_ERROR:
       console.log("Error: " + action.payload);
       return state;
@@ -83,6 +86,7 @@ export default (state, action) => {
         ...state,
         banned: action.payload.success,
       };
+
     default:
       return state;
   }
