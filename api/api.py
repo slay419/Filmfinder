@@ -476,6 +476,8 @@ class MovieReviews(Resource):
 
 
 ################    Banned List    ##################
+
+
 @app.route("/api/bannedList/block", methods=["POST"])
 def block():
     response = request.get_json()

@@ -12,12 +12,13 @@ import {
   PUBLIC_USER,
   GET_USER_BY_ID,
   GET_RECOMMENDATIONS,
+  GET_BANNED_LIST,
 } from "../types";
 
 const ProfileState = (props) => {
   // placeholder state, not currently used
   const initialState = {
-    User: null,
+    profile: null,
     bannedList: [],
     wishlist: [],
     loading: false,
@@ -151,10 +152,35 @@ const ProfileState = (props) => {
       });
   };
 
+  const getBannedList = (u_id) => {
+    //Implemented here but not on backend
+    fetch("/api/bannedList/view", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ user_id: u_id }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if ("error" in data) {
+          // placeholder
+          dispatch({ type: WISHLIST_ERROR, payload: data });
+        } else {
+          dispatch({ type: GET_BANNED_LIST, payload: data });
+        }
+      })
+      .catch((err) => {
+        // placeholder
+        dispatch({ type: WISHLIST_ERROR, payload: err });
+      });
+  };
+
   return (
     <ProfileContext.Provider
       value={{
-        User: state.User,
+        profile: state.profile,
         bannedList: state.bannedList,
         banUser,
         wishlist: state.wishlist,
@@ -165,6 +191,7 @@ const ProfileState = (props) => {
         getUserById,
         recommendations: state.recommendations,
         getRecommendations,
+        getBannedList,
       }}
     >
       {props.children}

@@ -7,9 +7,10 @@ import "../../styles/Reviews.scss";
 
 const ReviewItem = ({ review }) => {
   const profileContext = useContext(ProfileContext);
-  const { getUserById, User } = profileContext;
+  const { getUserById, profile } = profileContext;
 
   const authContext = useContext(AuthContext);
+  const { User } = authContext;
 
   const movieContext = useContext(MovieContext);
   const { deleteReview } = movieContext;
@@ -30,29 +31,28 @@ const ReviewItem = ({ review }) => {
   return (
     <div className="review-item">
       <div>
-        {User === null ? (
+        {profile === null ? (
           <></>
         ) : (
           <>
             <div className="left">
-              <Link to={"/profile/" + User.user_id} className="review-name">
-                {User.first_name} {User.last_name}
+              <Link to={"/profile/" + profile.user_id} className="review-name">
+                {profile.first_name} {profile.last_name}
               </Link>
               <p>score: {score}</p>
               <p>comment: {comment} </p>
             </div>
 
-            {authContext.User !== null &&
-              authContext.User.u_id === User.user_id && (
-                <div className="right">
-                  <span
-                    onClick={() => handleDelete(review_id)}
-                    className="delete-btn"
-                  >
-                    Delete
-                  </span>
-                </div>
-              )}
+            {User !== null && User.u_id === profile.user_id && (
+              <div className="right">
+                <span
+                  onClick={() => handleDelete(review_id)}
+                  className="delete-btn"
+                >
+                  Delete
+                </span>
+              </div>
+            )}
           </>
         )}
       </div>
