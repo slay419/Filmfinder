@@ -9,7 +9,8 @@ import {
   SET_LOADING,
   WISHLIST_ERROR,
   GET_USER_BY_ID,
-  GET_RECOMMENDATIONS
+  GET_RECOMMENDATIONS,
+  BANNED,
 } from "../types";
 //
 // Placeholder file
@@ -35,7 +36,6 @@ export default (state, action) => {
         bannedList: action.payload,
       };
     case BAN_USER:
-      alert(action.payload);
       return state;
     case REGISTER_ERROR:
       console.log("Error: " + action.payload);
@@ -68,20 +68,21 @@ export default (state, action) => {
       return {
         ...state,
         User: action.payload,
-        loading: !state.loading,
+        loading: false,
       };
-      case GET_USER_BY_ID:
-        console.log(action.payload);
-        return {
-          ...state,
-          Recommendations: action.payload,
-        };
-      case GET_RECOMMENDATIONS:
-        console.log(action.payload);
-        return {
-          ...state,
-          recommendations: action.payload.movies,
-        };
+    case GET_RECOMMENDATIONS:
+      console.log(action.payload);
+      return {
+        ...state,
+        recommendations: action.payload.movies,
+      };
+
+    case BANNED:
+      console.log(action.payload);
+      return {
+        ...state,
+        banned: action.payload.success,
+      };
     default:
       return state;
   }

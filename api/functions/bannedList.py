@@ -28,7 +28,7 @@ def bannedList_block(u_id, b_id):
     )
     conn.commit()
     conn.close()
-    return {"success": "True"}
+    return {"success": 1}
 
 #BannedList_unblock removes a user (designated by b_id) from the current logged in
 #user's (designated by u_id) banlist. Cannot remove user if they aren't in the banlist
@@ -41,7 +41,7 @@ def bannedList_unblock(u_id, b_id):
     c.execute(f"DELETE FROM banned_list WHERE user_id='{u_id}' AND banned_id='{b_id}';")
     conn.commit()
     conn.close()
-    return {"success": "True"}
+    return {"success": 0}
 
 #BannedList_view returns the current logged in user's banlist
 def bannedList_view(u_id):

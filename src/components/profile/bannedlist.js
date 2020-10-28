@@ -15,7 +15,6 @@ const Bannedlist = () => {
 
   return (
     <div>
-      
     </div>
   );
 };

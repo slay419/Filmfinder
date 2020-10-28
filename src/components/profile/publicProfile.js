@@ -5,16 +5,18 @@ import { Link, useHistory } from "react-router-dom";
 import Spinner from "../common/Spinner";
 
 import "../../styles/publicProfile.scss";
+import AuthContext from "../../context/Auth/AuthContext";
 
 
 const PublicProfile = (props) => {
     const history = useHistory();
     const profileContext = useContext(ProfileContext);
-    const { User, getUserById, loading } = profileContext;
+    const { User, getUserById, loading, banUser, checkBannedList, banned, unbanUser } = profileContext;
+    const authContext = useContext(AuthContext);
     const uid = props.match.params.uid;
     useEffect(() => {
         getUserById(uid);
-        console.log("get user by id ran");
+        checkBannedList(authContext.User.u_id, User.user_id)
     }, []);
 
     const handleWishList = () => {
@@ -25,7 +27,15 @@ const PublicProfile = (props) => {
     const handleReviews = () => {
         alert("not implemented");
     }; 
-    console.log(User)
+
+    const handleBan = () => {
+        banUser(authContext.User.u_id, User.user_id);
+    };
+
+    const handleUnBan = () => {
+        unbanUser(authContext.User.u_id, User.user_id);
+    };
+
     //<h1>{User.first_name.charAt(0).toUpperCase() + User.first_name.slice(1) + " " + User.last_name.charAt(0).toUpperCase() + User.last_name.slice(1)}'s Profile:</h1>
     return (
         <div class="publicProfile">
@@ -45,6 +55,15 @@ const PublicProfile = (props) => {
                                 <span onClick={handleReviews} className="btn">
                                         View recent reviews
                                 </span>
+                                { banned == 0 ? (
+                                    <span onClick={handleBan} className="btn">
+                                            Ban User
+                                    </span>
+                                ) : (
+                                    <span onClick={handleUnBan} className="btn">
+                                            Unban User
+                                    </span>
+                                )}
                             </div>
                         </div>
                     )}

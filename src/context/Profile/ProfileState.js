@@ -13,6 +13,7 @@ import {
   GET_USER_BY_ID,
   GET_RECOMMENDATIONS,
   GET_BANNED_LIST,
+  BANNED,
 } from "../types";
 
 const ProfileState = (props) => {
@@ -23,6 +24,7 @@ const ProfileState = (props) => {
     wishlist: [],
     loading: false,
     recommendations: null,
+    banned: 0,
   };
 
   const [state, dispatch] = useReducer(ProfileReducer, initialState);
@@ -33,7 +35,7 @@ const ProfileState = (props) => {
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
-      body: JSON.stringify({ user_id, block_id }),
+      body: JSON.stringify({ user_id: user_id, block_id: block_id }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -172,6 +174,48 @@ const ProfileState = (props) => {
     
   }
 
+  const checkBannedList = (u_id, block_id) =>{
+    //Implemented here but not on backend
+    fetch("/api/bannedList/check", {
+      method: "POST",
+      headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        },
+      body: JSON.stringify({u_id: u_id, banned_id: block_id})
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      if ("error" in data){ 
+        // placeholder
+        dispatch({ type: WISHLIST_ERROR, payload: data });
+      } else {
+        dispatch({ type: BANNED, payload: data });
+      }
+    })
+    .catch((err) => {
+      // placeholder
+      dispatch({ type: WISHLIST_ERROR, payload: err });
+    });
+    
+  }
+  const unbanUser = (user_id, block_id) => {
+    fetch("/api/bannedList/unblock", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ user_id: user_id, banned: block_id }),
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      dispatch({ type: BANNED, payload: data });
+    })
+    .catch((err) => {
+      dispatch({ type: BANNED_LIST_ERROR, payload: err });
+    });
+  };
+
   return (
     <ProfileContext.Provider
       value={{
@@ -187,6 +231,9 @@ const ProfileState = (props) => {
         recommendations: state.recommendations,
         getRecommendations,
         getBannedList,
+        banned: state.banned,
+        checkBannedList,
+        unbanUser,
       }}
     >
       {props.children}
