@@ -108,6 +108,7 @@ const Profile = () => {
   return (
     <div className='Profile'>
       <h1>{User.first_name.charAt(0).toUpperCase() + User.first_name.slice(1)}'s Profile:</h1>
+      <Link to={'/profile/' + User.u_id}> Public Profile</Link>
         <div class="bodys">
           <div class="column">
             <h2> Update Profile Details:</h2>

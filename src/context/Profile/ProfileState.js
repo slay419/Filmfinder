@@ -90,6 +90,7 @@ const ProfileState = (props) => {
   };
 
   const getUserById = (id) => {
+    setLoading()
     fetch(`/api/users/${id}`)
       .then((res) => res.json())
       .then((data) => {

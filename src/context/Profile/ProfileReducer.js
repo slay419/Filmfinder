@@ -60,9 +60,11 @@ export default (state, action) => {
       console.log(action.payload);
       return state;
     case GET_USER_BY_ID:
+      console.log(action.payload);
       return {
         ...state,
         User: action.payload,
+        loading: !state.loading,
       };
     default:
       return state;

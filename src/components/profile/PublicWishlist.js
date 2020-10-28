@@ -2,19 +2,18 @@ import React, { useContext, useEffect } from "react";
 import AuthContext from "../../context/Auth/AuthContext";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import Spinner from "../common/Spinner";
-import Wishlister from "./Wishlister";
+import MovieList from "../movies/MovieList";
 
 const PublicWishlist = (props) => {
 
     const profileContext = useContext(ProfileContext);
-    const { User, wishlist, getWishlist, loading, getPublicUser } = profileContext;
-
+    const { User, wishlist, getWishlist, loading, getUserById } = profileContext;
+    const uid = props.match.params.uid;
 
     useEffect(() => {
-        const uid = props.match.params.uid;
-        getPublicUser(uid);
+        getUserById(uid);
         getWishlist(uid);
-      }, []);
+    }, []);
 
     return (
         <div>
@@ -23,7 +22,7 @@ const PublicWishlist = (props) => {
                 <Spinner />
             ) : (
                 <div>
-                <Wishlister movies={wishlist} />
+                <MovieList movies={wishlist} />
                 </div>
             )}
         </div>
