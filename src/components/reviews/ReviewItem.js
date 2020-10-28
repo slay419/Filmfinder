@@ -21,7 +21,7 @@ const ReviewItem = ({ review }) => {
           <></>
         ) : (
           <>
-            <Link to="/users/1" className="review-name">
+            <Link to={"/profile/" + User.user_id} className="review-name">
               {User.first_name} {User.last_name}
             </Link>
             <p>score: {score}</p>
