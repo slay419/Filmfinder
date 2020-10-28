@@ -145,6 +145,27 @@ const ProfileState = (props) => {
     
   }
 
+  const getBannedList = (u_id) =>{
+    
+    //Implemented here but not on backend
+    fetch(`/api/movies/recommendedFor/${u_id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      if ("error" in data){ 
+        // placeholder
+        dispatch({ type: WISHLIST_ERROR, payload: data });
+      } else {
+        dispatch({ type: GET_RECOMMENDATIONS, payload: data });
+      }
+    })
+    .catch((err) => {
+      // placeholder
+      dispatch({ type: WISHLIST_ERROR, payload: err });
+    });
+    
+  }
+
   return (
     <ProfileContext.Provider
       value={{

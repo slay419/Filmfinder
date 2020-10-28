@@ -466,6 +466,14 @@ class MovieReviews(Resource):
 
 
 ################    Banned List    ##################
+
+@app.roure("/api/bannedList/get", methods=["POST"])
+def getBannedList():
+    response = request.get_json()
+    user_id = response["user_id"]
+    block_id = response["block_id"]
+    return bannedList_view(user_id, block_id)
+
 @app.route("/api/bannedList/block", methods=["POST"])
 def block():
     response = request.get_json()

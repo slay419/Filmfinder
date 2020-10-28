@@ -9,10 +9,9 @@ const Bannedlist = () => {
   const authContext = useContext(AuthContext);
   const { User } = authContext;
 
-  const onBanClick = () => {
-    console.log(User);
-    banUser(User.u_id, 2);
-  };
+  useEffect(() => {
+    getMovies();
+  }, []);
 
   return (
     <div>
