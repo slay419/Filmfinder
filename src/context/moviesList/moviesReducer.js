@@ -20,7 +20,7 @@ export default (state, action) => {
       return {
         ...state,
         movies: action.payload,
-        loading: !state.loading,
+        loading: false,
         currentPage: action.payload.slice(0, state.postsPerPage),
         page: 1,
         maxPage: Math.ceil(
@@ -32,7 +32,7 @@ export default (state, action) => {
       return {
         ...state,
         currentPage: action.payload,
-        loading: !state.loading,
+        loading: false,
         page: state.page + 1,
       };
     case PREV_PAGE:
@@ -41,7 +41,7 @@ export default (state, action) => {
       return {
         ...state,
         currentPage: action.payload,
-        loading: !state.loading,
+        loading: false,
         page: state.page - 1,
       };
     case SEARCH_MOVIES:
@@ -49,13 +49,13 @@ export default (state, action) => {
         ...state,
         movies: action.payload,
         currentPage: action.payload.slice(0, state.postsPerPage),
-        loading: !state.loading,
+        loading: false,
       };
     case SEARCH_MOVIES_GENRE:
       return {
         ...state,
         movies: action.payload,
-        loading: !state.loading,
+        loading: false,
         currentPage: action.payload.slice(0, state.postsPerPage),
         page: 1,
         maxPage: Math.ceil(
@@ -66,7 +66,7 @@ export default (state, action) => {
       return {
         ...state,
         movies: action.payload,
-        loading: !state.loading,
+        loading: false,
         currentPage: action.payload.slice(0, state.postsPerPage),
         page: 1,
         maxPage: Math.ceil(
@@ -77,28 +77,40 @@ export default (state, action) => {
       console.log(state.loading);
       return {
         ...state,
-        loading: !state.loading,
+        loading: false,
       };
     case FILTER_MOVIES_BY_YEAR:
       return {
         ...state,
         movies: action.payload,
         currentPage: action.payload.slice(0, state.postsPerPage),
-        loading: !state.loading,
+        loading: false,
+        page: 1,
+        maxPage: Math.ceil(
+          Object.keys(action.payload).length / state.postsPerPage
+        ),
       };
     case FILTER_MOVIES_BY_RATING:
       return {
         ...state,
         movies: action.payload,
         currentPage: action.payload.slice(0, state.postsPerPage),
-        loading: !state.loading,
+        loading: false,
+        page: 1,
+        maxPage: Math.ceil(
+          Object.keys(action.payload).length / state.postsPerPage
+        ),
       };
     case SORT_MOVIES_BY_SCORE:
       return {
         ...state,
         movies: action.payload,
         currentPage: action.payload.slice(0, state.postsPerPage),
-        loading: !state.loading,
+        loading: false,
+        page: 1,
+        maxPage: Math.ceil(
+          Object.keys(action.payload).length / state.postsPerPage
+        ),
       };
     case MOVIES_ERROR:
       console.log(action.payload);

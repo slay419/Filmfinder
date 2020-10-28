@@ -116,7 +116,7 @@ def getMovieReviewList(movie_id):
         raise ValueError(f"No movie with id: {movie_id} exists in the database")
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
-    cur.execute(f"select review_id, comment, score, num_likes from review where movie_id = {movie_id};")
+    cur.execute(f"select review_id, comment, score, num_likes, user_id from review where movie_id = {movie_id};")
     review_list = []
     for review in cur.fetchall():
         item = {}
@@ -124,6 +124,7 @@ def getMovieReviewList(movie_id):
         item['comment'] = review[1]
         item['score'] = review[2]
         item['num_likes'] = review[3]
+        item['user_id'] = review[4]
         review_list.append(item)
     conn.close()
     return review_list
