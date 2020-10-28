@@ -44,7 +44,8 @@ from functions.review import (
 from functions.bannedList import (
     bannedList_block,
     bannedList_unblock,
-    bannedList_view
+    bannedList_view,
+    check_banned_user_exists
 )
 
 from functions.wishlist import (
@@ -482,7 +483,7 @@ class MovieReviews(Resource):
 def block():
     response = request.get_json()
     user_id = response["user_id"]
-    banned_id = response["banned_id"]
+    banned_id = response["block_id"]
     return bannedList_block(user_id, banned_id)
 
 @app.route("/api/bannedList/unblock", methods=["POST"])
@@ -497,6 +498,16 @@ def view():
     response = request.get_json()
     user_id = response["user_id"]
     return bannedList_view(user_id)
+
+@app.route("/api/bannedList/check", methods=["POST"])
+def checkBannedList():
+    response = request.get_json()
+    user_id = response["u_id"]
+    banned_id = response["banned_id"]
+    if check_banned_user_exists(user_id, banned_id):
+        return {"success": 1}
+    return {"success": 0}
+
 if __name__ == "__main__":
     app.run(port=5000)
 

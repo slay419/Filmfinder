@@ -19,8 +19,8 @@ const Bannedlist = () => {
       <h1>This is who is on your banned list:</h1>
       {bannedList && (
         <div className="banned-list">
-          {bannedList.map((user) => {
-            return <BannedListItem user={user} />;
+          {bannedList.map((user, index) => {
+            return <BannedListItem key={index} user={user} />;
           })}
         </div>
       )}

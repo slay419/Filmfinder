@@ -10,6 +10,7 @@ import {
   WISHLIST_ERROR,
   GET_USER_BY_ID,
   GET_RECOMMENDATIONS,
+  BANNED,
 } from "../types";
 //
 // Placeholder file
@@ -35,7 +36,6 @@ export default (state, action) => {
         bannedList: action.payload.banned_list,
       };
     case BAN_USER:
-      alert(action.payload);
       return state;
     case REGISTER_ERROR:
       console.log("Error: " + action.payload);
@@ -67,14 +67,21 @@ export default (state, action) => {
       console.log(action.payload);
       return {
         ...state,
-        profile: action.payload,
-        loading: !state.loading,
+        User: action.payload,
+        loading: false,
       };
     case GET_RECOMMENDATIONS:
       console.log(action.payload);
       return {
         ...state,
         recommendations: action.payload.movies,
+      };
+
+    case BANNED:
+      console.log(action.payload);
+      return {
+        ...state,
+        banned: action.payload.success,
       };
     default:
       return state;

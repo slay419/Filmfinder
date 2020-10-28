@@ -46,6 +46,7 @@ export const PUBLIC_USER = "PUBLIC_USER";
 export const GET_BANNED_LIST = "GET_BANNED_LIST";
 export const BAN_USER = "BAN_USER";
 export const BANNED_LIST_ERROR = "BANNED_LIST_ERROR";
+export const BANNED = "BANNED";
 
 export const GET_USER_BY_ID = "GET_USER_BY_ID";
 
