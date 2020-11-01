@@ -1,16 +1,20 @@
 import React, { useEffect, useContext } from "react";
 import ProfileContext from "../../context/Profile/ProfileContext";
+import AuthContext from "../../context/Auth/AuthContext";
 
 const BannedListItem = ({ user }) => {
   const profileContext = useContext(ProfileContext);
   const { getUserById, profile, unbanUser } = profileContext;
+
+  const authContext = useContext(AuthContext);
+  const { User } = authContext;
 
   useEffect(() => {
     getUserById(user);
   }, []);
 
   const handleRemove = (e) => {
-    unbanUser(user, e);
+    unbanUser(User.u_id, e);
   };
   console.log(profile);
 
