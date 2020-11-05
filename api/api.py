@@ -54,6 +54,12 @@ from functions.wishlist import (
     getUserWishlist,
     removeFromWishlist
 )
+
+from functions.admin import (
+    addNewMovie,
+    removeExistingMovie
+)
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
 
@@ -507,6 +513,34 @@ def checkBannedList():
     if check_banned_user_exists(user_id, banned_id):
         return {"success": 1}
     return {"success": 0}
+
+
+
+################    Admin Functions   ##################
+
+@app.route("/admin/addMovie", methods=["POST"])
+def addMovie():
+    response = request.get_json()
+    director_id = response["director_id"]
+    adult = response["adult"]
+    title = response["title"]
+    release_date = response["release_date"]
+    runtime = response["runtime"]
+    budget = response["budget"]
+    revenue = response["revenue"]
+    imdb_id = response["imdb_id"]
+    movie_language = response["movie_language"]
+    overview = response["overview"]
+    tagline = response["tagline"]
+    poster = response["poster"]
+    return addNewMovie(director_id, adult, title, release_date, 
+        runtime, budget, revenue, imdb_id, movie_language, overview, tagline, poster)
+
+@app.route("/admin/removeMovie", methods=["DELETE"])
+def removeMovie():
+    response = request.get_json()
+    movie_id = response["movie_id"]
+    return removeExistingMovie(movie_id)
 
 if __name__ == "__main__":
     app.run(port=5000)
