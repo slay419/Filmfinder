@@ -22,8 +22,10 @@ import re
 # overview: text
 # tagline: text
 # poster: url
-def addNewMovie(director_id, adult, title, release_date, 
-    runtime, budget, revenue, imdb_id, movie_language, overview, tagline, poster):
+# genres: list of genres e.g. ["Action", "Adventure"]
+# cast: list of actor_ids e.g. [1, 2, 3]
+def addNewMovie(director_id, adult, title, release_date, runtime, budget, 
+    revenue, imdb_id, movie_language, overview, tagline, poster, genres, cast, keywords):
     conn = sqlite3.connect("movieDB.db")
     cur = conn.cursor()
 
@@ -32,6 +34,7 @@ def addNewMovie(director_id, adult, title, release_date,
     movie_id = cur.fetchone()[0] + 1
     print(f"movie_id is: {movie_id}")
 
+    # Store movie details
     cur.execute(
         f"""
         insert into movie(movie_id, director_id, adult, title, release_date, runtime, budget, 
@@ -40,6 +43,18 @@ def addNewMovie(director_id, adult, title, release_date,
             "{revenue}", "{imdb_id}", "{movie_language}", "{overview}", "{tagline}", "{poster}", 0, 0)
         """
     )
+
+    # Store genre list
+    for genre in genres:
+        cur.execute(f"insert into genre(movie_id, genre) values({movie_id}, '{genre}')")
+
+    # Store actor list
+    for actor_id in cast:
+        cur.execute(f"insert into acting(actor_id, movie_id) values({actor_id}, {movie_id})")
+
+    # Store keyword list
+    for keyword in keywords:
+        cur.execute(f"insert into keyword(movie_id, keyword) values({movie_id}, '{keyword}')")
 
     conn.commit()
     conn.close()
@@ -54,6 +69,9 @@ def removeExistingMovie(movie_id):
     conn = sqlite3.connect("movieDB.db")
     cur = conn.cursor()
     cur.execute(f"delete from movie where movie_id = {movie_id};")
+    cur.execute(f"delete from genre where movie_id = {movie_id};")
+    cur.execute(f"delete from acting where movie_id = {movie_id};")
+    cur.execute(f"delete from keyword where movie_id = {movie_id};")
     conn.commit()
     conn.close()
 

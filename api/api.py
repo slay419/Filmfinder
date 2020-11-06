@@ -533,8 +533,11 @@ def addMovie():
     overview = response["overview"]
     tagline = response["tagline"]
     poster = response["poster"]
-    return addNewMovie(director_id, adult, title, release_date, 
-        runtime, budget, revenue, imdb_id, movie_language, overview, tagline, poster)
+    genres = response["genres"]
+    cast = response["cast"]
+    keywords = response["keywords"]
+    return addNewMovie(director_id, adult, title, release_date, runtime, budget, 
+        revenue, imdb_id, movie_language, overview, tagline, poster, genres, cast, keywords)
 
 @app.route("/admin/removeMovie", methods=["DELETE"])
 def removeMovie():
