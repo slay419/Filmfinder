@@ -9,6 +9,8 @@ from requests import get
 import re
 import hashlib
 
+from functions.review import getUserReviewList
+
 
 def searchGenre(genre):
     conn = sqlite3.connect("./movieDB.db")
@@ -235,17 +237,22 @@ def searchRecommendedMovies(user_id):
 
     # Get list of all similar movies of each entry
     recommended_movies_list = []
+    reviewed_movies_list = getUserReviewList(user_id)
     for movie_id in movie_id_list:
         similar_movie = searchSimilarMovies(movie_id)["movies"].values()
         for movie in similar_movie:
-            recommended_movies_list.append(movie)
+            recommended_id = movie['movie_id']
+            if movie not in recommended_movies_list and recommended_id not in reviewed_movies_list:
+                recommended_movies_list.append(movie)
 
     sorted_list = sorted(
         recommended_movies_list,
         key=lambda i: (i["vote_avg"], i["vote_count"]),
         reverse=True,
     )
-    top_list = sorted_list[:5]
+    top_list = sorted_list[:6]
     #print(top_list)
 
     return {"movies": top_list}
+
+
