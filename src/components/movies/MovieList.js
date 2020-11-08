@@ -12,7 +12,6 @@ const MovieList = ({ movies }) => {
   const movieDomNodes = [];
 
   useEffect(() => {
-    setMovieList([]);
     setMovieList(movies);
     gsap.from(movieDomNodes, {
       duration: 0.3,

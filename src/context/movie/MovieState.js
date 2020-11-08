@@ -10,13 +10,14 @@ import {
   GET_REVIEWS,
   GET_RECOMMENDATIONS,
   WISHLIST_CHECK,
+  DELETE_REVIEW,
 } from "../types";
 
 const MovieState = (props) => {
   const initialState = {
     movie: {},
     loading: false,
-    reviews: null,
+    reviews: [],
     recommendations: null,
     wishlist: 0,
   };
@@ -41,7 +42,7 @@ const MovieState = (props) => {
       });
   };
 
-  const postReview = (user_id, movie_id, comment, score) => {
+  const postReview = async (user_id, movie_id, comment, score) => {
     let body = JSON.stringify({
       user_id,
       movie_id,
@@ -65,7 +66,7 @@ const MovieState = (props) => {
       });
   };
 
-  const getRecommendations = (movie_id) => {
+  const getRecommendations = async (movie_id) => {
     fetch("/api/movies/similarTo/" + movie_id)
       .then((res) => res.json())
       .then((data) => {
@@ -77,7 +78,7 @@ const MovieState = (props) => {
       });
   };
 
-  const getReviews = (movie_id) => {
+  const getReviews = async (movie_id) => {
     fetch(`/api/review/getMovieReviews?movie_id=${movie_id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -88,7 +89,7 @@ const MovieState = (props) => {
       });
   };
 
-  const deleteReview = (review_id) => {
+  const deleteReview = async (review_id) => {
     fetch("/api/review/deleteMovieReview", {
       method: "DELETE",
       headers: {
@@ -97,12 +98,16 @@ const MovieState = (props) => {
       body: JSON.stringify({
         review_id: review_id,
       }),
-    }).catch((err) => {
-      dispatch({ type: MOVIES_ERROR, payload: err });
-    });
+    })
+      .then(() => {
+        dispatch({ type: DELETE_REVIEW, payload: review_id });
+      })
+      .catch((err) => {
+        dispatch({ type: MOVIES_ERROR, payload: err });
+      });
   };
 
-  const addToWishlist = (movie_id, u_id) => {
+  const addToWishlist = async (movie_id, u_id) => {
     fetch("/api/wishlist/add", {
       method: "POST",
       headers: {
@@ -122,7 +127,7 @@ const MovieState = (props) => {
       });
   };
 
-  const onWishlist = (movie_id, u_id) => {
+  const onWishlist = async (movie_id, u_id) => {
     fetch("/api/wishlist/check", {
       method: "POST",
       headers: {
@@ -142,7 +147,7 @@ const MovieState = (props) => {
       });
   };
 
-  const removeFromWishlist = (movie_id, u_id) => {
+  const removeFromWishlist = async (movie_id, u_id) => {
     fetch("/api/wishlist/remove", {
       method: "POST",
       headers: {

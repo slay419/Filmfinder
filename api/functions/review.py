@@ -46,8 +46,13 @@ def newReview(user_id, movie_id, comment, score):
     )
     conn.commit()
     conn.close()
-
-    return {"success": "True"}
+    item = {}
+    item['review_id'] = review_id
+    item['comment'] = comment
+    item['score'] = score
+    item['num_likes'] = 0
+    item['user_id'] = user_id
+    return item
 
 
 def editReview(review_id, comment, score):

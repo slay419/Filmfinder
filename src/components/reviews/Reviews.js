@@ -62,14 +62,13 @@ const Reviews = () => {
   // initalising local state
   const [score, setScore] = useState("5");
   const [reviewText, setReviewText] = useState("");
-  const [reviewList, setReviewList] = useState([]);
 
   // using movie and login context
   const authContext = useContext(AuthContext);
   const { User } = authContext;
 
   const movieContext = useContext(MovieContext);
-  const { postReview, movie, reviews, getReviews } = movieContext;
+  const { postReview, movie, getReviews } = movieContext;
 
   const { movie_id } = movie;
 
@@ -77,7 +76,6 @@ const Reviews = () => {
   useEffect(() => {
     if (movie_id !== undefined) {
       getReviews(movie_id);
-      setReviewList(reviews);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movie_id]);
@@ -87,6 +85,8 @@ const Reviews = () => {
     console.log(User);
     console.log(User.u_id, movie_id, reviewText, score);
     postReview(User.u_id, movie_id, reviewText, score);
+    setScore(5);
+    setReviewText("");
   };
 
   // handle input text and select value
@@ -102,7 +102,7 @@ const Reviews = () => {
     <div className="reviews">
       <h2>Reviews</h2>
       {/* previous reviews in reviews list */}
-      <ReviewList reviews={reviewList} setReviewList={setReviewList} />
+      <ReviewList />
       {User !== null ? (
         // form for new review creation and submission
         <ThemeProvider theme={theme}>
@@ -115,10 +115,12 @@ const Reviews = () => {
               onChange={handleReviewText}
               multiline
               rows={4}
+              value={reviewText}
             />
             <div className="score-submit-box">
               <div className="score-select">
                 <Select
+                  value={score}
                   onChange={handleSelectChange}
                   placeholder={"score"}
                   options={options}

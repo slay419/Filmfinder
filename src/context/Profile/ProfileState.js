@@ -70,7 +70,7 @@ const ProfileState = (props) => {
       });
   };
 
-  const removeMovie = (movie_id, u_id) => {
+  const removeMovie = async (movie_id, u_id) => {
     setLoading();
     fetch("/api/wishlist/remove", {
       method: "POST",
@@ -92,21 +92,19 @@ const ProfileState = (props) => {
       });
   };
 
-  const getUserById = (id) => {
+  const getUserById = async (id) => {
     setLoading();
-    setTimeout(() => {
-      fetch(`/api/users/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          dispatch({ type: GET_USER_BY_ID, payload: data });
-        })
-        .catch((err) => {
-          dispatch({ type: WISHLIST_ERROR, payload: err });
-        });
-    }, 1000);
+    fetch(`/api/users/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: GET_USER_BY_ID, payload: data });
+      })
+      .catch((err) => {
+        dispatch({ type: WISHLIST_ERROR, payload: err });
+      });
   };
 
-  const updateDetails = (u_id, firstName, lastName, secretQ, secretA) => {
+  const updateDetails = async (u_id, firstName, lastName, secretQ, secretA) => {
     fetch("./update", {
       method: "POST",
       headers: {

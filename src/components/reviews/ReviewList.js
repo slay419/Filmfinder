@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReviewItem from "./ReviewItem";
+import MovieContext from "../../context/movie/movieContext";
 
-const ReviewList = ({ reviews }) => {
-  console.log(reviews);
+const ReviewList = () => {
+  const [reviewList, setReviewList] = useState([]);
+
+  const movieContext = useContext(MovieContext);
+  const { reviews } = movieContext;
+
+  useEffect(() => {
+    setReviewList(reviews);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reviews]);
   return (
     <div>
-      {reviews === null ? (
+      {reviewList === null ? (
         <></>
       ) : (
-        reviews.map((review) => (
+        reviewList.map((review) => (
           <ReviewItem key={review.review_id} review={review} />
         ))
       )}
