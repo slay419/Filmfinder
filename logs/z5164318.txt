@@ -91,3 +91,6 @@ Extra time to work on our project and polish up the refreshing bugs
 TODO: Practice presentation, clean code
 
 -- Week 8: Meeting 15 --
+Presented today and it went well
+The next sprint is not so intensive so we will have some time to work on fixing up bugs
+TODO: Fix bugs in code
