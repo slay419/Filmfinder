@@ -35,6 +35,7 @@ const Home = () => {
 
   useEffect(() => {
     getMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClose = (event, reason) => {
@@ -57,14 +58,14 @@ const Home = () => {
         </div>
       )}
       <div className="pageBar">
-        <button class="pageButton" onClick={() => getPrevPage()}>
+        <button className="pageButton" onClick={() => getPrevPage()}>
           &laquo; Previous
         </button>
         <p>
           {" "}
           {page} of {maxPage}
         </p>
-        <button class="pageButton" onClick={() => getNextPage()}>
+        <button className="pageButton" onClick={() => getNextPage()}>
           Next &raquo;
         </button>
       </div>

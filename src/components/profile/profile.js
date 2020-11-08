@@ -1,11 +1,11 @@
 import React from "react";
 import AuthContext from "../../context/Auth/AuthContext";
 import ProfileContext from "../../context/Profile/ProfileContext";
-import ReviewRec from "../profile/ReviewRec"
+import ReviewRec from "../profile/ReviewRec";
 import { useContext, useState } from "react";
 // import ProfileContext from "../../context/Profile/ProfileContext";
 import { Link, useHistory } from "react-router-dom";
-import { TextField, Button, Collapse } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 import {
   createMuiTheme,
   ThemeProvider,
@@ -82,21 +82,21 @@ const Profile = () => {
   };
 
   const handleWishList = () => {
-    let path = '/myprofile/wishlist';
+    let path = "/myprofile/wishlist";
     history.push(path);
   };
 
   const handleBannedList = () => {
-    let path = '/myprofile/bannedlist';
+    let path = "/myprofile/bannedlist";
     history.push(path);
-  }; 
+  };
 
   const handleReviews = () => {
     alert("not implemented");
-  }; 
+  };
 
   const handlePassword = () => {
-    let path = '/myprofile/change';
+    let path = "/myprofile/change";
     history.push(path);
   };
 
@@ -106,14 +106,14 @@ const Profile = () => {
 
   //const [email, setEmail] = useState("")
   return (
-    <div className='Profile'>
+    <div className="Profile">
       <h1>Your Profile:</h1>
-      <Link to={'/profile/' + User.u_id}> Public Profile</Link>
-        <div class="bodys">
-          <div class="column">
-            <h2> Your Email: {User.email}</h2>
-            <h2> Update Profile Details:</h2>
-            <form onSubmit={handleSubmit} autoComplete="off">
+      <Link to={"/profile/" + User.u_id}> Public Profile</Link>
+      <div class="bodys">
+        <div class="column">
+          <h2> Your Email: {User.email}</h2>
+          <h2> Update Profile Details:</h2>
+          <form onSubmit={handleSubmit} autoComplete="off">
             <ThemeProvider theme={theme}>
               <UpdateTextField
                 size="small"
@@ -147,31 +147,28 @@ const Profile = () => {
                 helperText=" "
                 required
               />
-              <Button
-                variant="text"
-                color="primary"
-              >
+              <Button variant="text" color="primary">
                 Submit
               </Button>
             </ThemeProvider>
-            </form>
-          </div>
-          <div class="column">
-            <span onClick={handlePassword} className="btn">
-                  Change Password
-            </span>
-            <span onClick={handleWishList} className="btn">
-                  View Wishlist
-            </span>
-            <span onClick={handleBannedList} className="btn">
-                  View banned list
-            </span>
-            <span onClick={handleReviews} className="btn">
-                  View recent reviews
-            </span>
-          </div>
+          </form>
         </div>
-        <ReviewRec id={User.u_id} />
+        <div class="column">
+          <span onClick={handlePassword} className="btn">
+            Change Password
+          </span>
+          <span onClick={handleWishList} className="btn">
+            View Wishlist
+          </span>
+          <span onClick={handleBannedList} className="btn">
+            View banned list
+          </span>
+          <span onClick={handleReviews} className="btn">
+            View recent reviews
+          </span>
+        </div>
+      </div>
+      <ReviewRec id={User.u_id} />
     </div>
   );
 };

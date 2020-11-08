@@ -79,6 +79,7 @@ const Reviews = () => {
       getReviews(movie_id);
       setReviewList(reviews);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movie_id]);
 
   // post review to db on submit
@@ -101,7 +102,7 @@ const Reviews = () => {
     <div className="reviews">
       <h2>Reviews</h2>
       {/* previous reviews in reviews list */}
-      <ReviewList reviews={reviews} setReviewList={setReviewList} />
+      <ReviewList reviews={reviewList} setReviewList={setReviewList} />
       {User !== null ? (
         // form for new review creation and submission
         <ThemeProvider theme={theme}>

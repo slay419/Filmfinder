@@ -11,6 +11,7 @@ const BannedListItem = ({ user }) => {
 
   useEffect(() => {
     getUserById(user);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleRemove = (e) => {

@@ -24,6 +24,7 @@ const ReviewItem = ({ review }) => {
 
   useEffect(() => {
     getUserById(user_id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   console.log(User);

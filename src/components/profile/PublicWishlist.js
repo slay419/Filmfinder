@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import AuthContext from "../../context/Auth/AuthContext";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import Spinner from "../common/Spinner";
 import MovieList from "../movies/MovieList";
@@ -18,6 +17,7 @@ const PublicWishlist = (props) => {
   useEffect(() => {
     getUserById(uid);
     getWishlist(uid);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

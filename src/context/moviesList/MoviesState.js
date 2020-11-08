@@ -80,7 +80,7 @@ const MoviesState = (props) => {
   };
 
   const getNextPage = () => {
-    if (state.page != state.maxPage) {
+    if (state.page !== state.maxPage) {
       setLoading();
       setTimeout(() => {
         dispatch({
@@ -95,7 +95,7 @@ const MoviesState = (props) => {
   };
 
   const getPrevPage = () => {
-    if (state.page != 1) {
+    if (state.page !== 1) {
       setLoading();
       setTimeout(() => {
         dispatch({

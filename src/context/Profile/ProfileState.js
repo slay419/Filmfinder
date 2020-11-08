@@ -3,13 +3,11 @@ import ProfileContext from "./ProfileContext";
 import ProfileReducer from "./ProfileReducer";
 
 import {
-  REGISTER,
   BAN_USER,
   BANNED_LIST_ERROR,
   GET_WISHLIST,
   SET_LOADING,
   WISHLIST_ERROR,
-  PUBLIC_USER,
   GET_USER_BY_ID,
   GET_RECOMMENDATIONS,
   GET_BANNED_LIST,

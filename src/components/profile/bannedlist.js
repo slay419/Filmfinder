@@ -5,13 +5,14 @@ import BannedListItem from "./bannedListItem";
 
 const Bannedlist = () => {
   const profileContext = useContext(ProfileContext);
-  const { bannedList, getBannedList, getUserById, profile } = profileContext;
+  const { bannedList, getBannedList } = profileContext;
 
   const authContext = useContext(AuthContext);
   const { User } = authContext;
 
   useEffect(() => {
     getBannedList(User.u_id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   console.log(bannedList);

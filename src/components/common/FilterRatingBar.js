@@ -8,7 +8,7 @@ const FilterRatingBar = () => {
   const moviesContext = useContext(MoviesContext);
   const { filterMoviesByRating, getMovies } = moviesContext;
 
-  const onClick = (e) => {
+  const onChange = (e) => {
     setIsChecked(!isChecked);
     if (!isChecked) {
       filterMoviesByRating();
@@ -29,8 +29,8 @@ const FilterRatingBar = () => {
         type="checkbox"
         name="See Adult Movies"
         id="adult"
-        checked={isChecked}
-        onClick={onClick}
+        defaultChecked={isChecked}
+        onChange={onChange}
       />
     </form>
   );

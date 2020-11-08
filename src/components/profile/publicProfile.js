@@ -1,7 +1,7 @@
 import React from "react";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import { useContext, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Spinner from "../common/Spinner";
 
 import "../../styles/publicProfile.scss";
@@ -24,6 +24,7 @@ const PublicProfile = (props) => {
   useEffect(() => {
     getUserById(uid);
     checkBannedList(authContext.User.u_id, profile.user_id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleWishList = () => {
@@ -69,7 +70,7 @@ const PublicProfile = (props) => {
                 <span onClick={handleReviews} className="btn">
                   View recent reviews
                 </span>
-                {banned == 0 ? (
+                {banned === 0 ? (
                   <span onClick={handleBan} className="btn">
                     Ban User
                   </span>
