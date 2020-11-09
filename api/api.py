@@ -57,7 +57,8 @@ from functions.wishlist import (
 
 from functions.admin import (
     addNewMovie,
-    removeExistingMovie
+    removeExistingMovie,
+    removeUserById
 )
 
 app = Flask(__name__)
@@ -544,6 +545,12 @@ def removeMovie():
     response = request.get_json()
     movie_id = response["movie_id"]
     return removeExistingMovie(movie_id)
+
+@app.route("/admin/removeUser", methods=["DELETE"])
+def removeUser():
+    response = request.get_json()
+    user_id = response["user_id"]
+    return removeUserById(user_id)
 
 if __name__ == "__main__":
     app.run(port=5000)

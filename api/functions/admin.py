@@ -8,6 +8,8 @@ from pandas.io import sql
 from requests import get
 import re
 
+from functions.review import deleteReview, userIdExists
+
 
 # Add new movies to database 
 # Format input
@@ -81,10 +83,36 @@ def removeExistingMovie(movie_id):
 
 
 # Remove other users movie reviews
+def removeUserReview(review_id):
+    return deleteReview(review_id)
 
-# Remove users from user database
+# Remove users from user database 
+# also removes all their previous reviews and removes them from any friend/banned lists
+def removeUserById(user_id):
+    if not userIdExists(user_id):
+        return {"error": f"No user with id: {user_id} exists in the database"}
 
+    conn = sqlite3.connect("users.db")
+    cur = conn.cursor()
 
+    # Remove all the reviews written by the user
+    cur.execute(f"delete from review where user_id = {user_id};")
+
+    # Clears their wishlist
+    cur.execute(f"delete from wishlist where user_id = {user_id};")
+
+    # Removes user from anyone's banned_list
+    cur.execute(f"delete from banned_list where user_id = {user_id} or banned_id = {user_id};")
+
+    # Removes user from anyone's friend_list
+    cur.execute(f"delete from friend_list where user_id = {user_id} or friend_id = {user_id};")
+
+    # Removes the user profile
+    cur.execute(f"delete from users where user_id = {user_id};")
+
+    conn.commit()
+    conn.close()
+    return {"success": "True"}
 
 
 def isValidMovie(movie_id):
