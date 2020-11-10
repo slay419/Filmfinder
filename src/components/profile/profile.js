@@ -54,10 +54,11 @@ const theme = createMuiTheme({
 
 const Profile = () => {
   const authContext = useContext(AuthContext);
-  const { User, admin, checkIfAdmin } = authContext;
+  const { User, admin, checkIfAdmin, logout, deleteUser } = authContext;
 
   const profileContext = useContext(ProfileContext);
   const { updateDetails } = profileContext;
+  const history = useHistory();
 
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
@@ -104,7 +105,7 @@ const Profile = () => {
     alert("not implemented");
   };
 
-  const history = useHistory();
+ 
   //const profileContext = useContext(ProfileContext);
   //const { profileUser } = profileContext;
 
@@ -114,6 +115,17 @@ const Profile = () => {
       checkIfAdmin();
     }
   }, []);
+
+  const handleRemove = () => {
+    if (window.confirm("Are you sure you want to permenantly delete you profile?")){
+      if (window.confirm("Are you Absolutely sure? You won't be able to recover it.")){
+        const tempId = User.u_id;
+        logout(tempId)
+        deleteUser(tempId);
+        history.push("/");
+      }
+    }
+  };
 
   return (
     <div className="Profile">
@@ -183,6 +195,9 @@ const Profile = () => {
           ) : (
             <div></div>
           )}
+          <span onClick={handleRemove} className="btn">
+            Delete Your Own Profile
+          </span>
         </div>
       </div>
       <ReviewRec id={User.u_id} />
