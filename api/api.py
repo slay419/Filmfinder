@@ -56,6 +56,7 @@ from functions.wishlist import (
 )
 
 from functions.admin import (
+    assignAdmin,
     checkAdmin,
     addNewMovie,
     removeExistingMovie,
@@ -556,6 +557,13 @@ def removeUser():
     response = request.get_json()
     user_id = response["user_id"]
     return removeUserById(user_id)
+
+@app.route("/admin/makeAdmin", methods=["POST"])
+def makeAdmin():
+    response = request.get_json()
+    user_id = response["user_id"]
+    return assignAdmin(user_id)
+
 
 if __name__ == "__main__":
     app.run(port=5000)
