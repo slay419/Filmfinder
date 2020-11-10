@@ -68,6 +68,10 @@ const MovieDetails = (props) => {
     removeFromWishlist(movie.movie_id, User.u_id);
   };
 
+  const handleUpdateMovie = () => {
+    alert("you've been pranked son");
+  };
+
   const handleDeleteMovie = () => {
     if (window.confirm("Are you sure you want to delete this movie from the website?")){
       deleteMovie(movie.movie_id);
@@ -132,9 +136,14 @@ const MovieDetails = (props) => {
               </span>
             )}
             {admin === 1 ? (
-              <span onClick={handleDeleteMovie} className="wishlist-btn">
-                Delete Movie
-              </span>
+              <div>
+                <span onClick={handleDeleteMovie} className="wishlist-btn">
+                  Delete Movie
+                </span>
+                <span onClick={handleUpdateMovie} className="wishlist-btn">
+                  Update Details
+                </span>
+              </div>
             ) : ( <></>)}
           </div>
 
