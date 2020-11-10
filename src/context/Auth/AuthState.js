@@ -15,6 +15,9 @@ import {
     NO_MATCH,
     SET_USER,
     ADMIN_CHECK,
+    DELETE_MOVIE,
+    DELETE_USER,
+    RESET_REDIR,
  } from "../types";
 
  export const CORRECT = 2;
@@ -221,17 +224,9 @@ const AuthState = (props) => {
     };
 
     const checkIfAdmin = () => {
-        console.log("Check is running")
         if (state.User != null){
-            console.log(state.User)
             const u_id = state.User.u_id
-            fetch('/admin/checkUser', {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                },
-                body: JSON.stringify({u_id: u_id})
-            })
+            fetch('/admin/isAdmin/' + u_id)
             .then((res) => res.json())
             .then((data) => {
                 dispatch( {type: ADMIN_CHECK, payload: data})    
@@ -240,6 +235,50 @@ const AuthState = (props) => {
                 dispatch( {type: UNEXPECTED_ERROR, payload: err})
             });
        }       
+    }
+
+    const deleteMovie = (movie_id) => {
+        fetch('/admin/removeMovie', {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify({movie_id : movie_id})
+        })            
+        .then((data) => {
+            if ("error" in data){
+                dispatch( {type: UNEXPECTED_ERROR, payload: data.error})
+            } else {
+                dispatch( {type: DELETE_MOVIE, payload: data}) 
+            }  
+        })
+        .catch((err) => {
+            dispatch( {type: UNEXPECTED_ERROR, payload: err})
+        });        
+    }
+
+    const deleteUser = (user_id) => {
+        fetch('/admin/removeUser', {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify({user_id : user_id})
+        })            
+        .then((data) => {
+            if ("error" in data){
+                dispatch( {type: UNEXPECTED_ERROR, payload: data.error})
+            } else {
+                dispatch( {type: DELETE_USER, payload: data}) 
+            }  
+        })
+        .catch((err) => {
+            dispatch( {type: UNEXPECTED_ERROR, payload: err})
+        });        
+    }
+
+    const resetRedir = () => {
+        dispatch({type: RESET_REDIR, payload: null});
     }
 
   return (
@@ -264,6 +303,9 @@ const AuthState = (props) => {
         setUser,
         admin: state.admin,
         checkIfAdmin,
+        resetRedir,
+        deleteMovie,
+        deleteUser,
       }}
     >
       {props.children}

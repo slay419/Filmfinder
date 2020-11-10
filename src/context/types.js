@@ -52,4 +52,8 @@ export const BANNED = "BANNED";
 export const GET_USER_BY_ID = "GET_USER_BY_ID";
 
 export const UNEXPECTED_ERROR = "UNEXPECTED_ERROR";
+
 export const ADMIN_CHECK = "ADMIN_CHECK";
+export const DELETE_MOVIE = "DELETE_MOVIE";
+export const DELETE_USER = "DELETE_USER";
+export const RESET_REDIR = "RESET_REDIR";

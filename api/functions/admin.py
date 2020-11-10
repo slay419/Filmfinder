@@ -18,8 +18,8 @@ def checkAdmin(user_id):
     matches = len(cur.fetchall())
     conn.close()
     if matches == 0:
-        return {"isAdmin": "False"}
-    return {"isAdmin": "True"}
+        return {"isAdmin": 1}
+    return {"isAdmin": 1}
 
 
 # Add new movies to database 

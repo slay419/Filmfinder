@@ -557,13 +557,6 @@ def removeUser():
     user_id = response["user_id"]
     return removeUserById(user_id)
 
-@app.route("/admin/checkUser", methods = ["POST"])
-def checkUser():
-    response = request.get_json()
-    u_id = response["u_id"]
-    # return 1 when is admin and 0 when is not
-    return {"admin" : 1}
-
 if __name__ == "__main__":
     app.run(port=5000)
 
