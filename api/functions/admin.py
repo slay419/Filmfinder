@@ -11,6 +11,27 @@ import re
 from functions.review import deleteReview, userIdExists
 
 
+
+def assignAdmin(user_id):
+
+    if not userIdExists(user_id):
+        return {"error": f"No user with id: {user_id} exists in the database"}
+    elif checkAdmin(user_id)["isAdmin"] == "True":
+        return {"error": f"User with id: {user_id} is already an admin"}
+
+    conn = sqlite3.connect("users.db")
+    cur = conn.cursor()
+    cur.execute("select max(admin_id) from admins;")
+    admin_id = cur.fetchone()[0] + 1
+
+    # Add new admin to database
+    cur.execute(f"insert into admins(user_id, admin_id) values({user_id}, {admin_id});")
+
+    conn.commit()
+    conn.close()
+
+    return {"admin": admin_id}
+
 def checkAdmin(user_id):
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
