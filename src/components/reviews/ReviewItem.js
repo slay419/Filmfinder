@@ -46,7 +46,7 @@ const ReviewItem = ({ review }) => {
               <p>comment: {comment} </p>
             </div>
 
-            {loggedIn && (User.u_id === reviewer.user_id || admin == 1) && (
+            {loggedIn && (User.u_id === reviewer.user_id || admin === 1) && (
               <div className="right">
                 <span
                   onClick={() => handleDelete(review_id)}

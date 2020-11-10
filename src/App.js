@@ -16,6 +16,7 @@ import bannedlist from "./components/profile/bannedlist";
 import Footer from "./components/common/Footer";
 import publicProfile from "./components/profile/publicProfile";
 import PublicWishlist from "./components/profile/PublicWishlist";
+import UpdateMovie from "./components/movies/updateMovie"
 
 // Context
 import MoviesState from "./context/moviesList/MoviesState";
@@ -67,6 +68,16 @@ function App() {
                       path="/profile/wishlist/:uid"
                       exact
                       component={PublicWishlist}
+                      />
+                    <Route
+                      path="/new"
+                      exact
+                      component={UpdateMovie}
+                      />
+                    <Route
+                      path="/update/:id"
+                      exact
+                      component={UpdateMovie}
                       />
                   </Switch>
                 </Router>

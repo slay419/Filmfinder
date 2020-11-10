@@ -54,7 +54,7 @@ const PublicProfile = (props) => {
   };
 
   const handleRemove = () => {
-    if (User.u_id == profile.user_id){
+    if (User.u_id === profile.user_id){
       alert("Delete Your own profile through the profile page")
     } else if (window.confirm("Are you sure you want to remove this user from the website?")){
       deleteUser(profile.user_id);

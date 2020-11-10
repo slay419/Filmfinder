@@ -19,7 +19,7 @@ import { MarkunreadMailboxOutlined } from "@material-ui/icons";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
-  const { User, admin, checkIfAdmin, makeAdmin } = authContext;
+  const { User, admin, checkIfAdmin, } = authContext;
 
   const [successOpen, setSuccessOpen] = useState(User !== null);
 

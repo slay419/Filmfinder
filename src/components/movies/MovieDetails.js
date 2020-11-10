@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 // context
 import MovieContext from "../../context/movie/movieContext";
@@ -115,7 +115,7 @@ const MovieDetails = (props) => {
     <div>...</div>
   ) : (
     <div>
-    {redir == 0 ? (
+    {redir === 0 ? (
       <div className="movie-details">
         <div className="movie-details-box">
           <div className="">

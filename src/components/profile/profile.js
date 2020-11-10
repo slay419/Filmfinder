@@ -102,7 +102,8 @@ const Profile = () => {
   };
 
   const handleAddNew = () => {
-    alert("not implemented");
+    let path = "/new";
+    history.push(path);
   };
 
  
@@ -191,7 +192,7 @@ const Profile = () => {
           <span onClick={() => makeAdmin(User.u_id)} className="btn"> 
             View as admin
           </span>
-          {admin == 1 ? (
+          {admin === 1 ? (
               <span onClick={handleAddNew} className="btn">
                 Add new Movie
               </span>
