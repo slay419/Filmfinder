@@ -30,6 +30,7 @@ const ReviewRec = ({ id }) => {
     if (id) {
       getRecommendations(id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (
@@ -40,7 +41,7 @@ const ReviewRec = ({ id }) => {
         <></>
       ) : (
         // If the recomendations are not null, show the slider with recommended movies
-        
+
         <Slider {...sliderSettings}>
           {recommendations.map((rec) => {
             return <RecommendationSlide movie={rec} key={rec.movie_id} />;

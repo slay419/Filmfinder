@@ -74,3 +74,23 @@ Happy with how to team is going and I feel like people have been contributing co
 I'm going to try and implement the GTD Natural Planning model for each meeting to help guide our work.
 TODO: Get the team aware of whats coming up in the next sprint.
 
+-- Week 6: Meeting 12 --
+I worked on the banned list, wishlist and front end bugs this week.
+I noticed a lot of inconsistencies in the code, but we managed to complete lots of user stories despite of this.
+TODO: finish up user stories for sprint 2
+
+-- Week 7: Meeting 13 --
+Started to realise that we should have more people working the front end, the load seems too much for just Aidan and I
+Did a pair programming session with the whole group so they got a bit more familiar with React, hopefully Michael can join us on the front-end
+Did a practice run of our presentation
+TODO: present
+
+-- Week 7: Meeting 14 --
+We thought our presentation was happening today, but its actually happening next week so no stress
+Extra time to work on our project and polish up the refreshing bugs
+TODO: Practice presentation, clean code
+
+-- Week 8: Meeting 15 --
+Presented today and it went well
+The next sprint is not so intensive so we will have some time to work on fixing up bugs
+TODO: Fix bugs in code

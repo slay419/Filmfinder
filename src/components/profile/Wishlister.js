@@ -7,7 +7,7 @@ import MovieItem from "../movies/MovieItem";
 import gsap from "gsap";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import AuthContext from "../../context/Auth/AuthContext";
-import "../../styles/Wishlister.scss"
+import "../../styles/Wishlister.scss";
 
 const Wishlister = ({ movies }) => {
   const [movieList, setMovieList] = useState([]);
@@ -27,6 +27,7 @@ const Wishlister = ({ movies }) => {
       y: 70,
       opacity: 0,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movies]);
 
   return (
@@ -39,7 +40,10 @@ const Wishlister = ({ movies }) => {
             key={movie.title}
           >
             <MovieItem movie={movie} />
-            <span onClick={() => removeMovie(movie.movie_id, User.u_id) } className="wishlist-btn">
+            <span
+              onClick={() => removeMovie(movie.movie_id, User.u_id)}
+              className="wishlist-btn"
+            >
               Remove from Wishlist
             </span>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import MoviesContext from "../../context/moviesList/moviesContext";
 import Select from "react-select";
 

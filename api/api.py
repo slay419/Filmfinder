@@ -458,8 +458,8 @@ def editMovieReview():
 
 @app.route("/api/review/deleteMovieReview", methods=["DELETE"])
 def deleteReviewForMovie():
-    response = request.get_json()
-    review_id = request.form.get("review_id")
+    response = request.get_json(force=True)
+    review_id = response["review_id"]
     return deleteReview(review_id)
 
 
@@ -472,7 +472,7 @@ class MovieReviews(Resource):
     @api.expect(movie_id_parser)
     def get(self):
         movie_id_int = movie_id_parser.parse_args().get("movie_id")
-        review_list = getMovieReviewList(movie_id_int)
+        review_list = getMovieReviewList(movie_id_int) #hardcorded hope it works
         return {"reviews": review_list}
 
 
@@ -490,7 +490,7 @@ def block():
 def unblock():
     response = request.get_json()
     user_id = response["user_id"]
-    banned_id = response["banned_id"]
+    banned_id = response["block_id"]
     return bannedList_unblock(user_id, banned_id)
 
 @app.route("/api/bannedList/view", methods=["POST"])

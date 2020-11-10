@@ -19,4 +19,11 @@
   a {
     color: inherit;
   }
+  .delete-btn {
+    &:hover {
+      cursor: pointer;
+      color: red;
+      transition: ease 0.2s;
+    }
+  }
 }

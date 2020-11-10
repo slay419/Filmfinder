@@ -12,7 +12,6 @@ const MovieList = ({ movies }) => {
   const movieDomNodes = [];
 
   useEffect(() => {
-    setMovieList([]);
     setMovieList(movies);
     gsap.from(movieDomNodes, {
       duration: 0.3,
@@ -20,18 +19,15 @@ const MovieList = ({ movies }) => {
       y: 70,
       opacity: 0,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movies]);
 
   return (
     <div className="movie-list">
       {movieList.map((movie, index) => {
         return (
-          <div
-            ref={(e) => (movieDomNodes[index] = e)}
-            className=""
-            key={movie.id}
-          >
-            <MovieItem movie={movie} />
+          <div ref={(e) => (movieDomNodes[index] = e)} className="" key={index}>
+            <MovieItem key={index} movie={movie} />
           </div>
         );
       })}

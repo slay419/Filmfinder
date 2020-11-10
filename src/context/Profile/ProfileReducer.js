@@ -31,9 +31,9 @@ export default (state, action) => {
         ...state,
       };
     case GET_BANNED_LIST:
-      return { 
+      return {
         ...state,
-        bannedList: action.payload,
+        bannedList: action.payload.banned_list,
       };
     case BAN_USER:
       return {
@@ -70,7 +70,7 @@ export default (state, action) => {
       console.log(action.payload);
       return {
         ...state,
-        User: action.payload,
+        profile: action.payload,
         loading: false,
       };
     case GET_RECOMMENDATIONS:

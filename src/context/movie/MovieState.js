@@ -10,13 +10,14 @@ import {
   GET_REVIEWS,
   GET_RECOMMENDATIONS,
   WISHLIST_CHECK,
+  DELETE_REVIEW,
 } from "../types";
 
 const MovieState = (props) => {
   const initialState = {
     movie: {},
     loading: false,
-    reviews: null,
+    reviews: [],
     recommendations: null,
     wishlist: 0,
   };
@@ -41,7 +42,7 @@ const MovieState = (props) => {
       });
   };
 
-  const postReview = (user_id, movie_id, comment, score) => {
+  const postReview = async (user_id, movie_id, comment, score) => {
     let body = JSON.stringify({
       user_id,
       movie_id,
@@ -65,7 +66,7 @@ const MovieState = (props) => {
       });
   };
 
-  const getRecommendations = (movie_id) => {
+  const getRecommendations = async (movie_id) => {
     fetch("/api/movies/similarTo/" + movie_id)
       .then((res) => res.json())
       .then((data) => {
@@ -77,7 +78,7 @@ const MovieState = (props) => {
       });
   };
 
-  const getReviews = (movie_id) => {
+  const getReviews = async (movie_id) => {
     fetch(`/api/review/getMovieReviews?movie_id=${movie_id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -88,66 +89,84 @@ const MovieState = (props) => {
       });
   };
 
-  const addToWishlist = (movie_id, u_id) => {
-    fetch('/api/wishlist/add', {
-      method: "POST",
+  const deleteReview = async (review_id) => {
+    fetch("/api/review/deleteMovieReview", {
+      method: "DELETE",
       headers: {
-          "Content-type": "application/json; charset=UTF-8"
-          },
+        "Content-type": "application/json; charset=UTF-8",
+      },
       body: JSON.stringify({
-        u_id: u_id, 
-        movie_id: movie_id
+        review_id: review_id,
+      }),
+    })
+      .then(() => {
+        dispatch({ type: DELETE_REVIEW, payload: review_id });
       })
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      dispatch({ type: WISHLIST_CHECK, payload: data.success });
-    })
-    .catch((err) => {
-      dispatch({ type: MOVIES_ERROR, payload: err });
-    })
+      .catch((err) => {
+        dispatch({ type: MOVIES_ERROR, payload: err });
+      });
   };
 
-  const onWishlist = (movie_id, u_id) => {
-    fetch("/api/wishlist/check", {      
+  const addToWishlist = async (movie_id, u_id) => {
+    fetch("/api/wishlist/add", {
       method: "POST",
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
-        },
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        u_id: u_id,
+        movie_id: movie_id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: WISHLIST_CHECK, payload: data.success });
+      })
+      .catch((err) => {
+        dispatch({ type: MOVIES_ERROR, payload: err });
+      });
+  };
+
+  const onWishlist = async (movie_id, u_id) => {
+    fetch("/api/wishlist/check", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
       body: JSON.stringify({
         movie_id: movie_id,
         u_id: u_id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: WISHLIST_CHECK, payload: data.success });
       })
-    })      
-    .then((res) => res.json())
-    .then((data) => {
-      dispatch({ type: WISHLIST_CHECK, payload: data.success });
-    })
-    .catch((err) => {
-      dispatch({ type: MOVIES_ERROR, payload: err });
-    })
+      .catch((err) => {
+        dispatch({ type: MOVIES_ERROR, payload: err });
+      });
   };
 
-  const removeFromWishlist = (movie_id, u_id) => {
-    fetch("/api/wishlist/remove", {      
+  const removeFromWishlist = async (movie_id, u_id) => {
+    fetch("/api/wishlist/remove", {
       method: "POST",
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
-        },
+        "Content-type": "application/json; charset=UTF-8",
+      },
       body: JSON.stringify({
         movie_id: movie_id,
         u_id: u_id,
-      })
-    })      
-    .then((res) => res.json())
-    .then((data) => {
-      if (!("error" in data)){
-        dispatch({ type: WISHLIST_CHECK, payload: 0 });
-      }
+      }),
     })
-    .catch((err) => {
-      dispatch({ type: MOVIES_ERROR, payload: err });
-    })    
+      .then((res) => res.json())
+      .then((data) => {
+        if (!("error" in data)) {
+          dispatch({ type: WISHLIST_CHECK, payload: 0 });
+        }
+      })
+      .catch((err) => {
+        dispatch({ type: MOVIES_ERROR, payload: err });
+      });
   };
 
   return (
@@ -164,6 +183,7 @@ const MovieState = (props) => {
         wishlist: state.wishlist,
         onWishlist,
         removeFromWishlist,
+        deleteReview,
       }}
     >
       {props.children}

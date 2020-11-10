@@ -50,7 +50,7 @@ const MoviesState = (props) => {
       getMovies();
     } else {
       setLoading();
-      fetch(`./api/movies?title=${text}`)
+      fetch(`/api/movies?title=${text}`)
         .then((res) => res.json())
         .then((data) => {
           const movies_list = Object.values(data.movies);
@@ -80,7 +80,7 @@ const MoviesState = (props) => {
   };
 
   const getNextPage = () => {
-    if (state.page != state.maxPage) {
+    if (state.page !== state.maxPage) {
       setLoading();
       setTimeout(() => {
         dispatch({
@@ -95,7 +95,7 @@ const MoviesState = (props) => {
   };
 
   const getPrevPage = () => {
-    if (state.page != 1) {
+    if (state.page !== 1) {
       setLoading();
       setTimeout(() => {
         dispatch({

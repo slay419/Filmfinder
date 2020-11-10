@@ -19,14 +19,20 @@ import AuthContext from "../../context/Auth/AuthContext";
 const MovieDetails = (props) => {
   // using movieContext and moviesContext and User
   const movieContext = useContext(MovieContext);
-  const { getMovieById, movie, wishlist, onWishlist, addToWishlist, removeFromWishlist } = movieContext;
+  const {
+    getMovieById,
+    movie,
+    wishlist,
+    onWishlist,
+    addToWishlist,
+    removeFromWishlist,
+  } = movieContext;
 
   const authContext = useContext(AuthContext);
   const { User } = authContext;
 
   const moviesContext = useContext(MoviesContext);
   const { searchMoviesGenre, searchMoviesDirector } = moviesContext;
-
 
   // history is used for route change
   const history = useHistory();
@@ -50,7 +56,7 @@ const MovieDetails = (props) => {
 
   // function to handle wishlistrun s
   const handleAddToWishlist = () => {
-    if (User == null){
+    if (User === null) {
       alert("You Must be logged in to access Wishlist functionality");
     } else {
       addToWishlist(movie.movie_id, User.u_id);
@@ -58,8 +64,8 @@ const MovieDetails = (props) => {
   };
 
   const handleRemoveFromWishlist = () => {
-    removeFromWishlist(movie.movie_id, User.u_id)  
-  }
+    removeFromWishlist(movie.movie_id, User.u_id);
+  };
 
   // extracting values from the movie object
   const {
@@ -86,9 +92,10 @@ const MovieDetails = (props) => {
   // get all the movie info upon loading & receiving id from the url
   useEffect(() => {
     getMovieById(id);
-    if (User !== null){
-      onWishlist(id, User.u_id)
+    if (User !== null) {
+      onWishlist(id, User.u_id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return movie === {} ? (
@@ -104,7 +111,7 @@ const MovieDetails = (props) => {
               alt={title}
             />
           </Tilt>
-          {wishlist == 1 ? (
+          {wishlist === 1 ? (
             <span onClick={handleRemoveFromWishlist} className="wishlist-btn">
               Remove from Wishlist
             </span>

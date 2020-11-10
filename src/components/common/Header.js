@@ -7,20 +7,20 @@ import SearchBar from "./SearchBar";
 // context
 import AuthContext from "../../context/Auth/AuthContext";
 
-
 const Header = () => {
   // using login context for user and logout
   const authContext = useContext(AuthContext);
   const { User, logout, setUser } = authContext;
 
   useEffect(() => {
-    if (User == null){
-      if (localStorage.getItem("FilmFinderUser") != null){
+    if (User == null) {
+      if (localStorage.getItem("FilmFinderUser") != null) {
         setUser(localStorage.getItem("FilmFinderUser"));
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   return (
     <div className="header">
       <h3 className="logo">
@@ -46,7 +46,10 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Link to="/myprofile">{User.first_name.charAt(0).toUpperCase() + User.first_name.slice(1)}</Link>
+            <Link to="/myprofile">
+              {User.first_name.charAt(0).toUpperCase() +
+                User.first_name.slice(1)}
+            </Link>
           </li>
         </ul>
       )}

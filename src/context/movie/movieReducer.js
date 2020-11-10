@@ -6,6 +6,7 @@ import {
   GET_REVIEWS,
   GET_RECOMMENDATIONS,
   WISHLIST_CHECK,
+  DELETE_REVIEW,
 } from "../types";
 
 export default (state, action) => {
@@ -24,8 +25,10 @@ export default (state, action) => {
         loading: !state.loading,
       };
     case POST_REVIEW:
-      alert(action.payload.success);
-      return state;
+      return {
+        ...state,
+        reviews: [...state.reviews, action.payload],
+      };
     case GET_REVIEWS:
       console.log("get reviews called");
       return {
@@ -39,6 +42,13 @@ export default (state, action) => {
       return {
         ...state,
         recommendations: action.payload,
+      };
+    case DELETE_REVIEW:
+      return {
+        ...state,
+        reviews: state.reviews.filter((r) => {
+          return r.review_id !== action.payload;
+        }),
       };
     case WISHLIST_CHECK:
       console.log(action.payload);

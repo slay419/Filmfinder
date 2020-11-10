@@ -8,6 +8,7 @@ from pandas.io import sql
 from requests import get
 import re
 import hashlib
+import uuid
 
 # Insert new value into users database
 # CONSIDER: better way of getting the user_id from a token?
@@ -31,8 +32,12 @@ def newReview(user_id, movie_id, comment, score):
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
 
-    cur.execute("select * from review;")
-    review_id = len(cur.fetchall()) + 1
+    cur.execute(f"""
+        SELECT * FROM review order by review_id desc limit 1
+    """)
+    review_id = cur.fetchone()[0] + 1
+    print("REVIEWID", review_id)
+
     cur.execute(
         f"""
         INSERT INTO review(review_id, user_id, movie_id, comment, score, num_likes)
@@ -41,8 +46,13 @@ def newReview(user_id, movie_id, comment, score):
     )
     conn.commit()
     conn.close()
-
-    return {"success": "True"}
+    item = {}
+    item['review_id'] = review_id
+    item['comment'] = comment
+    item['score'] = score
+    item['num_likes'] = 0
+    item['user_id'] = user_id
+    return item
 
 
 def editReview(review_id, comment, score):
