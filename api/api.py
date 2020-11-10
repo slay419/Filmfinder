@@ -520,10 +520,8 @@ def checkBannedList():
 
 ################    Admin Functions   ##################
 
-@app.route("/admin/isAdmin", methods=["POST"])
-def isAdmin():
-    response = request.get_json()
-    user_id = response["user_id"]
+@app.route("/admin/isAdmin/<int:user_id>", methods=["GET"])
+def isAdmin(user_id):
     return checkAdmin(user_id)
 
 @app.route("/admin/addMovie", methods=["POST"])
