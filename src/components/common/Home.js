@@ -15,10 +15,11 @@ import AuthContext from "../../context/Auth/AuthContext";
 import "../../styles/Home.scss";
 import FilterRatingBar from "./FilterRatingBar";
 import FilterYearBar from "./FilterYearBar";
+import { MarkunreadMailboxOutlined } from "@material-ui/icons";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
-  const { User, admin, checkIfAdmin } = authContext;
+  const { User, admin, checkIfAdmin, makeAdmin } = authContext;
 
   const [successOpen, setSuccessOpen] = useState(User !== null);
 

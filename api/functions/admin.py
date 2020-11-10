@@ -39,7 +39,7 @@ def checkAdmin(user_id):
     matches = len(cur.fetchall())
     conn.close()
     if matches == 0:
-        return {"isAdmin": 1}
+        return {"isAdmin": 0}
     return {"isAdmin": 1}
 
 

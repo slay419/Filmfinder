@@ -281,6 +281,19 @@ const AuthState = (props) => {
         dispatch({type: RESET_REDIR, payload: null});
     }
 
+    const makeAdmin = (user_id) => {
+        fetch('/admin/makeAdmin', {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify({user_id : user_id})
+        })
+        .then(() => {
+            dispatch( {type: ADMIN_CHECK, payload: ({"isAdmin" : 1})})    
+        });
+    }
+
   return (
     <AuthContext.Provider
       value={{
@@ -306,6 +319,7 @@ const AuthState = (props) => {
         resetRedir,
         deleteMovie,
         deleteUser,
+        makeAdmin,
       }}
     >
       {props.children}

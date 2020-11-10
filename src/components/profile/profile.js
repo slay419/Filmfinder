@@ -54,7 +54,7 @@ const theme = createMuiTheme({
 
 const Profile = () => {
   const authContext = useContext(AuthContext);
-  const { User, admin, checkIfAdmin, logout, deleteUser } = authContext;
+  const { User, admin, checkIfAdmin, logout, deleteUser, makeAdmin } = authContext;
 
   const profileContext = useContext(ProfileContext);
   const { updateDetails } = profileContext;
@@ -187,6 +187,9 @@ const Profile = () => {
           </span>
           <span onClick={handleReviews} className="btn">
             View recent reviews
+          </span>
+          <span onClick={() => makeAdmin(User.u_id)} className="btn"> 
+            View as admin
           </span>
           {admin == 1 ? (
               <span onClick={handleAddNew} className="btn">
