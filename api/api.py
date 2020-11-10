@@ -56,6 +56,7 @@ from functions.wishlist import (
 )
 
 from functions.admin import (
+    checkAdmin,
     addNewMovie,
     removeExistingMovie,
     removeUserById
@@ -518,6 +519,12 @@ def checkBannedList():
 
 
 ################    Admin Functions   ##################
+
+@app.route("/admin/isAdmin", methods=["POST"])
+def isAdmin():
+    response = request.get_json()
+    user_id = response["user_id"]
+    return checkAdmin(user_id)
 
 @app.route("/admin/addMovie", methods=["POST"])
 def addMovie():

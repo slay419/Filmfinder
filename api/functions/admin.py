@@ -11,6 +11,17 @@ import re
 from functions.review import deleteReview, userIdExists
 
 
+def checkAdmin(user_id):
+    conn = sqlite3.connect("users.db")
+    cur = conn.cursor()
+    cur.execute(f"select * from admins where user_id = {user_id}")
+    matches = len(cur.fetchall())
+    conn.close()
+    if matches == 0:
+        return {"isAdmin": "False"}
+    return {"isAdmin": "True"}
+
+
 # Add new movies to database 
 # Format input
 # director_id: integer
