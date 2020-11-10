@@ -152,3 +152,16 @@ def getMovieReviewList(movie_id):
         review_list.append(item)
     conn.close()
     return review_list
+
+# Returns a list of movies a user has left a review on 
+def getUserReviewList(user_id):
+    if not userIdExists(user_id):
+        return {"error": f"No user with id: {user_id} exists in the database"}
+    conn = sqlite3.connect("users.db")
+    cur = conn.cursor()
+    cur.execute(f"select movie_id from review where user_id = {user_id};")
+    movie_list = []
+    for movie in cur.fetchall():
+        movie_list.append(movie[0])
+
+    return movie_list
