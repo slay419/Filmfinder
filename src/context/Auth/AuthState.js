@@ -14,6 +14,7 @@ import {
     CHANGE_PASSWORD,
     NO_MATCH,
     SET_USER,
+    ADMIN_CHECK,
  } from "../types";
 
  export const CORRECT = 2;
@@ -30,7 +31,8 @@ const AuthState = (props) => {
         changedForg: 0,
         Match: null,
         Changed: 0,
-        redir: 0
+        redir: 0,
+        admin: null,
         //user info stored in this state
     };
 
@@ -218,6 +220,28 @@ const AuthState = (props) => {
         });
     };
 
+    const checkIfAdmin = () => {
+        console.log("Check is running")
+        if (state.User != null){
+            console.log(state.User)
+            const u_id = state.User.u_id
+            fetch('/admin/checkUser', {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                },
+                body: JSON.stringify({u_id: u_id})
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                dispatch( {type: ADMIN_CHECK, payload: data})    
+            })
+            .catch((err) => {
+                dispatch( {type: UNEXPECTED_ERROR, payload: err})
+            });
+       }       
+    }
+
   return (
     <AuthContext.Provider
       value={{
@@ -238,6 +262,8 @@ const AuthState = (props) => {
         changePassword,
         redir: state.redir,
         setUser,
+        admin: state.admin,
+        checkIfAdmin,
       }}
     >
       {props.children}

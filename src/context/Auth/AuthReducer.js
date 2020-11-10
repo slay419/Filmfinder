@@ -10,6 +10,7 @@ import {
   UNEXPECTED_ERROR,
   REGISTER,
   SET_USER,
+  ADMIN_CHECK,
 } from "../types";
 
 import { UNANSWERED } from "./AuthState";
@@ -84,6 +85,11 @@ export default (state, action) => {
         ...state,
         User: action.payload,
       };
+    case ADMIN_CHECK:
+      return {
+        ...state,
+        admin: action.payload.admin
+      }
     case ERROR:
       // error occured in back end, display error
       console.log(action.payload);

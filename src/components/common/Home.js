@@ -18,7 +18,7 @@ import FilterYearBar from "./FilterYearBar";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
-  const { User } = authContext;
+  const { User, admin, checkIfAdmin } = authContext;
 
   const [successOpen, setSuccessOpen] = useState(User !== null);
 
@@ -36,6 +36,9 @@ const Home = () => {
   useEffect(() => {
     getMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (admin == null){
+      checkIfAdmin();
+    }
   }, []);
 
   const handleClose = (event, reason) => {

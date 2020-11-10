@@ -52,3 +52,4 @@ export const BANNED = "BANNED";
 export const GET_USER_BY_ID = "GET_USER_BY_ID";
 
 export const UNEXPECTED_ERROR = "UNEXPECTED_ERROR";
+export const ADMIN_CHECK = "ADMIN_CHECK";
