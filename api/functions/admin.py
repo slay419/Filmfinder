@@ -8,6 +8,7 @@ from pandas.io import sql
 from requests import get
 import re
 
+from functions.auth import remove_user_from_email_list
 from functions.review import deleteReview, userIdExists
 
 
@@ -112,6 +113,29 @@ def removeExistingMovie(movie_id):
     return {"success": "True"}
 
 # Edit movies in database 
+def editMovieDetails(movie_id, title, release_date, overview, tagline):
+    conn = sqlite3.connect("movieDB.db")
+    cur = conn.cursor()
+    cur.execute(f"update movie set title = '{title}', release_date = '{release_date}', overview = '{overview}', tagline = '{tagline}'")
+
+    conn.commit()
+    conn.close()
+
+    return {"movie_id": movie_id}
+
+# def editMovieCast(movie_id, director_id, cast_list):
+#     conn = sqlite3.connect("movieDB.db")
+#     cur = conn.cursor()
+#     cur.execute(f"update movie set director_id = '{director_id}', = '}', overview = '{overview}', tagline = '{tagline}'")
+
+#     conn.commit()
+#     conn.close()
+
+#     return {"movie_id": movie_id}
+
+
+
+
 
 
 # Remove other users movie reviews
@@ -126,6 +150,10 @@ def removeUserById(user_id):
 
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
+
+    # Clear data stored on email verification
+    user_email = getEmailById(user_id)
+    remove_user_from_email_list(user_email)
 
     # Remove all the reviews written by the user
     cur.execute(f"delete from review where user_id = {user_id};")
@@ -156,3 +184,11 @@ def isValidMovie(movie_id):
     if matches == 0:
         return False
     return True
+
+def getEmailById(user_id):
+    conn = sqlite3.connect("users.db")
+    cur = conn.cursor()
+    cur.execute(f"select email from users where user_id = {user_id};")
+    email = cur.fetchone()[0]
+    conn.close()
+    return email
