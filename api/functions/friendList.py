@@ -66,3 +66,6 @@ def check_friend_exists(u_id, f_id):
     if userData != None:
         return True
     return False
+
+#Checks the movie is in both users wishlist
+# def friendList_notify(movie_id, u_id, f_id):
