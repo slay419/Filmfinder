@@ -184,6 +184,72 @@ const MovieState = (props) => {
     }
   }
 
+  const addMovie = (title, adult, genres, tagline, overview, year, director, cast, poster) => {
+    fetch("/admin/addMovie", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ 
+        title: title,
+        adult: adult,
+        release_date: year,
+        genres: genres,
+        tagline: tagline,
+        overview: overview,
+        director: director,
+        cast: cast,
+        poster: poster,
+      }),
+    })
+  }
+
+  const updateMovie = (title, adult, genres, tagline, overview, year, director, cast, poster) => {
+    if (state.movie.title !== title 
+    || state.movie.release_date !== year 
+    || state.movie.overview !== overview
+    || state.movie.tagline !== tagline) {
+      fetch("/admin/updateMovieDetails/" + state.movie.movie_id, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({ 
+          title: title,
+          release_date: year,
+          overview: overview,
+          tagline: tagline,
+        }),
+      })
+    }
+    
+      if (state.movie.title !== director 
+      || state.movie.cast !== cast) {
+        fetch("/admin/updateMovieCast/" + state.movie.movie_id, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify({ 
+            director: director,
+            cast: cast,
+          }),
+        })
+      }
+  
+        if (state.movie.title !== genres) {
+            fetch("/admin/updateMovieGenres/" + state.movie.movie_id, {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json; charset=UTF-8",
+              },
+              body: JSON.stringify({ 
+                genres: genres,
+              }),
+            })
+        }
+  }
+
   return (
     <MovieContext.Provider
       value={{
@@ -202,6 +268,8 @@ const MovieState = (props) => {
         actors: state.actors,
         addActor,
         removeActor,
+        addMovie,
+        updateMovie,
       }}
     >
       {props.children}

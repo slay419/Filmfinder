@@ -48,12 +48,13 @@ import {
     fontFamily: "Poppins",
     //marginTop: 10,
   });
+  var updated = 0;
 
 const UpdateMovie = (props) => {
     const authContext = useContext(AuthContext);
     const { User, admin, checkIfAdmin } = authContext;
     const movieContext = useContext(MovieContext);
-    const { actors, addActor, getMovieById, movie } = movieContext;
+    const { actors, addActor, getMovieById, movie, addMovie, updateMovie } = movieContext;
 
     const [title, setTitle] = useState("");
     const [adult, setAdult] = useState(0);
@@ -114,7 +115,15 @@ const UpdateMovie = (props) => {
 
 
     const handleSubmit = () => {
-        alert("lol maybe")
+      alert("Doesn't work yet");
+      
+      var genres = [genre1, genre2, genre3, genre4];
+      if (updated === 1){
+        updateMovie(title, adult, genres, tagline, desc, year, director, cast, poster);
+      } else {
+        addMovie(title, adult, genres, tagline, desc, year, director, cast, poster);
+      }
+      
     }
 
     const handleAddCast = () => {
@@ -163,7 +172,8 @@ const UpdateMovie = (props) => {
           setGenre4(genres[4]);
         }
         setActorList(cast);
-        setDirector(director_name);           
+        setDirector(director_name);
+        updated = 1;           
       } else {
         setTitle("");
         setDesc("");
@@ -174,7 +184,8 @@ const UpdateMovie = (props) => {
         setGenre3("");
         setGenre4("");
         setActorList("");
-        setDirector("");   
+        setDirector("");
+        updated = 0;   
       }
     }, [id]);
 
