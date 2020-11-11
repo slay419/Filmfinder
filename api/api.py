@@ -39,7 +39,8 @@ from functions.review import (
     incrementLikes, 
     editReview,
     deleteReview,
-    getMovieReviewList)
+    getMovieReviewList
+)
 
 from functions.bannedList import (
     bannedList_block,
@@ -60,7 +61,10 @@ from functions.admin import (
     checkAdmin,
     addNewMovie,
     removeExistingMovie,
-    removeUserById
+    removeUserById,
+    editMovieDetails,
+    editMovieCast,
+    editMovieGenres
 )
 
 app = Flask(__name__)
@@ -564,6 +568,27 @@ def makeAdmin():
     user_id = response["user_id"]
     return assignAdmin(user_id)
 
+@app.route("/admin/updateMovieDetails/<int:movie_id>", methods=["PUT"])
+def updateMovieDetails(movie_id):
+    response = request.get_json()
+    title = response["title"]
+    release_date = response["release_date"]
+    overview = response["overview"]
+    tagline = response["tagline"]
+    return editMovieDetails(movie_id, title, release_date, overview, tagline)
+
+@app.route("/admin/updateMovieCast/<int:movie_id>", methods=["PUT"])
+def updateMovieCast(movie_id):
+    response = request.get_json()
+    director_id = response["director_id"]
+    cast_list = response["cast_list"]
+    return editMovieCast(movie_id, director_id, cast_list)
+
+@app.route("/admin/updateMovieGenres/<int:movie_id>", methods=["PUT"])
+def updateMovieGenres(movie_id):
+    response = request.get_json()
+    genre_list = response["genre_list"]
+    return editMovieGenres(movie_id, genre_list)
 
 if __name__ == "__main__":
     app.run(port=5000)

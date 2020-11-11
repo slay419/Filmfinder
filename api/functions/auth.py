@@ -254,3 +254,8 @@ def get_secret_answer(u_id):
     answer = c.fetchone()[0]
     conn.close()
     return answer
+
+def remove_user_from_email_list(email):
+    global EMAIL_LIST
+    EMAIL_LIST = [item for item in EMAIL_LIST if not item[email]]
+
