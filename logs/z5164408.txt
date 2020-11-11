@@ -70,3 +70,13 @@ See no problems in copleteing this sprint for the presentation.
 Still plan to do many bug fixe and cleanup in the code but otherwise this should be goood
 Kevin will continue working on the back end moving into sprint 3, whilst the other backend people
 will move to the front end for the final sprint to ensure we can squash the bugs and get everything running well
+
+Thursday 5/11/2020
+Had our second demonstration and retrospective today, it went well. Moving into the final sprint should be a problem.
+I've been placed on the admin tasks. It has been a bit of a struggle to ind time due to other projects and work for my other
+courses for both myself and the other members of the group but we still have plenty of tim and we should get it done without a problem.
+
+Thursday 12/11/2020
+So far, thuis sprint has gone well. About half of this sprint is done from the front end and almost all is done from the back end.
+Moving forward we still have our noverly work for film partners and some minor fixing and tweaks to do.
+Then the project report has to be generated. While it may be tight i think we should be able to get it done before the deadline.
