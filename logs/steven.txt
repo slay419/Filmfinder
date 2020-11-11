@@ -1,9 +1,0 @@
-Week 1
-Created a group and joined the Jira our team made. The first week was spent reading the project proposal outline and assigning work to each other.
-We decided to do the film finder project and during our first meeting began writing out the user stories as a team.
-Before we next met up I was assigned to think about what routes we would need (we had decided to create our project using python and flask)
-
-Week 2
-This week as a team we all worked on starting the Project proposal. I was given the task of thinking of novelty ideas for our film finder project.
-I helped add to the user stories section and the sprint section of the Project Proposal. Next week we aim to finish off the proposal and get ready
-to start coding.
