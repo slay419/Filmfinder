@@ -532,23 +532,17 @@ def isAdmin(user_id):
 @app.route("/admin/addMovie", methods=["POST"])
 def addMovie():
     response = request.get_json()
-    director_id = response["director_id"]
+    director_name = response["director_name"]
     adult = response["adult"]
     title = response["title"]
     release_date = response["release_date"]
-    runtime = response["runtime"]
-    budget = response["budget"]
-    revenue = response["revenue"]
-    imdb_id = response["imdb_id"]
-    movie_language = response["movie_language"]
     overview = response["overview"]
     tagline = response["tagline"]
     poster = response["poster"]
     genres = response["genres"]
     cast = response["cast"]
     keywords = response["keywords"]
-    return addNewMovie(director_id, adult, title, release_date, runtime, budget, 
-        revenue, imdb_id, movie_language, overview, tagline, poster, genres, cast, keywords)
+    return addNewMovie(director_name, adult, title, release_date, overview, tagline, poster, genres, cast, keywords)
 
 @app.route("/admin/removeMovie", methods=["DELETE"])
 def removeMovie():
@@ -580,9 +574,9 @@ def updateMovieDetails(movie_id):
 @app.route("/admin/updateMovieCast/<int:movie_id>", methods=["PUT"])
 def updateMovieCast(movie_id):
     response = request.get_json()
-    director_id = response["director_id"]
+    director_name = response["director_name"]
     cast_list = response["cast_list"]
-    return editMovieCast(movie_id, director_id, cast_list)
+    return editMovieCast(movie_id, director_name, cast_list)
 
 @app.route("/admin/updateMovieGenres/<int:movie_id>", methods=["PUT"])
 def updateMovieGenres(movie_id):
