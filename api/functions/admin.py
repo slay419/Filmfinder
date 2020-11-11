@@ -23,7 +23,12 @@ def assignAdmin(user_id):
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
     cur.execute("select max(admin_id) from admins;")
-    admin_id = cur.fetchone()[0] + 1
+
+    admin_id = cur.fetchone()[0]
+    if admin_id is None:
+        admin_id = 1
+    else:
+        admin_id += 1
 
     # Add new admin to database
     cur.execute(f"insert into admins(user_id, admin_id) values({user_id}, {admin_id});")
@@ -59,8 +64,7 @@ def checkAdmin(user_id):
 # poster: url
 # genres: list of genres e.g. ["Action", "Adventure"]
 # cast: list of actor_ids e.g. [1, 2, 3]
-def addNewMovie(director_id, adult, title, release_date, runtime, budget, 
-    revenue, imdb_id, movie_language, overview, tagline, poster, genres, cast, keywords):
+def addNewMovie(director_name, adult, title, release_date, overview, tagline, poster, genres, cast, keywords):
     conn = sqlite3.connect("movieDB.db")
     cur = conn.cursor()
 
@@ -69,13 +73,14 @@ def addNewMovie(director_id, adult, title, release_date, runtime, budget,
     movie_id = cur.fetchone()[0] + 1
     print(f"movie_id is: {movie_id}")
 
+    director_id = getCastIdByName(director_name)
     # Store movie details
     cur.execute(
         f"""
         insert into movie(movie_id, director_id, adult, title, release_date, runtime, budget, 
             revenue, imdb_id, movie_language, overview, tagline, poster, vote_avg, vote_count)
-        values("{movie_id}", "{director_id}", "{adult}", "{title}", "{release_date}", "{runtime}", "{budget}", 
-            "{revenue}", "{imdb_id}", "{movie_language}", "{overview}", "{tagline}", "{poster}", 0, 0)
+        values("{movie_id}", "{director_id}", "{adult}", "{title}", "{release_date}", "0", "0", 
+            "0", "0", "en", "{overview}", "{tagline}", "{poster}", 0, 0)
         """
     )
 
@@ -84,7 +89,8 @@ def addNewMovie(director_id, adult, title, release_date, runtime, budget,
         cur.execute(f"insert into genre(movie_id, genre) values({movie_id}, '{genre}')")
 
     # Store actor list
-    for actor_id in cast:
+    for actor_name in cast:
+        actor_id = getCastIdByName(actor_name)
         cur.execute(f"insert into acting(actor_id, movie_id) values({actor_id}, {movie_id})")
 
     # Store keyword list
@@ -123,17 +129,19 @@ def editMovieDetails(movie_id, title, release_date, overview, tagline):
 
     return {"movie_id": movie_id}
 
-def editMovieCast(movie_id, director_id, cast_list):
+def editMovieCast(movie_id, director_name, cast_list):
     conn = sqlite3.connect("movieDB.db")
     cur = conn.cursor()
+    director_id = getCastIdByName(director_name)
     cur.execute(f"update movie set director_id = '{director_id}' where movie_id = {movie_id}")
 
     # Delete old movie cast
     cur.execute(f"delete from acting where movie_id = {movie_id}")
 
     # Update with new cast list
-    for cast in cast_list:
-        cur.execute(f"insert into acting(actor_id, movie_id) values({cast}, {movie_id});")
+    for cast_name in cast_list:
+        cast_id = getCastIdByName(cast_name)
+        cur.execute(f"insert into acting(actor_id, movie_id) values({cast_id}, {movie_id});")
 
     conn.commit()
     conn.close()
@@ -212,3 +220,14 @@ def getEmailById(user_id):
     email = cur.fetchone()[0]
     conn.close()
     return email
+
+# Given a case insensitive name - returns a corresponding id
+def getCastIdByName(cast_name):
+    conn = sqlite3.connect("movieDB.db")
+    cur = conn.cursor()
+    cur.execute(f"select cast_id from cast where cast_name like '{cast_name}';")
+    cast_id = cur.fetchone()
+    conn.close()
+    if cast_id is None:
+        return -1
+    return cast_id[0]
