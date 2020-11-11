@@ -7,6 +7,8 @@ import {
   GET_RECOMMENDATIONS,
   WISHLIST_CHECK,
   DELETE_REVIEW,
+  ADD_ACTOR,
+  REMOVE_ACTOR,
 } from "../types";
 
 export default (state, action) => {
@@ -56,6 +58,26 @@ export default (state, action) => {
         ...state,
         wishlist: action.payload,
       };
+    case ADD_ACTOR:
+      return {
+        ...state,
+        actors: [...state.actors, action.payload]
+      }
+    case REMOVE_ACTOR:
+      console.log("reducer reached")
+      var newActors = state.actors;
+      for (const elem in newActors){
+        console.log(elem)
+        if (newActors[elem] === action.payload){
+          console.log("gonna try and remove " + newActors[elem])
+          newActors.splice(elem, 1);
+          break;
+        }
+      }
+      return {
+        ...state,
+        actors: newActors
+      }      
     default:
       return state;
   }

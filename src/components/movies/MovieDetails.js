@@ -69,7 +69,9 @@ const MovieDetails = (props) => {
   };
 
   const handleUpdateMovie = () => {
-    alert("you've been pranked son");
+    resetRedir();
+    const path = "/update/" + movie.movie_id;
+    history.push(path);
   };
 
   const handleDeleteMovie = () => {

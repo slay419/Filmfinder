@@ -57,3 +57,6 @@ export const ADMIN_CHECK = "ADMIN_CHECK";
 export const DELETE_MOVIE = "DELETE_MOVIE";
 export const DELETE_USER = "DELETE_USER";
 export const RESET_REDIR = "RESET_REDIR";
+
+export const ADD_ACTOR = "ADD_ACTOR";
+export const REMOVE_ACTOR = "REMOVE_ACTOR";

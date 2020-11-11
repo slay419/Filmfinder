@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../../context/Auth/AuthContext";
 import { TextField, Button, Collapse } from "@material-ui/core";
 import "../../styles/updateMovie.scss"
+import CastList from "./castList";
+import MovieContext from "../../context/movie/movieContext";
 
 import {
     createMuiTheme,
@@ -47,17 +49,27 @@ import {
     //marginTop: 10,
   });
 
-const UpdateMovie = ({ movie_id }) => {
+const UpdateMovie = (props) => {
     const authContext = useContext(AuthContext);
     const { User, admin, checkIfAdmin } = authContext;
+    const movieContext = useContext(MovieContext);
+    const { actors, addActor, getMovieById, movie } = movieContext;
 
     const [title, setTitle] = useState("");
     const [adult, setAdult] = useState(0);
     const [year, setYear] = useState("");
     const [desc, setDesc] = useState("");
     const [poster, setPoster] = useState("");
-    const [secretA, setSecretA] = useState("");
+    const [genre1, setGenre1] = useState("");
+    const [genre2, setGenre2] = useState("");
+    const [genre3, setGenre3] = useState("");
+    const [genre4, setGenre4] = useState("");
+    const [cast, setCast] = useState("");
+    const [actorList, setActorList] = useState([]);
+    const [director, setDirector] = useState("");
+    const [tagline, setTagline] = useState("");
     const [open, setOpen] = useState(true);
+    //setActorList(actors);
   
     const titleHandler = (e) => {
       setTitle(e.target.value);
@@ -74,9 +86,40 @@ const UpdateMovie = ({ movie_id }) => {
     const posterHandler = (e) => {
       setPoster(e.target.value);
     };
+    const genre1Handler = (e) => {
+      var temp = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);
+      setGenre1(temp);
+    };
+    const genre2Handler = (e) => {
+      var temp = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);
+      setGenre2(temp);
+    };
+    const genre3Handler = (e) => {
+      var temp = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);
+      setGenre3(temp);
+    };
+    const genre4Handler = (e) => {
+      var temp = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);
+      setGenre4(temp);
+    };
+    const castHandler = (e) => {
+      setCast(e.target.value);
+    };
+    const directorHandler = (e) => {
+      setDirector(e.target.value);
+    };
+    const taglineHandler = (e) => {
+      setTagline(e.target.value);
+    };
+
 
     const handleSubmit = () => {
         alert("lol maybe")
+    }
+
+    const handleAddCast = () => {
+      addActor(cast);
+      setActorList(actors);
     }
 
     const yearValidator = !(year <= 2099 && year >= 1900);
@@ -85,11 +128,63 @@ const UpdateMovie = ({ movie_id }) => {
         checkIfAdmin();
     }
 
+    useEffect(() => {
+      setActorList(actors);
+    }, [actors]);
+
+    const id = props.match.params.id;
+
+    // get all the movie info upon loading & receiving id from the url
+    useEffect(() => {
+      console.log("id is " + id);
+      if (id !== undefined){
+        getMovieById(id);
+        const {
+          title,
+          genres,
+          tagline,
+          overview,
+          release_date,
+          director_name,
+          cast,
+        } = movie;
+        setTitle(title);
+        setDesc(overview);
+        setTagline(tagline);
+        setYear(parseInt(release_date));
+        setGenre1(genres[1]);
+        if (genres.length > 1){
+          setGenre2(genres[2]);
+        }
+        if (genres.length > 2){
+          setGenre3(genres[3]);
+        }
+        if (genres.length > 3){
+          setGenre4(genres[4]);
+        }
+        setActorList(cast);
+        setDirector(director_name);           
+      } else {
+        setTitle("");
+        setDesc("");
+        setTagline("");
+        setYear(2020);
+        setGenre1("");
+        setGenre2("");
+        setGenre3("");
+        setGenre4("");
+        setActorList("");
+        setDirector("");   
+      }
+    }, [id]);
+
+
+
     return (
         <div>
             {admin === 1 ? (
                 <div className="update-movie">
-                    <h1>Add new Film to database</h1>
+                    <h1>Movie Editor:</h1>
                     <form onSubmit={handleSubmit} autoComplete="off">
                         <ThemeProvider theme={theme}>
                         <MovieTextField
@@ -97,6 +192,7 @@ const UpdateMovie = ({ movie_id }) => {
                             label="Title"
                             variant="outlined"
                             onChange={titleHandler}
+                            value={title}
                             required
                         />
                         <MovieTextField
@@ -112,7 +208,7 @@ const UpdateMovie = ({ movie_id }) => {
                             variant="outlined"
                             type="number"
                             onChange={yearHandler}
-                            
+                            value={year}
                             helperText={yearValidator ? "invalid year" : " "}
                             error={yearValidator}
 
@@ -125,8 +221,25 @@ const UpdateMovie = ({ movie_id }) => {
                             variant="outlined"
                             onChange={descHandler}
                             helperText=" "
-                            required
+                            value={desc}
                         />
+                        <MovieTextField
+                            size="small"
+                            label="Tagline"
+                            variant="outlined"
+                            onChange={taglineHandler}
+                            helperText=" "
+                            value={tagline}
+                        />                        
+                        <MovieTextField
+                            size="small"
+                            label="Director"
+                            variant="outlined"
+                            onChange={directorHandler}
+                            helperText=" "
+                            value={director}
+                            required
+                        />                        
                         <MovieTextField
                             size="small"
                             label="Poster Url"
@@ -134,8 +247,67 @@ const UpdateMovie = ({ movie_id }) => {
                             type="url"
                             onChange={posterHandler}
                             helperText=" "
-                            required
+                            value={poster}
                         />
+                        <div className= "genres">
+                          <MovieTextField
+                              size="small"
+                              label="Genre 1"
+                              variant="outlined"
+                              type="text"
+                              onChange={genre1Handler}
+                              value={genre1}
+                              helperText=" "
+                              required
+                          />
+                          <MovieTextField
+                              size="small"
+                              label="Genre 2"
+                              variant="outlined"
+                              type="text"
+                              onChange={genre2Handler}
+                              value={genre2}
+                              helperText=" "
+                          />
+                          <MovieTextField
+                              size="small"
+                              label="Genre 3"
+                              variant="outlined"
+                              type="text"
+                              onChange={genre3Handler}
+                              value={genre3}
+                              helperText=" "
+                          />
+                          <MovieTextField
+                              size="small"
+                              label="Genre 4"
+                              variant="outlined"
+                              type="text"
+                              onChange={genre4Handler}
+                              value={genre4}
+                              helperText=" "
+                          />
+                        </div>
+                        <div className="cast">
+                          <CastList cast={actorList}/>
+                          <div>
+                            <MovieTextField
+                                size="small"
+                                label="Cast"
+                                variant="outlined"
+                                type="text"
+                                onChange={castHandler}
+                                helperText=" "
+                            />
+                            <span
+                            onClick={handleAddCast}
+                            variant="text"
+                            color="primary"
+                            >
+                              Add Cast
+                            </span>
+                          </div>
+                        </div>
                         <Button
                             disabled={yearValidator}
                             type="submit"

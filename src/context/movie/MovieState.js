@@ -11,6 +11,8 @@ import {
   GET_RECOMMENDATIONS,
   WISHLIST_CHECK,
   DELETE_REVIEW,
+  ADD_ACTOR,
+  REMOVE_ACTOR,
 } from "../types";
 
 const MovieState = (props) => {
@@ -20,6 +22,7 @@ const MovieState = (props) => {
     reviews: [],
     recommendations: null,
     wishlist: 0,
+    actors: [],
   };
 
   const [state, dispatch] = useReducer(MovieReducer, initialState);
@@ -169,6 +172,18 @@ const MovieState = (props) => {
       });
   };
 
+  const addActor = async (actor) =>{
+    if (actor !== "" && actor != null){
+      dispatch( { type: ADD_ACTOR, payload: actor});
+    }
+  }
+
+  const removeActor = async (actor) =>{
+    if (actor !== "" && actor != null){
+      dispatch( { type: REMOVE_ACTOR, payload: actor});
+    }
+  }
+
   return (
     <MovieContext.Provider
       value={{
@@ -184,6 +199,9 @@ const MovieState = (props) => {
         onWishlist,
         removeFromWishlist,
         deleteReview,
+        actors: state.actors,
+        addActor,
+        removeActor,
       }}
     >
       {props.children}
