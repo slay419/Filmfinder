@@ -17,7 +17,7 @@ def assignAdmin(user_id):
 
     if not userIdExists(user_id):
         return {"error": f"No user with id: {user_id} exists in the database"}
-    elif checkAdmin(user_id)["isAdmin"] == "True":
+    elif checkAdmin(user_id)["isAdmin"] == 1:
         return {"error": f"User with id: {user_id} is already an admin"}
 
     conn = sqlite3.connect("users.db")
