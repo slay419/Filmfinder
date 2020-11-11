@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../../context/Auth/AuthContext";
-import { TextField, Button, Collapse } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 import "../../styles/updateMovie.scss"
 import CastList from "./castList";
 import MovieContext from "../../context/movie/movieContext";
@@ -52,7 +52,7 @@ import {
 
 const UpdateMovie = (props) => {
     const authContext = useContext(AuthContext);
-    const { User, admin, checkIfAdmin } = authContext;
+    const { admin, checkIfAdmin } = authContext;
     const movieContext = useContext(MovieContext);
     const { actors, addActor, getMovieById, movie, addMovie, updateMovie } = movieContext;
 
@@ -69,7 +69,7 @@ const UpdateMovie = (props) => {
     const [actorList, setActorList] = useState([]);
     const [director, setDirector] = useState("");
     const [tagline, setTagline] = useState("");
-    const [open, setOpen] = useState(true);
+    //const [open, setOpen] = useState(true);
     //setActorList(actors);
   
     const titleHandler = (e) => {
@@ -116,14 +116,14 @@ const UpdateMovie = (props) => {
 
     const handleSubmit = () => {
       alert("Doesn't work yet");
-      
+      /*
       var genres = [genre1, genre2, genre3, genre4];
       if (updated === 1){
         updateMovie(title, adult, genres, tagline, desc, year, director, cast, poster);
       } else {
         addMovie(title, adult, genres, tagline, desc, year, director, cast, poster);
       }
-      
+      */
     }
 
     const handleAddCast = () => {
