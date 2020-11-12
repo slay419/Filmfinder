@@ -122,7 +122,7 @@ def removeExistingMovie(movie_id):
 def editMovieDetails(movie_id, title, release_date, overview, tagline):
     conn = sqlite3.connect("movieDB.db")
     cur = conn.cursor()
-    cur.execute(f"UPDATE movie SET title = '{title}', release_date = '{release_date}', overview = '{overview}', tagline = '{tagline}' where movie_id = {movie_id}")
+    cur.execute(f"""UPDATE movie SET title = '{title}', release_date = '{release_date}', overview = '{overview}', tagline = '{tagline}' where movie_id = {movie_id}""")
 
     conn.commit()
     conn.close()
@@ -140,6 +140,7 @@ def editMovieCast(movie_id, director_name, cast_list):
 
     # Update with new cast list
     for cast_name in cast_list:
+        print(cast_name)
         cast_id = getCastIdByName(cast_name)
         cur.execute(f"insert into acting(actor_id, movie_id) values({cast_id}, {movie_id});")
 
@@ -157,6 +158,8 @@ def editMovieGenres(movie_id, genre_list):
 
     # Add new genres
     for genre in genre_list:
+        if genre is None or genre == "":
+            continue
         cur.execute(f"insert into genre(movie_id, genre) values({movie_id}, '{genre}');")
         
     conn.commit()

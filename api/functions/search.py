@@ -87,19 +87,9 @@ def searchDirector(director_name):
     conn.close()
     return {"movies": movies}
 
-def sortReviews():
-    conn = sqlite3.connect("./movieDB.db")
-    conn.execute("ATTACH DATABASE 'users.db' AS usersDB")
-    cur = conn.cursor()
+#def searchMoviesByActor(cast_id):
+ #   conn = sqlite3.connect("movieDB.db")
 
-    cur.execute(
-        """
-        select 
-        """
-    )
-
-
-    conn.execute("DETACH DATABASE 'usersDB'")
 
 
 
