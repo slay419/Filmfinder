@@ -9,6 +9,7 @@ import ProfileContext from "../../context/Profile/ProfileContext";
 // Styling
 import Slider from "react-slick";
 import "../../styles/Recommendations.scss";
+import "../../styles/Profile.scss";
 
 // slider style settings
 const sliderSettings = {
@@ -34,8 +35,8 @@ const ReviewRec = ({ id }) => {
   }, [id]);
 
   return (
-    <div>
-      <h1>Recommendations</h1>
+    <div className="review-rec">
+      <h2>Recommendations</h2>
       <p> These recommendations are based on review history</p>
       {recommendations === null ? (
         <></>
