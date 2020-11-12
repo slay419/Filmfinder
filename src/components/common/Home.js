@@ -64,7 +64,7 @@ const Home = () => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    if (admin == null) {
+    if (admin === null && User !== null) {
       checkIfAdmin();
     }
   }, [location.key]);
