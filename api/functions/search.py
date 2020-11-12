@@ -10,6 +10,7 @@ import re
 import hashlib
 
 from functions.review import getUserReviewList
+from functions.admin import getCastIdByName
 
 
 def searchGenre(genre):
@@ -87,10 +88,28 @@ def searchDirector(director_name):
     conn.close()
     return {"movies": movies}
 
-#def searchMoviesByActor(cast_id):
- #   conn = sqlite3.connect("movieDB.db")
+def searchMoviesByActor(cast_name):
+    conn = sqlite3.connect("movieDB.db")
+    cur = conn.cursor()
+    cast_id = getCastIdByName(cast_name)
+    cur.execute(
+        f"""
+        select m.movie_id, director_id, adult, title, release_date, runtime, 
+            budget, revenue, imdb_id, movie_language, overview, tagline, poster, vote_avg, vote_count
+        from movie m join acting a on m.movie_id = a.movie_id
+        where a.actor_id = {cast_id}
+        order by release_date desc, vote_count desc;
+        """
+    )
+    index = 0
+    movies = {}
+    for movie in cur.fetchall():
+        item = extractMovieDetails(movie)
+        movies[index] = item
+        index += 1
 
-
+    conn.close()
+    return {"movies": movies}
 
 
 def getDirectorById(director_id):

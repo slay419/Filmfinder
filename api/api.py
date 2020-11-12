@@ -32,7 +32,8 @@ from functions.search import (
     getCastList,
     getDirectorById,
     searchSimilarMovies,
-    searchRecommendedMovies
+    searchRecommendedMovies,
+    searchMoviesByActor
 )
 from functions.review import (
     newReview, 
@@ -96,6 +97,9 @@ director_parser.add_argument("director", type=str)
 
 movie_id_parser = reqparse.RequestParser()
 movie_id_parser.add_argument("movie_id", type=int)
+
+actor_parser = reqparse.RequestParser()
+actor_parser.add_argument("actor", type=str)
 
 
 def read_from_sqlite(database_file, table_name):
@@ -357,6 +361,16 @@ class Director(Resource):
         director_str = director_parser.parse_args().get("director")
         return searchDirector(director_str)
 
+@api.route("/api/search/actedIn")
+class ActedIn(Resource):
+    @api.response(200, "OK")
+    @api.response(201, "Created")
+    @api.response(400, "Bad Request")
+    @api.response(404, "Not Found")
+    @api.expect(actor_parser)
+    def get(self):
+        actor_str = actor_parser.parse_args().get("actor")
+        return searchMoviesByActor(actor_str)
 
 @app.route("/api/search/byKeyword", methods=["POST"])
 def searchMovieByKeyword():
@@ -375,7 +389,6 @@ def getGenresByMovieId(movie_id):
     genres = getGenreList(movie_id)
     return {"genres": genres}
 
-#@app.route("/api/actedIn/<int:cast_id>", methods=["GET"])
 
 
 ################   Profile    ##################
