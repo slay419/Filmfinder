@@ -67,5 +67,14 @@ def check_friend_exists(u_id, f_id):
         return True
     return False
 
-#Checks the movie is in both users wishlist
-# def friendList_notify(movie_id, u_id, f_id):
+# Checks the movie is in both users wishlist
+#If 1 is following 2 and 2 adds a movie to there wishlist that is also in 1's wishlist
+#Send a notification
+# def friendList_notify(u_id, movie_id):
+#     conn = sqlite3.connect("users.db")
+#     c = conn.cursor()
+#     c.execute(
+#         f"""
+#         SELECT user_id FROM friend_list WHERE friend_id='{u_id}' AND user_id IN (SELECT user_id FROM wishlist WHERE movie_id='{movie_id}');
+#         """
+#     )
