@@ -29,49 +29,42 @@ function App() {
       <AuthState>
         <MoviesState>
           <MovieState>
-              <div className="container">
-                <Router>
-                  <Header />
-                  <Switch>
-                    <Route path="/" exact component={Home} />
-                    <Route path="/login" exact component={Login} />
-                    <Route path="/register" exact component={Register} />
-                    <Route path="/movies/:id" component={MovieDetails} />
-                    <Route
-                      path="/forgot"
-                      exact
-                      component={ForgottenPass}
-                    />
-                    <Route path="/myprofile" exact component={profile} />
-                    <Route
-                      path="/myprofile/wishlist"
-                      exact
-                      component={wishlist}
-                    />
-                    <Route
-                      path="/myprofile/bannedlist"
-                      exact
-                      component={bannedlist}
-                    />
-                    <Route
-                      path="/myprofile/change"
-                      exact
-                      component={ChangePass}
-                    />
-                    <Route
-                      path="/profile/:uid"
-                      exact
-                      component={publicProfile}
-                      />
-                    <Route
-                      path="/profile/wishlist/:uid"
-                      exact
-                      component={PublicWishlist}
-                      />
-                  </Switch>
-                </Router>
-              </div>
-              <Footer />
+            <div className="container">
+              <Router>
+                <Header />
+                <Switch>
+                  <Route path="/" exact component={Home} />
+                  <Route path="/search" component={Home} />
+                  <Route path="/login" exact component={Login} />
+                  <Route path="/register" exact component={Register} />
+                  <Route path="/movies/:id" component={MovieDetails} />
+                  <Route path="/forgot" exact component={ForgottenPass} />
+                  <Route path="/myprofile" exact component={profile} />
+                  <Route
+                    path="/myprofile/wishlist"
+                    exact
+                    component={wishlist}
+                  />
+                  <Route
+                    path="/myprofile/bannedlist"
+                    exact
+                    component={bannedlist}
+                  />
+                  <Route
+                    path="/myprofile/change"
+                    exact
+                    component={ChangePass}
+                  />
+                  <Route path="/profile/:uid" exact component={publicProfile} />
+                  <Route
+                    path="/profile/wishlist/:uid"
+                    exact
+                    component={PublicWishlist}
+                  />
+                </Switch>
+              </Router>
+            </div>
+            <Footer />
           </MovieState>
         </MoviesState>
       </AuthState>
