@@ -14,6 +14,9 @@ import {
   DELETE_USER,
   DELETE_MOVIE,
   RESET_REDIR,
+  VERIFY,
+  VERIFY_ERROR,
+  NOT_VERIFIED
 } from "../types";
 
 import { UNANSWERED } from "./AuthState";
@@ -64,6 +67,7 @@ export default (state, action) => {
       return {
         ...state,
         User: action.payload,
+        verified: 1,
       };
     case LOGOUT:
       // logout successful, remove user details from state
@@ -87,6 +91,7 @@ export default (state, action) => {
       return {
         ...state,
         User: action.payload,
+        verified: 1,
       };
     case ADMIN_CHECK:
       return {
@@ -104,10 +109,25 @@ export default (state, action) => {
         redir: 1,
       };
     case RESET_REDIR:
-      return {
-        ...state,
-        redir: 0,
-      };
+        return {
+          ...state,
+          redir: 0
+        }
+    case VERIFY:
+        return {
+          ...state,
+          verified: 1
+        }
+    case NOT_VERIFIED:
+        return {
+          ...state,
+          verified: 0
+        }
+    case VERIFY_ERROR:
+        return {
+          ...state,
+          verified: -1,
+        }
     case ERROR:
       // error occured in back end, display error
       console.log(action.payload);

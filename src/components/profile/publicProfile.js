@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
@@ -6,6 +6,7 @@ import Spinner from "../common/Spinner";
 
 import "../../styles/publicProfile.scss";
 import AuthContext from "../../context/Auth/AuthContext";
+import { SettingsInputComponent } from "@material-ui/icons";
 
 const PublicProfile = (props) => {
   const history = useHistory();
@@ -22,19 +23,29 @@ const PublicProfile = (props) => {
     removePartner, 
     partner, 
     checkPartner, 
+    getCompatability,
+    compatability,
+    setLoading,
+
   } = profileContext;
   const authContext = useContext(AuthContext);
   const { User, admin, redir, deleteUser, resetRedir, } = authContext;
   const uid = props.match.params.uid;
 
   useEffect(() => {
-    getUserById(uid);
+    console.log("useEFfect ran");
+    getUserById(uid)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uid]);
+
+  useEffect(() => {
     if (profile != null){
+      console.log("into the heart")
       checkBannedList(User.u_id, profile.user_id);
       checkPartner(User.u_id, profile.user_id);
+      getCompatability(User.u_id, profile.user_id);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [profile, compatability])
 
   const handleWishList = () => {
     let path = "/profile/wishlist/" + uid;
@@ -84,7 +95,9 @@ const PublicProfile = (props) => {
           ) : (
             <div>
               {profile == null ? (
-                <div></div>
+                <div>
+                  {() => getCompatability()}
+                </div>
               ) : (
                 <div>
                   <h1>
@@ -102,7 +115,11 @@ const PublicProfile = (props) => {
                     <span onClick={handleReviews} className="btn">
                       View recent reviews
                     </span>
-                    <p>Movie Compatability: PLACEHOLDER%</p>
+                    {compatability === 0 ? (
+                      <p>You have no Compatability</p>
+                    ) : (
+                      <p>Movie Compatability: {compatability}%</p>
+                    )}
                     {partner === 0 ? (
                       <span onClick={handleAddPartner} className="btn">
                         Add to Movie Partners

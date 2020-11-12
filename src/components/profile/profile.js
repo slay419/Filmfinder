@@ -52,9 +52,22 @@ const theme = createMuiTheme({
   },
 });
 
+
+
 const Profile = () => {
+  useEffect(() => {
+    if (User == null) {
+      if (localStorage.getItem("FilmFinderUser") != null) {
+        setUser(localStorage.getItem("FilmFinderUser"));
+      }
+    }
+    if (admin == null && User != null){
+      checkIfAdmin();
+    }
+  }, []);
+
   const authContext = useContext(AuthContext);
-  const { User, admin, checkIfAdmin, logout, deleteUser, makeAdmin } = authContext;
+  const { User, admin, checkIfAdmin, logout, deleteUser, makeAdmin, setUser } = authContext;
 
   const profileContext = useContext(ProfileContext);
   const { updateDetails } = profileContext;
@@ -111,11 +124,6 @@ const Profile = () => {
   //const { profileUser } = profileContext;
 
   //const [email, setEmail] = useState("")
-  useEffect(() => {
-    if (admin == null){
-      checkIfAdmin();
-    }
-  }, []);
 
   const handleRemove = () => {
     if (window.confirm("Are you sure you want to permenantly delete you profile?")){
