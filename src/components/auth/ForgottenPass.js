@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import "../../styles/Login.scss";
 
 // Context
 import AuthContext from "../../context/Auth/AuthContext";
@@ -39,10 +40,9 @@ const ForgottenPass = () => {
   }, [question]);
 
   return (
-    <div>
+    <div className="forgot-pass">
       <h1> Forgotten Password Page</h1>
       <form>
-        <label for="email">Enter Email:</label>
         <input
           type="email"
           placeholder="Enter Email"
@@ -88,13 +88,12 @@ const ForgottenPass = () => {
             ) : (
               <div>
                 <form>
-                  <label for="answer">Enter Answer:</label>
                   <input
                     type="text"
                     placeholder="Enter Answer"
                     id="answer"
                     onChange={answerHandler}
-                  ></input>
+                  />
                   <button
                     type="button"
                     onClick={() => answerQuestion(email, answer)}
