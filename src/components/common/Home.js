@@ -6,7 +6,6 @@ import MovieList from "../movies/MovieList";
 import Spinner from "./Spinner";
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import SortBar from "./SortBar";
 
 // Context
 import MoviesContext from "../../context/moviesList/moviesContext";
@@ -14,9 +13,8 @@ import AuthContext from "../../context/Auth/AuthContext";
 
 // styles
 import "../../styles/Home.scss";
-import FilterRatingBar from "./FilterRatingBar";
-import FilterYearBar from "./FilterYearBar";
 import { MarkunreadMailboxOutlined } from "@material-ui/icons";
+import SortAndFilterBar from "./SortAndFilterBar";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -82,9 +80,7 @@ const Home = () => {
         <Spinner />
       ) : (
         <div>
-          <SortBar />
-          <FilterYearBar />
-          <FilterRatingBar />
+          <SortAndFilterBar />
           <MovieList movies={currentPage} />
         </div>
       )}

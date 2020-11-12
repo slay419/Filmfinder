@@ -1,0 +1,48 @@
+.sort-and-filter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  //border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    .filter-year-bar {
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      margin-right: 15px;
+      img {
+        height: 13px;
+        width: 12px;
+        margin-left: 10px;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      input {
+        font-family: "Poppins";
+        height: 38px;
+        font-size: 0.8rem;
+        padding: 0.7rem;
+        border: none;
+        width: 100px;
+      }
+    }
+
+    .filter-rating-bar {
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      height: 38px;
+      padding: 0.7rem;
+      display: flex;
+      align-items: center;
+      font-family: "Poppins";
+      font-size: 0.8rem;
+      color: grey;
+      input {
+        margin-left: 15px;
+      }
+    }
+  }
+}
