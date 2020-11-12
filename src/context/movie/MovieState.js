@@ -185,7 +185,6 @@ const MovieState = (props) => {
   }
 
   const addMovie = (title, adult, genres, tagline, overview, year, director, cast, poster, keywords) => {
-    console.log(state.actors);
     fetch("/admin/addMovie", {
       method: "POST",
       headers: {
