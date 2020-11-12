@@ -19,6 +19,7 @@ import PublicWishlist from "./components/profile/PublicWishlist";
 import UpdateMovie from "./components/movies/updateMovie"
 import Friends from "./components/Friends/Friends"
 import Verify from "./components/auth/Verify"
+import ProfileReviews from "./components/profile/profileReviews"
 
 // Context
 import MoviesState from "./context/moviesList/MoviesState";
@@ -68,6 +69,11 @@ function App() {
                       path="/myprofile/bannedlist"
                       exact
                       component={bannedlist}
+                    />
+                    <Route
+                      path="/myprofile/reviews"
+                      exact
+                      component={ProfileReviews}
                     />
                     <Route
                       path="/myprofile/change"
