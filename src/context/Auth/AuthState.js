@@ -22,6 +22,7 @@ import {
     VERIFY,
     VERIFY_ERROR,
  } from "../types";
+import Login from "../../components/auth/Login";
 
  export const CORRECT = 2;
  export const INCORRECT = 1;
@@ -56,7 +57,7 @@ const AuthState = (props) => {
         })
         .then((res) => res.json())
         .then((data) => {
-            dispatch( {type: SET_USER, payload: data})
+            dispatch( {type: LOGIN, payload: data})
         }).catch((err) => {
             // unexpected error occured
             dispatch( {type: UNEXPECTED_ERROR, payload: err})

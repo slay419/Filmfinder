@@ -91,6 +91,7 @@ export default (state, action) => {
       return {
         ...state,
         User: action.payload,
+        verified: 1,
       };
     case ADMIN_CHECK:
       return {
