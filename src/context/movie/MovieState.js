@@ -184,7 +184,7 @@ const MovieState = (props) => {
     }
   }
 
-  const addMovie = (title, adult, genres, tagline, overview, year, director, cast, poster) => {
+  const addMovie = (title, adult, genres, tagline, overview, year, director, cast, poster, keywords) => {
     fetch("/admin/addMovie", {
       method: "POST",
       headers: {
@@ -197,9 +197,10 @@ const MovieState = (props) => {
         genres: genres,
         tagline: tagline,
         overview: overview,
-        director: director,
+        director_name: director,
         cast: cast,
         poster: poster,
+        keywords: keywords,
       }),
     })
   }
@@ -210,7 +211,7 @@ const MovieState = (props) => {
     || state.movie.overview !== overview
     || state.movie.tagline !== tagline) {
       fetch("/admin/updateMovieDetails/" + state.movie.movie_id, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -226,25 +227,25 @@ const MovieState = (props) => {
       if (state.movie.title !== director 
       || state.movie.cast !== cast) {
         fetch("/admin/updateMovieCast/" + state.movie.movie_id, {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
           },
           body: JSON.stringify({ 
-            director: director,
-            cast: cast,
+            director_name: director,
+            cast_list: cast,
           }),
         })
       }
   
         if (state.movie.title !== genres) {
             fetch("/admin/updateMovieGenres/" + state.movie.movie_id, {
-              method: "POST",
+              method: "PUT",
               headers: {
                 "Content-type": "application/json; charset=UTF-8",
               },
               body: JSON.stringify({ 
-                genres: genres,
+                genre_list: genres,
               }),
             })
         }

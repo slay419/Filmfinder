@@ -69,6 +69,7 @@ const UpdateMovie = (props) => {
     const [actorList, setActorList] = useState([]);
     const [director, setDirector] = useState("");
     const [tagline, setTagline] = useState("");
+    const [keywords, setKeywords] = useState("");
     //const [open, setOpen] = useState(true);
     //setActorList(actors);
   
@@ -112,18 +113,20 @@ const UpdateMovie = (props) => {
     const taglineHandler = (e) => {
       setTagline(e.target.value);
     };
+    const keywordHandler = (e) => {
+      setKeywords(e.target.value);
+    };
 
 
     const handleSubmit = () => {
-      alert("Doesn't work yet");
-      /*
+      //alert("Doesn't work yet");
+      
       var genres = [genre1, genre2, genre3, genre4];
       if (updated === 1){
-        updateMovie(title, adult, genres, tagline, desc, year, director, cast, poster);
+        updateMovie(title, adult, genres, tagline, desc, year, director, cast, poster, keywords);
       } else {
-        addMovie(title, adult, genres, tagline, desc, year, director, cast, poster);
+        addMovie(title, adult, genres, tagline, desc, year, director, cast, poster, keywords);
       }
-      */
     }
 
     const handleAddCast = () => {
@@ -146,7 +149,7 @@ const UpdateMovie = (props) => {
     // get all the movie info upon loading & receiving id from the url
     useEffect(() => {
       console.log("id is " + id);
-      if (id !== undefined){
+      if (id !== undefined && id !== null){
         getMovieById(id);
         const {
           title,
@@ -161,15 +164,19 @@ const UpdateMovie = (props) => {
         setDesc(overview);
         setTagline(tagline);
         setYear(parseInt(release_date));
-        setGenre1(genres[1]);
-        if (genres.length > 1){
-          setGenre2(genres[2]);
-        }
-        if (genres.length > 2){
-          setGenre3(genres[3]);
-        }
-        if (genres.length > 3){
-          setGenre4(genres[4]);
+        if (genres !== null && genres !== undefined) {
+          if (genres.length > 0){
+            setGenre1(genres[1]);
+          }
+          if (genres.length > 1){
+            setGenre2(genres[2]);
+          }
+          if (genres.length > 2){
+            setGenre3(genres[3]);
+          }
+          if (genres.length > 3){
+            setGenre4(genres[4]);
+          }
         }
         setActorList(cast);
         setDirector(director_name);
@@ -185,6 +192,7 @@ const UpdateMovie = (props) => {
         setGenre4("");
         setActorList("");
         setDirector("");
+        setKeywords("");
         updated = 0;   
       }
     }, [id]);
@@ -196,7 +204,7 @@ const UpdateMovie = (props) => {
             {admin === 1 ? (
                 <div className="update-movie">
                     <h1>Movie Editor:</h1>
-                    <form onSubmit={handleSubmit} autoComplete="off">
+                    <form autoComplete="off">
                         <ThemeProvider theme={theme}>
                         <MovieTextField
                             size="small"
@@ -260,6 +268,15 @@ const UpdateMovie = (props) => {
                             helperText=" "
                             value={poster}
                         />
+                        <MovieTextField
+                            size="small"
+                            label="Keywords: Separate by commas"
+                            variant="outlined"
+                            type="text"
+                            onChange={keywordHandler}
+                            value={keywords}
+                            helperText=" "
+                        />
                         <div className= "genres">
                           <MovieTextField
                               size="small"
@@ -321,7 +338,7 @@ const UpdateMovie = (props) => {
                         </div>
                         <Button
                             disabled={yearValidator}
-                            type="submit"
+                            onClick={handleSubmit}
                             variant="text"
                             color="primary"
                         >
