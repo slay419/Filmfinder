@@ -13,6 +13,7 @@ import {
   DELETE_REVIEW,
   ADD_ACTOR,
   REMOVE_ACTOR,
+  RESET_ACTORS,
 } from "../types";
 
 const MovieState = (props) => {
@@ -251,6 +252,10 @@ const MovieState = (props) => {
         }
   }
 
+  const resetActors = () => {
+    dispatch( { type: RESET_ACTORS, payload: "reset" });
+  }
+
   return (
     <MovieContext.Provider
       value={{
@@ -271,6 +276,7 @@ const MovieState = (props) => {
         removeActor,
         addMovie,
         updateMovie,
+        resetActors,
       }}
     >
       {props.children}

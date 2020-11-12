@@ -11,6 +11,8 @@ import {
   GET_USER_BY_ID,
   GET_RECOMMENDATIONS,
   BANNED,
+  GET_NOTIFICATIONS,
+  GET_FRIENDS,
 } from "../types";
 //
 // Placeholder file
@@ -87,6 +89,18 @@ export default (state, action) => {
         banned: action.payload.success,
       };
 
+    case GET_FRIENDS:
+      return {
+        ...state,
+        friends: action.payload
+      }
+
+    case GET_NOTIFICATIONS:
+      return {
+        ...state,
+        notifications: action.payload
+      }
+      
     default:
       return state;
   }

@@ -18,8 +18,6 @@ import {
     DELETE_MOVIE,
     DELETE_USER,
     RESET_REDIR,
-    GET_FRIENDS,
-    GET_NOTIFICATIONS,
  } from "../types";
 
  export const CORRECT = 2;
@@ -38,8 +36,6 @@ const AuthState = (props) => {
         Changed: 0,
         redir: 0,
         admin: null,
-        friends: [],
-        notifications: [],
         //user info stored in this state
     };
 
@@ -298,28 +294,6 @@ const AuthState = (props) => {
         });
     }
 
-    const getFriends = (u_id) => {
-        fetch('/friends/getFriends/' + u_id)
-        .then((res) => res.json())
-        .then((data) => {
-            dispatch( {type: GET_FRIENDS, payload: data})    
-        })
-        .catch((err) => {
-            dispatch( {type: UNEXPECTED_ERROR, payload: err})
-        });
-    }
-
-    const getNotifications = (u_id) => {
-        fetch('/friends/getNotifications/' + u_id)
-        .then((res) => res.json())
-        .then((data) => {
-            dispatch( {type: GET_NOTIFICATIONS, payload: data})    
-        })
-        .catch((err) => {
-            dispatch( {type: UNEXPECTED_ERROR, payload: err})
-        });
-    }
-
   return (
     <AuthContext.Provider
       value={{
@@ -346,10 +320,6 @@ const AuthState = (props) => {
         deleteMovie,
         deleteUser,
         makeAdmin,
-        getFriends,
-        getNotifications,
-        notifications: state.notifications,
-        friends: state.friends,
       }}
     >
       {props.children}

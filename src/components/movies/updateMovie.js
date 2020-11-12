@@ -54,7 +54,7 @@ const UpdateMovie = (props) => {
     const authContext = useContext(AuthContext);
     const { admin, checkIfAdmin } = authContext;
     const movieContext = useContext(MovieContext);
-    const { actors, addActor, getMovieById, movie, addMovie, updateMovie } = movieContext;
+    const { actors, addActor, getMovieById, movie, addMovie, updateMovie, resetActors } = movieContext;
 
     const [title, setTitle] = useState("");
     const [adult, setAdult] = useState(0);
@@ -193,6 +193,7 @@ const UpdateMovie = (props) => {
         setActorList([]);
         setDirector("");
         setKeywords("");
+        resetActors();
         updated = 0;   
       }
     }, [id]);

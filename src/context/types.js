@@ -60,6 +60,8 @@ export const RESET_REDIR = "RESET_REDIR";
 
 export const ADD_ACTOR = "ADD_ACTOR";
 export const REMOVE_ACTOR = "REMOVE_ACTOR";
+export const RESET_ACTORS = "RESET_ACTORS";
 
 export const GET_FRIENDS = "GET_FRIENDS";
 export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
+
