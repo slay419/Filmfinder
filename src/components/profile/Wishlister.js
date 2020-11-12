@@ -36,16 +36,16 @@ const Wishlister = ({ movies }) => {
         return (
           <div
             ref={(e) => (movieDomNodes[index] = e)}
-            className=""
+            className="movie-item"
             key={movie.title}
           >
             <MovieItem movie={movie} />
-            <span
+            <button
               onClick={() => removeMovie(movie.movie_id, User.u_id)}
               className="wishlist-btn"
             >
               Remove from Wishlist
-            </span>
+            </button>
           </div>
         );
       })}
