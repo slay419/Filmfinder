@@ -18,13 +18,14 @@ import publicProfile from "./components/profile/publicProfile";
 import PublicWishlist from "./components/profile/PublicWishlist";
 import UpdateMovie from "./components/movies/updateMovie"
 import Friends from "./components/Friends/Friends"
+import Verify from "./components/auth/Verify"
 
 // Context
 import MoviesState from "./context/moviesList/MoviesState";
 import MovieState from "./context/movie/MovieState";
 import AuthState from "./context/Auth/AuthState";
 import ProfileState from "./context/Profile/ProfileState";
-import AuthContext from "./context/Auth/AuthContext";
+//import AuthContext from "./context/Auth/AuthContext";
 
 /*
 function CheckAuth () {
@@ -97,6 +98,11 @@ function App() {
                       path="/friends"
                       exact
                       component={Friends}
+                      />
+                    <Route
+                      path="/verify"
+                      exact
+                      component={Verify}
                       />
                   </Switch>
                 </Router>

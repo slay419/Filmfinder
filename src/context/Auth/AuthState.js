@@ -18,6 +18,9 @@ import {
     DELETE_MOVIE,
     DELETE_USER,
     RESET_REDIR,
+    NOT_VERIFIED,
+    VERIFY,
+    VERIFY_ERROR,
  } from "../types";
 
  export const CORRECT = 2;
@@ -36,6 +39,7 @@ const AuthState = (props) => {
         Changed: 0,
         redir: 0,
         admin: null,
+        verified: 0,
         //user info stored in this state
     };
 
@@ -166,8 +170,14 @@ const AuthState = (props) => {
       .then((res) => res.json())
       .then((data) => {
           if ("error" in data){
-            //if error in sent details, update state to show the error
-            dispatch( {type: ERROR, payload: data})
+              if ("User" in data){
+                dispatch( {type: LOGIN, payload: data.User})
+                dispatch( {type: NOT_VERIFIED, payload: data.User})
+              } else {
+                //if error in sent details, update state to show the error
+                dispatch( {type: ERROR, payload: data});
+              }
+
           } else {
             //login successful, update state
             dispatch( {type: LOGIN, payload: data})
@@ -281,6 +291,23 @@ const AuthState = (props) => {
         dispatch({type: RESET_REDIR, payload: null});
     }
 
+    const verify = (email, code) => {
+        fetch('/auth/confirmEmail', {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify({email : email, confirmation_code: code})
+        })
+        .then((data) => {
+            if ("error" in data){
+                dispatch( {type: VERIFY_ERROR})                 
+            } else {
+                dispatch( {type: VERIFY})  
+            }
+        });       
+    }
+
     const makeAdmin = (user_id) => {
         fetch('/admin/makeAdmin', {
             method: "POST",
@@ -320,6 +347,8 @@ const AuthState = (props) => {
         deleteMovie,
         deleteUser,
         makeAdmin,
+        verified: state.verified,
+        verify,
       }}
     >
       {props.children}

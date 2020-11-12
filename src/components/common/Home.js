@@ -16,10 +16,11 @@ import "../../styles/Home.scss";
 import FilterRatingBar from "./FilterRatingBar";
 import FilterYearBar from "./FilterYearBar";
 import { MarkunreadMailboxOutlined } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
-  const { User, admin, checkIfAdmin, setUser} = authContext;
+  const { User, admin, checkIfAdmin, setUser, verified} = authContext;
 
   const [successOpen, setSuccessOpen] = useState(User !== null);
 
@@ -55,6 +56,13 @@ const Home = () => {
   };
   return (
     <div className="home">
+      { (verified === 0 || verified === -1) && User != null ? (
+        <div>
+          <p>You have not verified your email, </p><Link to="/verify">Verify Here</Link>
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="user-info"></div>
       {loading ? (
         <Spinner />
