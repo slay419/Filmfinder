@@ -18,6 +18,7 @@ export default (state, action) => {
       return {
         ...state,
         movie: action.payload,
+        actors: action.payload.cast,
         loading: !state.loading,
       };
     case SET_LOADING:

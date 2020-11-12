@@ -7,20 +7,22 @@ import AuthContext from "../../context/Auth/AuthContext";
 
 const Friends = () => {
     const authContext = useContext(AuthContext);
-    const { friends, getFriends, notifications, getNotifications } = authContext;
+    const { User, friends, getFriends, notifications, getNotifications } = authContext;
     const history = useHistory();
     useEffect(() => {
-        getFriends();
-        getNotifications();
+        //getFriends();
+        //getNotifications();
     }, [friends, notifications]);
+
+    const testVars = ["one", "two", "three"];
 
     return (
         <div className="friends">
             <h1>Film Partners:</h1>
             <h2>Notifications:</h2>
-            <NotificationList notifications/>
+            <NotificationList notifications={testVars}/>
             <h2>Friends list:</h2>
-            <FriendsList friends/>
+            <FriendsList friends={testVars}/>
         </div>
     )
 }

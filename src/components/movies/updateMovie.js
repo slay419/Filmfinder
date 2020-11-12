@@ -190,7 +190,7 @@ const UpdateMovie = (props) => {
         setGenre2("");
         setGenre3("");
         setGenre4("");
-        setActorList("");
+        setActorList([]);
         setDirector("");
         setKeywords("");
         updated = 0;   

@@ -576,6 +576,7 @@ def updateMovieCast(movie_id):
     response = request.get_json()
     director_name = response["director_name"]
     cast_list = response["cast_list"]
+    print(cast_list)
     return editMovieCast(movie_id, director_name, cast_list)
 
 @app.route("/admin/updateMovieGenres/<int:movie_id>", methods=["PUT"])

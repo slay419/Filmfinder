@@ -3,7 +3,17 @@ import FriendsItem from "./FriendsItem";
 
 const FriendsList = ( {friends} ) => {
     return (
-        <FriendsItem user_id='1'/>
+        <div>
+            { friends === undefined || friends === null? (
+                <p>You currently have no friends to list</p>
+            ) : ( 
+                friends.map((friend) => (
+                    <>
+                        <FriendsItem friend={friend}/>
+                    </>
+                ))
+            )}
+        </div>
     )
 }
 

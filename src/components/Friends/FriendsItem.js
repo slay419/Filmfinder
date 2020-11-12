@@ -1,8 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 
-const FriendsItem = ( {user_id} ) => {
+const FriendsItem = ( {friend} ) => {
     return (
-    <p>Friend Id: {user_id}</p>
+        <div>
+            { friend === undefined ? (
+                <></>
+            ) : ( 
+            <div>
+                <p>Friend: {friend}</p>
+            </div> 
+            )}
+        </div>
     )
 }
 

@@ -233,7 +233,7 @@ const MovieState = (props) => {
           },
           body: JSON.stringify({ 
             director_name: director,
-            cast_list: cast,
+            cast_list: state.actors,
           }),
         })
       }

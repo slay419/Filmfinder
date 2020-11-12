@@ -1,8 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
 
-const NotificationItem = ( {notification} ) => {
+const NotificationItem = ( {note} ) => {
+
+    const removeHandler = (note) => {
+        alert("You would have removed -" + note + "- if it actually worked")
+    }
+
     return (
-    <p>Notification: {notification}</p>
+        <div>
+            { note === undefined ? (
+                <></>
+            ) : ( 
+            <div>
+                <p>{note}</p>
+                <button onClick={() => {removeHandler(note)}}>Remove</button>
+            </div> 
+            )}
+        </div>
     )
 }
 
