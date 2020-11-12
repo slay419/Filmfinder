@@ -185,6 +185,7 @@ const MovieState = (props) => {
   }
 
   const addMovie = (title, adult, genres, tagline, overview, year, director, cast, poster, keywords) => {
+    console.log(state.actors);
     fetch("/admin/addMovie", {
       method: "POST",
       headers: {
@@ -198,7 +199,7 @@ const MovieState = (props) => {
         tagline: tagline,
         overview: overview,
         director_name: director,
-        cast: cast,
+        cast: state.actors,
         poster: poster,
         keywords: keywords,
       }),
@@ -225,7 +226,7 @@ const MovieState = (props) => {
     }
     
       if (state.movie.title !== director 
-      || state.movie.cast !== cast) {
+      || state.movie.cast !== state.actors) {
         fetch("/admin/updateMovieCast/" + state.movie.movie_id, {
           method: "PUT",
           headers: {
