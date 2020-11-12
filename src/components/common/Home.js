@@ -19,7 +19,7 @@ import { MarkunreadMailboxOutlined } from "@material-ui/icons";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
-  const { User, admin, checkIfAdmin, } = authContext;
+  const { User, admin, checkIfAdmin, setUser} = authContext;
 
   const [successOpen, setSuccessOpen] = useState(User !== null);
 
@@ -37,10 +37,15 @@ const Home = () => {
   useEffect(() => {
     getMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    if (admin == null){
+    if (admin == null && User != null){
       checkIfAdmin();
     }
-  }, []);
+    if (User == null) {
+      if (localStorage.getItem("FilmFinderUser") != null) {
+        setUser(localStorage.getItem("FilmFinderUser"));
+      }
+    }
+}, []);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {

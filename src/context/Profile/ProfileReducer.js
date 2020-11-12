@@ -13,6 +13,10 @@ import {
   BANNED,
   GET_NOTIFICATIONS,
   GET_FRIENDS,
+  CHECK_PARTNER,
+  ADD_PARTNER,
+  REMOVE_PARTNER,
+  GET_COMPATABILITY,
 } from "../types";
 //
 // Placeholder file
@@ -101,6 +105,30 @@ export default (state, action) => {
         notifications: action.payload
       }
       
+    case ADD_PARTNER:
+      return {
+        ...state,
+        partner: 1,
+      }
+
+    case REMOVE_PARTNER:
+      return {
+        ...state,
+        partner: 0,
+      }
+
+    case CHECK_PARTNER:
+      return {
+        ...state,
+        partner: action.payload,
+      }
+    
+    case GET_COMPATABILITY:
+      return {
+        ...state,
+        compatability: action.payload,
+        loading: false,
+      }
     default:
       return state;
   }

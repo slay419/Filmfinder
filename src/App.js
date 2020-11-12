@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
 
@@ -24,6 +24,19 @@ import MoviesState from "./context/moviesList/MoviesState";
 import MovieState from "./context/movie/MovieState";
 import AuthState from "./context/Auth/AuthState";
 import ProfileState from "./context/Profile/ProfileState";
+import AuthContext from "./context/Auth/AuthContext";
+
+/*
+function CheckAuth () {
+  const authContext = useContext(AuthContext);
+  const { User, setUser } = authContext;
+  if (User == null) {
+    if (localStorage.getItem("FilmFinderUser") != null) {
+      setUser(localStorage.getItem("FilmFinderUser"));
+    }
+  }
+}
+*/
 
 function App() {
   return (
