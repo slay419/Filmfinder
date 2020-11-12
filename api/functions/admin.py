@@ -122,7 +122,7 @@ def removeExistingMovie(movie_id):
 def editMovieDetails(movie_id, title, release_date, overview, tagline):
     conn = sqlite3.connect("movieDB.db")
     cur = conn.cursor()
-    cur.execute(f"update movie set title = '{title}', release_date = '{release_date}', overview = '{overview}', tagline = '{tagline}' where movie_id = {movie_id}")
+    cur.execute(f"UPDATE movie SET title = '{title}', release_date = '{release_date}', overview = '{overview}', tagline = '{tagline}' where movie_id = {movie_id}")
 
     conn.commit()
     conn.close()

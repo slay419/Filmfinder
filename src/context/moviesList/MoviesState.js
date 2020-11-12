@@ -157,6 +157,7 @@ const MoviesState = (props) => {
       20
     );
   };
+  
 
   return (
     <MoviesContext.Provider

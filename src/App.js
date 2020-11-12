@@ -17,6 +17,7 @@ import Footer from "./components/common/Footer";
 import publicProfile from "./components/profile/publicProfile";
 import PublicWishlist from "./components/profile/PublicWishlist";
 import UpdateMovie from "./components/movies/updateMovie"
+import Friends from "./components/Friends/Friends"
 
 // Context
 import MoviesState from "./context/moviesList/MoviesState";
@@ -78,6 +79,11 @@ function App() {
                       path="/update/:id"
                       exact
                       component={UpdateMovie}
+                      />
+                    <Route
+                      path="/friends"
+                      exact
+                      component={Friends}
                       />
                   </Switch>
                 </Router>

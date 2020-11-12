@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../../context/Auth/AuthContext";
-import { TextField, Button, Collapse } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 import "../../styles/updateMovie.scss"
 import CastList from "./castList";
 import MovieContext from "../../context/movie/movieContext";
@@ -48,12 +48,13 @@ import {
     fontFamily: "Poppins",
     //marginTop: 10,
   });
+  var updated = 0;
 
 const UpdateMovie = (props) => {
     const authContext = useContext(AuthContext);
-    const { User, admin, checkIfAdmin } = authContext;
+    const { admin, checkIfAdmin } = authContext;
     const movieContext = useContext(MovieContext);
-    const { actors, addActor, getMovieById, movie } = movieContext;
+    const { actors, addActor, getMovieById, movie, addMovie, updateMovie } = movieContext;
 
     const [title, setTitle] = useState("");
     const [adult, setAdult] = useState(0);
@@ -68,7 +69,8 @@ const UpdateMovie = (props) => {
     const [actorList, setActorList] = useState([]);
     const [director, setDirector] = useState("");
     const [tagline, setTagline] = useState("");
-    const [open, setOpen] = useState(true);
+    const [keywords, setKeywords] = useState("");
+    //const [open, setOpen] = useState(true);
     //setActorList(actors);
   
     const titleHandler = (e) => {
@@ -111,10 +113,20 @@ const UpdateMovie = (props) => {
     const taglineHandler = (e) => {
       setTagline(e.target.value);
     };
+    const keywordHandler = (e) => {
+      setKeywords(e.target.value);
+    };
 
 
     const handleSubmit = () => {
-        alert("lol maybe")
+      //alert("Doesn't work yet");
+      
+      var genres = [genre1, genre2, genre3, genre4];
+      if (updated === 1){
+        updateMovie(title, adult, genres, tagline, desc, year, director, cast, poster, keywords);
+      } else {
+        addMovie(title, adult, genres, tagline, desc, year, director, cast, poster, keywords);
+      }
     }
 
     const handleAddCast = () => {
@@ -137,7 +149,7 @@ const UpdateMovie = (props) => {
     // get all the movie info upon loading & receiving id from the url
     useEffect(() => {
       console.log("id is " + id);
-      if (id !== undefined){
+      if (id !== undefined && id !== null){
         getMovieById(id);
         const {
           title,
@@ -152,18 +164,23 @@ const UpdateMovie = (props) => {
         setDesc(overview);
         setTagline(tagline);
         setYear(parseInt(release_date));
-        setGenre1(genres[1]);
-        if (genres.length > 1){
-          setGenre2(genres[2]);
-        }
-        if (genres.length > 2){
-          setGenre3(genres[3]);
-        }
-        if (genres.length > 3){
-          setGenre4(genres[4]);
+        if (genres !== null && genres !== undefined) {
+          if (genres.length > 0){
+            setGenre1(genres[1]);
+          }
+          if (genres.length > 1){
+            setGenre2(genres[2]);
+          }
+          if (genres.length > 2){
+            setGenre3(genres[3]);
+          }
+          if (genres.length > 3){
+            setGenre4(genres[4]);
+          }
         }
         setActorList(cast);
-        setDirector(director_name);           
+        setDirector(director_name);
+        updated = 1;           
       } else {
         setTitle("");
         setDesc("");
@@ -174,7 +191,9 @@ const UpdateMovie = (props) => {
         setGenre3("");
         setGenre4("");
         setActorList("");
-        setDirector("");   
+        setDirector("");
+        setKeywords("");
+        updated = 0;   
       }
     }, [id]);
 
@@ -185,7 +204,7 @@ const UpdateMovie = (props) => {
             {admin === 1 ? (
                 <div className="update-movie">
                     <h1>Movie Editor:</h1>
-                    <form onSubmit={handleSubmit} autoComplete="off">
+                    <form autoComplete="off">
                         <ThemeProvider theme={theme}>
                         <MovieTextField
                             size="small"
@@ -249,6 +268,15 @@ const UpdateMovie = (props) => {
                             helperText=" "
                             value={poster}
                         />
+                        <MovieTextField
+                            size="small"
+                            label="Keywords: Separate by commas"
+                            variant="outlined"
+                            type="text"
+                            onChange={keywordHandler}
+                            value={keywords}
+                            helperText=" "
+                        />
                         <div className= "genres">
                           <MovieTextField
                               size="small"
@@ -310,7 +338,7 @@ const UpdateMovie = (props) => {
                         </div>
                         <Button
                             disabled={yearValidator}
-                            type="submit"
+                            onClick={handleSubmit}
                             variant="text"
                             color="primary"
                         >

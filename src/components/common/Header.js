@@ -35,7 +35,7 @@ const Header = () => {
           </li>
           <li>
             <Link to="/register">Register</Link>
-          </li>
+          </li>         
         </ul>
       ) : (
         // if logged in show logout and profile links
@@ -51,6 +51,9 @@ const Header = () => {
                 User.first_name.slice(1)}
             </Link>
           </li>
+          <li>
+            <Link to="/friends">Film Partner</Link>
+          </li> 
         </ul>
       )}
     </div>

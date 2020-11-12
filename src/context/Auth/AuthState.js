@@ -36,6 +36,8 @@ const AuthState = (props) => {
         Changed: 0,
         redir: 0,
         admin: null,
+        friends: [],
+        notifications: [],
         //user info stored in this state
     };
 
@@ -294,6 +296,14 @@ const AuthState = (props) => {
         });
     }
 
+    const getFriends = () => {
+
+    }
+
+    const getNotifications = () => {
+
+    }
+
   return (
     <AuthContext.Provider
       value={{
@@ -320,6 +330,10 @@ const AuthState = (props) => {
         deleteMovie,
         deleteUser,
         makeAdmin,
+        getFriends,
+        getNotifications,
+        notifications: state.notifications,
+        friends: state.friends,
       }}
     >
       {props.children}
