@@ -50,6 +50,7 @@ function App() {
                   <Header />
                   <Switch>
                     <Route path="/" exact component={Home} />
+                    <Route path="/search" component={Home} />
                     <Route path="/login" exact component={Login} />
                     <Route path="/register" exact component={Register} />
                     <Route path="/movies/:id" component={MovieDetails} />
