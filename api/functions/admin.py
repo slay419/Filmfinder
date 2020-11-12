@@ -74,6 +74,8 @@ def addNewMovie(director_name, adult, title, release_date, overview, tagline, po
     print(f"movie_id is: {movie_id}")
 
     director_id = getCastIdByName(director_name)
+    if director_id == -1:
+        director_id = insertNewCastMember(director_name)
     # Store movie details
     cur.execute(
         f"""
@@ -94,6 +96,8 @@ def addNewMovie(director_name, adult, title, release_date, overview, tagline, po
     for actor_name in cast:
         print(actor_name)
         actor_id = getCastIdByName(actor_name)
+        if actor_id == -1:
+            actor_id = insertNewCastMember(actor_name)
         cur.execute(f"insert into acting(actor_id, movie_id) values({actor_id}, {movie_id})")
 
     # Store keyword list
@@ -104,38 +108,12 @@ def addNewMovie(director_name, adult, title, release_date, overview, tagline, po
     conn.close()
     return {"movie_id": movie_id}
 
-
-# Remove movies from database
-def removeExistingMovie(movie_id):
-    if not isValidMovie(movie_id):
-        return {"error": f"Movie with id {movie_id} does not exist in the database and cannot be removed"}
-
-    conn = sqlite3.connect("movieDB.db")
-    cur = conn.cursor()
-    cur.execute(f"delete from movie where movie_id = {movie_id};")
-    cur.execute(f"delete from genre where movie_id = {movie_id};")
-    cur.execute(f"delete from acting where movie_id = {movie_id};")
-    cur.execute(f"delete from keyword where movie_id = {movie_id};")
-    conn.commit()
-    conn.close()
-
-    return {"success": "True"}
-
-# Edit movies in database 
-def editMovieDetails(movie_id, title, release_date, overview, tagline):
-    conn = sqlite3.connect("movieDB.db")
-    cur = conn.cursor()
-    cur.execute(f"""UPDATE movie SET title = '{title}', release_date = '{release_date}', overview = '{overview}', tagline = '{tagline}' where movie_id = {movie_id}""")
-
-    conn.commit()
-    conn.close()
-
-    return {"movie_id": movie_id}
-
 def editMovieCast(movie_id, director_name, cast_list):
     conn = sqlite3.connect("movieDB.db")
     cur = conn.cursor()
     director_id = getCastIdByName(director_name)
+    if director_id == -1:
+        director_id = insertNewCastMember(director_name)
     cur.execute(f"update movie set director_id = '{director_id}' where movie_id = {movie_id}")
 
     # Delete old movie cast
@@ -144,8 +122,10 @@ def editMovieCast(movie_id, director_name, cast_list):
     # Update with new cast list
     for cast_name in cast_list:
         print(cast_name)
-        cast_id = getCastIdByName(cast_name)
-        cur.execute(f"insert into acting(actor_id, movie_id) values({cast_id}, {movie_id});")
+        actor_id = getCastIdByName(cast_name)
+        if actor_id == -1:
+            actor_id = insertNewCastMember(cast_name)
+        cur.execute(f"insert into acting(actor_id, movie_id) values({actor_id}, {movie_id});")
 
     conn.commit()
     conn.close()
@@ -169,6 +149,50 @@ def editMovieGenres(movie_id, genre_list):
     conn.close()
 
     return {"movie_id": movie_id}
+
+
+# Edit movies in database 
+def editMovieDetails(movie_id, title, release_date, overview, tagline):
+    conn = sqlite3.connect("movieDB.db")
+    cur = conn.cursor()
+    cur.execute(f"""UPDATE movie SET title = '{title}', release_date = '{release_date}', overview = '{overview}', tagline = '{tagline}' where movie_id = {movie_id}""")
+
+    conn.commit()
+    conn.close()
+
+    return {"movie_id": movie_id}
+
+
+# Stores a new cast into the database by generating a new cast id
+def insertNewCastMember(cast_name):
+    conn = sqlite3.connect("movieDB.db")
+    cur = conn.cursor()
+    cur.execute("select max(cast_id) from cast;")
+    cast_id = cur.fetchone()[0] + 1
+    cur.execute(f"insert into cast(cast_id, cast_name) values({cast_id}, '{cast_name}');")
+    conn.commit()
+    conn.close()    
+    return cast_id
+
+
+# Remove movies from database
+def removeExistingMovie(movie_id):
+    if not isValidMovie(movie_id):
+        return {"error": f"Movie with id {movie_id} does not exist in the database and cannot be removed"}
+
+    conn = sqlite3.connect("movieDB.db")
+    cur = conn.cursor()
+    cur.execute(f"delete from movie where movie_id = {movie_id};")
+    cur.execute(f"delete from genre where movie_id = {movie_id};")
+    cur.execute(f"delete from acting where movie_id = {movie_id};")
+    cur.execute(f"delete from keyword where movie_id = {movie_id};")
+    conn.commit()
+    conn.close()
+
+    return {"success": "True"}
+
+
+
 
 
 
