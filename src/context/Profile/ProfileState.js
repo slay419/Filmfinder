@@ -116,7 +116,7 @@ const ProfileState = (props) => {
   };
 
   const updateDetails = async (u_id, firstName, lastName, secretQ, secretA) => {
-    fetch("./update", {
+    fetch("/profile/update", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",

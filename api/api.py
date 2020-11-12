@@ -399,7 +399,7 @@ def updateDetails():
     u_id = response["u_id"]
     fname = response["fname"]
     lname = response["lname"]
-    secretQ = response["secreatQ"]
+    secretQ = response["secretQ"]
     secretA = response["secretA"]
     # this function is for updating the details in u_id's profile
     # hopefully someone else can implement it
