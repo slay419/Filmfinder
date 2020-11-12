@@ -18,7 +18,7 @@ const Wishlist = () => {
 
   return (
     <div>
-      <h1>Your Wishlist:</h1>
+      <h1>Your Wishlist</h1>
       {loading ? (
         <Spinner />
       ) : (

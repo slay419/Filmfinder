@@ -28,3 +28,39 @@
     }
   }
 }
+
+.forgot-pass {
+  h1 {
+    margin: auto;
+    margin-bottom: 20px;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  form {
+    display: flex;
+    align-items: center;
+    margin: 1rem;
+
+    input {
+      font-family: "Poppins";
+      font-size: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      height: 38px;
+      padding: 0.7rem;
+      width: 300px;
+    }
+
+    button {
+      font-family: "Poppins";
+      font-size: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      height: 38px;
+      padding: 0.7rem;
+    }
+  }
+}
