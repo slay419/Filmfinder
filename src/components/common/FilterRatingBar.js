@@ -23,7 +23,7 @@ const FilterRatingBar = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form className="filter-rating-bar" onSubmit={onSubmit}>
       <label htmlFor="#adult">Adult </label>
       <input
         type="checkbox"

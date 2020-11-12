@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 // Components
 import MovieList from "../movies/MovieList";
 import Spinner from "./Spinner";
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import SortBar from "./SortBar";
 
 // Context
 import MoviesContext from "../../context/moviesList/moviesContext";
@@ -13,12 +13,16 @@ import AuthContext from "../../context/Auth/AuthContext";
 
 // styles
 import "../../styles/Home.scss";
-import FilterRatingBar from "./FilterRatingBar";
-import FilterYearBar from "./FilterYearBar";
 import { MarkunreadMailboxOutlined } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import SortAndFilterBar from "./SortAndFilterBar";
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const Home = () => {
+  const location = useLocation();
   const authContext = useContext(AuthContext);
   const { User, admin, checkIfAdmin, setUser, verified} = authContext;
 
@@ -27,7 +31,9 @@ const Home = () => {
   const moviesContext = useContext(MoviesContext);
   const {
     currentPage,
-    getMovies,
+    searchMovies,
+    searchMoviesGenre,
+    searchMoviesDirector,
     loading,
     page,
     maxPage,
@@ -35,8 +41,27 @@ const Home = () => {
     getPrevPage,
   } = moviesContext;
 
+  const query = useQuery();
+
   useEffect(() => {
-    getMovies();
+    const q = query.get("q");
+    const option = query.get("option");
+
+    switch (option) {
+      case "All":
+        searchMovies(q);
+        break;
+      case "Directors":
+        searchMoviesDirector(q);
+        break;
+      case "Genres":
+        searchMoviesGenre(q);
+        break;
+      default:
+        searchMovies(q);
+        break;
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     if (admin == null && User != null){
       checkIfAdmin();
@@ -46,7 +71,7 @@ const Home = () => {
         setUser(localStorage.getItem("FilmFinderUser"));
       }
     }
-}, []);
+  }, [location.key]);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -68,9 +93,7 @@ const Home = () => {
         <Spinner />
       ) : (
         <div>
-          <SortBar />
-          <FilterYearBar />
-          <FilterRatingBar />
+          <SortAndFilterBar />
           <MovieList movies={currentPage} />
         </div>
       )}

@@ -95,18 +95,18 @@ export default (state, action) => {
     case ADMIN_CHECK:
       return {
         ...state,
-        admin: action.payload.isAdmin
-      }
+        admin: action.payload.isAdmin,
+      };
     case DELETE_MOVIE:
       return {
         ...state,
-        redir: 1
-      }
+        redir: 1,
+      };
     case DELETE_USER:
       return {
         ...state,
-        redir: 1
-      }
+        redir: 1,
+      };
     case RESET_REDIR:
         return {
           ...state,
@@ -137,7 +137,8 @@ export default (state, action) => {
     case UNEXPECTED_ERROR:
       // unexpected erorr
       console.log("Error : " + action.payload);
-      break;
+      return state;
+
     default:
       return state;
   }

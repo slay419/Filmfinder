@@ -140,8 +140,8 @@ const Profile = () => {
     <div className="Profile">
       <h1>Your Profile:</h1>
       <Link to={"/profile/" + User.u_id}> Public Profile</Link>
-      <div class="bodys">
-        <div class="column">
+      <div className="bodys">
+        <div className="column">
           <h2> Your Email: {User.email}</h2>
           <h2> Update Profile Details:</h2>
           <form onSubmit={handleSubmit} autoComplete="off">
@@ -184,7 +184,7 @@ const Profile = () => {
             </ThemeProvider>
           </form>
         </div>
-        <div class="column">
+        <div className="column">
           <span onClick={handlePassword} className="btn">
             Change Password
           </span>
