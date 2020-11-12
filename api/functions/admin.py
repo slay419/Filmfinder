@@ -86,10 +86,13 @@ def addNewMovie(director_name, adult, title, release_date, overview, tagline, po
 
     # Store genre list
     for genre in genres:
+        if genre is None or genre == "":
+            continue
         cur.execute(f"insert into genre(movie_id, genre) values({movie_id}, '{genre}')")
 
     # Store actor list
     for actor_name in cast:
+        print(actor_name)
         actor_id = getCastIdByName(actor_name)
         cur.execute(f"insert into acting(actor_id, movie_id) values({actor_id}, {movie_id})")
 
