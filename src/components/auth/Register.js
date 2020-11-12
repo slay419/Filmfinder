@@ -117,12 +117,19 @@ const Register = () => {
     : " ";
 
   const authContext = useContext(AuthContext);
-  const { error, registerUser, redir } = authContext;
+  const { error, registerUser, redir, resetRedir } = authContext;
+
+  const reset = () => {
+    resetRedir();
+  }
 
   return (
     <>
       {redir !== 0 ? (
-        <Redirect to="/login" />
+        <div>
+          {reset}
+          <Redirect to="/login" />
+        </div>
       ) : (
         <div className="register">
           <h1>Register</h1>

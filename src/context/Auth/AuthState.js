@@ -66,7 +66,7 @@ const AuthState = (props) => {
 
     const registerUser = (email, password, conPassword, fname, lname, secretQ, secretA) => {
         // pass user details to the back end to register the user
-        fetch('./auth/register', {
+        fetch('/auth/register', {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -98,7 +98,7 @@ const AuthState = (props) => {
 
     const getQuestion = (email) => {
         //fetch the question from the back end
-        fetch('./auth/getQuestion', {
+        fetch('/auth/getQuestion', {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -118,7 +118,7 @@ const AuthState = (props) => {
 
     const answerQuestion = (email, ans) => {
         // send answer to back end for validation
-        fetch('./auth/getAnswer', {
+        fetch('/auth/getAnswer', {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -137,7 +137,7 @@ const AuthState = (props) => {
 
     const changePasswordForg = (email, password) => {
         // now that question is validated, change password
-        fetch('./auth/resetpassword', {
+        fetch('/auth/resetpassword', {
         method: "POST",
         headers: {
             "Content-type": "application/json; charset=UTF-8"
@@ -161,7 +161,7 @@ const AuthState = (props) => {
 
     const login = (email, password) => {
       // send login details to the back end for validation
-      fetch('./auth/login', {
+      fetch('/auth/login', {
           method: "POST",
           headers: {
               "Content-type": "application/json; charset=UTF-8"
@@ -192,7 +192,7 @@ const AuthState = (props) => {
 
     const logout = (u_id) => {
         // logout current user from back end
-        fetch('./auth/logout', {
+        fetch('/auth/logout', {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -211,7 +211,7 @@ const AuthState = (props) => {
 
     // changes the password by fetching the back end
     const changePassword = (email, oldPassword, newPassword) => {
-        fetch('./auth/changepass', {
+        fetch('/profile/auth/changepass', {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"

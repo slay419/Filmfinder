@@ -144,7 +144,7 @@ const Profile = () => {
         <div className="column">
           <h2> Your Email: {User.email}</h2>
           <h2> Update Profile Details:</h2>
-          <form onSubmit={handleSubmit} autoComplete="off">
+          <form autoComplete="off">
             <ThemeProvider theme={theme}>
               <UpdateTextField
                 size="small"
@@ -178,8 +178,8 @@ const Profile = () => {
                 helperText=" "
                 required
               />
-              <Button variant="text" color="primary">
-                Submit
+              <Button onClick={handleSubmit} variant="text" color="primary">
+                Update
               </Button>
             </ThemeProvider>
           </form>
