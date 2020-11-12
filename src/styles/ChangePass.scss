@@ -4,6 +4,7 @@
   flex-direction: column;
 
   form {
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
     width: 400px;
@@ -13,7 +14,7 @@
       padding: 0.7rem;
       border: 1px solid #ccc;
       border-radius: 4px;
-      margin: 1rem 0;
+      margin-bottom: 1.5rem;
 
       &:focus {
         outline: none;
