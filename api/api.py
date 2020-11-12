@@ -32,14 +32,16 @@ from functions.search import (
     getCastList,
     getDirectorById,
     searchSimilarMovies,
-    searchRecommendedMovies
+    searchRecommendedMovies,
+    searchMoviesByActor
 )
 from functions.review import (
     newReview, 
     incrementLikes, 
     editReview,
     deleteReview,
-    getMovieReviewList)
+    getMovieReviewList
+)
 
 from functions.bannedList import (
     bannedList_block,
@@ -54,6 +56,18 @@ from functions.wishlist import (
     getUserWishlist,
     removeFromWishlist
 )
+
+from functions.admin import (
+    assignAdmin,
+    checkAdmin,
+    addNewMovie,
+    removeExistingMovie,
+    removeUserById,
+    editMovieDetails,
+    editMovieCast,
+    editMovieGenres
+)
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "you-will-never-guess"
 
@@ -83,6 +97,9 @@ director_parser.add_argument("director", type=str)
 
 movie_id_parser = reqparse.RequestParser()
 movie_id_parser.add_argument("movie_id", type=int)
+
+actor_parser = reqparse.RequestParser()
+actor_parser.add_argument("actor", type=str)
 
 
 def read_from_sqlite(database_file, table_name):
@@ -344,6 +361,16 @@ class Director(Resource):
         director_str = director_parser.parse_args().get("director")
         return searchDirector(director_str)
 
+@api.route("/api/search/actedIn")
+class ActedIn(Resource):
+    @api.response(200, "OK")
+    @api.response(201, "Created")
+    @api.response(400, "Bad Request")
+    @api.response(404, "Not Found")
+    @api.expect(actor_parser)
+    def get(self):
+        actor_str = actor_parser.parse_args().get("actor")
+        return searchMoviesByActor(actor_str)
 
 @app.route("/api/search/byKeyword", methods=["POST"])
 def searchMovieByKeyword():
@@ -361,6 +388,8 @@ def getCastByMovieId(movie_id):
 def getGenresByMovieId(movie_id):
     genres = getGenreList(movie_id)
     return {"genres": genres}
+
+
 
 ################   Profile    ##################
 
@@ -507,6 +536,70 @@ def checkBannedList():
     if check_banned_user_exists(user_id, banned_id):
         return {"success": 1}
     return {"success": 0}
+
+
+
+################    Admin Functions   ##################
+
+@app.route("/admin/isAdmin/<int:user_id>", methods=["GET"])
+def isAdmin(user_id):
+    return checkAdmin(user_id)
+
+@app.route("/admin/addMovie", methods=["POST"])
+def addMovie():
+    response = request.get_json()
+    director_name = response["director_name"]
+    adult = response["adult"]
+    title = response["title"]
+    release_date = response["release_date"]
+    overview = response["overview"]
+    tagline = response["tagline"]
+    poster = response["poster"]
+    genres = response["genres"]
+    cast = response["cast"]
+    keywords = response["keywords"]
+    return addNewMovie(director_name, adult, title, release_date, overview, tagline, poster, genres, cast, keywords)
+
+@app.route("/admin/removeMovie", methods=["DELETE"])
+def removeMovie():
+    response = request.get_json()
+    movie_id = response["movie_id"]
+    return removeExistingMovie(movie_id)
+
+@app.route("/admin/removeUser", methods=["DELETE"])
+def removeUser():
+    response = request.get_json()
+    user_id = response["user_id"]
+    return removeUserById(user_id)
+
+@app.route("/admin/makeAdmin", methods=["POST"])
+def makeAdmin():
+    response = request.get_json()
+    user_id = response["user_id"]
+    return assignAdmin(user_id)
+
+@app.route("/admin/updateMovieDetails/<int:movie_id>", methods=["PUT"])
+def updateMovieDetails(movie_id):
+    response = request.get_json()
+    title = response["title"]
+    release_date = response["release_date"]
+    overview = response["overview"]
+    tagline = response["tagline"]
+    return editMovieDetails(movie_id, title, release_date, overview, tagline)
+
+@app.route("/admin/updateMovieCast/<int:movie_id>", methods=["PUT"])
+def updateMovieCast(movie_id):
+    response = request.get_json()
+    director_name = response["director_name"]
+    cast_list = response["cast_list"]
+    print(cast_list)
+    return editMovieCast(movie_id, director_name, cast_list)
+
+@app.route("/admin/updateMovieGenres/<int:movie_id>", methods=["PUT"])
+def updateMovieGenres(movie_id):
+    response = request.get_json()
+    genre_list = response["genre_list"]
+    return editMovieGenres(movie_id, genre_list)
 
 if __name__ == "__main__":
     app.run(port=5000)

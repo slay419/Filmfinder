@@ -10,6 +10,10 @@ import {
   UNEXPECTED_ERROR,
   REGISTER,
   SET_USER,
+  ADMIN_CHECK,
+  DELETE_USER,
+  DELETE_MOVIE,
+  RESET_REDIR
 } from "../types";
 
 import { UNANSWERED } from "./AuthState";
@@ -84,6 +88,26 @@ export default (state, action) => {
         ...state,
         User: action.payload,
       };
+    case ADMIN_CHECK:
+      return {
+        ...state,
+        admin: action.payload.isAdmin
+      }
+    case DELETE_MOVIE:
+      return {
+        ...state,
+        redir: 1
+      }
+    case DELETE_USER:
+      return {
+        ...state,
+        redir: 1
+      }
+    case RESET_REDIR:
+        return {
+          ...state,
+          redir: 0
+        }
     case ERROR:
       // error occured in back end, display error
       console.log(action.payload);

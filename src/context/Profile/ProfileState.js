@@ -12,6 +12,9 @@ import {
   GET_RECOMMENDATIONS,
   GET_BANNED_LIST,
   BANNED,
+  GET_FRIENDS,
+  GET_NOTIFICATIONS,
+  UNEXPECTED_ERROR,
 } from "../types";
 
 const ProfileState = (props) => {
@@ -23,6 +26,9 @@ const ProfileState = (props) => {
     loading: false,
     recommendations: null,
     banned: 0,
+    friends: [],
+    notifications: [],
+    partner: 0,
   };
 
   const [state, dispatch] = useReducer(ProfileReducer, initialState);
@@ -216,6 +222,40 @@ const ProfileState = (props) => {
       });
   };
 
+  const getFriends = (u_id) => {
+    fetch('/friends/getFriends/' + u_id)
+    .then((res) => res.json())
+    .then((data) => {
+        dispatch( {type: GET_FRIENDS, payload: data})    
+    })
+    .catch((err) => {
+        dispatch( {type: UNEXPECTED_ERROR, payload: err})
+    });
+}
+
+const getNotifications = (u_id) => {
+    fetch('/friends/getNotifications/' + u_id)
+    .then((res) => res.json())
+    .then((data) => {
+        dispatch( {type: GET_NOTIFICATIONS, payload: data})    
+    })
+    .catch((err) => {
+        dispatch( {type: UNEXPECTED_ERROR, payload: err})
+    });
+}
+
+const addPartner = (user_id, partner_id) => {
+
+}
+
+const removePartner = (user_id, partner_id) => {
+
+}
+
+const checkPartner = (user_id, partner_id) => {
+
+}
+
   return (
     <ProfileContext.Provider
       value={{
@@ -234,6 +274,14 @@ const ProfileState = (props) => {
         banned: state.banned,
         checkBannedList,
         unbanUser,
+        getFriends,
+        getNotifications,
+        notifications: state.notifications,
+        friends: state.friends,
+        addPartner,
+        removePartner,
+        checkPartner,
+        partner: state.partner,
       }}
     >
       {props.children}

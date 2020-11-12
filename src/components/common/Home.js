@@ -16,6 +16,7 @@ import AuthContext from "../../context/Auth/AuthContext";
 import "../../styles/Home.scss";
 import FilterRatingBar from "./FilterRatingBar";
 import FilterYearBar from "./FilterYearBar";
+import { MarkunreadMailboxOutlined } from "@material-ui/icons";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -24,7 +25,7 @@ function useQuery() {
 const Home = () => {
   const location = useLocation();
   const authContext = useContext(AuthContext);
-  const { User } = authContext;
+  const { User, admin, checkIfAdmin } = authContext;
 
   const [successOpen, setSuccessOpen] = useState(User !== null);
 
@@ -63,6 +64,9 @@ const Home = () => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (admin == null) {
+      checkIfAdmin();
+    }
   }, [location.key]);
 
   const handleClose = (event, reason) => {

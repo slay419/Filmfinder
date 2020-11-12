@@ -9,6 +9,9 @@ from requests import get
 import re
 import hashlib
 
+from functions.review import getUserReviewList
+from functions.admin import getCastIdByName
+
 
 def searchGenre(genre):
     conn = sqlite3.connect("./movieDB.db")
@@ -85,20 +88,28 @@ def searchDirector(director_name):
     conn.close()
     return {"movies": movies}
 
-def sortReviews():
-    conn = sqlite3.connect("./movieDB.db")
-    conn.execute("ATTACH DATABASE 'users.db' AS usersDB")
+def searchMoviesByActor(cast_name):
+    conn = sqlite3.connect("movieDB.db")
     cur = conn.cursor()
-
+    cast_id = getCastIdByName(cast_name)
     cur.execute(
-        """
-        select 
+        f"""
+        select m.movie_id, director_id, adult, title, release_date, runtime, 
+            budget, revenue, imdb_id, movie_language, overview, tagline, poster, vote_avg, vote_count
+        from movie m join acting a on m.movie_id = a.movie_id
+        where a.actor_id = {cast_id}
+        order by release_date desc, vote_count desc;
         """
     )
+    index = 0
+    movies = {}
+    for movie in cur.fetchall():
+        item = extractMovieDetails(movie)
+        movies[index] = item
+        index += 1
 
-
-    conn.execute("DETACH DATABASE 'usersDB'")
-
+    conn.close()
+    return {"movies": movies}
 
 
 def getDirectorById(director_id):
@@ -235,17 +246,22 @@ def searchRecommendedMovies(user_id):
 
     # Get list of all similar movies of each entry
     recommended_movies_list = []
+    reviewed_movies_list = getUserReviewList(user_id)
     for movie_id in movie_id_list:
         similar_movie = searchSimilarMovies(movie_id)["movies"].values()
         for movie in similar_movie:
-            recommended_movies_list.append(movie)
+            recommended_id = movie['movie_id']
+            if movie not in recommended_movies_list and recommended_id not in reviewed_movies_list:
+                recommended_movies_list.append(movie)
 
     sorted_list = sorted(
         recommended_movies_list,
         key=lambda i: (i["vote_avg"], i["vote_count"]),
         reverse=True,
     )
-    top_list = sorted_list[:5]
+    top_list = sorted_list[:6]
     #print(top_list)
 
     return {"movies": top_list}
+
+

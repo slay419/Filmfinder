@@ -8,7 +8,7 @@ const ReviewItem = ({ review }) => {
   const [reviewer, setReviewer] = useState(null);
 
   const authContext = useContext(AuthContext);
-  const { User } = authContext;
+  const { User, admin } = authContext;
 
   const movieContext = useContext(MovieContext);
   const { deleteReview } = movieContext;
@@ -46,7 +46,7 @@ const ReviewItem = ({ review }) => {
               <p>comment: {comment} </p>
             </div>
 
-            {loggedIn && User.u_id === reviewer.user_id && (
+            {loggedIn && (User.u_id === reviewer.user_id || admin === 1) && (
               <div className="right">
                 <span
                   onClick={() => handleDelete(review_id)}

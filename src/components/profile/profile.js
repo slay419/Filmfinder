@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AuthContext from "../../context/Auth/AuthContext";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import ReviewRec from "../profile/ReviewRec";
@@ -54,10 +54,11 @@ const theme = createMuiTheme({
 
 const Profile = () => {
   const authContext = useContext(AuthContext);
-  const { User } = authContext;
+  const { User, admin, checkIfAdmin, logout, deleteUser, makeAdmin } = authContext;
 
   const profileContext = useContext(ProfileContext);
   const { updateDetails } = profileContext;
+  const history = useHistory();
 
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
@@ -100,11 +101,33 @@ const Profile = () => {
     history.push(path);
   };
 
-  const history = useHistory();
+  const handleAddNew = () => {
+    let path = "/new";
+    history.push(path);
+  };
+
+ 
   //const profileContext = useContext(ProfileContext);
   //const { profileUser } = profileContext;
 
   //const [email, setEmail] = useState("")
+  useEffect(() => {
+    if (admin == null){
+      checkIfAdmin();
+    }
+  }, []);
+
+  const handleRemove = () => {
+    if (window.confirm("Are you sure you want to permenantly delete you profile?")){
+      if (window.confirm("Are you Absolutely sure? You won't be able to recover it.")){
+        const tempId = User.u_id;
+        logout(tempId)
+        deleteUser(tempId);
+        history.push("/");
+      }
+    }
+  };
+
   return (
     <div className="Profile">
       <h1>Your Profile:</h1>
@@ -165,6 +188,19 @@ const Profile = () => {
           </span>
           <span onClick={handleReviews} className="btn">
             View recent reviews
+          </span>
+          <span onClick={() => makeAdmin(User.u_id)} className="btn"> 
+            View as admin
+          </span>
+          {admin === 1 ? (
+              <span onClick={handleAddNew} className="btn">
+                Add new Movie
+              </span>
+          ) : (
+            <div></div>
+          )}
+          <span onClick={handleRemove} className="btn">
+            Delete Your Own Profile
           </span>
         </div>
       </div>
