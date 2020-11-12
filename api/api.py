@@ -375,6 +375,9 @@ def getGenresByMovieId(movie_id):
     genres = getGenreList(movie_id)
     return {"genres": genres}
 
+#@app.route("/api/actedIn/<int:cast_id>", methods=["GET"])
+
+
 ################   Profile    ##################
 
 @app.route("/profile/update", methods=["POST"])
