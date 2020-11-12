@@ -17,7 +17,7 @@ def assignAdmin(user_id):
 
     if not userIdExists(user_id):
         return {"error": f"No user with id: {user_id} exists in the database"}
-    elif checkAdmin(user_id)["isAdmin"] == "True":
+    elif checkAdmin(user_id)["isAdmin"] == 1:
         return {"error": f"User with id: {user_id} is already an admin"}
 
     conn = sqlite3.connect("users.db")
@@ -86,10 +86,13 @@ def addNewMovie(director_name, adult, title, release_date, overview, tagline, po
 
     # Store genre list
     for genre in genres:
+        if genre is None or genre == "":
+            continue
         cur.execute(f"insert into genre(movie_id, genre) values({movie_id}, '{genre}')")
 
     # Store actor list
     for actor_name in cast:
+        print(actor_name)
         actor_id = getCastIdByName(actor_name)
         cur.execute(f"insert into acting(actor_id, movie_id) values({actor_id}, {movie_id})")
 
@@ -122,7 +125,7 @@ def removeExistingMovie(movie_id):
 def editMovieDetails(movie_id, title, release_date, overview, tagline):
     conn = sqlite3.connect("movieDB.db")
     cur = conn.cursor()
-    cur.execute(f"UPDATE movie SET title = '{title}', release_date = '{release_date}', overview = '{overview}', tagline = '{tagline}' where movie_id = {movie_id}")
+    cur.execute(f"""UPDATE movie SET title = '{title}', release_date = '{release_date}', overview = '{overview}', tagline = '{tagline}' where movie_id = {movie_id}""")
 
     conn.commit()
     conn.close()
@@ -140,6 +143,7 @@ def editMovieCast(movie_id, director_name, cast_list):
 
     # Update with new cast list
     for cast_name in cast_list:
+        print(cast_name)
         cast_id = getCastIdByName(cast_name)
         cur.execute(f"insert into acting(actor_id, movie_id) values({cast_id}, {movie_id});")
 
@@ -157,6 +161,8 @@ def editMovieGenres(movie_id, genre_list):
 
     # Add new genres
     for genre in genre_list:
+        if genre is None or genre == "":
+            continue
         cur.execute(f"insert into genre(movie_id, genre) values({movie_id}, '{genre}');")
         
     conn.commit()
