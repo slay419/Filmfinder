@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import React from "react";
 import "../../styles/Login.scss";
-import { Redirect, Link} from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import AuthContext from "../../context/Auth/AuthContext";
 import { TextField, Button, Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
@@ -27,7 +27,7 @@ const theme = createMuiTheme({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(","),
-    fontSize: 12,
+    fontSize: 14,
   },
   palette: {
     primary: {
@@ -107,6 +107,7 @@ const Login = () => {
             )}
           </div>
           {/* This is the form for email and password, includes the submit button too */}
+
           <form onSubmit={handleSubmit} autoComplete="off">
             <ThemeProvider theme={theme}>
               <RegisterTextField
@@ -127,11 +128,14 @@ const Login = () => {
                 helperText=" "
                 required
               />
-              <Button type="submit" variant="text" color="primary">
+              <Link to="/forgot">Forgot Password?</Link>
+              <Button type="submit" variant="outlined" color="primary">
                 Submit
               </Button>
+              <div className="rego">
+                Not Registered? <Link to="/register">Create an Account</Link>
+              </div>
             </ThemeProvider>
-            <Link to="/forgot">Forgot Password</Link>
           </form>
         </div>
       )}

@@ -11,13 +11,14 @@ const MovieItem = ({ movie }) => {
   );
 
   useEffect(() => {
+    setPoster("https://cinemaone.net/images/movie_placeholder.png");
     fetch(`http://img.omdbapi.com/?apikey=d7afa05e&i=${imdb_id}`)
       .then((res) => {
         if (res.ok) setPoster(res.url);
       })
       .catch((err) => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [movie]);
   return (
     <Tilt className="Tilt Tilt-inner" options={{ max: 40 }}>
       <Link to={`/movies/${movie_id}`} className="movie-item ">
