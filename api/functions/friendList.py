@@ -38,7 +38,7 @@ def friendList_delete(u_id, f_id):
 
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
-    c.execute(f"DELETE FROM friend WHERE user_id='{u_id}' AND friend_id='{f_id}';")
+    c.execute(f"DELETE FROM friend_list WHERE user_id='{u_id}' AND friend_id='{f_id}';")
     conn.commit()
     conn.close()
     return {"success": 0}
@@ -53,6 +53,7 @@ def friendList_view(u_id):
     for item in friend_list:
         f_list.append(item[0])
     conn.close()
+    print(f_list)
     return {"friend_list": f_list}
 
 #Returns false if it fails to find the user and matching friend 

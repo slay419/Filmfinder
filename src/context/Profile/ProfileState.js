@@ -262,7 +262,8 @@ const ProfileState = (props) => {
     })
     .then((res) => res.json())
     .then((data) => {
-        dispatch( {type: GET_FRIENDS, payload: data})    
+      console.log(data.friends_list);
+        dispatch( {type: GET_FRIENDS, payload: data.friend_list})    
     })
     .catch((err) => {
         dispatch( {type: UNEXPECTED_ERROR, payload: err})
@@ -320,16 +321,16 @@ const removePartner = (user_id, partner_id) => {
 
 const checkPartner = (user_id, partner_id) => {
   console.log("Check partner " + user_id + " " + partner_id);
-  fetch("/friends/check", {
+  fetch("/api/friends/check", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-    body: JSON.stringify({ user_id: user_id, partner_id: partner_id }),
+    body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
   })
     .then((res) => res.json())
     .then((data) => {
-      dispatch({ type: CHECK_PARTNER, payload: data.partner });
+      dispatch({ type: CHECK_PARTNER, payload: data.friend });
     })
     .catch((err) => {
       dispatch({ type: UNEXPECTED_ERROR, payload: err });

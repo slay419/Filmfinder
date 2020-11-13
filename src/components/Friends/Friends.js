@@ -15,7 +15,7 @@ const Friends = () => {
     useEffect(() => {
         getFriends(User.u_id);
         //getNotifications();
-    }, [friends, notifications]);
+    }, [User]);
 
   const testVars = ["one", "two", "three"];
 
