@@ -9,6 +9,7 @@ import {
   DELETE_REVIEW,
   ADD_ACTOR,
   REMOVE_ACTOR,
+  RESET_ACTORS,
 } from "../types";
 
 export default (state, action) => {
@@ -79,6 +80,11 @@ export default (state, action) => {
         ...state,
         actors: newActors
       }      
+    case RESET_ACTORS:
+      return {
+        ...state,
+        actors: []
+      }
     default:
       return state;
   }

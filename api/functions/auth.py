@@ -84,18 +84,20 @@ def auth_login(email, password):
     get_user_id(email)
     print(selected_password)
     if selected_password == None or selected_password[0] != hashed_password:
+        #print("Selected = " + str(selected_password))
+        #print("database = " + str(hashed_password))
         return {"error": "Invalid Login"}
     u_id = get_user_id(email)
     if u_id == False:
+        #print("this one")
         return {"error": "Invalid Login"}
     if u_id in USER_LIST:
+        #print("this one")
         return {"error": "That user is already logged in"}
-    """
-    if not has_confirmed_email(email):
-        return {"error": "User has not verified their email address yet"}
-    """
+    
     USER_LIST.append(u_id)
-    print(USER_LIST)
+    if not has_confirmed_email(email):
+        return {"User": get_user_details(u_id), "error": "User has not verified their email address yet"}
     return get_user_details(u_id)
 
 def auth_logout(u_id):

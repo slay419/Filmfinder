@@ -3,11 +3,11 @@ import { useHistory } from "react-router-dom";
 import FriendsList from "./FriendsList";
 import NotificationList from "./NotificationList";
 import "../../styles/Friends.scss";
-import AuthContext from "../../context/Auth/AuthContext";
+import ProfileContext from "../../context/Profile/ProfileContext";
 
 const Friends = () => {
-    const authContext = useContext(AuthContext);
-    const { User, friends, getFriends, notifications, getNotifications } = authContext;
+    const profileContext = useContext(ProfileContext);
+    const { friends, getFriends, notifications, getNotifications, } = profileContext;
     const history = useHistory();
     useEffect(() => {
         //getFriends();

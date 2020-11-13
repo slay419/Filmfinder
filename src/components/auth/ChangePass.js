@@ -23,10 +23,9 @@ const ChangePass = () => {
 
   return (
     <div className="change-passwords">
-      <h1> Change Password:</h1>
+      <h1> Change Password</h1>
       <div className="password-inputs">
         <form>
-          <label for="oldPass"> Old Password:</label>
           <input
             type="password"
             placeholder="Enter Old Password"
@@ -34,7 +33,6 @@ const ChangePass = () => {
             onChange={oldPassHandler}
           ></input>
 
-          <label for="newPass">New Password:</label>
           <input
             type="password"
             placeholder="Enter New password"

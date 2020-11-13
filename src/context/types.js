@@ -18,6 +18,9 @@ export const LOGIN_ERROR = "LOGIN_ERROR";
 export const ERROR = "ERROR";
 export const LOGOUT = "LOGOUT";
 export const SET_USER = "SET_USER";
+export const NOT_VERIFIED = "NOT_VERIFIED";
+export const VERIFY = "VERIFY";
+export const VERIFY_ERROR = "VERIFY_ERROR";
 
 export const REGISTER = "REGISTER";
 export const NAME_TAKEN = "NAME_TAKEN";
@@ -60,6 +63,14 @@ export const RESET_REDIR = "RESET_REDIR";
 
 export const ADD_ACTOR = "ADD_ACTOR";
 export const REMOVE_ACTOR = "REMOVE_ACTOR";
+export const RESET_ACTORS = "RESET_ACTORS";
 
 export const GET_FRIENDS = "GET_FRIENDS";
 export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
+export const ADD_PARTNER = "ADD_PARTNER";
+export const REMOVE_PARTNER = "REMOVE_PARTNER";
+export const CHECK_PARTNER = "CHECK_PARTNER";
+export const GET_COMPATABILITY = "GET_COMPATABILITY";
+
+
+

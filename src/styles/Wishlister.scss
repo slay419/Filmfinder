@@ -1,19 +1,27 @@
 .movie-list {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 
+  .movie-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     .wishlist-btn {
-        display: inline-block;
-        border: 1px solid black;
-        padding: 10px 20px;
-        background: gainsboro;
-        border-radius: 5px;
-        &:hover {
+      height: 38px;
+      border: 1px solid #1f88e5;
+      color: #1f88e5;
+      background-color: white;
+      border-radius: 3px;
+      padding: 0.7rem;
+      margin: auto;
+
+      &:hover {
         cursor: pointer;
-        background-color: black;
+        background-color: #1f89e598;
         color: white;
-        transition: 0.3s ease;
-        }       
+        transition: 0.2 ease;
+      }
+    }
   }
 }

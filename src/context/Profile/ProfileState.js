@@ -12,6 +12,13 @@ import {
   GET_RECOMMENDATIONS,
   GET_BANNED_LIST,
   BANNED,
+  GET_FRIENDS,
+  GET_NOTIFICATIONS,
+  UNEXPECTED_ERROR,
+  ADD_PARTNER,
+  REMOVE_PARTNER,
+  CHECK_PARTNER,
+  GET_COMPATABILITY
 } from "../types";
 
 const ProfileState = (props) => {
@@ -23,6 +30,10 @@ const ProfileState = (props) => {
     loading: false,
     recommendations: null,
     banned: 0,
+    friends: [],
+    notifications: [],
+    partner: 0,
+    compatability: 0,
   };
 
   const [state, dispatch] = useReducer(ProfileReducer, initialState);
@@ -94,7 +105,7 @@ const ProfileState = (props) => {
 
   const getUserById = async (id) => {
     setLoading();
-    fetch(`/api/users/${id}`)
+    await fetch(`/api/users/${id}`)
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: GET_USER_BY_ID, payload: data });
@@ -105,7 +116,7 @@ const ProfileState = (props) => {
   };
 
   const updateDetails = async (u_id, firstName, lastName, secretQ, secretA) => {
-    fetch("./update", {
+    fetch("/profile/update", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -216,6 +227,104 @@ const ProfileState = (props) => {
       });
   };
 
+  const getFriends = (u_id) => {
+    fetch('/friends/getFriends/' + u_id)
+    .then((res) => res.json())
+    .then((data) => {
+        dispatch( {type: GET_FRIENDS, payload: data})    
+    })
+    .catch((err) => {
+        dispatch( {type: UNEXPECTED_ERROR, payload: err})
+    });
+}
+
+const getNotifications = (u_id) => {
+    fetch('/friends/getNotifications/' + u_id)
+    .then((res) => res.json())
+    .then((data) => {
+        dispatch( {type: GET_NOTIFICATIONS, payload: data})    
+    })
+    .catch((err) => {
+        dispatch( {type: UNEXPECTED_ERROR, payload: err})
+    });
+}
+
+const addPartner = (user_id, partner_id) => {
+  console.log("add partner " + user_id + " " + partner_id);
+  fetch("/friends/add", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({ user_id: user_id, partner_id: partner_id }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      dispatch({ type: ADD_PARTNER, payload: data });
+    })
+    .catch((err) => {
+      dispatch({ type: UNEXPECTED_ERROR, payload: err });
+      //dispatch({ type: ADD_PARTNER, payload: "" });
+    });
+}
+
+const removePartner = (user_id, partner_id) => {
+  console.log("add partner " + user_id + " " + partner_id);
+  fetch("/friends/remove", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({ user_id: user_id, partner_id: partner_id }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      dispatch({ type: REMOVE_PARTNER, payload: data });
+    })
+    .catch((err) => {
+      dispatch({ type: UNEXPECTED_ERROR, payload: err });
+      //dispatch({ type: REMOVE_PARTNER, payload: ""});
+    });
+}
+
+const checkPartner = (user_id, partner_id) => {
+  console.log("Check partner " + user_id + " " + partner_id);
+  fetch("/friends/check", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({ user_id: user_id, partner_id: partner_id }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      dispatch({ type: CHECK_PARTNER, payload: data.partner });
+    })
+    .catch((err) => {
+      dispatch({ type: UNEXPECTED_ERROR, payload: err });
+      //dispatch({ type: CHECK_PARTNER, payload: 1 });
+    });
+}
+const getCompatability = async (user_id, partner_id) => {
+  console.log("Check partner " + user_id + " " + partner_id);
+  await fetch("/friends/compatability", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({ user_id: user_id, partner_id: partner_id }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      dispatch({ type: GET_COMPATABILITY, payload: data });
+    })
+    .catch((err) => {
+      dispatch({ type: UNEXPECTED_ERROR, payload: err });
+      //dispatch({ type: GET_COMPATABILITY, payload: 20 });
+    });  
+}
+
+
   return (
     <ProfileContext.Provider
       value={{
@@ -234,6 +343,16 @@ const ProfileState = (props) => {
         banned: state.banned,
         checkBannedList,
         unbanUser,
+        getFriends,
+        getNotifications,
+        notifications: state.notifications,
+        friends: state.friends,
+        addPartner,
+        removePartner,
+        checkPartner,
+        partner: state.partner,
+        compatability: state.compatability,
+        getCompatability,
       }}
     >
       {props.children}

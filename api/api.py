@@ -57,6 +57,13 @@ from functions.wishlist import (
     removeFromWishlist
 )
 
+from functions.friendList import (
+    friendList_add,
+    friendList_delete,
+    friendList_view,
+    check_friend_exists
+)
+
 from functions.admin import (
     assignAdmin,
     checkAdmin,
@@ -399,7 +406,7 @@ def updateDetails():
     u_id = response["u_id"]
     fname = response["fname"]
     lname = response["lname"]
-    secretQ = response["secreatQ"]
+    secretQ = response["secretQ"]
     secretA = response["secretA"]
     # this function is for updating the details in u_id's profile
     # hopefully someone else can implement it
@@ -537,6 +544,29 @@ def checkBannedList():
         return {"success": 1}
     return {"success": 0}
 
+
+################    Friend List   ##################
+
+
+@app.route("/api/friends/add", methods=["POST"])
+def addFriend():
+    response = request.get_json()
+    user_id = response["user_id"]
+    friend_id = response["friend_id"]
+    return friendList_add(user_id, friend_id)
+
+@app.route("/api/friends/delete", methods=["POST"])
+def deleteFriend():
+    response = request.get_json()
+    user_id = response["user_id"]
+    friend_id = response["friend_id"]
+    return friendList_delete(user_id, friend_id)
+
+@app.route("/api/friends/view", methods=["POST"])
+def viewFriend():
+    response = request.get_json()
+    user_id = response["user_id"]
+    return friendList_view(user_id)
 
 
 ################    Admin Functions   ##################

@@ -19,7 +19,7 @@ def profile_update(u_id, fname, lname, secretQ, secretA):
         last_name = '{lname}',
         secret_question = '{secretQ}',
         secret_answer = '{secretA}'
-        WHERE u_id = '{u_id}';
+        WHERE user_id = '{u_id}';
         """
     )
     conn.commit()

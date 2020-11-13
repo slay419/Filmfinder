@@ -12,5 +12,55 @@
     width: 30%;
     display: flex;
     flex-direction: column;
+    a {
+      color: #1f88e5;
+      font-size: 0.8rem;
+      margin-top: -10px;
+      margin-bottom: 1rem;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .rego {
+      font-size: 0.8rem;
+      text-align: center;
+      margin-top: 15px;
+    }
+  }
+}
+
+.forgot-pass {
+  h1 {
+    margin: auto;
+    margin-bottom: 20px;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  form {
+    display: flex;
+    align-items: center;
+    margin: 1rem;
+
+    input {
+      font-family: "Poppins";
+      font-size: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      height: 38px;
+      padding: 0.7rem;
+      width: 300px;
+    }
+
+    button {
+      font-family: "Poppins";
+      font-size: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      height: 38px;
+      padding: 0.7rem;
+    }
   }
 }

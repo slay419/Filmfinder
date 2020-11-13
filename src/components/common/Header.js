@@ -46,14 +46,14 @@ const Header = () => {
             </Link>
           </li>
           <li>
+            <Link to="/friends">Film Partner</Link>
+          </li> 
+          <li>
             <Link to="/myprofile">
               {User.first_name.charAt(0).toUpperCase() +
                 User.first_name.slice(1)}
             </Link>
           </li>
-          <li>
-            <Link to="/friends">Film Partner</Link>
-          </li> 
         </ul>
       )}
     </div>

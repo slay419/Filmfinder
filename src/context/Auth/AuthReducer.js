@@ -13,7 +13,10 @@ import {
   ADMIN_CHECK,
   DELETE_USER,
   DELETE_MOVIE,
-  RESET_REDIR
+  RESET_REDIR,
+  VERIFY,
+  VERIFY_ERROR,
+  NOT_VERIFIED
 } from "../types";
 
 import { UNANSWERED } from "./AuthState";
@@ -64,6 +67,7 @@ export default (state, action) => {
       return {
         ...state,
         User: action.payload,
+        verified: 1,
       };
     case LOGOUT:
       // logout successful, remove user details from state
@@ -87,26 +91,42 @@ export default (state, action) => {
       return {
         ...state,
         User: action.payload,
+        verified: 1,
       };
     case ADMIN_CHECK:
       return {
         ...state,
-        admin: action.payload.isAdmin
-      }
+        admin: action.payload.isAdmin,
+      };
     case DELETE_MOVIE:
       return {
         ...state,
-        redir: 1
-      }
+        redir: 1,
+      };
     case DELETE_USER:
       return {
         ...state,
-        redir: 1
-      }
+        redir: 1,
+      };
     case RESET_REDIR:
         return {
           ...state,
           redir: 0
+        }
+    case VERIFY:
+        return {
+          ...state,
+          verified: 1
+        }
+    case NOT_VERIFIED:
+        return {
+          ...state,
+          verified: 0
+        }
+    case VERIFY_ERROR:
+        return {
+          ...state,
+          verified: -1,
         }
     case ERROR:
       // error occured in back end, display error
@@ -118,7 +138,8 @@ export default (state, action) => {
     case UNEXPECTED_ERROR:
       // unexpected erorr
       console.log("Error : " + action.payload);
-      break;
+      return state;
+
     default:
       return state;
   }

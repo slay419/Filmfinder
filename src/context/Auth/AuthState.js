@@ -18,9 +18,11 @@ import {
     DELETE_MOVIE,
     DELETE_USER,
     RESET_REDIR,
-    GET_FRIENDS,
-    GET_NOTIFICATIONS,
+    NOT_VERIFIED,
+    VERIFY,
+    VERIFY_ERROR,
  } from "../types";
+import Login from "../../components/auth/Login";
 
  export const CORRECT = 2;
  export const INCORRECT = 1;
@@ -38,8 +40,7 @@ const AuthState = (props) => {
         Changed: 0,
         redir: 0,
         admin: null,
-        friends: [],
-        notifications: [],
+        verified: 0,
         //user info stored in this state
     };
 
@@ -56,7 +57,7 @@ const AuthState = (props) => {
         })
         .then((res) => res.json())
         .then((data) => {
-            dispatch( {type: SET_USER, payload: data})
+            dispatch( {type: LOGIN, payload: data})
         }).catch((err) => {
             // unexpected error occured
             dispatch( {type: UNEXPECTED_ERROR, payload: err})
@@ -65,7 +66,7 @@ const AuthState = (props) => {
 
     const registerUser = (email, password, conPassword, fname, lname, secretQ, secretA) => {
         // pass user details to the back end to register the user
-        fetch('./auth/register', {
+        fetch('/auth/register', {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -97,7 +98,7 @@ const AuthState = (props) => {
 
     const getQuestion = (email) => {
         //fetch the question from the back end
-        fetch('./auth/getQuestion', {
+        fetch('/auth/getQuestion', {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -117,7 +118,7 @@ const AuthState = (props) => {
 
     const answerQuestion = (email, ans) => {
         // send answer to back end for validation
-        fetch('./auth/getAnswer', {
+        fetch('/auth/getAnswer', {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -136,7 +137,7 @@ const AuthState = (props) => {
 
     const changePasswordForg = (email, password) => {
         // now that question is validated, change password
-        fetch('./auth/resetpassword', {
+        fetch('/auth/resetpassword', {
         method: "POST",
         headers: {
             "Content-type": "application/json; charset=UTF-8"
@@ -160,7 +161,7 @@ const AuthState = (props) => {
 
     const login = (email, password) => {
       // send login details to the back end for validation
-      fetch('./auth/login', {
+      fetch('/auth/login', {
           method: "POST",
           headers: {
               "Content-type": "application/json; charset=UTF-8"
@@ -170,8 +171,14 @@ const AuthState = (props) => {
       .then((res) => res.json())
       .then((data) => {
           if ("error" in data){
-            //if error in sent details, update state to show the error
-            dispatch( {type: ERROR, payload: data})
+              if ("User" in data){
+                dispatch( {type: LOGIN, payload: data.User})
+                dispatch( {type: NOT_VERIFIED, payload: data.User})
+              } else {
+                //if error in sent details, update state to show the error
+                dispatch( {type: ERROR, payload: data});
+              }
+
           } else {
             //login successful, update state
             dispatch( {type: LOGIN, payload: data})
@@ -185,7 +192,7 @@ const AuthState = (props) => {
 
     const logout = (u_id) => {
         // logout current user from back end
-        fetch('./auth/logout', {
+        fetch('/auth/logout', {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -204,7 +211,7 @@ const AuthState = (props) => {
 
     // changes the password by fetching the back end
     const changePassword = (email, oldPassword, newPassword) => {
-        fetch('./auth/changepass', {
+        fetch('/profile/auth/changepass', {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -285,6 +292,23 @@ const AuthState = (props) => {
         dispatch({type: RESET_REDIR, payload: null});
     }
 
+    const verify = (email, code) => {
+        fetch('/auth/confirmEmail', {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify({email : email, confirmation_code: code})
+        })
+        .then((data) => {
+            if ("error" in data){
+                dispatch( {type: VERIFY_ERROR})                 
+            } else {
+                dispatch( {type: VERIFY})  
+            }
+        });       
+    }
+
     const makeAdmin = (user_id) => {
         fetch('/admin/makeAdmin', {
             method: "POST",
@@ -295,28 +319,6 @@ const AuthState = (props) => {
         })
         .then(() => {
             dispatch( {type: ADMIN_CHECK, payload: ({"isAdmin" : 1})})    
-        });
-    }
-
-    const getFriends = (u_id) => {
-        fetch('/friends/getFriends/' + u_id)
-        .then((res) => res.json())
-        .then((data) => {
-            dispatch( {type: GET_FRIENDS, payload: data})    
-        })
-        .catch((err) => {
-            dispatch( {type: UNEXPECTED_ERROR, payload: err})
-        });
-    }
-
-    const getNotifications = (u_id) => {
-        fetch('/friends/getNotifications/' + u_id)
-        .then((res) => res.json())
-        .then((data) => {
-            dispatch( {type: GET_NOTIFICATIONS, payload: data})    
-        })
-        .catch((err) => {
-            dispatch( {type: UNEXPECTED_ERROR, payload: err})
         });
     }
 
@@ -346,10 +348,8 @@ const AuthState = (props) => {
         deleteMovie,
         deleteUser,
         makeAdmin,
-        getFriends,
-        getNotifications,
-        notifications: state.notifications,
-        friends: state.friends,
+        verified: state.verified,
+        verify,
       }}
     >
       {props.children}

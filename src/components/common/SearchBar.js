@@ -1,9 +1,9 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import MoviesContext from "../../context/moviesList/moviesContext";
 import "../../styles/SearchBar.scss";
 import searchIcon from "../../icons/search-interface-symbol.svg";
 import Select from "react-select";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const options = [
   { value: "All", label: "All" },
@@ -11,12 +11,12 @@ const options = [
   { value: "Directors", label: "Directors" },
 ];
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 const SearchBar = () => {
   const history = useHistory();
-
-  const routeChange = () => {
-    history.push("/");
-  };
 
   const moviesContext = useContext(MoviesContext);
   const {
@@ -24,8 +24,13 @@ const SearchBar = () => {
     searchMoviesGenre,
     searchMoviesDirector,
   } = moviesContext;
+
   const [searchInput, setSearchInput] = useState("");
   const [option, setOption] = useState("All");
+
+  const routeChange = (q, option) => {
+    history.push(`/search?q=${q}&option=${option}`);
+  };
 
   let formOutline = useRef(null);
 
@@ -35,23 +40,33 @@ const SearchBar = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
+    routeChange(searchInput, option);
+  };
 
-    switch (option) {
+  let query = useQuery();
+
+  useEffect(() => {
+    const q = query.get("q");
+    console.log(q);
+    const o = query.get("option");
+    console.log(o);
+    switch (o) {
       case "All":
-        searchMovies(searchInput);
+        searchMovies(q);
         break;
       case "Directors":
-        searchMoviesDirector(searchInput);
+        searchMoviesDirector(q);
         break;
       case "Genres":
-        searchMoviesGenre(searchInput);
+        searchMoviesGenre(q);
         break;
       default:
-        searchMovies(searchInput);
+        searchMovies(q);
         break;
     }
-    routeChange();
-  };
+    setSearchInput(q);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onFocus = () => {
     formOutline.style.border = "2px solid #278cea";

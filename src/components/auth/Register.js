@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { useState, useContext } from "react";
 import "../../styles/register.scss";
 import AuthContext from "../../context/Auth/AuthContext";
@@ -117,12 +117,19 @@ const Register = () => {
     : " ";
 
   const authContext = useContext(AuthContext);
-  const { error, registerUser, redir } = authContext;
+  const { error, registerUser, redir, resetRedir } = authContext;
+
+  const reset = () => {
+    resetRedir();
+  }
 
   return (
     <>
       {redir !== 0 ? (
-        <Redirect to="/login" />
+        <div>
+          {reset}
+          <Redirect to="/login" />
+        </div>
       ) : (
         <div className="register">
           <h1>Register</h1>
@@ -170,7 +177,7 @@ const Register = () => {
                 helperText={passwordHelperText}
                 error={passwordValidator}
                 required
-              />              
+              />
               <RegisterTextField
                 size="small"
                 label="first name"
@@ -206,72 +213,16 @@ const Register = () => {
               <Button
                 disabled={passwordValidator || emailValidator}
                 type="submit"
-                variant="text"
+                variant="outlined"
                 color="primary"
               >
                 Submit
               </Button>
             </ThemeProvider>
+            <div className="logon">
+              Already have an Account? <Link to="/login">Login</Link>
+            </div>
           </form>
-
-          {/* <form>
-            <label for="email">Email:</label>
-            <input
-              type="text"
-              placeholder="Enter email"
-              id="email"
-              onChange={emailHandler}
-            ></input>
-
-            <label for="pword">Password:</label>
-            <input
-              type="password"
-              placeholder="Enter password"
-              id="pword"
-              onChange={passwordHandler}
-            ></input>
-
-            <label for="fname">First Name:</label>
-            <input
-              type="text"
-              placeholder="Enter First Name"
-              id="fname"
-              onChange={fnameHandler}
-            ></input>
-
-            <label for="lname">Last name:</label>
-            <input
-              type="text"
-              placeholder="Enter Last Name"
-              id="lname"
-              onChange={lnameHandler}
-            ></input>
-
-            <label for="secretQ">Secret Question:</label>
-            <input
-              type="text"
-              placeholder="Enter Secret Question"
-              id="secretQ"
-              onChange={secretQHandler}
-            ></input>
-
-            <label for="secretA">Secret Answer:</label>
-            <input
-              type="text"
-              placeholder="Enter Secret Answer"
-              id="secretA"
-              onChange={secretAHandler}
-            ></input>
-
-            <button
-              type="button"
-              onClick={() =>
-                registerUser(email, password, fname, lname, secretQ, secretA)
-              }
-            >
-              register
-            </button>
-          </form> */}
         </div>
       )}
     </>
