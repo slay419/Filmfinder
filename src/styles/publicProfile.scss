@@ -1,18 +1,42 @@
-.publicProfile {
+.public-profile {
+  .content-section {
+    display: flex;
 
-    .column{
-        .btn {
-            display: inline-block;
-            border: 1px solid black;
-            padding: 10px 20px;
-            background: gainsboro;
-            border-radius: 5px;
-            &:hover {
-                cursor: pointer;
-                background-color: black;
-                color: white;
-                transition: 0.3s ease;
-            }
+    .side-bar {
+      margin-left: 1rem;
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin-top: 5rem;
+      span {
+        font-size: 0.8rem;
+        color: #333;
+        padding: 0.7rem 0rem;
+        border-bottom: 1px solid #ccc;
+        a {
+          color: #333;
+          &:hover {
+            color: #1f88e5;
+          }
         }
+        &:hover {
+          padding: 0.9rem 0;
+          cursor: pointer;
+          //font-weight: bold;
+          color: #1f88e5;
+        }
+      }
     }
+
+    .content {
+      flex: 5;
+    }
+  }
+}
+
+.public-wishlist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

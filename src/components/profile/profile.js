@@ -62,6 +62,7 @@ const Profile = () => {
     if (admin == null && User != null) {
       checkIfAdmin();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const authContext = useContext(AuthContext);
@@ -152,7 +153,7 @@ const Profile = () => {
       <h1>
         Your Profile <span className="small">({User.email})</span>
       </h1>
-      <Link to={"/profile/" + User.u_id}> Public Profile</Link>
+
       <div className="body">
         <div className="profile-details">
           <h2>Profile Details</h2>
@@ -222,6 +223,9 @@ const Profile = () => {
           ) : (
             <div></div>
           )}
+          <span>
+            <Link to={"/profile/" + User.u_id}>View Public Profile</Link>
+          </span>
           <span onClick={handleRemove} className="btn">
             Delete Your Own Profile
           </span>
