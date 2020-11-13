@@ -22,27 +22,17 @@ const BannedListItem = ({ user }) => {
   return (
     <div>
       {profile && (
-        <>
-          <div
-            className="banned-list-item"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              padding: 10,
-              border: "1px solid grey",
-              borderRadius: "5px",
-              marginTop: "5px",
-            }}
-          >
+        <div className="banned-list-item">
+          <span>
             {profile.first_name} {profile.last_name}
-            <span
-              onClick={() => handleRemove(profile.user_id)}
-              style={{ color: "red", cursor: "pointer" }}
-            >
-              remove
-            </span>
-          </div>
-        </>
+          </span>
+          <span
+            onClick={() => handleRemove(profile.user_id)}
+            style={{ color: "red", cursor: "pointer" }}
+          >
+            remove
+          </span>
+        </div>
       )}
     </div>
   );

@@ -23,7 +23,12 @@
         color: #333;
         padding: 0.7rem 0rem;
         border-bottom: 1px solid #ccc;
-
+        a {
+          color: #333;
+          &:hover {
+            color: #1f88e5;
+          }
+        }
         &:hover {
           padding: 0.9rem 0;
           cursor: pointer;
@@ -55,4 +60,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.banned-list-item {
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  padding: 0.6rem;
+  border-bottom: 1px solid grey;
 }

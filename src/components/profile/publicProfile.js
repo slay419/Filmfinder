@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import Spinner from "../common/Spinner";
 
 import "../../styles/publicProfile.scss";
 import AuthContext from "../../context/Auth/AuthContext";
-import { SettingsInputComponent } from "@material-ui/icons";
+import PublicWishlist from "./PublicWishlist";
 
 const PublicProfile = (props) => {
   const history = useHistory();
@@ -19,38 +18,32 @@ const PublicProfile = (props) => {
     checkBannedList,
     banned,
     unbanUser,
-    addPartner, 
-    removePartner, 
-    partner, 
-    checkPartner, 
+    addPartner,
+    removePartner,
+    partner,
+    checkPartner,
     getCompatability,
     compatability,
     setLoading,
-
   } = profileContext;
   const authContext = useContext(AuthContext);
-  const { User, admin, redir, deleteUser, resetRedir, } = authContext;
+  const { User, admin, redir, deleteUser, resetRedir } = authContext;
   const uid = props.match.params.uid;
 
   useEffect(() => {
     console.log("useEFfect ran");
-    getUserById(uid)
+    getUserById(uid);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uid]);
 
   useEffect(() => {
-    if (profile != null){
-      console.log("into the heart")
+    if (profile != null) {
+      console.log("into the heart");
       checkBannedList(User.u_id, profile.user_id);
       checkPartner(User.u_id, profile.user_id);
       getCompatability(User.u_id, profile.user_id);
     }
-  }, [profile, compatability])
-
-  const handleWishList = () => {
-    let path = "/profile/wishlist/" + uid;
-    history.push(path);
-  };
+  }, [profile, compatability]);
 
   const routeChange = () => {
     resetRedir();
@@ -78,43 +71,38 @@ const PublicProfile = (props) => {
   };
 
   const handleRemove = () => {
-    if (User.u_id === profile.user_id){
-      alert("Delete Your own profile through the profile page")
-    } else if (window.confirm("Are you sure you want to remove this user from the website?")){
+    if (User.u_id === profile.user_id) {
+      alert("Delete Your own profile through the profile page");
+    } else if (
+      window.confirm(
+        "Are you sure you want to remove this user from the website?"
+      )
+    ) {
       deleteUser(profile.user_id);
     }
   };
-
-  //<h1>{User.first_name.charAt(0).toUpperCase() + User.first_name.slice(1) + " " + User.last_name.charAt(0).toUpperCase() + User.last_name.slice(1)}'s Profile:</h1>
   return (
     <div>
       {redir === 0 ? (
-        <div className="publicProfile">
-          {loading ? (
-            <Spinner />
-          ) : (
-            <div>
-              {profile == null ? (
-                <div>
-                  {() => getCompatability()}
-                </div>
-              ) : (
-                <div>
-                  <h1>
-                    {profile.first_name.charAt(0).toUpperCase() +
-                      profile.first_name.slice(1) +
-                      " " +
-                      profile.last_name.charAt(0).toUpperCase() +
-                      profile.last_name.slice(1)}
-                    's Profile:
-                  </h1>
-                  <div className="column">
-                    <span onClick={handleWishList} className="btn">
-                      View Wishlist
-                    </span>
-                    <span onClick={handleReviews} className="btn">
-                      View recent reviews
-                    </span>
+        <div className="public-profile">
+          <div>
+            {profile == null ? (
+              <div>{() => getCompatability()}</div>
+            ) : (
+              <div>
+                <h1>
+                  {profile.first_name.charAt(0).toUpperCase() +
+                    profile.first_name.slice(1) +
+                    " " +
+                    profile.last_name.charAt(0).toUpperCase() +
+                    profile.last_name.slice(1)}
+                </h1>
+                <div className="content-section">
+                  <div className="body">
+                    <PublicWishlist uid={profile.user_id} />
+                    <h2>Recent Reviews</h2>
+                  </div>
+                  <div className="side-bar">
                     {compatability === 0 ? (
                       <p>You have no Compatability</p>
                     ) : (
@@ -147,15 +135,15 @@ const PublicProfile = (props) => {
                     )}
                   </div>
                 </div>
-              )}
-            </div>
-          )}
+              </div>
+            )}
+          </div>
         </div>
       ) : (
         routeChange()
       )}
-    </div>  
-  )
+    </div>
+  );
 };
 
 export default PublicProfile;
