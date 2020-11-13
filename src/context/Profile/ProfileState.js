@@ -227,8 +227,14 @@ const ProfileState = (props) => {
       });
   };
 
-  const getFriends = (u_id) => {
-    fetch('/friends/getFriends/' + u_id)
+  const getFriends = (user_id) => {
+    fetch("/api/friends/view", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ user_id : user_id}),
+    })
     .then((res) => res.json())
     .then((data) => {
         dispatch( {type: GET_FRIENDS, payload: data})    
@@ -251,12 +257,12 @@ const getNotifications = (u_id) => {
 
 const addPartner = (user_id, partner_id) => {
   console.log("add partner " + user_id + " " + partner_id);
-  fetch("/friends/add", {
+  fetch("/api/friends/add", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-    body: JSON.stringify({ user_id: user_id, partner_id: partner_id }),
+    body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
   })
     .then((res) => res.json())
     .then((data) => {
@@ -270,12 +276,12 @@ const addPartner = (user_id, partner_id) => {
 
 const removePartner = (user_id, partner_id) => {
   console.log("add partner " + user_id + " " + partner_id);
-  fetch("/friends/remove", {
+  fetch("/api/friends/delete", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-    body: JSON.stringify({ user_id: user_id, partner_id: partner_id }),
+    body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
   })
     .then((res) => res.json())
     .then((data) => {
