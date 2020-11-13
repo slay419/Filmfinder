@@ -140,6 +140,7 @@ class Movie(Resource):
 
         else:
             # Search through movie titles, overview and genre for matching keywords in that order
+            cur.execute("drop view IF EXISTS temp_id;")
             cur.execute(
                 f"""
                 create view temp_id as
@@ -576,6 +577,16 @@ def viewFriend():
     response = request.get_json()
     user_id = response["user_id"]
     return friendList_view(user_id)
+
+@app.route("/api/friends/check", methods=["POST"])
+def checkFriend():
+    response = request.get_json()
+    user_id = response["user_id"]
+    friend_id = response["friend_id"]
+    if check_friend_exists(user_id, friend_id):
+        return ({"friend": 1})
+    return ({"friend": 0})
+
 
 
 ################    Admin Functions   ##################
