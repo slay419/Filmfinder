@@ -41,7 +41,7 @@ def friendList_delete(u_id, f_id):
     c.execute(f"DELETE FROM friend WHERE user_id='{u_id}' AND friend_id='{f_id}';")
     conn.commit()
     conn.close()
-    return {"success": 0}
+    return {"success": 1}
 
 #friendList_view returns the current logged in user's banlist
 def friendList_view(u_id):
@@ -70,11 +70,22 @@ def check_friend_exists(u_id, f_id):
 # Checks the movie is in both users wishlist
 #If 1 is following 2 and 2 adds a movie to there wishlist that is also in 1's wishlist
 #Send a notification
-# def friendList_notify(u_id, movie_id):
-#     conn = sqlite3.connect("users.db")
-#     c = conn.cursor()
-#     c.execute(
-#         f"""
-#         SELECT user_id FROM friend_list WHERE friend_id='{u_id}' AND user_id IN (SELECT user_id FROM wishlist WHERE movie_id='{movie_id}');
-#         """
-#     )
+def friendList_notify(u_id, movie_id):
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(
+        f"""
+        SELECT user_id FROM friend_list WHERE friend_id='{u_id}' AND user_id IN (SELECT user_id FROM wishlist WHERE movie_id='{movie_id}');
+        """
+    )
+    userList = c.fetchall()
+    for user in userList:
+        print(user[0])
+        c.execute(
+            f"""
+            INSERT INTO notifications(user_id, message) VALUES({user[0]}, "Test message: Your buddy {u_id} just added {movie_id} to their wishlist");
+            """
+        )
+    conn.commit()
+    conn.close()
+    return {"success": 1}
