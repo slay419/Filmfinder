@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
 
@@ -19,6 +19,8 @@ import PublicWishlist from "./components/profile/PublicWishlist";
 import UpdateMovie from "./components/movies/updateMovie";
 import Friends from "./components/Friends/Friends";
 import Verify from "./components/auth/Verify";
+import Error404 from "./components/auth/Error404";
+import ProfileReviews from "./components/profile/profileReviews";
 
 // Context
 import MoviesState from "./context/moviesList/MoviesState";
@@ -67,6 +69,11 @@ function App() {
                     component={bannedlist}
                   />
                   <Route
+                    path="/myprofile/reviews"
+                    exact
+                    component={ProfileReviews}
+                  />
+                  <Route
                     path="/myprofile/change"
                     exact
                     component={ChangePass}
@@ -81,6 +88,7 @@ function App() {
                   <Route path="/update/:id" exact component={UpdateMovie} />
                   <Route path="/friends" exact component={Friends} />
                   <Route path="/verify" exact component={Verify} />
+                  <Route component={Error404} />
                 </Switch>
               </Router>
             </div>

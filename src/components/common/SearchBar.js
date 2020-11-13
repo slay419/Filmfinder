@@ -9,6 +9,7 @@ const options = [
   { value: "All", label: "All" },
   { value: "Genres", label: "Genres" },
   { value: "Directors", label: "Directors" },
+  { value: "Actors", label: "Actors" },
 ];
 
 function useQuery() {
@@ -23,6 +24,7 @@ const SearchBar = () => {
     searchMovies,
     searchMoviesGenre,
     searchMoviesDirector,
+    searchMoviesActor,
   } = moviesContext;
 
   const [searchInput, setSearchInput] = useState("");
@@ -60,6 +62,8 @@ const SearchBar = () => {
       case "Genres":
         searchMoviesGenre(q);
         break;
+      case "Actors":
+        searchMoviesActor(q);
       default:
         searchMovies(q);
         break;

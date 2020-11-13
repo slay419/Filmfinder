@@ -40,7 +40,8 @@ from functions.review import (
     incrementLikes, 
     editReview,
     deleteReview,
-    getMovieReviewList
+    getMovieReviewList,
+    getReviews
 )
 
 from functions.bannedList import (
@@ -404,6 +405,14 @@ def updateDetails():
     # this function is for updating the details in u_id's profile
     # hopefully someone else can implement it
     return profile_update(u_id, fname, lname, secretQ, secretA)
+
+
+@app.route("/profile/reviews", methods=["POST"])
+def getUserReviews():
+    response = request.get_json()
+    u_id = response["u_id"]
+    review_list = getReviews(u_id)
+    return {"reviews_list": review_list}
 
 ################   Wishlist   ##################
 

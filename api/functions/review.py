@@ -29,6 +29,7 @@ def newReview(user_id, movie_id, comment, score):
     elif score > 10:
         return {"error": "Score cannot be greater than 10"}
 
+    updateRating(score, movie_id) # This will update the average rating
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
 
@@ -68,6 +69,10 @@ def editReview(review_id, comment, score):
     cur.execute(
         f'UPDATE review SET comment = "{comment}", score = {score} where review_id = {review_id};'
     )
+    cur.execute(f'SELECT movie_id FROM review WHERE review_id={review_id}')
+    movie_id = cur.fetchone()[0]
+    updateRating(score, movie_id) # This will update the average rating
+
     conn.commit()
     conn.close()
     return {"success": "True"}
@@ -165,3 +170,36 @@ def getUserReviewList(user_id):
         movie_list.append(movie[0])
 
     return movie_list
+
+def updateRating(new_rating, movie_id):
+    conn = sqlite3.connect("./movieDB.db")
+    cur = conn.cursor()
+    cur.execute(f"SELECT vote_count, vote_avg FROM movie WHERE movie_id={movie_id}")
+    res = cur.fetchone()
+    total_votes, avg = res[0], res[1]
+    new_avg = (avg * total_votes + new_rating)/(total_votes + 1)
+
+    cur.execute(
+        f"""UPDATE movie 
+        SET vote_count={total_votes+1}, vote_avg={new_avg} 
+        WHERE movie_id={movie_id}"""
+        )
+    conn.commit()
+    conn.close()
+
+def getReviews(user_id):
+    conn = sqlite3.connect("./users.db")
+    cur = conn.cursor()
+    cur.execute(f"SELECT review_id, comment, score, num_likes FROM review WHERE user_id = {user_id};")
+
+    reviews = []
+    for review in cur.fetchall():
+        item = {}
+        item['review_id'] = review[0]
+        item['comment'] = review[1]
+        item['score'] = review[2]
+        item['num_likes'] = review[3]
+        reviews.append(item)
+    conn.close()
+
+    return reviews

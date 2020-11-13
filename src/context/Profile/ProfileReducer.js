@@ -17,6 +17,7 @@ import {
   ADD_PARTNER,
   REMOVE_PARTNER,
   GET_COMPATABILITY,
+  GET_PROFILE_REVIEWS,
 } from "../types";
 //
 // Placeholder file
@@ -59,6 +60,14 @@ export default (state, action) => {
       return {
         ...state,
         wishlist: action.payload,
+        loading: !state.loading,
+      };
+    case GET_PROFILE_REVIEWS:
+      // retrieve reviews the user has left
+      console.log(action.payload);
+      return {
+        ...state,
+        reviews: action.payload,
         loading: !state.loading,
       };
     case SET_LOADING:
