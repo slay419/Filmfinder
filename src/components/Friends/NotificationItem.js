@@ -1,23 +1,28 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 
-const NotificationItem = ( {note} ) => {
+const NotificationItem = ({ note }) => {
+  const removeHandler = (note) => {
+    alert("You would have removed -" + note + "- if it actually worked");
+  };
 
-    const removeHandler = (note) => {
-        alert("You would have removed -" + note + "- if it actually worked")
-    }
-
-    return (
+  return (
+    <div>
+      {note === undefined ? (
+        <></>
+      ) : (
         <div>
-            { note === undefined ? (
-                <></>
-            ) : ( 
-            <div>
-                <p>{note}</p>
-                <button onClick={() => {removeHandler(note)}}>Remove</button>
-            </div> 
-            )}
+          <p>{note}</p>
+          <button
+            onClick={() => {
+              removeHandler(note);
+            }}
+          >
+            Remove
+          </button>
         </div>
-    )
-}
+      )}
+    </div>
+  );
+};
 
 export default NotificationItem;

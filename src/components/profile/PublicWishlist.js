@@ -4,7 +4,7 @@ import MovieList from "../movies/MovieList";
 
 const PublicWishlist = ({ uid }) => {
   const profileContext = useContext(ProfileContext);
-  const { profile, wishlist, getWishlist, getUserById } = profileContext;
+  const { wishlist, getWishlist, getUserById } = profileContext;
 
   useEffect(() => {
     getUserById(uid);

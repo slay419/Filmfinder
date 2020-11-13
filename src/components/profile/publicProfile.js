@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
@@ -13,7 +13,6 @@ const PublicProfile = (props) => {
   const {
     profile,
     getUserById,
-    loading,
     banUser,
     checkBannedList,
     banned,
@@ -24,7 +23,6 @@ const PublicProfile = (props) => {
     checkPartner,
     getCompatability,
     compatability,
-    setLoading,
   } = profileContext;
   const authContext = useContext(AuthContext);
   const { User, admin, redir, deleteUser, resetRedir } = authContext;
@@ -43,15 +41,12 @@ const PublicProfile = (props) => {
       checkPartner(User.u_id, profile.user_id);
       getCompatability(User.u_id, profile.user_id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile, compatability]);
 
   const routeChange = () => {
     resetRedir();
     history.push("/");
-  };
-
-  const handleReviews = () => {
-    alert("not implemented");
   };
 
   const handleBan = () => {

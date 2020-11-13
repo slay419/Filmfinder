@@ -62,6 +62,7 @@ const Profile = () => {
     if (admin == null && User != null) {
       checkIfAdmin();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const authContext = useContext(AuthContext);
