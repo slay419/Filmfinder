@@ -181,7 +181,7 @@ def updateRating(new_rating, movie_id):
 
     cur.execute(
         f"""UPDATE movie 
-        SET vote_count={total_votes+1}, vote_avg={new_avg} 
+        SET vote_count={total_votes+1}, vote_avg={round(new_avg, 1)} 
         WHERE movie_id={movie_id}"""
         )
     conn.commit()
