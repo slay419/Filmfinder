@@ -14,6 +14,9 @@ from functions.review import(
 from functions.search import (
     extractMovieDetails
 )
+from functions.friendList import (
+    friendList_notify
+)
 
 # Add movie to wishlist
 # Remove movie from wishlist
@@ -38,6 +41,7 @@ def addWishlist(user_id, movie_id):
     )
     conn.commit()
     conn.close()
+    friendList_notify(user_id, movie_id)
     return {"success": 1}
 
 # Checks if the movie is in the user's wishlist
