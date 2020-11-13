@@ -20,6 +20,7 @@ import UpdateMovie from "./components/movies/updateMovie";
 import Friends from "./components/Friends/Friends";
 import Verify from "./components/auth/Verify";
 import Error404 from "./components/auth/Error404";
+import ProfileReviews from "./components/profile/profileReviews";
 
 // Context
 import MoviesState from "./context/moviesList/MoviesState";
@@ -51,7 +52,6 @@ function App() {
                 <Header />
                 <Switch>
                   <Route path="/" exact component={Home} />
-                  <Route path="/search" component={Home} />
                   <Route path="/login" exact component={Login} />
                   <Route path="/register" exact component={Register} />
                   <Route path="/movies/:id" component={MovieDetails} />
@@ -66,6 +66,11 @@ function App() {
                     path="/myprofile/bannedlist"
                     exact
                     component={bannedlist}
+                  />
+                  <Route
+                    path="/myprofile/reviews"
+                    exact
+                    component={ProfileReviews}
                   />
                   <Route
                     path="/myprofile/change"

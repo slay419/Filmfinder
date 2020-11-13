@@ -113,7 +113,8 @@ const Profile = () => {
   };
 
   const handleReviews = () => {
-    alert("not implemented");
+    let path = "/myprofile/reviews";
+    history.push(path);
   };
 
   const handlePassword = () => {
