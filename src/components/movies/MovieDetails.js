@@ -228,7 +228,7 @@ const MovieDetails = (props) => {
             </div>
           </div>
           <Recommendations id={id} />
-          <Reviews />
+          <Reviews movie={movie} />
         </div>
       ) : (
         routeChange()
