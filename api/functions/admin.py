@@ -125,7 +125,7 @@ def editMovieCast(movie_id, director_name, cast_list):
         actor_id = getCastIdByName(cast_name)
         if actor_id == -1:
             actor_id = insertNewCastMember(cast_name)
-        cur.execute(f"insert into acting(actor_id, movie_id) values({actor_id}, {movie_id});")
+        cur.execute(f"insert into acting(actor_id, movie_id) values({actor_id}, {movie_id})")
 
     conn.commit()
     conn.close()
