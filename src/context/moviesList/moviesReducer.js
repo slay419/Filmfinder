@@ -10,6 +10,7 @@ import {
   SORT_MOVIES_BY_SCORE,
   FILTER_MOVIES_BY_RATING,
   FILTER_MOVIES_BY_YEAR,
+  SEARCH_MOVIES_ACTOR,
 } from "../types";
 
 export default (state, action) => {
@@ -67,6 +68,17 @@ export default (state, action) => {
         ),
       };
     case SEARCH_MOVIES_DIRECTOR:
+      return {
+        ...state,
+        movies: action.payload,
+        loading: false,
+        currentPage: action.payload.slice(0, state.postsPerPage),
+        page: 1,
+        maxPage: Math.ceil(
+          Object.keys(action.payload).length / state.postsPerPage
+        ),
+      };
+    case SEARCH_MOVIES_ACTOR:
       return {
         ...state,
         movies: action.payload,

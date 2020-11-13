@@ -48,13 +48,13 @@ const MovieDetails = (props) => {
   // function that searches movies by director on homepage
   const clickDirector = (director) => {
     searchMoviesDirector(director);
-    routeChange();
+    history.push(`/search?q=${director}&option=Directors`);
   };
 
   // function that searches movies by genre on homepage
   const clickGenre = (genre) => {
     searchMoviesGenre(genre);
-    routeChange();
+    history.push(`/search?q=${genre}&option=Genres`);
   };
 
   // function to handle wishlistrun s

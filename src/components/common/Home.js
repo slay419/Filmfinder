@@ -33,6 +33,7 @@ const Home = () => {
     searchMovies,
     searchMoviesGenre,
     searchMoviesDirector,
+    searchMoviesActor,
     loading,
     page,
     maxPage,
@@ -56,6 +57,8 @@ const Home = () => {
       case "Genres":
         searchMoviesGenre(q);
         break;
+      case "Actors":
+        searchMoviesActor(q);
       default:
         searchMovies(q);
         break;
@@ -98,14 +101,14 @@ const Home = () => {
       )}
       <div className="pageBar">
         <button className="pageButton" onClick={() => getPrevPage()}>
-          &laquo; Previous
+          &laquo;
         </button>
         <p>
           {" "}
           {page} of {maxPage}
         </p>
         <button className="pageButton" onClick={() => getNextPage()}>
-          Next &raquo;
+          &raquo;
         </button>
       </div>
       <Snackbar
