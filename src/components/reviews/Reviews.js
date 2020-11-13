@@ -58,7 +58,7 @@ const SubmitButton = styled(Button)({
   fontFamily: "Poppins",
 });
 
-const Reviews = () => {
+const Reviews = ({ movie }) => {
   // initalising local state
   const [score, setScore] = useState("5");
   const [reviewText, setReviewText] = useState("");
@@ -68,7 +68,7 @@ const Reviews = () => {
   const { User } = authContext;
 
   const movieContext = useContext(MovieContext);
-  const { postReview, movie, getReviews } = movieContext;
+  const { postReview, getReviews } = movieContext;
 
   const { movie_id } = movie;
 

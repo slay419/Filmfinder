@@ -1,18 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import ProfileContext from "../../context/Profile/ProfileContext";
-import Spinner from "../common/Spinner";
 import MovieList from "../movies/MovieList";
 
-const PublicWishlist = (props) => {
+const PublicWishlist = ({ uid }) => {
   const profileContext = useContext(ProfileContext);
-  const {
-    profile,
-    wishlist,
-    getWishlist,
-    loading,
-    getUserById,
-  } = profileContext;
-  const uid = props.match.params.uid;
+  const { wishlist, getWishlist, getUserById } = profileContext;
 
   useEffect(() => {
     getUserById(uid);
@@ -21,15 +13,11 @@ const PublicWishlist = (props) => {
   }, []);
 
   return (
-    <div>
-      <h1>{profile.first_name + " " + profile.last_name}'s Wishlist:</h1>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <div>
-          <MovieList movies={wishlist} />
-        </div>
-      )}
+    <div className="public-wishlist">
+      <h2>Wishlist</h2>
+      <div>
+        <MovieList movies={wishlist} />
+      </div>
     </div>
   );
 };

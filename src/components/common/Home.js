@@ -13,7 +13,6 @@ import AuthContext from "../../context/Auth/AuthContext";
 
 // styles
 import "../../styles/Home.scss";
-import { MarkunreadMailboxOutlined } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import SortAndFilterBar from "./SortAndFilterBar";
 
@@ -24,7 +23,7 @@ function useQuery() {
 const Home = () => {
   const location = useLocation();
   const authContext = useContext(AuthContext);
-  const { User, admin, checkIfAdmin, setUser, verified} = authContext;
+  const { User, admin, checkIfAdmin, setUser, verified } = authContext;
 
   const [successOpen, setSuccessOpen] = useState(User !== null);
 
@@ -34,6 +33,7 @@ const Home = () => {
     searchMovies,
     searchMoviesGenre,
     searchMoviesDirector,
+    searchMoviesActor,
     loading,
     page,
     maxPage,
@@ -57,13 +57,13 @@ const Home = () => {
       case "Genres":
         searchMoviesGenre(q);
         break;
+      case "Actors":
+        searchMoviesActor(q);
       default:
         searchMovies(q);
         break;
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    if (admin == null && User != null){
+    if (admin == null && User != null) {
       checkIfAdmin();
     }
     if (User == null) {
@@ -71,6 +71,7 @@ const Home = () => {
         setUser(localStorage.getItem("FilmFinderUser"));
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.key]);
 
   const handleClose = (event, reason) => {
@@ -81,9 +82,10 @@ const Home = () => {
   };
   return (
     <div className="home">
-      { (verified === 0 || verified === -1) && User != null ? (
+      {(verified === 0 || verified === -1) && User != null ? (
         <div>
-          <p>You have not verified your email, </p><Link to="/verify">Verify Here</Link>
+          <p>You have not verified your email, </p>
+          <Link to="/verify">Verify Here</Link>
         </div>
       ) : (
         <></>
@@ -99,14 +101,14 @@ const Home = () => {
       )}
       <div className="pageBar">
         <button className="pageButton" onClick={() => getPrevPage()}>
-          &laquo; Previous
+          &laquo;
         </button>
         <p>
           {" "}
           {page} of {maxPage}
         </p>
         <button className="pageButton" onClick={() => getNextPage()}>
-          Next &raquo;
+          &raquo;
         </button>
       </div>
       <Snackbar

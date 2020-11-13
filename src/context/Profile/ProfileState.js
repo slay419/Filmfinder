@@ -18,7 +18,8 @@ import {
   ADD_PARTNER,
   REMOVE_PARTNER,
   CHECK_PARTNER,
-  GET_COMPATABILITY
+  GET_COMPATABILITY,
+  GET_PROFILE_REVIEWS
 } from "../types";
 
 const ProfileState = (props) => {
@@ -34,6 +35,7 @@ const ProfileState = (props) => {
     notifications: [],
     partner: 0,
     compatability: 0,
+    reviews: [],
   };
 
   const [state, dispatch] = useReducer(ProfileReducer, initialState);
@@ -74,6 +76,29 @@ const ProfileState = (props) => {
         dispatch({
           type: GET_WISHLIST,
           payload: movies_list.slice(0, data.number),
+        });
+      })
+      .catch((err) => {
+        dispatch({ type: WISHLIST_ERROR, payload: err });
+      });
+  };
+
+  const getReviews = (u_id) => {
+    setLoading();
+    fetch("/profile/reviews", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ u_id: u_id }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        const reviews_list = Object.values(data.reviews_list);
+        dispatch({
+          type: GET_PROFILE_REVIEWS,
+          payload: reviews_list,
         });
       })
       .catch((err) => {
@@ -335,6 +360,8 @@ const getCompatability = async (user_id, partner_id) => {
     <ProfileContext.Provider
       value={{
         profile: state.profile,
+        reviews: state.reviews,
+        getReviews,
         bannedList: state.bannedList,
         banUser,
         wishlist: state.wishlist,

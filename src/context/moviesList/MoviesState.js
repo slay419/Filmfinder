@@ -9,6 +9,7 @@ import {
   SEARCH_MOVIES,
   SEARCH_MOVIES_GENRE,
   SEARCH_MOVIES_DIRECTOR,
+  SEARCH_MOVIES_ACTOR,
   NEXT_PAGE,
   PREV_PAGE,
   SORT_MOVIES_BY_SCORE,
@@ -72,6 +73,24 @@ const MoviesState = (props) => {
         .then((data) => {
           const movies_list = Object.values(data.movies);
           dispatch({ type: SEARCH_MOVIES_DIRECTOR, payload: movies_list });
+        })
+        .catch((err) => {
+          dispatch({ type: MOVIES_ERROR, payload: err });
+        });
+    }
+  };
+
+  const searchMoviesActor = (text) => {
+    if (text === "") {
+      getMovies();
+    } else {
+      setLoading();
+      fetch(`/api/search/actedIn?actor=${text}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const movies_list = Object.values(data.movies);
+          console.log(movies_list);
+          dispatch({ type: SEARCH_MOVIES_ACTOR, payload: movies_list });
         })
         .catch((err) => {
           dispatch({ type: MOVIES_ERROR, payload: err });
@@ -157,7 +176,6 @@ const MoviesState = (props) => {
       20
     );
   };
-  
 
   return (
     <MoviesContext.Provider
@@ -168,6 +186,7 @@ const MoviesState = (props) => {
         searchMovies,
         searchMoviesGenre,
         searchMoviesDirector,
+        searchMoviesActor,
         getNextPage,
         getPrevPage,
         sortByScore,

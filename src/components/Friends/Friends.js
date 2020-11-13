@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+//import { useHistory } from "react-router-dom";
 import FriendsList from "./FriendsList";
 import NotificationList from "./NotificationList";
 import "../../styles/Friends.scss";
@@ -11,13 +11,13 @@ const Friends = () => {
     const {User} = authContext;
     const profileContext = useContext(ProfileContext);
     const { friends, getFriends, notifications, getNotifications, } = profileContext;
-    const history = useHistory();
+    //const history = useHistory();
     useEffect(() => {
         getFriends(User.u_id);
         //getNotifications();
     }, [friends, notifications]);
 
-    const testVars = ["one", "two", "three"];
+  const testVars = ["one", "two", "three"];
 
     return (
         <div className="friends">
