@@ -35,7 +35,7 @@ const PublicProfile = (props) => {
   }, [uid]);
 
   useEffect(() => {
-    if (profile != null) {
+    if (profile !== null && User !== null) {
       console.log("into the heart");
       checkBannedList(User.u_id, profile.user_id);
       checkPartner(User.u_id, profile.user_id);
@@ -50,19 +50,35 @@ const PublicProfile = (props) => {
   };
 
   const handleBan = () => {
-    banUser(User.u_id, profile.user_id);
+    if (User !== null) {
+      banUser(User.u_id, profile.user_id);
+    } else {
+      alert("You must be logged in to ban users")
+    }  
   };
 
   const handleUnBan = () => {
-    unbanUser(User.u_id, profile.user_id);
+    if (User !== null) {
+      unbanUser(User.u_id, profile.user_id);
+    } else {
+      alert("You must be logged in to unban")
+    }
   };
 
   const handleAddPartner = () => {
-    addPartner(User.u_id, profile.user_id);
+    if (User !== null) {
+      addPartner(User.u_id, profile.user_id);
+    } else {
+      alert("You must be logged in to add partners")
+    }
   };
 
   const handleRemovePartner = () => {
-    removePartner(User.u_id, profile.user_id);
+    if (User !== null) {
+      removePartner(User.u_id, profile.user_id);
+    } else {
+      alert("You must be logged in to add partners")
+    }
   };
 
   const handleRemove = () => {

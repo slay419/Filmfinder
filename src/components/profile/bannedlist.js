@@ -11,13 +11,17 @@ const Bannedlist = () => {
   const { User } = authContext;
 
   useEffect(() => {
-    getBannedList(User.u_id);
+    if (User !== null){
+      getBannedList(User.u_id);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [User]);
 
   console.log(bannedList);
 
   return (
+    <>
+    {User !== null ? ( 
     <div>
       <h1>Your Banned List</h1>
       <br />
@@ -29,6 +33,10 @@ const Bannedlist = () => {
         </div>
       )}
     </div>
+    ) : (
+      <p>You must be logged in to use the banned list</p>
+    )}
+    </>
   );
 };
 export default Bannedlist;
