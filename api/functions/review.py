@@ -72,7 +72,8 @@ def editReview(review_id, comment, score):
     cur.execute(f'SELECT movie_id FROM review WHERE review_id={review_id}')
     movie_id = cur.fetchone()[0]
     updateRating(score, movie_id) # This will update the average rating
-
+    conn.commit()
+    conn.close()
     item = {}
     item['review_id'] = review_id
     item['comment'] = comment
