@@ -7,7 +7,7 @@ import MovieItem from "./MovieItem";
 import gsap from "gsap";
 import "../../styles/MovieList.scss";
 
-const MovieList = ({ movies }) => {
+const MovieList = ({ movies, cols }) => {
   const [movieList, setMovieList] = useState([]);
   const movieDomNodes = [];
 

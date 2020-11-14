@@ -41,3 +41,8 @@ CREATE TABLE IF NOT EXISTS admins (
     user_id integer PRIMARY KEY,
     admin_id integer NOT NULL UNIQUE
 );
+
+CREATE TABLE IF NOT EXISTS notifications (
+    user_id integer, 
+    message text
+);

@@ -58,6 +58,15 @@ from functions.wishlist import (
     removeFromWishlist
 )
 
+from functions.friendList import (
+    friendList_add,
+    friendList_delete,
+    friendList_view,
+    notification_view,
+    notification_remove,
+    check_friend_exists
+)
+
 from functions.admin import (
     assignAdmin,
     checkAdmin,
@@ -133,6 +142,7 @@ class Movie(Resource):
 
         else:
             # Search through movie titles, overview and genre for matching keywords in that order
+            cur.execute("drop view IF EXISTS temp_id;")
             cur.execute(
                 f"""
                 create view temp_id as
@@ -400,7 +410,7 @@ def updateDetails():
     u_id = response["u_id"]
     fname = response["fname"]
     lname = response["lname"]
-    secretQ = response["secreatQ"]
+    secretQ = response["secretQ"]
     secretA = response["secretA"]
     # this function is for updating the details in u_id's profile
     # hopefully someone else can implement it
@@ -546,6 +556,50 @@ def checkBannedList():
         return {"success": 1}
     return {"success": 0}
 
+
+################    Friend List   ##################
+
+
+@app.route("/api/friends/add", methods=["POST"])
+def addFriend():
+    response = request.get_json()
+    user_id = response["user_id"]
+    friend_id = response["friend_id"]
+    return friendList_add(user_id, friend_id)
+
+@app.route("/api/friends/delete", methods=["POST"])
+def deleteFriend():
+    response = request.get_json()
+    user_id = response["user_id"]
+    friend_id = response["friend_id"]
+    return friendList_delete(user_id, friend_id)
+
+@app.route("/api/friends/view", methods=["POST"])
+def viewFriend():
+    response = request.get_json()
+    user_id = response["user_id"]
+    return friendList_view(user_id)
+
+@app.route("/api/friends/check", methods=["POST"])
+def checkFriend():
+    response = request.get_json()
+    user_id = response["user_id"]
+    friend_id = response["friend_id"]
+    if check_friend_exists(user_id, friend_id):
+        return ({"friend": 1})
+    return ({"friend": 0})
+
+@app.route("/api/friends/viewNotification", methods=["POST"])
+def viewNotification():
+    response = request.get_json()
+    user_id = response["user_id"]
+    return notification_view(user_id)
+
+@app.route("/api/friends/removeNotification", methods=["POST"])
+def removeNotification():
+    response = request.get_json()
+    user_id = response["user_id"]
+    return notification_remove(user_id)
 
 
 ################    Admin Functions   ##################

@@ -19,7 +19,8 @@ import {
   REMOVE_PARTNER,
   CHECK_PARTNER,
   GET_COMPATABILITY,
-  GET_PROFILE_REVIEWS
+  GET_PROFILE_REVIEWS,
+  CLEAR_NOTIFICATIONS
 } from "../types";
 
 const ProfileState = (props) => {
@@ -141,7 +142,7 @@ const ProfileState = (props) => {
   };
 
   const updateDetails = async (u_id, firstName, lastName, secretQ, secretA) => {
-    fetch("./update", {
+    fetch("/profile/update", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -168,7 +169,6 @@ const ProfileState = (props) => {
   };
 
   const getRecommendations = (u_id) => {
-    //Implemented here but not on backend
     fetch(`/api/movies/recommendedFor/${u_id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -252,11 +252,18 @@ const ProfileState = (props) => {
       });
   };
 
-  const getFriends = (u_id) => {
-    fetch('/friends/getFriends/' + u_id)
+  const getFriends = (user_id) => {
+    fetch("/api/friends/view", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ user_id : user_id}),
+    })
     .then((res) => res.json())
     .then((data) => {
-        dispatch( {type: GET_FRIENDS, payload: data})    
+      console.log(data.friends_list);
+        dispatch( {type: GET_FRIENDS, payload: data.friend_list})    
     })
     .catch((err) => {
         dispatch( {type: UNEXPECTED_ERROR, payload: err})
@@ -264,10 +271,33 @@ const ProfileState = (props) => {
 }
 
 const getNotifications = (u_id) => {
-    fetch('/friends/getNotifications/' + u_id)
+  fetch("/api/friends/viewNotification", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({ user_id: u_id }),
+  })
     .then((res) => res.json())
     .then((data) => {
-        dispatch( {type: GET_NOTIFICATIONS, payload: data})    
+        dispatch( {type: GET_NOTIFICATIONS, payload: data.notification_list})    
+    })
+    .catch((err) => {
+        dispatch( {type: UNEXPECTED_ERROR, payload: err})
+    });
+}
+
+const clearNotifications = (u_id) => {
+  fetch("/api/friends/removeNotification", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({ user_id: u_id }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+        dispatch( {type: CLEAR_NOTIFICATIONS})    
     })
     .catch((err) => {
         dispatch( {type: UNEXPECTED_ERROR, payload: err})
@@ -276,12 +306,12 @@ const getNotifications = (u_id) => {
 
 const addPartner = (user_id, partner_id) => {
   console.log("add partner " + user_id + " " + partner_id);
-  fetch("/friends/add", {
+  fetch("/api/friends/add", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-    body: JSON.stringify({ user_id: user_id, partner_id: partner_id }),
+    body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
   })
     .then((res) => res.json())
     .then((data) => {
@@ -295,12 +325,12 @@ const addPartner = (user_id, partner_id) => {
 
 const removePartner = (user_id, partner_id) => {
   console.log("add partner " + user_id + " " + partner_id);
-  fetch("/friends/remove", {
+  fetch("/api/friends/delete", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-    body: JSON.stringify({ user_id: user_id, partner_id: partner_id }),
+    body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
   })
     .then((res) => res.json())
     .then((data) => {
@@ -314,16 +344,16 @@ const removePartner = (user_id, partner_id) => {
 
 const checkPartner = (user_id, partner_id) => {
   console.log("Check partner " + user_id + " " + partner_id);
-  fetch("/friends/check", {
+  fetch("/api/friends/check", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-    body: JSON.stringify({ user_id: user_id, partner_id: partner_id }),
+    body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
   })
     .then((res) => res.json())
     .then((data) => {
-      dispatch({ type: CHECK_PARTNER, payload: data.partner });
+      dispatch({ type: CHECK_PARTNER, payload: data.friend });
     })
     .catch((err) => {
       dispatch({ type: UNEXPECTED_ERROR, payload: err });
@@ -380,6 +410,7 @@ const getCompatability = async (user_id, partner_id) => {
         partner: state.partner,
         compatability: state.compatability,
         getCompatability,
+        clearNotifications,
       }}
     >
       {props.children}

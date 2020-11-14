@@ -18,6 +18,7 @@ import {
   REMOVE_PARTNER,
   GET_COMPATABILITY,
   GET_PROFILE_REVIEWS,
+  CLEAR_NOTIFICATIONS,
 } from "../types";
 //
 // Placeholder file
@@ -112,6 +113,11 @@ export default (state, action) => {
       return {
         ...state,
         notifications: action.payload
+      }
+    case CLEAR_NOTIFICATIONS:
+      return {
+        ...state,
+        notifications: []
       }
       
     case ADD_PARTNER:

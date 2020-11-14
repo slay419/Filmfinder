@@ -1,37 +1,77 @@
-.Profile {
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-    .bodys {
+  .small {
+    font-size: 20px;
+    font-weight: normal;
+  }
+  .body {
+    margin: 2rem 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .links {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin-top: 2rem;
+      span {
+        font-size: 0.8rem;
+        color: #333;
+        padding: 0.7rem 0rem;
+        border-bottom: 1px solid #ccc;
+        a {
+          color: #333;
+          &:hover {
+            color: #1f88e5;
+          }
+        }
+        &:hover {
+          padding: 0.9rem 0;
+          cursor: pointer;
+          //font-weight: bold;
+          color: #1f88e5;
+        }
+      }
+    }
+
+    .profile-details {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 5;
+      min-width: 0;
+      max-height: 0;
+      h2 {
+        padding-bottom: 1rem;
+      }
+      form {
         display: flex;
-        width: 80%;
-        margin: auto;
-        h1 {
-        margin: auto;
-        margin-bottom: 20px;
-        }
-        form {
-            margin: 30px auto;
-            width: 80%;
-            display: flex;
-            flex-direction: column;
-        }
-        .column {
-            flex: 50%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .btn {
-            display: inline-block;
-            border: 1px solid black;
-            padding: 10px 20px;
-            background: gainsboro;
-            border-radius: 5px;
-            &:hover {
-                cursor: pointer;
-                background-color: black;
-                color: white;
-                transition: 0.3s ease;
-            }
-        }
+        flex-direction: column;
+        width: 400px;
+      }
     }
   }
+}
+
+.review-rec {
+  min-width: 0;
+  max-width: 650px;
+
+  text-align: center;
+  margin-top: 4rem;
+  p {
+    margin-bottom: 3rem;
+  }
+}
+
+.banned-list-item {
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  padding: 0.6rem;
+  border-bottom: 1px solid grey;
+}

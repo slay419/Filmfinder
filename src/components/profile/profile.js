@@ -52,8 +52,6 @@ const theme = createMuiTheme({
   },
 });
 
-
-
 const Profile = () => {
   useEffect(() => {
     if (User == null) {
@@ -61,13 +59,22 @@ const Profile = () => {
         setUser(localStorage.getItem("FilmFinderUser"));
       }
     }
-    if (admin == null && User != null){
+    if (admin == null && User != null) {
       checkIfAdmin();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const authContext = useContext(AuthContext);
-  const { User, admin, checkIfAdmin, logout, deleteUser, makeAdmin, setUser } = authContext;
+  const {
+    User,
+    admin,
+    checkIfAdmin,
+    logout,
+    deleteUser,
+    makeAdmin,
+    setUser,
+  } = authContext;
 
   const profileContext = useContext(ProfileContext);
   const { updateDetails } = profileContext;
@@ -120,17 +127,22 @@ const Profile = () => {
     history.push(path);
   };
 
- 
   //const profileContext = useContext(ProfileContext);
   //const { profileUser } = profileContext;
 
   //const [email, setEmail] = useState("")
 
   const handleRemove = () => {
-    if (window.confirm("Are you sure you want to permenantly delete you profile?")){
-      if (window.confirm("Are you Absolutely sure? You won't be able to recover it.")){
+    if (
+      window.confirm("Are you sure you want to permenantly delete you profile?")
+    ) {
+      if (
+        window.confirm(
+          "Are you Absolutely sure? You won't be able to recover it."
+        )
+      ) {
         const tempId = User.u_id;
-        logout(tempId)
+        logout(tempId);
         deleteUser(tempId);
         history.push("/");
       }
@@ -138,13 +150,16 @@ const Profile = () => {
   };
 
   return (
-    <div className="Profile">
-      <h1>Your Profile:</h1>
-      <Link to={"/profile/" + User.u_id}> Public Profile</Link>
-      <div className="bodys">
-        <div className="column">
-          <h2> Your Email: {User.email}</h2>
-          <h2> Update Profile Details:</h2>
+    <>
+    {User !== null ? (
+    <div className="profile">
+      <h1>
+        Your Profile <span className="small">({User.email})</span>
+      </h1>
+
+      <div className="body">
+        <div className="profile-details">
+          <h2>Profile Details</h2>
           <form onSubmit={handleSubmit} autoComplete="off">
             <ThemeProvider theme={theme}>
               <UpdateTextField
@@ -179,13 +194,16 @@ const Profile = () => {
                 helperText=" "
                 required
               />
-              <Button variant="text" color="primary">
+              <Button variant="outlined" color="primary">
                 Submit
               </Button>
             </ThemeProvider>
           </form>
+          <div className="review-rec">
+            <ReviewRec id={User.u_id} />
+          </div>
         </div>
-        <div className="column">
+        <div className="links">
           <span onClick={handlePassword} className="btn">
             Change Password
           </span>
@@ -198,23 +216,29 @@ const Profile = () => {
           <span onClick={handleReviews} className="btn">
             View recent reviews
           </span>
-          <span onClick={() => makeAdmin(User.u_id)} className="btn"> 
+          <span onClick={() => makeAdmin(User.u_id)} className="btn">
             View as admin
           </span>
           {admin === 1 ? (
-              <span onClick={handleAddNew} className="btn">
-                Add new Movie
-              </span>
+            <span onClick={handleAddNew} className="btn">
+              Add new Movie
+            </span>
           ) : (
             <div></div>
           )}
+          <span>
+            <Link to={"/profile/" + User.u_id}>View Public Profile</Link>
+          </span>
           <span onClick={handleRemove} className="btn">
             Delete Your Own Profile
           </span>
         </div>
       </div>
-      <ReviewRec id={User.u_id} />
     </div>
+    ) : (
+      <p>You Must be logged in to view profile</p>
+    )}
+    </>
   );
 };
 
