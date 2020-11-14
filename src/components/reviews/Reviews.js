@@ -120,7 +120,6 @@ const Reviews = ({ movie }) => {
             <div className="score-submit-box">
               <div className="score-select">
                 <Select
-                  value={score}
                   onChange={handleSelectChange}
                   placeholder={"score"}
                   options={options}

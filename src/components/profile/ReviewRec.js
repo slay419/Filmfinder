@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 
 // Components
 import RecommendationSlide from "../recommendations/RecommendationSlide";
@@ -16,8 +16,9 @@ const sliderSettings = {
   className: "center",
   centerMode: true,
   infinite: true,
+  //variableWidth: true,
   centerPadding: "60px",
-  slidesToShow: 3,
+  slidesToShow: 2,
   speed: 500,
 };
 
@@ -25,7 +26,6 @@ const ReviewRec = ({ id }) => {
   // using the movie context
   const profileContext = useContext(ProfileContext);
   const { getRecommendations, recommendations } = profileContext;
-
   // on load, get the similar movies
   useEffect(() => {
     if (id) {
@@ -35,7 +35,7 @@ const ReviewRec = ({ id }) => {
   }, [id]);
 
   return (
-    <div className="review-rec">
+    <div className="review-rec-inner">
       <h2>Recommendations</h2>
       <p> These recommendations are based on review history</p>
       {recommendations === null ? (

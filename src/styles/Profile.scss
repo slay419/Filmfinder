@@ -43,6 +43,8 @@
       flex-direction: column;
       align-items: center;
       flex: 5;
+      min-width: 0;
+      max-height: 0;
       h2 {
         padding-bottom: 1rem;
       }
@@ -56,10 +58,14 @@
 }
 
 .review-rec {
+  min-width: 0;
+  max-width: 650px;
+
+  text-align: center;
   margin-top: 4rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  p {
+    margin-bottom: 3rem;
+  }
 }
 
 .banned-list-item {

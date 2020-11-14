@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import "../../styles/Recommendations.scss";
 
 const RecommendationSlide = ({ movie }) => {
   const [poster, setPoster] = useState(
