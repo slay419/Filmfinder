@@ -79,6 +79,14 @@ def notification_view(u_id):
     print(n_list)
     return {"notification_list": n_list}
 
+def notification_remove(u_id):
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(f"DELETE FROM notifications WHERE user_id='{u_id}';")
+    conn.commit()
+    conn.close()
+    return {"success": 1}
+
 # Checks the movie is in both users wishlist
 #If 1 is following 2 and 2 adds a movie to there wishlist that is also in 1's wishlist
 #Send a notification
