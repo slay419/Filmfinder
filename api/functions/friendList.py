@@ -76,6 +76,7 @@ def notification_view(u_id):
     for item in notification_list:
         n_list.append(item[0])
     conn.close()
+    print(n_list)
     return {"notification_list": n_list}
 
 # Checks the movie is in both users wishlist
@@ -94,7 +95,7 @@ def friendList_notify(u_id, movie_id):
         print(user[0])
         c.execute(
             f"""
-            INSERT INTO notifications(user_id, message) VALUES({user[0]}, "Test message: Your buddy {u_id} just added {movie_id} to their wishlist");
+            INSERT INTO notifications(user_id, message) VALUES({user[0]}, "{u_id} {movie_id}");
             """
         )
     conn.commit()

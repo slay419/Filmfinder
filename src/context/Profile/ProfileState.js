@@ -270,10 +270,16 @@ const ProfileState = (props) => {
 }
 
 const getNotifications = (u_id) => {
-    fetch('/friends/getNotifications/' + u_id)
+  fetch("/api/friends/viewNotification", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({ user_id: u_id }),
+  })
     .then((res) => res.json())
     .then((data) => {
-        dispatch( {type: GET_NOTIFICATIONS, payload: data})    
+        dispatch( {type: GET_NOTIFICATIONS, payload: data.notification_list})    
     })
     .catch((err) => {
         dispatch( {type: UNEXPECTED_ERROR, payload: err})
