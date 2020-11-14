@@ -168,7 +168,6 @@ const ProfileState = (props) => {
   };
 
   const getRecommendations = (u_id) => {
-    //Implemented here but not on backend
     fetch(`/api/movies/recommendedFor/${u_id}`)
       .then((res) => res.json())
       .then((data) => {
