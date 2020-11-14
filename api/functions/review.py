@@ -216,8 +216,14 @@ def removeRating(rating, movie_id):
 
 def getReviews(user_id):
     conn = sqlite3.connect("./users.db")
+    conn.execute("ATTACH DATABASE 'movieDB.db' as movie")
     cur = conn.cursor()
-    cur.execute(f"SELECT review_id, comment, score, num_likes FROM review WHERE user_id = {user_id};")
+    cur.execute(
+        f'''SELECT review_id, comment, score, num_likes, title
+            FROM review 
+                JOIN movie ON movie.movie_id = review.movie_id
+            WHERE user_id = {user_id};'''
+        )
 
     reviews = []
     for review in cur.fetchall():
@@ -226,7 +232,7 @@ def getReviews(user_id):
         item['comment'] = review[1]
         item['score'] = review[2]
         item['num_likes'] = review[3]
+        item['title'] = review[4]
         reviews.append(item)
     conn.close()
-
     return reviews

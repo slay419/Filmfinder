@@ -134,7 +134,7 @@ const Profile = () => {
 
   const handleRemove = () => {
     if (
-      window.confirm("Are you sure you want to permenantly delete you profile?")
+      window.confirm("Are you sure you want to permanently delete you profile?")
     ) {
       if (
         window.confirm(

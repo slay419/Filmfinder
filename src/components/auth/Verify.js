@@ -84,7 +84,7 @@ const Verify = () => {
                     error={codeValidator}
                     required
                   />
-                  <Button onClick={handleVerify}>Verify Email</Button>
+                  <Button onClick={handleVerify} variant="outlined">Verify Email</Button>
                 </ThemeProvider>
               </form>
             </div>
