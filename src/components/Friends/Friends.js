@@ -5,12 +5,13 @@ import NotificationList from "./NotificationList";
 import "../../styles/Friends.scss";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import AuthContext from "../../context/Auth/AuthContext";
+import { NotificationsPaused } from "@material-ui/icons";
 
 const Friends = () => {
     const authContext = useContext(AuthContext);
     const {User} = authContext;
     const profileContext = useContext(ProfileContext);
-    const { friends, getFriends, notifications, getNotifications, } = profileContext;
+    const { friends, getFriends, notifications, getNotifications, clearNotifications } = profileContext;
     //const history = useHistory();
     useEffect(() => {
         if (User !== null){
@@ -20,7 +21,9 @@ const Friends = () => {
     }, [User]);
 
   const handleClear = () => {
-    alert("Clear pressed");
+    if (notifications.length !== 0){
+        clearNotifications(User.u_id);
+    }
   }
 
     return (

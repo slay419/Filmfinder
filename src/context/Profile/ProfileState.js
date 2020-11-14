@@ -19,7 +19,8 @@ import {
   REMOVE_PARTNER,
   CHECK_PARTNER,
   GET_COMPATABILITY,
-  GET_PROFILE_REVIEWS
+  GET_PROFILE_REVIEWS,
+  CLEAR_NOTIFICATIONS
 } from "../types";
 
 const ProfileState = (props) => {
@@ -286,6 +287,23 @@ const getNotifications = (u_id) => {
     });
 }
 
+const clearNotifications = (u_id) => {
+  fetch("/api/friends/removeNotification", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({ user_id: u_id }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+        dispatch( {type: CLEAR_NOTIFICATIONS})    
+    })
+    .catch((err) => {
+        dispatch( {type: UNEXPECTED_ERROR, payload: err})
+    });
+}
+
 const addPartner = (user_id, partner_id) => {
   console.log("add partner " + user_id + " " + partner_id);
   fetch("/api/friends/add", {
@@ -392,6 +410,7 @@ const getCompatability = async (user_id, partner_id) => {
         partner: state.partner,
         compatability: state.compatability,
         getCompatability,
+        clearNotifications,
       }}
     >
       {props.children}
