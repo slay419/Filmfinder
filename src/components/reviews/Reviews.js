@@ -17,6 +17,22 @@ import Select from "react-select";
 
 // theming for material ui components
 const theme = createMuiTheme({
+  typography: {
+    fontFamily: [
+      "Poppins",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
+    fontSize: 12,
+  },
   palette: {
     primary: {
       light: "#6ab7ff",
@@ -102,10 +118,11 @@ const Reviews = ({ movie }) => {
     <div className="reviews">
       <h2>Reviews</h2>
       {/* previous reviews in reviews list */}
-      <ReviewList />
-      {User !== null ? (
-        // form for new review creation and submission
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <ReviewList options={options} />
+        {User !== null ? (
+          // form for new review creation and submission
+
           <div className="review-box">
             <ReviewTextField
               id="review-input-box"
@@ -152,10 +169,10 @@ const Reviews = ({ movie }) => {
               </span>
             </div>
           </div>
-        </ThemeProvider>
-      ) : (
-        <></>
-      )}
+        ) : (
+          <></>
+        )}
+      </ThemeProvider>
     </div>
   );
 };

@@ -10,6 +10,7 @@ import {
   ADD_ACTOR,
   REMOVE_ACTOR,
   RESET_ACTORS,
+  EDIT_REVIEW,
 } from "../types";
 
 export default (state, action) => {
@@ -39,6 +40,19 @@ export default (state, action) => {
         ...state,
         reviews: action.payload,
       };
+    case EDIT_REVIEW:
+      return {
+        ...state,
+        reviews: state.reviews.map((r) =>
+          r.review_id === action.payload.review_id
+            ? {
+                ...r,
+                comment: action.payload.comment,
+                score: action.payload.score,
+              }
+            : r
+        ),
+      };
     case MOVIES_ERROR:
       console.log(action.payload);
       return state;
@@ -63,28 +77,28 @@ export default (state, action) => {
     case ADD_ACTOR:
       return {
         ...state,
-        actors: [...state.actors, action.payload]
-      }
+        actors: [...state.actors, action.payload],
+      };
     case REMOVE_ACTOR:
-      console.log("reducer reached")
+      console.log("reducer reached");
       var newActors = state.actors;
-      for (const elem in newActors){
-        console.log(elem)
-        if (newActors[elem] === action.payload){
-          console.log("gonna try and remove " + newActors[elem])
+      for (const elem in newActors) {
+        console.log(elem);
+        if (newActors[elem] === action.payload) {
+          console.log("gonna try and remove " + newActors[elem]);
           newActors.splice(elem, 1);
           break;
         }
       }
       return {
         ...state,
-        actors: newActors
-      }      
+        actors: newActors,
+      };
     case RESET_ACTORS:
       return {
         ...state,
-        actors: []
-      }
+        actors: [],
+      };
     default:
       return state;
   }

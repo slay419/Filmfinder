@@ -25,7 +25,8 @@ const MovieItem = ({ movie }) => {
         <div className="movie-item-inner">
           <img className="movie-img " src={poster} alt={title} />
           <p>
-            {vote_avg} <GradeIcon style={{ color: "gold" }} />
+            {Math.round(vote_avg * 10) / 10}{" "}
+            <GradeIcon style={{ color: "gold" }} />
           </p>
           <span className="movie-header">
             <h1 className="movie-title">{`${title} (${release_date.substring(

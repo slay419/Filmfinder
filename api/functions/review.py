@@ -73,9 +73,11 @@ def editReview(review_id, comment, score):
     movie_id = cur.fetchone()[0]
     updateRating(score, movie_id) # This will update the average rating
 
-    conn.commit()
-    conn.close()
-    return {"success": "True"}
+    item = {}
+    item['review_id'] = review_id
+    item['comment'] = comment
+    item['score'] = score
+    return item
 
 
 def deleteReview(review_id):

@@ -496,9 +496,10 @@ def likeReviewComment():
 
 @app.route("/api/review/editMovieReview", methods=["POST"])
 def editMovieReview():
-    review_id = int(request.form.get("review_id"))
-    comment = request.form.get("comment")
-    score = int(request.form.get("score"))
+    response = request.get_json(force=True)
+    review_id = int(response["review_id"])
+    comment = response["comment"]
+    score = int(response["score"])
     return editReview(review_id, comment, score)
 
 

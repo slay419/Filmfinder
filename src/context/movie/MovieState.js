@@ -14,6 +14,7 @@ import {
   ADD_ACTOR,
   REMOVE_ACTOR,
   RESET_ACTORS,
+  EDIT_REVIEW,
 } from "../types";
 
 const MovieState = (props) => {
@@ -40,6 +41,28 @@ const MovieState = (props) => {
         console.log("THE DATA");
         console.log(data);
         dispatch({ type: GET_MOVIE_BY_ID, payload: data.movie[id] });
+      })
+      .catch((err) => {
+        dispatch({ type: MOVIES_ERROR, payload: err });
+      });
+  };
+
+  const editReview = async (review_id, comment, score) => {
+    await fetch("/api/review/editMovieReview", {
+      mode: "no-cors",
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        review_id: review_id,
+        comment: comment,
+        score: score,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: EDIT_REVIEW, payload: data });
       })
       .catch((err) => {
         dispatch({ type: MOVIES_ERROR, payload: err });
@@ -173,25 +196,36 @@ const MovieState = (props) => {
       });
   };
 
-  const addActor = async (actor) =>{
-    if (actor !== "" && actor != null){
-      dispatch( { type: ADD_ACTOR, payload: actor});
+  const addActor = async (actor) => {
+    if (actor !== "" && actor != null) {
+      dispatch({ type: ADD_ACTOR, payload: actor });
     }
-  }
+  };
 
-  const removeActor = async (actor) =>{
-    if (actor !== "" && actor != null){
-      dispatch( { type: REMOVE_ACTOR, payload: actor});
+  const removeActor = async (actor) => {
+    if (actor !== "" && actor != null) {
+      dispatch({ type: REMOVE_ACTOR, payload: actor });
     }
-  }
+  };
 
-  const addMovie = (title, adult, genres, tagline, overview, year, director, cast, poster, keywords) => {
+  const addMovie = (
+    title,
+    adult,
+    genres,
+    tagline,
+    overview,
+    year,
+    director,
+    cast,
+    poster,
+    keywords
+  ) => {
     fetch("/admin/addMovie", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         title: title,
         adult: adult,
         release_date: year,
@@ -203,58 +237,69 @@ const MovieState = (props) => {
         poster: poster,
         keywords: keywords,
       }),
-    })
-  }
+    });
+  };
 
-  const updateMovie = (title, adult, genres, tagline, overview, year, director, cast, poster) => {
-    if (state.movie.title !== title 
-    || state.movie.release_date !== year 
-    || state.movie.overview !== overview
-    || state.movie.tagline !== tagline) {
+  const updateMovie = (
+    title,
+    adult,
+    genres,
+    tagline,
+    overview,
+    year,
+    director,
+    cast,
+    poster
+  ) => {
+    if (
+      state.movie.title !== title ||
+      state.movie.release_date !== year ||
+      state.movie.overview !== overview ||
+      state.movie.tagline !== tagline
+    ) {
       fetch("/admin/updateMovieDetails/" + state.movie.movie_id, {
         method: "PUT",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           title: title,
           release_date: year,
           overview: overview,
           tagline: tagline,
         }),
-      })
+      });
     }
-    
-      if (state.movie.title !== director 
-      || state.movie.cast !== state.actors) {
-        fetch("/admin/updateMovieCast/" + state.movie.movie_id, {
-          method: "PUT",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-          body: JSON.stringify({ 
-            director_name: director,
-            cast_list: state.actors,
-          }),
-        })
-      }
-  
-        if (state.movie.title !== genres) {
-            fetch("/admin/updateMovieGenres/" + state.movie.movie_id, {
-              method: "PUT",
-              headers: {
-                "Content-type": "application/json; charset=UTF-8",
-              },
-              body: JSON.stringify({ 
-                genre_list: genres,
-              }),
-            })
-        }
-  }
+
+    if (state.movie.title !== director || state.movie.cast !== state.actors) {
+      fetch("/admin/updateMovieCast/" + state.movie.movie_id, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({
+          director_name: director,
+          cast_list: state.actors,
+        }),
+      });
+    }
+
+    if (state.movie.title !== genres) {
+      fetch("/admin/updateMovieGenres/" + state.movie.movie_id, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({
+          genre_list: genres,
+        }),
+      });
+    }
+  };
 
   const resetActors = () => {
-    dispatch( { type: RESET_ACTORS, payload: "reset" });
-  }
+    dispatch({ type: RESET_ACTORS, payload: "reset" });
+  };
 
   return (
     <MovieContext.Provider
@@ -277,6 +322,7 @@ const MovieState = (props) => {
         addMovie,
         updateMovie,
         resetActors,
+        editReview,
       }}
     >
       {props.children}
