@@ -178,7 +178,7 @@ const MovieDetails = (props) => {
             </div>
             <div className="movie-detail-stats">
               <p className="score">
-                {vote_avg}
+                {Math.round(vote_avg * 10) / 10}
                 <GradeIcon style={{ color: "gold" }} />
               </p>
               <p>
