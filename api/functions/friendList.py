@@ -53,7 +53,6 @@ def friendList_view(u_id):
     for item in friend_list:
         f_list.append(item[0])
     conn.close()
-    print(f_list)
     return {"friend_list": f_list}
 
 #Returns false if it fails to find the user and matching friend 
@@ -67,6 +66,17 @@ def check_friend_exists(u_id, f_id):
     if userData != None:
         return True
     return False
+
+def notification_view(u_id):
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(f"SELECT message FROM notifications WHERE user_id='{u_id}';")
+    notification_list = c.fetchall()
+    n_list = []
+    for item in notification_list:
+        n_list.append(item[0])
+    conn.close()
+    return {"notification_list": n_list}
 
 # Checks the movie is in both users wishlist
 #If 1 is following 2 and 2 adds a movie to there wishlist that is also in 1's wishlist
@@ -90,3 +100,5 @@ def friendList_notify(u_id, movie_id):
     conn.commit()
     conn.close()
     return {"success": 1}
+
+#Taste comaptiblity

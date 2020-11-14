@@ -62,6 +62,7 @@ from functions.friendList import (
     friendList_add,
     friendList_delete,
     friendList_view,
+    notification_view,
     check_friend_exists
 )
 
@@ -587,6 +588,11 @@ def checkFriend():
         return ({"friend": 1})
     return ({"friend": 0})
 
+@app.route("/api/friends/viewNotification", methods=["POST"])
+def viewNotification():
+    response = request.get_json()
+    user_id = response["user_id"]
+    return notification_view(user_id)
 
 
 ################    Admin Functions   ##################
