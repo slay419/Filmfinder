@@ -1,0 +1,30 @@
+Week 1
+Created a group and joined the Jira our team made. The first week was spent reading the project proposal outline and assigning work to each other.
+We decided to do the film finder project and during our first meeting began writing out the user stories as a team.
+Before we next met up I was assigned to think about what routes we would need (we had decided to create our project using python and flask)
+
+Week 2
+This week as a team we all worked on starting the Project proposal. I was given the task of thinking of novelty ideas for our film finder project.
+I helped add to the user stories section and the sprint section of the Project Proposal. Next week we aim to finish off the proposal and get ready
+to start coding.
+
+Week 3
+Worked on finishing off our project proposal in addition to researching knowledge required to start our sprint next week. My work on the proposal involved helping out others, specifically I assisted in finishing off the storyboards.
+The plan for next week is to start on our sprint, before that I will research anything necessary.
+
+Week 4
+This week we did the bulk of the sprint as we will be presenting during our demo in Week 5. I assigned myself most of the authorisation functions including login/logout/register aswell as helping out others where needed on the backend.
+The plan for the next week is to help out others before our demo is presented and clean up my code.
+
+Week 5
+We presented our demo this week with myself talking and showing the work on my teams behalf. We did a good job this sprint and finished most things we deemed necessary. We had to move some harder features that were more correlated with later work to the next sprint. During the meeting time after our presentation we completed our retrospective task and I assignmed myself with picking our meetings times for our group.
+In the meantime we decided to start our next sprint so we could get done early.
+
+Week 6 (Flex week)
+Throughout this week we continued work on sprint 2. For sprint 2 I was assigned with working on the Banned List for the backend. This was fairly simple task and I managed to get it completed early. For the rest of the time I helped others where I could. 
+
+Week 7
+This week we spent fixing up errors as we had completed all the work last week (we mistakenly thought the second demo was this week). We also discussed plans for next sprint and came to the conclusion that more help was required on the frontend. While I will still primarily be working on the backend, I will also need to help the front end when necessary. For next week, I plan to familiarise myself with the front end environment so I can help out.
+
+Week 8
+This week our team presented our demo with Peter leading and speaking on behalf of us. Like our first sprint, we managed to achieve most of the things we deemed necessary and early. We also completed our retrospective during the meeting time right after.
