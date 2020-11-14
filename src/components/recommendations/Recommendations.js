@@ -35,7 +35,7 @@ const Recommendations = ({ id }) => {
 
   return (
     <div>
-      <h1>Recommendations</h1>
+      <h2>Recommendations</h2>
       <br />
       <br />
       {recommendations === null ? (

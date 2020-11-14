@@ -3,27 +3,48 @@
 }
 
 .review-item {
-  border: 1px solid black;
-  background: gainsboro;
+  border: 1px solid #c5d7e7;
+  background: #c5d7e738;
   padding: 10px;
   margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
   .review-name {
+    color: #1f88e5;
     text-transform: uppercase;
     letter-spacing: 3px;
     font-weight: 600;
     &:hover {
-      color: #777;
+      opacity: 0.7;
       transition: ease 0.2s;
     }
   }
+
+  input {
+  }
+
   a {
     color: inherit;
   }
-  .delete-btn {
-    &:hover {
-      cursor: pointer;
-      color: red;
-      transition: ease 0.2s;
+  .right {
+    justify-content: flex-end;
+    text-align: right;
+    .edit-btn {
+      margin-right: 10px;
+      color: #333;
+      &:hover {
+        cursor: pointer;
+        color: #1f88e5;
+        transition: ease 0.2s;
+      }
+    }
+    .delete-btn {
+      color: #333;
+      &:hover {
+        cursor: pointer;
+        color: red;
+        transition: ease 0.2s;
+      }
     }
   }
 }

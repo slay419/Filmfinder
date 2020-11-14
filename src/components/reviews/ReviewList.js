@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import ReviewItem from "./ReviewItem";
 import MovieContext from "../../context/movie/movieContext";
 
-const ReviewList = () => {
+const ReviewList = ({ options }) => {
   const [reviewList, setReviewList] = useState([]);
 
   const movieContext = useContext(MovieContext);
@@ -18,7 +18,11 @@ const ReviewList = () => {
         <></>
       ) : (
         reviewList.map((review) => (
-          <ReviewItem key={review.review_id} review={review} />
+          <ReviewItem
+            options={options}
+            key={review.review_id}
+            review={review}
+          />
         ))
       )}
     </div>
