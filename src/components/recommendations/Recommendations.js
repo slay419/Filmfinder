@@ -9,7 +9,6 @@ import MovieContext from "../../context/movie/movieContext";
 // Styling
 import Slider from "react-slick";
 import "../../styles/Recommendations.scss";
-
 // slider style settings
 const sliderSettings = {
   className: "center",
