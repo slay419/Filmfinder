@@ -110,4 +110,26 @@ def friendList_notify(u_id, movie_id):
     conn.close()
     return {"success": 1}
 
-#Taste comaptiblity
+#Taste compatiblity (based on user reviews)
+def friendList_compatibility(u_id, f_id):
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(
+        f"""
+        SELECT avg(score) FROM review 
+        WHERE user_id={u_id} or user_id={f_id} 
+        GROUP BY movie_id;
+        """
+    )
+    scoreList = c.fetchall()
+    sumScore = 0
+    for score in scoreList:
+        sumScore = sumScore + score[0]
+    if sumScore == 0:
+        return {"error": "User has no common movie reviews"}
+    average = sumScore/len(scoreList)
+    average = average/10
+    percentage = "{:.0%}".format(average)
+    print(scoreList)
+    conn.close()
+    return {"Compatibility": percentage}

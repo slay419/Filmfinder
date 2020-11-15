@@ -62,6 +62,7 @@ from functions.friendList import (
     friendList_add,
     friendList_delete,
     friendList_view,
+    friendList_compatibility,
     notification_view,
     notification_remove,
     check_friend_exists
@@ -601,6 +602,12 @@ def removeNotification():
     user_id = response["user_id"]
     return notification_remove(user_id)
 
+@app.route("/api/friends/compatibility", methods=["POST"])
+def viewCompatibility():
+    response = request.get_json()
+    user_id = response["user_id"]
+    friend_id = response["friend_id"]
+    return friendList_compatibility(user_id, friend_id)
 
 ################    Admin Functions   ##################
 
