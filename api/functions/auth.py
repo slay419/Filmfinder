@@ -113,7 +113,7 @@ def auth_logout(u_id):
 
 def send_confirmation_email(email, app):
     mail = Mail(app)
-    msg = Message("Reset Code", sender="filmfindercomp3900@gmail.com", recipients=[email])
+    msg = Message("Verification Code", sender="filmfindercomp3900@gmail.com", recipients=[email])
     confirmation_code = str(randint(1000, 9999))
     update_email_code_list(email, confirmation_code)
     msg.body = f"Your confirmation code is: {confirmation_code}"
