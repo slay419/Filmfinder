@@ -160,6 +160,7 @@ const MovieDetails = (props) => {
                   <span onClick={handleDeleteMovie} className="wishlist-btn">
                     Delete Movie
                   </span>
+                  <br/>
                   <span onClick={handleUpdateMovie} className="wishlist-btn">
                     Update Details
                   </span>

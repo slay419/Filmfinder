@@ -39,14 +39,20 @@ const Recommendations = ({ id }) => {
       <br />
       <br />
       {recommendations === null ? (
-        <></>
+        <p>Recommendations are Loading...</p>
       ) : (
-        // If the recomendations are not null, show the slider with recommended movies
-        <Slider {...sliderSettings}>
-          {recommendations.map((rec) => {
-            return <RecommendationSlide movie={rec} key={rec.movie_id} />;
-          })}
-        </Slider>
+        <div>
+          {recommendations.length === 0 ? (
+            <p>This film has no recommendations</p>
+          ) : (
+          // If the recomendations are not null, show the slider with recommended movies
+          <Slider {...sliderSettings}>
+            {recommendations.map((rec) => {
+              return <RecommendationSlide movie={rec} key={rec.movie_id} />;
+            })}
+          </Slider>
+          )}
+        </div>
       )}
     </div>
   );
