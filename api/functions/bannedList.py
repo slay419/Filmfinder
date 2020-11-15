@@ -20,6 +20,7 @@ def bannedList_block(u_id, b_id):
 
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
+    c.execute(f"DELETE FROM friend_list WHERE user_id='{u_id}' AND friend_id='{b_id}';")
     c.execute(
         f"""
         INSERT INTO banned_list(user_id, banned_id)
