@@ -268,6 +268,7 @@ const AuthState = (props) => {
       },
       body: JSON.stringify({ movie_id: movie_id }),
     })
+      .then((res) => res.json())
       .then((data) => {
         if ("error" in data) {
           dispatch({ type: UNEXPECTED_ERROR, payload: data.error });
@@ -288,6 +289,7 @@ const AuthState = (props) => {
       },
       body: JSON.stringify({ user_id: user_id }),
     })
+      .then((res) => res.json())
       .then((data) => {
         if ("error" in data) {
           dispatch({ type: UNEXPECTED_ERROR, payload: data.error });
@@ -311,7 +313,9 @@ const AuthState = (props) => {
         "Content-type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify({ email: email, confirmation_code: code }),
-    }).then((data) => {
+    })
+    .then((res) => res.json())
+    .then((data) => {
       if ("error" in data) {
         console.log(data.error)
         dispatch({ type: VERIFY_ERROR, payload: "error"});
