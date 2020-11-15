@@ -313,10 +313,17 @@ const AuthState = (props) => {
       body: JSON.stringify({ email: email, confirmation_code: code }),
     }).then((data) => {
       if ("error" in data) {
-        dispatch({ type: VERIFY_ERROR });
+        console.log(data.error)
+        dispatch({ type: VERIFY_ERROR, payload: "error"});
       } else {
+        console.log(data.u_id)
+        console.log("error " + data.error)
         dispatch({ type: VERIFY });
       }
+    })
+    .catch((err) => {
+      console.log("error")
+      dispatch({ type: UNEXPECTED_ERROR, payload: err });
     });
   };
 

@@ -123,11 +123,10 @@ def check_confirmation_code(email, user_code):
             if int(user_code) == int(stored_code):
                 user_id = get_user_id(email)
                 update_confirmed_user(email)
-                return {"u_id": user_id}
+                val = {"u_id": user_id}
             else:
-                return {"error": "Confirmation codes do not match"}
-    print("ERROR NO CONFIRMATION CODE FOUND")
-    return {"error": "No confirmation code has been found for the given email"}
+                val = {"error" : "Confirmation codes do not match"}
+    return val
 
 ######################  HELPER FUNCTIONS  ########################
 
