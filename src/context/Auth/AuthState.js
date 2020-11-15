@@ -105,68 +105,68 @@ const AuthState = (props) => {
       });
   };
 
-    const getQuestion = (email) => {
-        //fetch the question from the back end
-        fetch('/auth/getQuestion', {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            },
-            body: JSON.stringify({email: email})
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            //question recieved successfully, udate state to show it
-            dispatch({ type: GET_QUESTION, payload: data });
-        })
-        .catch((err) => {
-            // error recevieved
-            dispatch({ type: UNEXPECTED_ERROR, payload: err });
-        });
-    };
+  const getQuestion = (email) => {
+    //fetch the question from the back end
+    fetch("/auth/getQuestion", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ email: email }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        //question recieved successfully, udate state to show it
+        dispatch({ type: GET_QUESTION, payload: data });
+      })
+      .catch((err) => {
+        // error recevieved
+        dispatch({ type: UNEXPECTED_ERROR, payload: err });
+      });
+  };
 
-    const answerQuestion = (email, ans) => {
-        // send answer to back end for validation
-        fetch('/auth/getAnswer', {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            },
-            body: JSON.stringify({email: email, answer: ans})
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            // question successfully recieved, update state to reflect correctness
-            dispatch({ type: ANSWER_QUESTION, payload: data });
-        })
-        .catch((err) => {
-            dispatch({ type: UNEXPECTED_ERROR, payload: err });
-        });
-    };
+  const answerQuestion = (email, ans) => {
+    // send answer to back end for validation
+    fetch("/auth/getAnswer", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ email: email, answer: ans }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // question successfully recieved, update state to reflect correctness
+        dispatch({ type: ANSWER_QUESTION, payload: data });
+      })
+      .catch((err) => {
+        dispatch({ type: UNEXPECTED_ERROR, payload: err });
+      });
+  };
 
-    const changePasswordForg = (email, password) => {
-        // now that question is validated, change password
-        fetch('/auth/resetpassword', {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json; charset=UTF-8"
-            },
-        body: JSON.stringify({email: email, password: password})
-        })
-        .then((res) => res.json())
-        .then((data) => {
-        if ("error" in data){
-            // if error occurs, i.e. password is invalid, update state to display error
-            dispatch( {type: ERROR, payload: data})
+  const changePasswordForg = (email, password) => {
+    // now that question is validated, change password
+    fetch("/auth/resetpassword", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ email: email, password: password }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if ("error" in data) {
+          // if error occurs, i.e. password is invalid, update state to display error
+          dispatch({ type: ERROR, payload: data });
         } else {
           // password changed successfully, update page to show this
           dispatch({ type: PASSWORD_CHANGED, payload: data });
         }
-        })
-        .catch((err) => {
-            dispatch({ type: UNEXPECTED_ERROR, payload: err });
-        });    
-    };
+      })
+      .catch((err) => {
+        dispatch({ type: UNEXPECTED_ERROR, payload: err });
+      });
+  };
 
   const login = (email, password) => {
     // send login details to the back end for validation

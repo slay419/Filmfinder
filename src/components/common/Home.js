@@ -59,6 +59,7 @@ const Home = () => {
         break;
       case "Actors":
         searchMoviesActor(q);
+        break;
       default:
         searchMovies(q);
         break;

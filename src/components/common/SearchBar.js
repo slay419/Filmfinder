@@ -64,6 +64,7 @@ const SearchBar = () => {
         break;
       case "Actors":
         searchMoviesActor(q);
+        break;
       default:
         searchMovies(q);
         break;
