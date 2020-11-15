@@ -25,7 +25,6 @@ export default (state, action) => {
   switch (action.type) {
     case CHANGE_PASSWORD:
       // pasword change successful
-      console.log(action.payload);
       return {
         ...state,
         Changed: 1,
@@ -33,7 +32,6 @@ export default (state, action) => {
       };
     case NO_MATCH:
       // some error occured in the passed values
-      console.log(action.payload);
       return {
         ...state,
         Match: action.payload.error,
@@ -41,7 +39,6 @@ export default (state, action) => {
       };
     case GET_QUESTION:
       //question recieved, update question field and reset other flags
-      console.log(action.payload);
       return {
         ...state,
         question: action.payload.question,
@@ -62,7 +59,6 @@ export default (state, action) => {
       };
     case LOGIN:
       // successfully loged in, add user details to state
-      console.log(action.payload);
       localStorage.setItem("FilmFinderUser", action.payload.u_id);
       return {
         ...state,
@@ -71,7 +67,6 @@ export default (state, action) => {
       };
     case LOGOUT:
       // logout successful, remove user details from state
-      console.log(action.payload);
       localStorage.removeItem("FilmFinderUser");
       return {
         ...state,
@@ -79,7 +74,6 @@ export default (state, action) => {
       };
     case REGISTER:
       // successfully registered in back end, update state
-      console.log(action.payload);
       return {
         ...state,
         redir: 1,
@@ -87,7 +81,6 @@ export default (state, action) => {
       };
     case SET_USER:
       // change user as user is already logged in
-      //console.log(action.payload);
       return {
         ...state,
         User: action.payload,
@@ -130,7 +123,6 @@ export default (state, action) => {
         }
     case ERROR:
       // error occured in back end, display error
-      console.log(action.payload);
       return {
         ...state,
         isValid: action.payload.error,

@@ -17,8 +17,6 @@ const Bannedlist = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [User]);
 
-  console.log(bannedList);
-
   return (
     <>
     {User !== null ? ( 

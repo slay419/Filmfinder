@@ -16,8 +16,6 @@ import {
 export default (state, action) => {
   switch (action.type) {
     case GET_MOVIES:
-      //console.log(action.payload);
-      //console.log(action.payload.slice(0, state.postsPerPage))
       return {
         ...state,
         movies: action.payload,
@@ -29,7 +27,6 @@ export default (state, action) => {
         ),
       };
     case NEXT_PAGE:
-      //console.log(action.payload);
       return {
         ...state,
         currentPage: action.payload,
@@ -37,8 +34,6 @@ export default (state, action) => {
         page: state.page + 1,
       };
     case PREV_PAGE:
-      //console.log("PREV_PAGE runs")
-      //console.log(action.payload);
       return {
         ...state,
         currentPage: action.payload,
@@ -90,7 +85,6 @@ export default (state, action) => {
         ),
       };
     case SET_LOADING:
-      console.log(state.loading);
       return {
         ...state,
         loading: false,

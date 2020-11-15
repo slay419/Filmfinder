@@ -38,9 +38,6 @@ const ReviewItem = ({ review, options }) => {
 
   const handleEdit = (review_id) => {
     if (editing) {
-      console.log(review_id);
-      console.log(newComment);
-      console.log(newScore);
       editReview(review_id, newComment, newScore);
     }
     setEditing(!editing);
@@ -51,10 +48,8 @@ const ReviewItem = ({ review, options }) => {
   useEffect(() => {
     const getUserById = async (id) => {
       const r = await fetch(`/api/users/${id}`).then((res) => res.json());
-      console.log(r);
       setReviewer(r);
     };
-    console.log(review);
     getUserById(user_id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

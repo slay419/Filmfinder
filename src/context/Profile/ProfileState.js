@@ -95,7 +95,6 @@ const ProfileState = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
         const reviews_list = Object.values(data.reviews_list);
         dispatch({
           type: GET_PROFILE_REVIEWS,
@@ -172,7 +171,6 @@ const ProfileState = (props) => {
     fetch(`/api/movies/recommendedFor/${u_id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if ("error" in data) {
           // placeholder
           dispatch({ type: WISHLIST_ERROR, payload: data });
@@ -197,7 +195,6 @@ const ProfileState = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if ("error" in data) {
           // placeholder
           dispatch({ type: WISHLIST_ERROR, payload: data });
@@ -222,7 +219,6 @@ const ProfileState = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if ("error" in data) {
           // placeholder
           dispatch({ type: WISHLIST_ERROR, payload: data });
@@ -262,7 +258,6 @@ const ProfileState = (props) => {
     })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data.friends_list);
         dispatch( {type: GET_FRIENDS, payload: data.friend_list})    
     })
     .catch((err) => {
@@ -305,7 +300,6 @@ const clearNotifications = (u_id) => {
 }
 
 const addPartner = (user_id, partner_id) => {
-  console.log("add partner " + user_id + " " + partner_id);
   fetch("/api/friends/add", {
     method: "POST",
     headers: {
@@ -324,7 +318,6 @@ const addPartner = (user_id, partner_id) => {
 }
 
 const removePartner = (user_id, partner_id) => {
-  console.log("add partner " + user_id + " " + partner_id);
   fetch("/api/friends/delete", {
     method: "POST",
     headers: {
@@ -343,7 +336,6 @@ const removePartner = (user_id, partner_id) => {
 }
 
 const checkPartner = (user_id, partner_id) => {
-  console.log("Check partner " + user_id + " " + partner_id);
   fetch("/api/friends/check", {
     method: "POST",
     headers: {
@@ -361,7 +353,6 @@ const checkPartner = (user_id, partner_id) => {
     });
 }
 const getCompatability = async (user_id, partner_id) => {
-  console.log("Check partner " + user_id + " " + partner_id);
   await fetch("/api/friends/compatibility", {
     method: "POST",
     headers: {

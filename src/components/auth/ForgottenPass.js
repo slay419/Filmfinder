@@ -35,10 +35,6 @@ const ForgottenPass = () => {
     error,
   } = authContext;
 
-  useEffect(() => {
-    console.log(question);
-  }, [question]);
-
   return (
     <div className="forgot-pass">
       <h1> Forgotten Password Page</h1>

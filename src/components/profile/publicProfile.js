@@ -31,14 +31,12 @@ const PublicProfile = (props) => {
   const uid = props.match.params.uid;
 
   useEffect(() => {
-    console.log("useEFfect ran");
     getUserById(uid);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uid]);
 
   useEffect(() => {
     if (profile !== null && User !== null) {
-      console.log("into the heart");
       checkBannedList(User.u_id, profile.user_id);
       checkPartner(User.u_id, profile.user_id);
       getCompatability(User.u_id, profile.user_id);

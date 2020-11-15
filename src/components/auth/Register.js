@@ -61,7 +61,6 @@ const Register = () => {
 
   const emailHandler = (e) => {
     setEmail(e.target.value);
-    console.log(email);
   };
   const passwordHandler = (e) => {
     setPassword(e.target.value);

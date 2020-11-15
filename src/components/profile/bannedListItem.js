@@ -17,7 +17,6 @@ const BannedListItem = ({ user }) => {
   const handleRemove = (e) => {
     unbanUser(User.u_id, e);
   };
-  console.log(profile);
 
   return (
     <div>
