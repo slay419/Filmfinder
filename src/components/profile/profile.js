@@ -150,6 +150,8 @@ const Profile = () => {
   };
 
   return (
+    <>
+    {User !== null ? (
     <div className="profile">
       <h1>
         Your Profile <span className="small">({User.email})</span>
@@ -233,6 +235,10 @@ const Profile = () => {
         </div>
       </div>
     </div>
+    ) : (
+      <p>You Must be logged in to view profile</p>
+    )}
+    </>
   );
 };
 

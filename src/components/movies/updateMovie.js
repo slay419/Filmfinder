@@ -175,11 +175,16 @@ const UpdateMovie = (props) => {
 
   const id = props.match.params.id;
 
+  useEffect(() => {
+    if (id !== undefined && id !== null) {   
+      getMovieById(id);
+    }
+  }, [id]);
+
   // get all the movie info upon loading & receiving id from the url
   useEffect(() => {
     console.log("id is " + id);
     if (id !== undefined && id !== null) {
-      getMovieById(id);
       const {
         title,
         genres,
@@ -226,7 +231,7 @@ const UpdateMovie = (props) => {
       updated = 0;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, movie]);
 
   return (
     <div>

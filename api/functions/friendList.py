@@ -53,7 +53,6 @@ def friendList_view(u_id):
     for item in friend_list:
         f_list.append(item[0])
     conn.close()
-    print(f_list)
     return {"friend_list": f_list}
 
 #Returns false if it fails to find the user and matching friend 
@@ -67,6 +66,26 @@ def check_friend_exists(u_id, f_id):
     if userData != None:
         return True
     return False
+
+def notification_view(u_id):
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(f"SELECT message FROM notifications WHERE user_id='{u_id}';")
+    notification_list = c.fetchall()
+    n_list = []
+    for item in notification_list:
+        n_list.append(item[0])
+    conn.close()
+    print(n_list)
+    return {"notification_list": n_list}
+
+def notification_remove(u_id):
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(f"DELETE FROM notifications WHERE user_id='{u_id}';")
+    conn.commit()
+    conn.close()
+    return {"success": 1}
 
 # Checks the movie is in both users wishlist
 #If 1 is following 2 and 2 adds a movie to there wishlist that is also in 1's wishlist
@@ -84,9 +103,33 @@ def friendList_notify(u_id, movie_id):
         print(user[0])
         c.execute(
             f"""
-            INSERT INTO notifications(user_id, message) VALUES({user[0]}, "Test message: Your buddy {u_id} just added {movie_id} to their wishlist");
+            INSERT INTO notifications(user_id, message) VALUES({user[0]}, "{u_id} {movie_id}");
             """
         )
     conn.commit()
     conn.close()
     return {"success": 1}
+
+#Taste compatiblity (based on user reviews)
+def friendList_compatibility(u_id, f_id):
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute(
+        f"""
+        SELECT avg(score) FROM review 
+        WHERE user_id={u_id} or user_id={f_id} 
+        GROUP BY movie_id;
+        """
+    )
+    scoreList = c.fetchall()
+    sumScore = 0
+    for score in scoreList:
+        sumScore = sumScore + score[0]
+    if sumScore == 0:
+        return {"error": "User has no common movie reviews"}
+    average = sumScore/len(scoreList)
+    average = average/10
+    percentage = "{:.0%}".format(average)
+    print(scoreList)
+    conn.close()
+    return {"Compatibility": percentage}

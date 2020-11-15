@@ -5,28 +5,42 @@ import NotificationList from "./NotificationList";
 import "../../styles/Friends.scss";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import AuthContext from "../../context/Auth/AuthContext";
+import { NotificationsPaused } from "@material-ui/icons";
 
 const Friends = () => {
     const authContext = useContext(AuthContext);
     const {User} = authContext;
     const profileContext = useContext(ProfileContext);
-    const { friends, getFriends, notifications, getNotifications, } = profileContext;
+    const { friends, getFriends, notifications, getNotifications, clearNotifications } = profileContext;
     //const history = useHistory();
     useEffect(() => {
-        getFriends(User.u_id);
-        //getNotifications();
+        if (User !== null){
+            getFriends(User.u_id);
+            getNotifications(User.u_id);
+        }
     }, [User]);
 
-  const testVars = ["one", "two", "three"];
+  const handleClear = () => {
+    if (notifications.length !== 0){
+        clearNotifications(User.u_id);
+    }
+  }
 
     return (
-        <div className="friends">
-            <h1>Film Partners:</h1>
-            <h2>Notifications:</h2>
-            <NotificationList notifications={testVars}/>
-            <h2>Friends list:</h2>
-            <FriendsList friends={friends}/>
-        </div>
+        <>
+        { User !== null ? (
+            <div className="friends">
+                <h1>Film Partners:</h1>
+                <h2>Notifications:</h2>
+                <NotificationList notifications={notifications}/>
+                <button onClick={handleClear}> Clear all</button>
+                <h2>Friends list:</h2>
+                <FriendsList friends={friends}/>
+            </div>
+        ) : (
+            <p>You must be Logged in to use Movie Partners</p>
+        )}
+        </>
     )
 }
 

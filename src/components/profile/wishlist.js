@@ -12,11 +12,15 @@ const Wishlist = () => {
   const { wishlist, getWishlist, loading } = profileContext;
 
   useEffect(() => {
-    getWishlist(User.u_id);
+    if (User !== null){
+      getWishlist(User.u_id);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [User]);
 
   return (
+    <>
+    {User !== null ? (
     <div>
       <h1>Your Wishlist</h1>
       {loading ? (
@@ -27,6 +31,10 @@ const Wishlist = () => {
         </div>
       )}
     </div>
+    ) : (
+      <p>You must be logged in to access wishlist functionality</p>
+    )}
+    </>
   );
 };
 

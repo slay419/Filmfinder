@@ -19,7 +19,8 @@ import {
   REMOVE_PARTNER,
   CHECK_PARTNER,
   GET_COMPATABILITY,
-  GET_PROFILE_REVIEWS
+  GET_PROFILE_REVIEWS,
+  CLEAR_NOTIFICATIONS
 } from "../types";
 
 const ProfileState = (props) => {
@@ -168,7 +169,6 @@ const ProfileState = (props) => {
   };
 
   const getRecommendations = (u_id) => {
-    //Implemented here but not on backend
     fetch(`/api/movies/recommendedFor/${u_id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -271,10 +271,33 @@ const ProfileState = (props) => {
 }
 
 const getNotifications = (u_id) => {
-    fetch('/friends/getNotifications/' + u_id)
+  fetch("/api/friends/viewNotification", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({ user_id: u_id }),
+  })
     .then((res) => res.json())
     .then((data) => {
-        dispatch( {type: GET_NOTIFICATIONS, payload: data})    
+        dispatch( {type: GET_NOTIFICATIONS, payload: data.notification_list})    
+    })
+    .catch((err) => {
+        dispatch( {type: UNEXPECTED_ERROR, payload: err})
+    });
+}
+
+const clearNotifications = (u_id) => {
+  fetch("/api/friends/removeNotification", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify({ user_id: u_id }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+        dispatch( {type: CLEAR_NOTIFICATIONS})    
     })
     .catch((err) => {
         dispatch( {type: UNEXPECTED_ERROR, payload: err})
@@ -339,16 +362,16 @@ const checkPartner = (user_id, partner_id) => {
 }
 const getCompatability = async (user_id, partner_id) => {
   console.log("Check partner " + user_id + " " + partner_id);
-  await fetch("/friends/compatability", {
+  await fetch("/api/friends/compatibility", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-    body: JSON.stringify({ user_id: user_id, partner_id: partner_id }),
+    body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
   })
     .then((res) => res.json())
     .then((data) => {
-      dispatch({ type: GET_COMPATABILITY, payload: data });
+      dispatch({ type: GET_COMPATABILITY, payload: data.Compatibility });
     })
     .catch((err) => {
       dispatch({ type: UNEXPECTED_ERROR, payload: err });
@@ -387,6 +410,7 @@ const getCompatability = async (user_id, partner_id) => {
         partner: state.partner,
         compatability: state.compatability,
         getCompatability,
+        clearNotifications,
       }}
     >
       {props.children}
