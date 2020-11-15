@@ -47,6 +47,7 @@ const ReviewList = ({ options }) => {
             options={options}
             key={review.review_id}
             review={review}
+            publicProfile={false}
           />
         ))
       )}

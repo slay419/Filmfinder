@@ -9,6 +9,7 @@ import PublicWishlist from "./PublicWishlist";
 
 const PublicProfile = (props) => {
   const history = useHistory();
+
   const profileContext = useContext(ProfileContext);
   const {
     profile,
@@ -53,15 +54,15 @@ const PublicProfile = (props) => {
     if (User !== null) {
       banUser(User.u_id, profile.user_id);
     } else {
-      alert("You must be logged in to ban users")
-    }  
+      alert("You must be logged in to ban users");
+    }
   };
 
   const handleUnBan = () => {
     if (User !== null) {
       unbanUser(User.u_id, profile.user_id);
     } else {
-      alert("You must be logged in to unban")
+      alert("You must be logged in to unban");
     }
   };
 
@@ -69,7 +70,7 @@ const PublicProfile = (props) => {
     if (User !== null) {
       addPartner(User.u_id, profile.user_id);
     } else {
-      alert("You must be logged in to add partners")
+      alert("You must be logged in to add partners");
     }
   };
 
@@ -77,7 +78,7 @@ const PublicProfile = (props) => {
     if (User !== null) {
       removePartner(User.u_id, profile.user_id);
     } else {
-      alert("You must be logged in to add partners")
+      alert("You must be logged in to add partners");
     }
   };
 
@@ -129,9 +130,11 @@ const PublicProfile = (props) => {
                       </span>
                     )}
                     {banned === 0 ? (
-                      <span onClick={handleBan} className="btn">
-                        Ban User
-                      </span>
+                      User.u_id !== profile.user_id && (
+                        <span onClick={handleBan} className="btn">
+                          Ban User
+                        </span>
+                      )
                     ) : (
                       <span onClick={handleUnBan} className="btn">
                         Unban User

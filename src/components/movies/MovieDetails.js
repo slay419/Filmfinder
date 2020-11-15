@@ -144,25 +144,25 @@ const MovieDetails = (props) => {
                 <img className="movie-img" src={poster} alt={title} />
               </Tilt>
               {wishlist === 1 ? (
-                <span
+                <div
                   onClick={handleRemoveFromWishlist}
                   className="wishlist-btn"
                 >
                   Remove from Wishlist
-                </span>
+                </div>
               ) : (
-                <span onClick={handleAddToWishlist} className="wishlist-btn">
+                <div onClick={handleAddToWishlist} className="wishlist-btn">
                   Add to Wishlist
-                </span>
+                </div>
               )}
               {admin === 1 ? (
                 <div>
-                  <span onClick={handleDeleteMovie} className="wishlist-btn">
+                  <div onClick={handleDeleteMovie} className="wishlist-btn">
                     Delete Movie
-                  </span>
-                  <span onClick={handleUpdateMovie} className="wishlist-btn">
+                  </div>
+                  <div onClick={handleUpdateMovie} className="wishlist-btn">
                     Update Details
-                  </span>
+                  </div>
                 </div>
               ) : (
                 <></>
