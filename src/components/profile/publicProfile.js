@@ -117,7 +117,7 @@ const PublicProfile = (props) => {
                     {compatability === 0 ? (
                       <p>You have no Compatability</p>
                     ) : (
-                      <p>Movie Compatability: {compatability}%</p>
+                      <p>Movie Compatability: {compatability}</p>
                     )}
                     {partner === 0 ? (
                       <span onClick={handleAddPartner} className="btn">
