@@ -203,7 +203,7 @@ const MovieDetails = (props) => {
                         className="bb"
                         key={e}
                       >
-                        {e}
+                        {e}, 
                       </span>
                     ))}
                   </div>
