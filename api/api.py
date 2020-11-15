@@ -641,7 +641,7 @@ def removeMovie():
 def removeUser():
     response = request.get_json()
     user_id = response["user_id"]
-    return removeUserById(user_id)
+    return removeUserById(user_id, app)
 
 @app.route("/admin/makeAdmin", methods=["POST"])
 def makeAdmin():

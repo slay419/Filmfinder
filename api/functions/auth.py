@@ -22,8 +22,12 @@ def auth_register(
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
     conn = sqlite3.connect('users.db')
     c = conn.cursor()
-    c.execute("SELECT * FROM users;")
-    new_user_id = len(c.fetchall()) + 1
+    c.execute("SELECT max(user_id) FROM users;")
+    new_user_id = c.fetchone()
+    if new_user_id is None:
+        new_user_id = 1
+    else:
+        new_user_id = new_user_id[0] + 1
     #Check email
     check = check_valid_email(email)
     if "error" in check:
@@ -260,4 +264,19 @@ def get_secret_answer(u_id):
 def remove_user_from_email_list(email):
     global EMAIL_LIST
     EMAIL_LIST = [item for item in EMAIL_LIST if not item[email]]
+
+
+def send_deletion_email(email, app):
+    mail = Mail(app)
+    msg = Message("Suspension of Account", sender="filmfindercomp3900@gmail.com", recipients=[email])
+    msg.body = f"""
+        Dear user,
+
+        This email has been generated to notify you that your account has been suspended due to 
+        breaking guidelines. Your login associated with the email: {email} has been 
+        terminated and will no longer work.
+
+        FilmFinderCOMP3900 - FortniteForLife
+    """
+    mail.send(msg)
 

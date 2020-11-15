@@ -8,7 +8,7 @@ from pandas.io import sql
 from requests import get
 import re
 
-from functions.auth import remove_user_from_email_list
+from functions.auth import remove_user_from_email_list, send_deletion_email
 from functions.review import deleteReview, userIdExists
 
 
@@ -202,15 +202,16 @@ def removeUserReview(review_id):
 
 # Remove users from user database 
 # also removes all their previous reviews and removes them from any friend/banned lists
-def removeUserById(user_id):
+def removeUserById(user_id, app):
     if not userIdExists(user_id):
         return {"error": f"No user with id: {user_id} exists in the database"}
 
     conn = sqlite3.connect("users.db")
     cur = conn.cursor()
 
-    # Clear data stored on email verification
+    # Clear data stored on email verification and notify by email
     user_email = getEmailById(user_id)
+    send_deletion_email(user_email, app)
     remove_user_from_email_list(user_email)
 
     # Remove all the reviews written by the user
