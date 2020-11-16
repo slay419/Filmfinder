@@ -614,6 +614,8 @@ def viewCompatibility():
 
 @app.route("/admin/isAdmin/<int:user_id>", methods=["GET"])
 def isAdmin(user_id):
+    if user_id == None:
+        return {"isAdmin": 0}
     return checkAdmin(user_id)
 
 @app.route("/admin/addMovie", methods=["POST"])
