@@ -31,10 +31,21 @@
 }
 
 .footer {
-  height: 150px;
+  padding: 2.9rem;
   bottom: 0;
   background-color: #191919;
   color: white;
+  display: flex;
+  justify-content: space-between;
+  h4 {
+    margin-bottom: 0.7rem;
+  }
+  ul {
+    list-style-type: none;
+  }
+  .right {
+    text-align: right;
+  }
 }
 
 .score-select {

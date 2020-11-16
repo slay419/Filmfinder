@@ -10,10 +10,9 @@ import MovieContext from "../../context/movie/movieContext";
 import Slider from "react-slick";
 import "../../styles/Recommendations.scss";
 
-
 const Recommendations = ({ id }) => {
   // using the movie context
-    // slider style settings
+  // slider style settings
   var sliderSettings = {
     className: "center",
     centerMode: true,
@@ -23,10 +22,8 @@ const Recommendations = ({ id }) => {
     speed: 500,
   };
 
-
   const movieContext = useContext(MovieContext);
   const { getRecommendations, recommendations } = movieContext;
-
 
   // on load, get the similar movies
   useEffect(() => {
@@ -36,12 +33,11 @@ const Recommendations = ({ id }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-    if (recommendations !== null && recommendations.length < 3){
-      sliderSettings.slidesToShow = recommendations.length;
-    } else {
-      sliderSettings.slidesToShow = 3;
-    }
- 
+  if (recommendations !== null && recommendations.length < 3) {
+    sliderSettings.slidesToShow = recommendations.length;
+  } else {
+    sliderSettings.slidesToShow = 3;
+  }
 
   return (
     <div>

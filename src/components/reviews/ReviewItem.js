@@ -10,7 +10,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 import DoneIcon from "@material-ui/icons/Done";
 
-const ReviewItem = ({ review, options }) => {
+const ReviewItem = ({ review, options, publicProfile }) => {
   const [reviewer, setReviewer] = useState(null);
 
   const authContext = useContext(AuthContext);
@@ -51,23 +51,29 @@ const ReviewItem = ({ review, options }) => {
       setReviewer(r);
     };
     getUserById(user_id);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log(review);
+
   return (
     <div className="review-item">
-      {reviewer === null ? (
+      {reviewer === null && !publicProfile ? (
         <></>
       ) : (
         <>
           <div className="left">
-            <Link to={"/profile/" + reviewer.user_id} className="review-name">
-              {reviewer.first_name} {reviewer.last_name}
-            </Link>
+            {!publicProfile && (
+              <Link to={"/profile/" + reviewer.user_id} className="review-name">
+                {reviewer.first_name} {reviewer.last_name}
+              </Link>
+            )}
+            <></>
             {!editing ? (
               <>
-                <p>score: {score}</p>
-                <p>comment: {comment} </p>
+                <p>score: {review.score}</p>
+                <p>comment: {review.comment} </p>
               </>
             ) : (
               <>

@@ -20,7 +20,7 @@ import {
   CHECK_PARTNER,
   GET_COMPATABILITY,
   GET_PROFILE_REVIEWS,
-  CLEAR_NOTIFICATIONS
+  CLEAR_NOTIFICATIONS,
 } from "../types";
 
 const ProfileState = (props) => {
@@ -184,7 +184,7 @@ const ProfileState = (props) => {
       });
   };
 
-  const getBannedList = (u_id) => {
+  const getBannedList = async (u_id) => {
     //Implemented here but not on backend
     fetch("/api/bannedList/view", {
       method: "POST",
@@ -254,51 +254,61 @@ const ProfileState = (props) => {
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
+<<<<<<< HEAD
       body: JSON.stringify({ user_id : user_id}),
     })
     .then((res) => res.json())
     .then((data) => {
         dispatch( {type: GET_FRIENDS, payload: data.friend_list})    
+=======
+      body: JSON.stringify({ user_id: user_id }),
+>>>>>>> peter
     })
-    .catch((err) => {
-        dispatch( {type: UNEXPECTED_ERROR, payload: err})
-    });
-}
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.friends_list);
+        dispatch({ type: GET_FRIENDS, payload: data.friend_list });
+      })
+      .catch((err) => {
+        dispatch({ type: UNEXPECTED_ERROR, payload: err });
+      });
+  };
 
-const getNotifications = (u_id) => {
-  fetch("/api/friends/viewNotification", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-    body: JSON.stringify({ user_id: u_id }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-        dispatch( {type: GET_NOTIFICATIONS, payload: data.notification_list})    
+  const getNotifications = (u_id) => {
+    fetch("/api/friends/viewNotification", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ user_id: u_id }),
     })
-    .catch((err) => {
-        dispatch( {type: UNEXPECTED_ERROR, payload: err})
-    });
-}
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: GET_NOTIFICATIONS, payload: data.notification_list });
+      })
+      .catch((err) => {
+        dispatch({ type: UNEXPECTED_ERROR, payload: err });
+      });
+  };
 
-const clearNotifications = (u_id) => {
-  fetch("/api/friends/removeNotification", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-    body: JSON.stringify({ user_id: u_id }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-        dispatch( {type: CLEAR_NOTIFICATIONS})    
+  const clearNotifications = (u_id) => {
+    fetch("/api/friends/removeNotification", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ user_id: u_id }),
     })
-    .catch((err) => {
-        dispatch( {type: UNEXPECTED_ERROR, payload: err})
-    });
-}
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: CLEAR_NOTIFICATIONS });
+      })
+      .catch((err) => {
+        dispatch({ type: UNEXPECTED_ERROR, payload: err });
+      });
+  };
 
+<<<<<<< HEAD
 const addPartner = (user_id, partner_id) => {
   fetch("/api/friends/add", {
     method: "POST",
@@ -310,13 +320,28 @@ const addPartner = (user_id, partner_id) => {
     .then((res) => res.json())
     .then((data) => {
       dispatch({ type: ADD_PARTNER, payload: data });
+=======
+  const addPartner = (user_id, partner_id) => {
+    console.log("add partner " + user_id + " " + partner_id);
+    fetch("/api/friends/add", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
+>>>>>>> peter
     })
-    .catch((err) => {
-      dispatch({ type: UNEXPECTED_ERROR, payload: err });
-      //dispatch({ type: ADD_PARTNER, payload: "" });
-    });
-}
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: ADD_PARTNER, payload: data });
+      })
+      .catch((err) => {
+        dispatch({ type: UNEXPECTED_ERROR, payload: err });
+        //dispatch({ type: ADD_PARTNER, payload: "" });
+      });
+  };
 
+<<<<<<< HEAD
 const removePartner = (user_id, partner_id) => {
   fetch("/api/friends/delete", {
     method: "POST",
@@ -328,13 +353,28 @@ const removePartner = (user_id, partner_id) => {
     .then((res) => res.json())
     .then((data) => {
       dispatch({ type: REMOVE_PARTNER, payload: data });
+=======
+  const removePartner = (user_id, partner_id) => {
+    console.log("add partner " + user_id + " " + partner_id);
+    fetch("/api/friends/delete", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
+>>>>>>> peter
     })
-    .catch((err) => {
-      dispatch({ type: UNEXPECTED_ERROR, payload: err });
-      //dispatch({ type: REMOVE_PARTNER, payload: ""});
-    });
-}
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: REMOVE_PARTNER, payload: data });
+      })
+      .catch((err) => {
+        dispatch({ type: UNEXPECTED_ERROR, payload: err });
+        //dispatch({ type: REMOVE_PARTNER, payload: ""});
+      });
+  };
 
+<<<<<<< HEAD
 const checkPartner = (user_id, partner_id) => {
   fetch("/api/friends/check", {
     method: "POST",
@@ -363,13 +403,44 @@ const getCompatability = async (user_id, partner_id) => {
     .then((res) => res.json())
     .then((data) => {
       dispatch({ type: GET_COMPATABILITY, payload: data.Compatibility });
+=======
+  const checkPartner = (user_id, partner_id) => {
+    console.log("Check partner " + user_id + " " + partner_id);
+    fetch("/api/friends/check", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
     })
-    .catch((err) => {
-      dispatch({ type: UNEXPECTED_ERROR, payload: err });
-      //dispatch({ type: GET_COMPATABILITY, payload: 20 });
-    });  
-}
-
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: CHECK_PARTNER, payload: data.friend });
+      })
+      .catch((err) => {
+        dispatch({ type: UNEXPECTED_ERROR, payload: err });
+        //dispatch({ type: CHECK_PARTNER, payload: 1 });
+      });
+  };
+  const getCompatability = async (user_id, partner_id) => {
+    console.log("Check partner " + user_id + " " + partner_id);
+    await fetch("/api/friends/compatibility", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
+>>>>>>> peter
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: GET_COMPATABILITY, payload: data.Compatibility });
+      })
+      .catch((err) => {
+        dispatch({ type: UNEXPECTED_ERROR, payload: err });
+        //dispatch({ type: GET_COMPATABILITY, payload: 20 });
+      });
+  };
 
   return (
     <ProfileContext.Provider
