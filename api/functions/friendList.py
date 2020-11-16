@@ -8,6 +8,7 @@ from pandas.io import sql
 from requests import get
 import re
 import hashlib
+from functions.bannedList import check_banned_user_exists 
 
 #friendList_add adds a user (designated by f_id) to the current logged in
 #user's (designated by u_id) friend list.
@@ -17,6 +18,9 @@ def friendList_add(u_id, f_id):
 
     if check_friend_exists(u_id, f_id) is True:
         return {"error": "User is already in your friend list"}
+
+    if check_banned_user_exists(u_id, f_id) is True:
+        return {"error": "User is in your ban list"}
 
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
