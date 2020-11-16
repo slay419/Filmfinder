@@ -4,12 +4,11 @@
 /node_modules
 /.pnp
 .pnp.js
-venv
+
 
 # testing
 /coverage
-movies.db
-movieDB.db
+
 *.csv
 
 # production
