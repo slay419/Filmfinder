@@ -254,16 +254,12 @@ const ProfileState = (props) => {
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
-<<<<<<< HEAD
-      body: JSON.stringify({ user_id : user_id}),
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        dispatch( {type: GET_FRIENDS, payload: data.friend_list})    
-=======
       body: JSON.stringify({ user_id: user_id }),
->>>>>>> peter
     })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: GET_FRIENDS, payload: data.friend_list });
+      })
       .then((res) => res.json())
       .then((data) => {
         console.log(data.friends_list);
@@ -308,29 +304,18 @@ const ProfileState = (props) => {
       });
   };
 
-<<<<<<< HEAD
-const addPartner = (user_id, partner_id) => {
-  fetch("/api/friends/add", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-    body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      dispatch({ type: ADD_PARTNER, payload: data });
-=======
   const addPartner = (user_id, partner_id) => {
-    console.log("add partner " + user_id + " " + partner_id);
     fetch("/api/friends/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
->>>>>>> peter
     })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: ADD_PARTNER, payload: data });
+      })
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: ADD_PARTNER, payload: data });
@@ -341,29 +326,18 @@ const addPartner = (user_id, partner_id) => {
       });
   };
 
-<<<<<<< HEAD
-const removePartner = (user_id, partner_id) => {
-  fetch("/api/friends/delete", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-    body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      dispatch({ type: REMOVE_PARTNER, payload: data });
-=======
   const removePartner = (user_id, partner_id) => {
-    console.log("add partner " + user_id + " " + partner_id);
     fetch("/api/friends/delete", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
->>>>>>> peter
     })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: REMOVE_PARTNER, payload: data });
+      })
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: REMOVE_PARTNER, payload: data });
@@ -374,38 +348,7 @@ const removePartner = (user_id, partner_id) => {
       });
   };
 
-<<<<<<< HEAD
-const checkPartner = (user_id, partner_id) => {
-  fetch("/api/friends/check", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-    body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      dispatch({ type: CHECK_PARTNER, payload: data.friend });
-    })
-    .catch((err) => {
-      dispatch({ type: UNEXPECTED_ERROR, payload: err });
-      //dispatch({ type: CHECK_PARTNER, payload: 1 });
-    });
-}
-const getCompatability = async (user_id, partner_id) => {
-  await fetch("/api/friends/compatibility", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-    body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      dispatch({ type: GET_COMPATABILITY, payload: data.Compatibility });
-=======
   const checkPartner = (user_id, partner_id) => {
-    console.log("Check partner " + user_id + " " + partner_id);
     fetch("/api/friends/check", {
       method: "POST",
       headers: {
@@ -423,15 +366,17 @@ const getCompatability = async (user_id, partner_id) => {
       });
   };
   const getCompatability = async (user_id, partner_id) => {
-    console.log("Check partner " + user_id + " " + partner_id);
     await fetch("/api/friends/compatibility", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify({ user_id: user_id, friend_id: partner_id }),
->>>>>>> peter
     })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: GET_COMPATABILITY, payload: data.Compatibility });
+      })
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: GET_COMPATABILITY, payload: data.Compatibility });

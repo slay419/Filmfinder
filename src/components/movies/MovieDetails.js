@@ -159,9 +159,9 @@ const MovieDetails = (props) => {
                 <div>
                   <div onClick={handleDeleteMovie} className="wishlist-btn">
                     Delete Movie
-                  </span>
+                  </div>
                   <br />
-                  <span onClick={handleUpdateMovie} className="wishlist-btn">
+                  <div onClick={handleUpdateMovie} className="wishlist-btn">
                     Update Details
                   </div>
                 </div>

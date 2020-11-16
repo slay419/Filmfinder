@@ -1,5 +1,4 @@
-import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "../../context/Auth/AuthContext";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import ProfileReviewItem from "./ProfileReviewItem";
@@ -42,18 +41,9 @@ const ProfileReviews = () => {
     <>
       {User !== null ? (
         <div>
-          {reviews.map((review) => {
+          {reviewList.map((review, i) => {
             return (
-              <div>
-                <Link to="/movies/{review.movie_id}">{review.title}</Link>
-                <br />
-                Comment: {review.comment}
-                <br />
-                Score: {review.score}
-                <br />
-                Likes: {review.num_likes}
-                {/* Maybe do a thumb up or remove it if we are implementing */}
-              </div>
+              <ProfileReviewItem review={review} options={options} key={i} />
             );
           })}
         </div>
