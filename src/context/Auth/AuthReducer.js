@@ -94,12 +94,10 @@ export default (state, action) => {
     case DELETE_MOVIE:
       return {
         ...state,
-        redir: 1,
       };
     case DELETE_USER:
       return {
         ...state,
-        redir: 1,
       };
     case RESET_REDIR:
         return {
