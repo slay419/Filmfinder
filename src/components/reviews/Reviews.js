@@ -98,6 +98,8 @@ const Reviews = ({ movie }) => {
 
   // post review to db on submit
   const handleSubmitReview = () => {
+    console.log(User);
+    console.log(User.u_id, movie_id, reviewText, score);
     postReview(User.u_id, movie_id, reviewText, score);
     setScore(5);
     setReviewText("");

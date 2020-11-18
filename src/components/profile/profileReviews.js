@@ -8,36 +8,36 @@ const ProfileReviews = () => {
   const { User } = authContext;
 
   const profileContext = useContext(ProfileContext);
-  const {reviews, getReviews} = profileContext;
+  const { reviews, getReviews } = profileContext;
 
   useEffect(() => {
-    if (User !== null){
+    if (User !== null) {
       getReviews(User.u_id);
     }
   }, [User]);
 
   return (
     <>
-    { User !== null ? (
-    <div>
-      {reviews.map(review => {
-        return (
+      {User !== null ? (
         <div>
-          <Link to="/movies/{review.movie_id}">{review.title}</Link>
-          <br/>
-          Comment: {review.comment}
-          <br/>
-          Score: {review.score}
-          <br/>
-          Likes: {review.num_likes} 
-          {/* Maybe do a thumb up or remove it if we are implementing */}
+          {reviews.map((review) => {
+            return (
+              <div>
+                <Link to={`/movies/${review.movie_id}`}>{review.title}</Link>
+                <br />
+                Comment: {review.comment}
+                <br />
+                Score: {review.score}
+                <br />
+                Likes: {review.num_likes}
+                {/* Maybe do a thumb up or remove it if we are implementing */}
+              </div>
+            );
+          })}
         </div>
-        )
-      })}
-    </div>
-    ) : (
-      <p>You must be logged in to view recent reviews</p>
-    )}
+      ) : (
+        <p>You must be logged in to view recent reviews</p>
+      )}
     </>
   );
 };

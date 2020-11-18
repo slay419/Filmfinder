@@ -24,7 +24,7 @@ const PublicProfile = (props) => {
     getCompatability,
     compatability,
     getReviews,
-    reviews
+    reviews,
   } = profileContext;
   const authContext = useContext(AuthContext);
   const { User, admin, redir, deleteUser, resetRedir } = authContext;
@@ -54,15 +54,15 @@ const PublicProfile = (props) => {
     if (User !== null) {
       banUser(User.u_id, profile.user_id);
     } else {
-      alert("You must be logged in to ban users")
-    }  
+      alert("You must be logged in to ban users");
+    }
   };
 
   const handleUnBan = () => {
     if (User !== null) {
       unbanUser(User.u_id, profile.user_id);
     } else {
-      alert("You must be logged in to unban")
+      alert("You must be logged in to unban");
     }
   };
 
@@ -70,7 +70,7 @@ const PublicProfile = (props) => {
     if (User !== null) {
       addPartner(User.u_id, profile.user_id);
     } else {
-      alert("You must be logged in to add partners")
+      alert("You must be logged in to add partners");
     }
   };
 
@@ -78,7 +78,7 @@ const PublicProfile = (props) => {
     if (User !== null) {
       removePartner(User.u_id, profile.user_id);
     } else {
-      alert("You must be logged in to add partners")
+      alert("You must be logged in to add partners");
     }
   };
 
@@ -113,21 +113,23 @@ const PublicProfile = (props) => {
                   <div className="body">
                     <PublicWishlist uid={profile.user_id} />
                     <h2>Recent Reviews</h2>
-                    { profile !== null ? (
+                    {profile !== null ? (
                       <div>
-                        {reviews.map(review => {
+                        {reviews.map((review) => {
                           return (
-                          <div>
-                            <Link to="/movies/{review.movie_id}">{review.title}</Link>
-                            <br/>
-                            Comment: {review.comment}
-                            <br/>
-                            Score: {review.score}
-                            <br/>
-                            Likes: {review.num_likes} 
-                            {/* Maybe do a thumb up or remove it if we are implementing */}
-                          </div>
-                          )
+                            <div>
+                              <Link to={`/movies/${review.movie_id}`}>
+                                {review.title}
+                              </Link>
+                              <br />
+                              Comment: {review.comment}
+                              <br />
+                              Score: {review.score}
+                              <br />
+                              Likes: {review.num_likes}
+                              {/* Maybe do a thumb up or remove it if we are implementing */}
+                            </div>
+                          );
                         })}
                       </div>
                     ) : (
