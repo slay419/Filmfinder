@@ -183,7 +183,6 @@ const UpdateMovie = (props) => {
 
   // get all the movie info upon loading & receiving id from the url
   useEffect(() => {
-    console.log("id is " + id);
     if (id !== undefined && id !== null) {
       const {
         title,

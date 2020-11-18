@@ -72,7 +72,6 @@ const Profile = () => {
     checkIfAdmin,
     logout,
     deleteUser,
-    makeAdmin,
     setUser,
   } = authContext;
 
@@ -134,7 +133,7 @@ const Profile = () => {
 
   const handleRemove = () => {
     if (
-      window.confirm("Are you sure you want to permenantly delete you profile?")
+      window.confirm("Are you sure you want to permanently delete you profile?")
     ) {
       if (
         window.confirm(
@@ -215,9 +214,6 @@ const Profile = () => {
           </span>
           <span onClick={handleReviews} className="btn">
             View recent reviews
-          </span>
-          <span onClick={() => makeAdmin(User.u_id)} className="btn">
-            View as admin
           </span>
           {admin === 1 ? (
             <span onClick={handleAddNew} className="btn">

@@ -1,7 +1,7 @@
 import React from "react";
 import ProfileContext from "../../context/Profile/ProfileContext";
 import { useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import "../../styles/publicProfile.scss";
 import AuthContext from "../../context/Auth/AuthContext";
@@ -24,23 +24,24 @@ const PublicProfile = (props) => {
     checkPartner,
     getCompatability,
     compatability,
+    getReviews,
+    reviews,
   } = profileContext;
   const authContext = useContext(AuthContext);
   const { User, admin, redir, deleteUser, resetRedir } = authContext;
   const uid = props.match.params.uid;
 
   useEffect(() => {
-    console.log("useEFfect ran");
     getUserById(uid);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uid]);
 
   useEffect(() => {
     if (profile !== null && User !== null) {
-      console.log("into the heart");
       checkBannedList(User.u_id, profile.user_id);
       checkPartner(User.u_id, profile.user_id);
       getCompatability(User.u_id, profile.user_id);
+      getReviews(profile.user_id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile, compatability]);
@@ -113,6 +114,28 @@ const PublicProfile = (props) => {
                   <div className="body">
                     <PublicWishlist uid={profile.user_id} />
                     <h2>Recent Reviews</h2>
+                    {profile !== null ? (
+                      <div>
+                        {reviews.map((review) => {
+                          return (
+                            <div>
+                              <Link to={`/movies/${review.movie_id}`}>
+                                {review.title}
+                              </Link>
+                              <br />
+                              Comment: {review.comment}
+                              <br />
+                              Score: {review.score}
+                              <br />
+                              Likes: {review.num_likes}
+                              {/* Maybe do a thumb up or remove it if we are implementing */}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                   <div className="side-bar">
                     {compatability === 0 ? (

@@ -16,7 +16,6 @@ import {
 export default (state, action) => {
   switch (action.type) {
     case GET_MOVIE_BY_ID:
-      console.log(action.payload);
       return {
         ...state,
         movie: action.payload,
@@ -24,7 +23,6 @@ export default (state, action) => {
         loading: !state.loading,
       };
     case SET_LOADING:
-      console.log(state.loading);
       return {
         ...state,
         loading: !state.loading,
@@ -35,7 +33,6 @@ export default (state, action) => {
         reviews: [...state.reviews, action.payload],
       };
     case GET_REVIEWS:
-      console.log("get reviews called");
       return {
         ...state,
         reviews: action.payload,
@@ -69,7 +66,6 @@ export default (state, action) => {
         }),
       };
     case WISHLIST_CHECK:
-      console.log(action.payload);
       return {
         ...state,
         wishlist: action.payload,
@@ -80,12 +76,9 @@ export default (state, action) => {
         actors: [...state.actors, action.payload],
       };
     case REMOVE_ACTOR:
-      console.log("reducer reached");
       var newActors = state.actors;
       for (const elem in newActors) {
-        console.log(elem);
         if (newActors[elem] === action.payload) {
-          console.log("gonna try and remove " + newActors[elem]);
           newActors.splice(elem, 1);
           break;
         }

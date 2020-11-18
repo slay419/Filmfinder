@@ -48,7 +48,6 @@ const ChangePass = () => {
           </button>
         </form>
         {Match !== null && <h1>{Match}</h1>}
-        {console.log(Changed)}
         {Changed === 1 && <h1>Change accepted</h1>}
       </div>
     </div>

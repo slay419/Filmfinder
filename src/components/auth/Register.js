@@ -61,7 +61,6 @@ const Register = () => {
 
   const emailHandler = (e) => {
     setEmail(e.target.value);
-    console.log(email);
   };
   const passwordHandler = (e) => {
     setPassword(e.target.value);
@@ -116,6 +115,11 @@ const Register = () => {
       : " "
     : " ";
 
+    const conPasswordValidator = !(
+      password === conPassword
+    );
+    const conPasswordHelperText = conPasswordValidator ? "Passwords must match" : " ";
+
   const authContext = useContext(AuthContext);
   const { error, registerUser, redir, resetRedir } = authContext;
 
@@ -151,7 +155,7 @@ const Register = () => {
               <RegisterTextField
                 size="small"
                 label="email"
-                type="email"
+                type="Email"
                 variant="outlined"
                 onChange={emailHandler}
                 helperText={emailValidator ? "invalid email" : " "}
@@ -162,7 +166,7 @@ const Register = () => {
                 size="small"
                 label="password"
                 variant="outlined"
-                type="password"
+                type="Password"
                 onChange={passwordHandler}
                 helperText={passwordHelperText}
                 error={passwordValidator}
@@ -170,17 +174,17 @@ const Register = () => {
               />
               <RegisterTextField
                 size="small"
-                label="Confirm password"
+                label="Confirm Password"
                 variant="outlined"
                 type="password"
                 onChange={conPasswordHandler}
-                helperText={passwordHelperText}
-                error={passwordValidator}
+                helperText={conPasswordHelperText}
+                error={conPasswordValidator}
                 required
               />
               <RegisterTextField
                 size="small"
-                label="first name"
+                label="First Name"
                 variant="outlined"
                 onChange={fnameHandler}
                 helperText=" "
@@ -188,7 +192,7 @@ const Register = () => {
               />
               <RegisterTextField
                 size="small"
-                label="last name"
+                label="Last Name"
                 variant="outlined"
                 onChange={lnameHandler}
                 helperText=" "
@@ -196,7 +200,7 @@ const Register = () => {
               />
               <RegisterTextField
                 size="small"
-                label="secret question"
+                label="Secret Question"
                 variant="outlined"
                 onChange={secretQHandler}
                 helperText=" "
@@ -204,7 +208,7 @@ const Register = () => {
               />
               <RegisterTextField
                 size="small"
-                label="answer"
+                label="Answer"
                 variant="outlined"
                 onChange={secretAHandler}
                 helperText=" "

@@ -89,7 +89,6 @@ const MoviesState = (props) => {
         .then((res) => res.json())
         .then((data) => {
           const movies_list = Object.values(data.movies);
-          console.log(movies_list);
           dispatch({ type: SEARCH_MOVIES_ACTOR, payload: movies_list });
         })
         .catch((err) => {

@@ -49,9 +49,7 @@ const SearchBar = () => {
 
   useEffect(() => {
     const q = query.get("q");
-    console.log(q);
     const o = query.get("option");
-    console.log(o);
     switch (o) {
       case "All":
         searchMovies(q);

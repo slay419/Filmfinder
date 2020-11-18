@@ -95,7 +95,6 @@ const ProfileState = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         const reviews_list = Object.values(data.reviews_list);
         dispatch({
           type: GET_PROFILE_REVIEWS,
@@ -172,7 +171,6 @@ const ProfileState = (props) => {
     fetch(`/api/movies/recommendedFor/${u_id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if ("error" in data) {
           // placeholder
           dispatch({ type: WISHLIST_ERROR, payload: data });
@@ -197,7 +195,6 @@ const ProfileState = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if ("error" in data) {
           // placeholder
           dispatch({ type: WISHLIST_ERROR, payload: data });
@@ -222,7 +219,6 @@ const ProfileState = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if ("error" in data) {
           // placeholder
           dispatch({ type: WISHLIST_ERROR, payload: data });

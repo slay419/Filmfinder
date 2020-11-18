@@ -13,7 +13,7 @@ const CastList = ({ cast }) => {
         return (
             <ul>
                 { (cast === undefined || cast === null || cast.length === 0) ? (
-                    console.log("undefined value")
+                    <></>
                 ) : (
                     cast.map((actor) => (
                         <div>

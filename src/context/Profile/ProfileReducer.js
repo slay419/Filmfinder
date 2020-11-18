@@ -29,12 +29,10 @@ import {
 export default (state, action) => {
   switch (action.type) {
     case REGISTER:
-      console.log(action.payload);
       return {
         ...state,
       };
     case NAME_TAKEN:
-      console.log(action.payload);
       return {
         ...state,
       };
@@ -57,7 +55,6 @@ export default (state, action) => {
 
     case GET_WISHLIST:
       // retrieve the wishlist
-      console.log(action.payload);
       return {
         ...state,
         wishlist: action.payload,
@@ -65,7 +62,6 @@ export default (state, action) => {
       };
     case GET_PROFILE_REVIEWS:
       // retrieve reviews the user has left
-      console.log(action.payload);
       return {
         ...state,
         reviews: action.payload,
@@ -73,7 +69,6 @@ export default (state, action) => {
       };
     case SET_LOADING:
       // change the loading sign from active to inactive
-      console.log(state.loading);
       return {
         ...state,
         loading: !state.loading,
@@ -83,21 +78,18 @@ export default (state, action) => {
       console.log(action.payload);
       return state;
     case GET_USER_BY_ID:
-      console.log(action.payload);
       return {
         ...state,
         profile: action.payload,
         loading: false,
       };
     case GET_RECOMMENDATIONS:
-      console.log(action.payload);
       return {
         ...state,
         recommendations: action.payload.movies,
       };
 
     case BANNED:
-      console.log(action.payload);
       return {
         ...state,
         banned: action.payload.success,
